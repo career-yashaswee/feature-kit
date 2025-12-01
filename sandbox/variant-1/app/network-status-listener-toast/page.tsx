@@ -21,7 +21,7 @@ import {
 
 const NetworkStatusListener = dynamic(
   () =>
-    import("@/components/network-status-listener").then((mod) => ({
+    import("@/features/network-status-listener/components/network-status-listener").then((mod) => ({
       default: mod.NetworkStatusListener,
     })),
   { ssr: false }

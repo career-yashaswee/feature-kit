@@ -1,6 +1,14 @@
 "use client";
 
-import { ScrollToTopButton } from "@/components/scroll-to-top-button";
+import dynamic from "next/dynamic";
+
+const ScrollToTopButton = dynamic(
+  () =>
+    import("@/features/scroll-to-top/components/scroll-to-top-button").then((mod) => ({
+      default: mod.ScrollToTopButton,
+    })),
+  { ssr: false }
+);
 import {
   Card,
   CardContent,
