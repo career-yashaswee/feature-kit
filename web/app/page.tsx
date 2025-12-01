@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useFeatures } from '@/features/features/hooks/use-features'
 import { useKits } from '@/features/kits/hooks/use-kits'
 import { useSearch } from '@/features/search/hooks/use-search'
@@ -10,6 +11,7 @@ import { KitCard } from '@/components/kit-card'
 import { FeatureCardSkeleton, KitCardSkeleton } from '@/components/loading-skeleton'
 
 export default function HomePage() {
+  const { t } = useTranslation()
   const { data: features = [], isLoading: featuresLoading } = useFeatures()
   const { data: kits = [], isLoading: kitsLoading } = useKits()
   const { searchQuery, setSearchQuery, filteredFeatures } = useSearch(features)
@@ -25,24 +27,24 @@ export default function HomePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Feature Kit</h1>
+        <h1 className="text-4xl font-bold mb-4">{t("home.title")}</h1>
         <p className="text-muted-foreground mb-6">
-          Discover and copy niche components for your web projects
+          {t("home.subtitle")}
         </p>
         <Input
           type="search"
-          placeholder="Search features..."
+          placeholder={t("home.searchPlaceholder")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="max-w-md"
-          aria-label="Search features"
+          aria-label={t("home.searchAria")}
         />
       </div>
 
       {searchQuery ? (
         <div>
           <h2 className="text-2xl font-semibold mb-4">
-            Search Results ({filteredFeatures.length})
+            {t("home.searchResults")} ({filteredFeatures.length})
           </h2>
           {featuresLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -57,13 +59,13 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            <p>No features found</p>
+            <p>{t("home.noFeaturesFound")}</p>
           )}
         </div>
       ) : (
         <>
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Kits</h2>
+            <h2 className="text-2xl font-semibold mb-4">{t("home.kits")}</h2>
             {kitsLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(3)].map((_, i) => (
@@ -84,7 +86,7 @@ export default function HomePage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-4">Features</h2>
+            <h2 className="text-2xl font-semibold mb-4">{t("home.features")}</h2>
             {featuresLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
@@ -98,7 +100,7 @@ export default function HomePage() {
                 ))}
               </div>
             ) : (
-              <p>No features available</p>
+              <p>{t("home.noFeaturesAvailable")}</p>
             )}
           </div>
         </>

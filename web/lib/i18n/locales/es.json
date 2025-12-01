@@ -1,0 +1,64 @@
+{
+  "common": {
+    "home": "Inicio",
+    "kits": "Kits",
+    "features": "Características",
+    "search": "Buscar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "tryAgain": "Intentar de nuevo",
+    "noResults": "No se encontraron resultados",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "copyCode": "Copiar Código",
+    "codeCopied": "Código copiado al portapapeles",
+    "copyToClipboard": "Copiar código al portapapeles"
+  },
+  "header": {
+    "title": "Feature Kit",
+    "home": "Inicio",
+    "kits": "Kits",
+    "features": "Características",
+    "homeAria": "Página de inicio",
+    "kitsAria": "Explorar kits",
+    "featuresAria": "Explorar todas las características",
+    "toggleTheme": "Alternar tema"
+  },
+  "home": {
+    "title": "Feature Kit",
+    "subtitle": "Descubre y copia componentes especializados para tus proyectos web",
+    "searchPlaceholder": "Buscar características...",
+    "searchAria": "Buscar características",
+    "kits": "Kits",
+    "features": "Características",
+    "searchResults": "Resultados de búsqueda",
+    "noFeaturesFound": "No se encontraron características",
+    "noFeaturesAvailable": "No hay características disponibles"
+  },
+  "kits": {
+    "title": "Kits",
+    "noKitsAvailable": "No hay kits disponibles"
+  },
+  "kit": {
+    "title": "Características",
+    "noFeaturesAvailable": "No hay características disponibles en este kit",
+    "errorLoading": "No se pudieron cargar las características",
+    "errorMessage": "Ocurrió un error inesperado al cargar las características. Por favor, inténtalo de nuevo."
+  },
+  "feature": {
+    "code": "Código",
+    "documentation": "Documentación",
+    "notFound": "Característica no encontrada",
+    "invalidRoute": "Parámetros de ruta inválidos"
+  },
+  "error": {
+    "somethingWentWrong": "Algo salió mal",
+    "unexpectedError": "Ocurrió un error inesperado"
+  },
+  "card": {
+    "feature": "característica",
+    "features": "características",
+    "available": "disponible"
+  }
+}
+

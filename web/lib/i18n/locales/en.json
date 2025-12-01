@@ -1,0 +1,64 @@
+{
+  "common": {
+    "home": "Home",
+    "kits": "Kits",
+    "features": "Features",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "tryAgain": "Try Again",
+    "noResults": "No results found",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "copyCode": "Copy Code",
+    "codeCopied": "Code copied to clipboard",
+    "copyToClipboard": "Copy code to clipboard"
+  },
+  "header": {
+    "title": "Feature Kit",
+    "home": "Home",
+    "kits": "Kits",
+    "features": "Features",
+    "homeAria": "Home page",
+    "kitsAria": "Browse kits",
+    "featuresAria": "Browse all features",
+    "toggleTheme": "Toggle theme"
+  },
+  "home": {
+    "title": "Feature Kit",
+    "subtitle": "Discover and copy niche components for your web projects",
+    "searchPlaceholder": "Search features...",
+    "searchAria": "Search features",
+    "kits": "Kits",
+    "features": "Features",
+    "searchResults": "Search Results",
+    "noFeaturesFound": "No features found",
+    "noFeaturesAvailable": "No features available"
+  },
+  "kits": {
+    "title": "Kits",
+    "noKitsAvailable": "No kits available"
+  },
+  "kit": {
+    "title": "Features",
+    "noFeaturesAvailable": "No features available in this kit",
+    "errorLoading": "Unable to load features",
+    "errorMessage": "An unexpected error occurred while loading features. Please try again."
+  },
+  "feature": {
+    "code": "Code",
+    "documentation": "Documentation",
+    "notFound": "Feature not found",
+    "invalidRoute": "Invalid route parameters"
+  },
+  "error": {
+    "somethingWentWrong": "Something went wrong",
+    "unexpectedError": "An unexpected error occurred"
+  },
+  "card": {
+    "feature": "feature",
+    "features": "features",
+    "available": "available"
+  }
+}
+

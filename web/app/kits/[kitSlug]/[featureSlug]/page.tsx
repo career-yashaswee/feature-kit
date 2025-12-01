@@ -12,16 +12,19 @@ import getYouTubeId from 'get-youtube-id'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { FeaturePageSkeleton } from '@/components/loading-skeleton'
+import { useTranslation } from 'react-i18next'
 
 export default function FeaturePage() {
   const params = useParams()
   const kitSlug = typeof params.kitSlug === 'string' ? params.kitSlug : ''
   const featureSlug = typeof params.featureSlug === 'string' ? params.featureSlug : ''
   
+  const { t } = useTranslation()
+  
   if (!kitSlug || !featureSlug) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>Invalid route parameters</p>
+        <p>{t("feature.invalidRoute")}</p>
       </div>
     )
   }
@@ -41,7 +44,7 @@ export default function FeaturePage() {
   if (error || !feature) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>Feature not found</p>
+        <p>{t("feature.notFound")}</p>
       </div>
     )
   }
@@ -71,12 +74,12 @@ export default function FeaturePage() {
 
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-semibold">Code</h2>
+          <h2 className="text-2xl font-semibold">{t("feature.code")}</h2>
           <Button 
             onClick={handleCopyCode}
-            aria-label={copied ? 'Code copied to clipboard' : 'Copy code to clipboard'}
+            aria-label={copied ? t("common.codeCopied") : t("common.copyToClipboard")}
           >
-            {copied ? 'Copied!' : 'Copy Code'}
+            {copied ? t("common.copied") : t("common.copyCode")}
           </Button>
         </div>
         <div className="rounded-lg overflow-hidden">
@@ -96,7 +99,7 @@ export default function FeaturePage() {
       </div>
 
       <div>
-        <h2 className="text-2xl font-semibold mb-4">Documentation</h2>
+        <h2 className="text-2xl font-semibold mb-4">{t("feature.documentation")}</h2>
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {feature.markdown_content}

@@ -1,11 +1,13 @@
 'use client'
 
+import { useTranslation } from 'react-i18next'
 import { useKits } from '@/features/kits/hooks/use-kits'
 import { useFeatures } from '@/features/features/hooks/use-features'
 import { KitCard } from '@/components/kit-card'
 import { KitCardSkeleton } from '@/components/loading-skeleton'
 
 export default function KitsPage() {
+  const { t } = useTranslation()
   const { data: kits = [], isLoading: kitsLoading } = useKits()
   const { data: features = [], isLoading: featuresLoading } = useFeatures()
   const loading = kitsLoading || featuresLoading
@@ -18,7 +20,7 @@ export default function KitsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Kits</h1>
+      <h1 className="text-4xl font-bold mb-8">{t("kits.title")}</h1>
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[...Array(3)].map((_, i) => (
@@ -36,7 +38,7 @@ export default function KitsPage() {
           ))}
         </div>
       ) : (
-        <p>No kits available</p>
+        <p>{t("kits.noKitsAvailable")}</p>
       )}
     </div>
   )

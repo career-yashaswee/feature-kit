@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Kit } from '@/lib/supabase/types'
 
@@ -8,10 +11,13 @@ type KitCardProps = {
 }
 
 export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
+  const { t } = useTranslation()
+  const featureText = featureCount === 1 ? t("card.feature") : t("card.features")
+  
   return (
     <Link 
       href={`/kits/${kit.slug}`}
-      aria-label={`Browse ${kit.name} kit with ${featureCount} ${featureCount === 1 ? 'feature' : 'features'}`}
+      aria-label={`${t("header.kitsAria")}: ${kit.name} - ${featureCount} ${featureText}`}
     >
       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full" role="article">
         <CardHeader>
@@ -21,8 +27,8 @@ export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
           )}
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground" aria-label={`${featureCount} ${featureCount === 1 ? 'feature' : 'features'} available`}>
-            {featureCount} {featureCount === 1 ? 'feature' : 'features'}
+          <p className="text-sm text-muted-foreground" aria-label={`${featureCount} ${featureText} ${t("card.available")}`}>
+            {featureCount} {featureText}
           </p>
         </CardContent>
       </Card>

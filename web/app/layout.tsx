@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { QueryProvider } from "@/lib/providers/query-provider";
 import { AppErrorBoundary } from "@/components/error-boundary";
+import { I18nProvider } from "@/lib/providers/i18n-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,12 +31,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <AppErrorBoundary>
-            <Header />
-            {children}
-          </AppErrorBoundary>
-        </QueryProvider>
+        <I18nProvider>
+          <QueryProvider>
+            <AppErrorBoundary>
+              <Header />
+              {children}
+            </AppErrorBoundary>
+          </QueryProvider>
+        </I18nProvider>
       </body>
     </html>
   );
