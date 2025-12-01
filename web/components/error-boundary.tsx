@@ -3,9 +3,30 @@
 import { ErrorBoundary } from 'react-error-boundary'
 import { Button } from '@/components/ui/button'
 import { useTranslation } from 'react-i18next'
+import { useMemo } from 'react'
+
+const fallbackTranslations: Record<string, string> = {
+  'error.somethingWentWrong': 'Something went wrong',
+  'error.unexpectedError': 'An unexpected error occurred',
+  'common.tryAgain': 'Try Again',
+}
 
 function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
-  const { t } = useTranslation()
+  const translation = useTranslation()
+  
+  const t = useMemo(() => {
+    if (translation?.t && typeof translation.t === 'function') {
+      return (key: string) => {
+        try {
+          const translated = translation.t(key)
+          return translated !== key ? translated : (fallbackTranslations[key] || key)
+        } catch {
+          return fallbackTranslations[key] || key
+        }
+      }
+    }
+    return (key: string) => fallbackTranslations[key] || key
+  }, [translation.t])
   
   return (
     <div className="container mx-auto px-4 py-8">

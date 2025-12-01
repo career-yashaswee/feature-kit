@@ -73,7 +73,8 @@
     "issueTextLabel": "Descripción del problema",
     "placeholder": "Describe el problema que encontraste...",
     "submit": "Enviar Reporte",
-    "success": "Gracias por reportar este error. Lo revisaremos."
+    "success": "Gracias por reportar este error. Lo revisaremos.",
+    "reportAnother": "Reportar otro error"
   }
 }
 

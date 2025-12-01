@@ -45,9 +45,24 @@ CREATE TABLE IF NOT EXISTS feature_tags (
 CREATE TABLE IF NOT EXISTS issues (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   feature_id UUID NOT NULL REFERENCES features(id) ON DELETE CASCADE,
-  issue_text TEXT NOT NULL,
+  issue_text TEXT NOT NULL CHECK (char_length(issue_text) <= 2000),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Add constraint to existing issues table if it already exists
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'issues') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.table_constraints 
+      WHERE table_name = 'issues' 
+      AND constraint_name = 'issues_issue_text_length_check'
+    ) THEN
+      ALTER TABLE issues ADD CONSTRAINT issues_issue_text_length_check 
+      CHECK (char_length(issue_text) <= 2000);
+    END IF;
+  END IF;
+END $$;
 
 -- Create indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_features_kit_id ON features(kit_id);

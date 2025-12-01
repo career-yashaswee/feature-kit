@@ -1,48 +1,53 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useFeature } from '@/features/features/hooks/use-feature'
-import { useParams } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { useCopyToClipboard } from '@uidotdev/usehooks'
-import LiteYouTubeEmbed from 'react-lite-youtube-embed'
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
-import getYouTubeId from 'get-youtube-id'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { FeaturePageSkeleton } from '@/components/loading-skeleton'
-import { useTranslation } from 'react-i18next'
-import { TierTag } from '@/components/tier-tag'
-import { ReportBugForm } from '@/components/report-bug-form'
+import { useState } from "react";
+import { useFeature } from "@/features/features/hooks/use-feature";
+import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+import getYouTubeId from "get-youtube-id";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { FeaturePageSkeleton } from "@/components/loading-skeleton";
+import { useTranslation } from "react-i18next";
+import { TierTag } from "@/components/tier-tag";
+import { ReportBugForm } from "@/components/report-bug-form";
 
 export default function FeaturePage() {
-  const params = useParams()
-  const kitSlug = typeof params.kitSlug === 'string' ? params.kitSlug : ''
-  const featureSlug = typeof params.featureSlug === 'string' ? params.featureSlug : ''
-  
-  const { t } = useTranslation()
-  
+  const params = useParams();
+  const kitSlug = typeof params.kitSlug === "string" ? params.kitSlug : "";
+  const featureSlug =
+    typeof params.featureSlug === "string" ? params.featureSlug : "";
+  const {
+    data: feature,
+    isLoading: loading,
+    error,
+  } = useFeature(kitSlug, featureSlug);
+  const [copied, copy] = useCopyToClipboard();
+  const [showReportBug, setShowReportBug] = useState(false);
+
+  const { t } = useTranslation();
+
   if (!kitSlug || !featureSlug) {
     return (
       <div className="container mx-auto px-4 py-8">
         <p>{t("feature.invalidRoute")}</p>
       </div>
-    )
+    );
   }
-  const { data: feature, isLoading: loading, error } = useFeature(kitSlug, featureSlug)
-  const [copied, copy] = useCopyToClipboard()
-  const [showReportBug, setShowReportBug] = useState(false)
 
   const handleCopyCode = () => {
     if (feature?.code) {
-      copy(feature.code)
+      copy(feature.code);
     }
-  }
+  };
 
   if (loading) {
-    return <FeaturePageSkeleton />
+    return <FeaturePageSkeleton />;
   }
 
   if (error || !feature) {
@@ -50,7 +55,7 @@ export default function FeaturePage() {
       <div className="container mx-auto px-4 py-8">
         <p>{t("feature.notFound")}</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -67,28 +72,31 @@ export default function FeaturePage() {
         </div>
       </div>
 
-      {feature.youtube_video_url && (() => {
-        const videoId = getYouTubeId(feature.youtube_video_url)
-        
-        if (!videoId) return null
+      {feature.youtube_video_url &&
+        (() => {
+          const videoId = getYouTubeId(feature.youtube_video_url);
 
-        return (
-          <div className="mb-8">
-            <LiteYouTubeEmbed
-              id={videoId}
-              title={feature.name}
-              wrapperClass="yt-lite rounded-lg"
-            />
-          </div>
-        )
-      })()}
+          if (!videoId) return null;
+
+          return (
+            <div className="mb-8">
+              <LiteYouTubeEmbed
+                id={videoId}
+                title={feature.name}
+                wrapperClass="yt-lite rounded-lg"
+              />
+            </div>
+          );
+        })()}
 
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-semibold">{t("feature.code")}</h2>
-          <Button 
+          <Button
             onClick={handleCopyCode}
-            aria-label={copied ? t("common.codeCopied") : t("common.copyToClipboard")}
+            aria-label={
+              copied ? t("common.codeCopied") : t("common.copyToClipboard")
+            }
           >
             {copied ? t("common.copied") : t("common.copyCode")}
           </Button>
@@ -99,8 +107,8 @@ export default function FeaturePage() {
             style={oneDark}
             customStyle={{
               margin: 0,
-              borderRadius: '0.5rem',
-              fontSize: '0.875rem',
+              borderRadius: "0.5rem",
+              fontSize: "0.875rem",
             }}
             showLineNumbers
           >
@@ -110,7 +118,9 @@ export default function FeaturePage() {
       </div>
 
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">{t("feature.documentation")}</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          {t("feature.documentation")}
+        </h2>
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {feature.markdown_content}
@@ -135,6 +145,5 @@ export default function FeaturePage() {
         )}
       </div>
     </div>
-  )
+  );
 }
-

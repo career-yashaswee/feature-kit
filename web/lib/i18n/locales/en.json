@@ -73,7 +73,8 @@
     "issueTextLabel": "Issue description",
     "placeholder": "Describe the issue you encountered...",
     "submit": "Submit Report",
-    "success": "Thank you for reporting this bug. We'll look into it."
+    "success": "Thank you for reporting this bug. We'll look into it.",
+    "reportAnother": "Report another bug"
   }
 }
 
