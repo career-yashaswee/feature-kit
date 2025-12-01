@@ -50,9 +50,7 @@ export default function FeatureLayout({ children }: FeatureLayoutProps) {
                       isActive={kitFeature.slug === featureSlug}
                       className="h-9 py-2.5"
                     >
-                      <Link
-                        href={`/kits/${kitSlug}/${kitFeature.slug}`}
-                      >
+                      <Link href={`/kits/${kitSlug}/${kitFeature.slug}`}>
                         {kitFeature.name}
                       </Link>
                     </SidebarMenuButton>

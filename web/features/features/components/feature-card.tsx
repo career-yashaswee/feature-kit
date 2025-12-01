@@ -57,10 +57,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
         </CardContent>
         {feature.kit && (
           <CardFooter className="pt-0">
-            <Badge
-              variant="secondary"
-              aria-label={`Kit: ${feature.kit.name}`}
-            >
+            <Badge variant="secondary" aria-label={`Kit: ${feature.kit.name}`}>
               {feature.kit.name}
             </Badge>
           </CardFooter>

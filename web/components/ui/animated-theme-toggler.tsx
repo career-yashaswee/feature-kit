@@ -97,7 +97,7 @@ export const AnimatedThemeToggler = ({
       onClick={toggleTheme}
       className={cn(
         buttonVariants({ variant: "ghost", size: "icon" }),
-        className
+        className,
       )}
       aria-label={t("header.toggleTheme")}
       {...props}
