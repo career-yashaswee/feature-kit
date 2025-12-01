@@ -3,6 +3,7 @@ export type Kit = {
   name: string
   description: string | null
   slug: string
+  thumbnail_url: string | null
   created_at: string
 }
 

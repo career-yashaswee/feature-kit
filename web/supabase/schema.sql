@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS kits (
   name TEXT NOT NULL,
   description TEXT,
   slug TEXT NOT NULL UNIQUE,
+  thumbnail_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

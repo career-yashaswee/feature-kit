@@ -24,14 +24,12 @@ export function FeatureCardSkeleton() {
 
 export function KitCardSkeleton() {
   return (
-    <Card>
-      <CardHeader>
-        <Skeleton className="h-6 w-24" />
-        <Skeleton className="h-4 w-full mt-2" />
-      </CardHeader>
-      <CardContent>
+    <Card className="overflow-hidden">
+      <Skeleton className="w-full aspect-[4/3]" />
+      <CardHeader className="pb-3">
+        <Skeleton className="h-6 w-24 mb-2" />
         <Skeleton className="h-4 w-20" />
-      </CardContent>
+      </CardHeader>
     </Card>
   )
 }

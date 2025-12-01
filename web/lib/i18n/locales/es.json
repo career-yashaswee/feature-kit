@@ -58,7 +58,8 @@
   "card": {
     "feature": "característica",
     "features": "características",
-    "available": "disponible"
+    "available": "disponible",
+    "imageError": "Imagen no disponible"
   }
 }
 
