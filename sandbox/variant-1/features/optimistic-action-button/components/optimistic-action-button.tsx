@@ -8,7 +8,9 @@ import { type VariantProps } from "class-variance-authority";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface OptimisticActionButtonProps extends VariantProps<typeof buttonVariants> {
+interface OptimisticActionButtonProps extends VariantProps<
+  typeof buttonVariants
+> {
   action: () => Promise<void>;
   optimisticState: boolean;
   onOptimisticUpdate: () => void;
@@ -25,7 +27,8 @@ interface OptimisticActionButtonProps extends VariantProps<typeof buttonVariants
 
 export function OptimisticActionButton({
   action,
-  optimisticState,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  optimisticState: _optimisticState,
   onOptimisticUpdate,
   onRollback,
   children,
@@ -103,7 +106,7 @@ export function OptimisticActionButton({
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               className="h-4 w-4 rounded-full border-2 border-current border-t-transparent"
             />
-            <span className="hidden sm:inline">Processing...</span>
+            <span className="hidden sm:inline">{loadingMessage}</span>
           </motion.div>
         ) : (
           <motion.div

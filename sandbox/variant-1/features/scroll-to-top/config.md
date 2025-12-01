@@ -79,7 +79,7 @@ import { ArrowUp } from "lucide-react";
 
 <ScrollToTopButton>
   <ArrowUp className="w-4 h-4" />
-</ScrollToTopButton>
+</ScrollToTopButton>;
 ```
 
 Or with emoji:
@@ -158,12 +158,12 @@ The component is fully typed. No additional type definitions needed.
 
 ## Props API
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `threshold` | `number` | `300` | Scroll distance (in pixels) after which button becomes visible |
-| `children` | `ReactNode` | `"Top"` | Custom content for the button (icon, text, or component) |
-| `position` | `"left" \| "center" \| "right"` | `"right"` | Horizontal alignment of the button |
-| `className` | `string` | - | Additional CSS classes applied to the button |
+| Prop        | Type                            | Default   | Description                                                    |
+| ----------- | ------------------------------- | --------- | -------------------------------------------------------------- |
+| `threshold` | `number`                        | `300`     | Scroll distance (in pixels) after which button becomes visible |
+| `children`  | `ReactNode`                     | `"Top"`   | Custom content for the button (icon, text, or component)       |
+| `position`  | `"left" \| "center" \| "right"` | `"right"` | Horizontal alignment of the button                             |
+| `className` | `string`                        | -         | Additional CSS classes applied to the button                   |
 
 ## Features
 
@@ -182,4 +182,3 @@ The component is fully typed. No additional type definitions needed.
 - Portfolio websites: Smooth navigation experience
 - Landing pages: Improve user experience on long pages
 - Single-page applications: Essential for content-heavy pages
-

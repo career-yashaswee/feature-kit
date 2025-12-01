@@ -5,10 +5,12 @@ import dynamic from "next/dynamic";
 
 const RefreshButton = dynamic(
   () =>
-    import("@/features/refresh-button/components/refresh-button").then((mod) => ({
-      default: mod.RefreshButton,
-    })),
-  { ssr: false }
+    import("@/features/refresh-button/components/refresh-button").then(
+      (mod) => ({
+        default: mod.RefreshButton,
+      }),
+    ),
+  { ssr: false },
 );
 import {
   Card,
@@ -27,7 +29,7 @@ async function fetchData() {
 }
 
 export default function RefreshButtonPage() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: ["sample-data"],
     queryFn: fetchData,
   });
@@ -60,7 +62,11 @@ export default function RefreshButtonPage() {
             </div>
           </CardHeader>
           <CardContent>
-            {isLoading ? (
+            {isError ? (
+              <p className="text-muted-foreground">
+                {error?.message || "Failed to load data"}
+              </p>
+            ) : isLoading || isFetching ? (
               <p className="text-muted-foreground">Loading...</p>
             ) : (
               <div className="space-y-2">
@@ -79,4 +85,3 @@ export default function RefreshButtonPage() {
     </div>
   );
 }
-

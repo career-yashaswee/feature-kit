@@ -4,10 +4,12 @@ import dynamic from "next/dynamic";
 
 const ScrollToTopButton = dynamic(
   () =>
-    import("@/features/scroll-to-top/components/scroll-to-top-button").then((mod) => ({
-      default: mod.ScrollToTopButton,
-    })),
-  { ssr: false }
+    import("@/features/scroll-to-top/components/scroll-to-top-button").then(
+      (mod) => ({
+        default: mod.ScrollToTopButton,
+      }),
+    ),
+  { ssr: false },
 );
 import {
   Card,
@@ -29,7 +31,7 @@ import {
 
 export default function ScrollToTopPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {/* Hero Section */}
         <section className="space-y-6 text-center">
@@ -37,7 +39,7 @@ export default function ScrollToTopPage() {
             <ArrowUp className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Scroll Navigation</span>
           </div>
-          <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Scroll To Top Button
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
@@ -201,15 +203,12 @@ export default function ScrollToTopPage() {
                     <p className="text-muted-foreground">
                       This is demo content block {index + 1}. Scroll further
                       down to see the scroll-to-top button appear in the
-                      bottom-center of the screen. The button will smoothly
-                      fade in once you've scrolled past the threshold.
+                      bottom-center of the screen. The button will smoothly fade
+                      in once you&apos;ve scrolled past the threshold.
                     </p>
                     <div className="mt-4 grid grid-cols-3 gap-2">
                       {[1, 2, 3].map((i) => (
-                        <div
-                          key={i}
-                          className="h-20 rounded-md bg-muted/50"
-                        />
+                        <div key={i} className="h-20 rounded-md bg-muted/50" />
                       ))}
                     </div>
                   </div>

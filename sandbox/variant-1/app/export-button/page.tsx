@@ -7,7 +7,7 @@ const ExportButton = dynamic(
     import("@/features/export-button/components/export-button").then((mod) => ({
       default: mod.ExportButton,
     })),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   Card,
@@ -42,9 +42,7 @@ export default function ExportButtonPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle>User Data</CardTitle>
-                <CardDescription>
-                  Export user data to CSV file
-                </CardDescription>
+                <CardDescription>Export user data to CSV file</CardDescription>
               </div>
               <ExportButton
                 fetchData={fetchExportData}
@@ -67,4 +65,3 @@ export default function ExportButtonPage() {
     </div>
   );
 }
-

@@ -25,7 +25,7 @@ export function NetworkStatusListener({
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      wasOffline.current = !network.online;
+      wasOffline.current = network.online === false;
       return;
     }
 

@@ -24,62 +24,80 @@ describe("NetworkStatusListener", () => {
   });
 
   it("renders nothing", () => {
-    mockUseNetworkState.mockReturnValue({ online: true } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
     const { container } = render(<NetworkStatusListener />);
     expect(container.firstChild).toBeNull();
   });
 
   it("does not show toast on initial render when online", () => {
-    mockUseNetworkState.mockReturnValue({ online: true } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
     render(<NetworkStatusListener />);
     expect(toast.error).not.toHaveBeenCalled();
     expect(toast.success).not.toHaveBeenCalled();
   });
 
   it("does not show toast on initial render when offline", () => {
-    mockUseNetworkState.mockReturnValue({ online: false } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: false,
+    } as ReturnType<typeof useNetworkState>);
     render(<NetworkStatusListener />);
     expect(toast.error).not.toHaveBeenCalled();
     expect(toast.success).not.toHaveBeenCalled();
   });
 
   it("shows error toast when going offline", async () => {
-    mockUseNetworkState.mockReturnValue({ online: true } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(<NetworkStatusListener />);
 
-    mockUseNetworkState.mockReturnValue({ online: false } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: false,
+    } as ReturnType<typeof useNetworkState>);
     rerender(<NetworkStatusListener />);
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith(
         "You are offline. Please check your connection.",
-        { duration: 5000 }
+        { duration: 5000 },
       );
     });
   });
 
   it("shows success toast when coming back online", async () => {
-    mockUseNetworkState.mockReturnValue({ online: false } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: false,
+    } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(<NetworkStatusListener />);
 
-    mockUseNetworkState.mockReturnValue({ online: true } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
     rerender(<NetworkStatusListener />);
 
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith(
         "Connection restored. You are back online.",
-        { duration: 3000 }
+        { duration: 3000 },
       );
     });
   });
 
   it("uses custom offline message", async () => {
-    mockUseNetworkState.mockReturnValue({ online: true } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(
-      <NetworkStatusListener offlineMessage="Custom offline message" />
+      <NetworkStatusListener offlineMessage="Custom offline message" />,
     );
 
-    mockUseNetworkState.mockReturnValue({ online: false } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: false,
+    } as ReturnType<typeof useNetworkState>);
     rerender(<NetworkStatusListener offlineMessage="Custom offline message" />);
 
     await waitFor(() => {
@@ -90,12 +108,16 @@ describe("NetworkStatusListener", () => {
   });
 
   it("uses custom online message", async () => {
-    mockUseNetworkState.mockReturnValue({ online: false } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: false,
+    } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(
-      <NetworkStatusListener onlineMessage="Custom online message" />
+      <NetworkStatusListener onlineMessage="Custom online message" />,
     );
 
-    mockUseNetworkState.mockReturnValue({ online: true } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
     rerender(<NetworkStatusListener onlineMessage="Custom online message" />);
 
     await waitFor(() => {
@@ -106,15 +128,37 @@ describe("NetworkStatusListener", () => {
   });
 
   it("does not show toast when showToast is false", async () => {
-    mockUseNetworkState.mockReturnValue({ online: true } as any);
+    // Test online → offline transition
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(<NetworkStatusListener showToast={false} />);
 
-    mockUseNetworkState.mockReturnValue({ online: false } as any);
+    mockUseNetworkState.mockReturnValue({
+      online: false,
+    } as ReturnType<typeof useNetworkState>);
     rerender(<NetworkStatusListener showToast={false} />);
 
     await waitFor(() => {
       expect(toast.error).not.toHaveBeenCalled();
     });
+
+    // Clear mocks to avoid false positives
+    jest.clearAllMocks();
+
+    // Test offline → online transition
+    mockUseNetworkState.mockReturnValue({
+      online: false,
+    } as ReturnType<typeof useNetworkState>);
+    rerender(<NetworkStatusListener showToast={false} />);
+
+    mockUseNetworkState.mockReturnValue({
+      online: true,
+    } as ReturnType<typeof useNetworkState>);
+    rerender(<NetworkStatusListener showToast={false} />);
+
+    await waitFor(() => {
+      expect(toast.success).not.toHaveBeenCalled();
+    });
   });
 });
-

@@ -6,8 +6,7 @@ import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
-interface AnimatedThemeTogglerProps
-  extends React.ComponentPropsWithoutRef<"button"> {
+interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"button"> {
   duration?: number;
 }
 
@@ -28,13 +27,12 @@ export const AnimatedThemeToggler = ({
     const theme = localStorage.getItem("theme");
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
-      setIsDark(true);
     } else if (theme === "light") {
       document.documentElement.classList.remove("dark");
-      setIsDark(false);
-    } else {
-      updateTheme();
     }
+    
+    // Initialize state from DOM after DOM update
+    updateTheme();
 
     const observer = new MutationObserver(updateTheme);
     observer.observe(document.documentElement, {
@@ -72,7 +70,7 @@ export const AnimatedThemeToggler = ({
 
     const maxRadius = Math.hypot(
       Math.max(left, window.innerWidth - left),
-      Math.max(top, window.innerHeight - top)
+      Math.max(top, window.innerHeight - top),
     );
 
     document.documentElement.animate(
@@ -86,7 +84,7 @@ export const AnimatedThemeToggler = ({
         duration,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)",
-      }
+      },
     );
   }, [isDark, duration]);
 

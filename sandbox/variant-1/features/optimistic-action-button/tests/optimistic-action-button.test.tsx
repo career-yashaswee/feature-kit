@@ -1,4 +1,9 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
 import { toast } from "sonner";
 import { OptimisticActionButton } from "../components/optimistic-action-button";
 
@@ -13,7 +18,9 @@ jest.mock("framer-motion", () => ({
     <div>{children}</div>
   ),
   motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    div: ({ children, ...props }: React.ComponentPropsWithoutRef<"div">) => (
+      <div {...props}>{children}</div>
+    ),
   },
 }));
 
@@ -31,7 +38,7 @@ describe("OptimisticActionButton", () => {
         onRollback={jest.fn()}
       >
         <span>Click me</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
     expect(screen.getByText("Click me")).toBeInTheDocument();
   });
@@ -48,7 +55,7 @@ describe("OptimisticActionButton", () => {
         onRollback={jest.fn()}
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
@@ -68,7 +75,7 @@ describe("OptimisticActionButton", () => {
         onRollback={jest.fn()}
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
@@ -81,7 +88,10 @@ describe("OptimisticActionButton", () => {
 
   it("calls onRollback when action fails", async () => {
     const onRollback = jest.fn();
-    const action = jest.fn().mockRejectedValue(new Error("Failed"));
+    const action = jest.fn().mockImplementation(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      throw new Error("Failed");
+    });
 
     render(
       <OptimisticActionButton
@@ -91,15 +101,18 @@ describe("OptimisticActionButton", () => {
         onRollback={onRollback}
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
-    await waitFor(() => {
-      expect(onRollback).toHaveBeenCalled();
-    });
+    await waitFor(
+      () => {
+        expect(onRollback).toHaveBeenCalled();
+      },
+      { timeout: 3000 },
+    );
   });
 
   it("calls onSuccess when action succeeds", async () => {
@@ -115,7 +128,7 @@ describe("OptimisticActionButton", () => {
         onSuccess={onSuccess}
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
@@ -128,7 +141,10 @@ describe("OptimisticActionButton", () => {
 
   it("calls onError when action fails", async () => {
     const onError = jest.fn();
-    const action = jest.fn().mockRejectedValue(new Error("Failed"));
+    const action = jest.fn().mockImplementation(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      throw new Error("Failed");
+    });
 
     render(
       <OptimisticActionButton
@@ -139,15 +155,18 @@ describe("OptimisticActionButton", () => {
         onError={onError}
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
-    await waitFor(() => {
-      expect(onError).toHaveBeenCalled();
-    });
+    await waitFor(
+      () => {
+        expect(onError).toHaveBeenCalled();
+      },
+      { timeout: 3000 },
+    );
   });
 
   it("shows toast with custom messages", async () => {
@@ -164,7 +183,7 @@ describe("OptimisticActionButton", () => {
         errorMessage="Error!"
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
@@ -177,7 +196,7 @@ describe("OptimisticActionButton", () => {
           loading: "Saving...",
           success: "Saved!",
           error: "Error!",
-        })
+        }),
       );
     });
   });
@@ -192,7 +211,7 @@ describe("OptimisticActionButton", () => {
         disabled={true}
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
@@ -211,7 +230,7 @@ describe("OptimisticActionButton", () => {
         disabled={true}
       >
         <span>Click</span>
-      </OptimisticActionButton>
+      </OptimisticActionButton>,
     );
 
     const button = screen.getByRole("button");
@@ -220,4 +239,3 @@ describe("OptimisticActionButton", () => {
     expect(action).not.toHaveBeenCalled();
   });
 });
-

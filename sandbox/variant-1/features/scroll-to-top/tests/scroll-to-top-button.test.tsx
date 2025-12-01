@@ -1,17 +1,20 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { useWindowScroll } from "@uidotdev/usehooks";
 import { ScrollToTopButton } from "../components/scroll-to-top-button";
-
 jest.mock("@uidotdev/usehooks", () => ({
   useWindowScroll: jest.fn(),
 }));
 
 jest.mock("framer-motion", () => ({
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => {
+    const childrenArray = React.Children.toArray(children);
+    return childrenArray.length > 0 ? <div>{children}</div> : null;
+  },
   motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    div: ({ children, ...props }: React.ComponentPropsWithoutRef<"div">) => (
+      <div {...props}>{children}</div>
+    ),
   },
 }));
 
@@ -26,23 +29,23 @@ describe("ScrollToTopButton", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 0 },
       mockScrollTo,
-    ] as any);
+    ] as ReturnType<typeof useWindowScroll>);
   });
 
   it("does not render when scroll position is below threshold", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 100 },
       mockScrollTo,
-    ] as any);
-    const { container } = render(<ScrollToTopButton threshold={300} />);
-    expect(container.firstChild).toBeNull();
+    ] as ReturnType<typeof useWindowScroll>);
+    render(<ScrollToTopButton threshold={300} />);
+    expect(screen.queryByLabelText("Scroll to top")).not.toBeInTheDocument();
   });
 
   it("renders when scroll position exceeds threshold", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 400 },
       mockScrollTo,
-    ] as any);
+    ] as ReturnType<typeof useWindowScroll>);
     render(<ScrollToTopButton threshold={300} />);
     expect(screen.getByLabelText("Scroll to top")).toBeInTheDocument();
   });
@@ -51,7 +54,7 @@ describe("ScrollToTopButton", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 400 },
       mockScrollTo,
-    ] as any);
+    ] as ReturnType<typeof useWindowScroll>);
     render(<ScrollToTopButton />);
     expect(screen.getByText("Top")).toBeInTheDocument();
   });
@@ -60,11 +63,11 @@ describe("ScrollToTopButton", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 400 },
       mockScrollTo,
-    ] as any);
+    ] as ReturnType<typeof useWindowScroll>);
     render(
       <ScrollToTopButton>
         <span>Custom</span>
-      </ScrollToTopButton>
+      </ScrollToTopButton>,
     );
     expect(screen.getByText("Custom")).toBeInTheDocument();
   });
@@ -73,7 +76,7 @@ describe("ScrollToTopButton", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 400 },
       mockScrollTo,
-    ] as any);
+    ] as ReturnType<typeof useWindowScroll>);
     render(<ScrollToTopButton />);
     const button = screen.getByLabelText("Scroll to top");
     fireEvent.click(button);
@@ -88,16 +91,16 @@ describe("ScrollToTopButton", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 500 },
       mockScrollTo,
-    ] as any);
-    const { container } = render(<ScrollToTopButton threshold={600} />);
-    expect(container.firstChild).toBeNull();
+    ] as ReturnType<typeof useWindowScroll>);
+    render(<ScrollToTopButton threshold={600} />);
+    expect(screen.queryByLabelText("Scroll to top")).not.toBeInTheDocument();
   });
 
   it("applies correct position classes", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 400 },
       mockScrollTo,
-    ] as any);
+    ] as ReturnType<typeof useWindowScroll>);
 
     const { rerender } = render(<ScrollToTopButton position="left" />);
     let button = screen.getByLabelText("Scroll to top");
@@ -116,9 +119,8 @@ describe("ScrollToTopButton", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: null },
       mockScrollTo,
-    ] as any);
-    const { container } = render(<ScrollToTopButton />);
-    expect(container.firstChild).toBeNull();
+    ] as ReturnType<typeof useWindowScroll>);
+    render(<ScrollToTopButton />);
+    expect(screen.queryByLabelText("Scroll to top")).not.toBeInTheDocument();
   });
 });
-

@@ -8,13 +8,14 @@ import { toast } from "sonner";
 
 interface AutoSaveFormProps<T extends Record<string, unknown>> {
   children: ReactNode;
-  onSave: (data: T) => Promise<void> | void;
+  onSave: (data: T, signal?: AbortSignal) => Promise<void> | void;
   data: T;
   debounceMs?: number;
   storageKey?: string;
   onSaveStart?: () => void;
   onSaveSuccess?: () => void;
   onSaveError?: (error: Error) => void;
+  onLoadFromStorage?: (data: T) => void;
   showIndicator?: boolean;
   indicatorPosition?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   successMessage?: string;
@@ -23,9 +24,12 @@ interface AutoSaveFormProps<T extends Record<string, unknown>> {
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
-function getIndicatorClasses(position: AutoSaveFormProps<never>["indicatorPosition"]): string {
-  const base = "absolute z-10 flex items-center gap-1.5 rounded-md bg-background/95 backdrop-blur-sm border px-2 py-1 text-xs font-medium shadow-sm";
-  
+function getIndicatorClasses(
+  position: AutoSaveFormProps<never>["indicatorPosition"],
+): string {
+  const base =
+    "absolute z-10 flex items-center gap-1.5 rounded-md bg-background/95 backdrop-blur-sm border px-2 py-1 text-xs font-medium shadow-sm";
+
   switch (position) {
     case "top-left":
       return `${base} top-2 left-2`;
@@ -48,6 +52,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
   onSaveStart,
   onSaveSuccess,
   onSaveError,
+  onLoadFromStorage,
   showIndicator = true,
   indicatorPosition = "top-right",
   successMessage = "Changes saved",
@@ -55,25 +60,36 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
 }: AutoSaveFormProps<T>) {
   const [status, setStatus] = useState<SaveStatus>("idle");
   const debouncedData = useDebounce(data, debounceMs);
-  const previousDataRef = useRef<T>(data);
+  const previousDataRef = useRef<T | null>(null);
   const isInitialMount = useRef(true);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const statusTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      previousDataRef.current = debouncedData;
-      
+      if (debouncedData != null) {
+        previousDataRef.current = debouncedData;
+      }
+
       if (storageKey && typeof window !== "undefined") {
         try {
           const saved = localStorage.getItem(storageKey);
           if (saved) {
             const parsed = JSON.parse(saved) as Partial<T>;
-            Object.assign(data, parsed);
+            const merged = { ...data, ...parsed };
+            onLoadFromStorage?.(merged);
           }
         } catch {
           // Ignore localStorage errors
         }
+      }
+      return;
+    }
+
+    if (previousDataRef.current == null || debouncedData == null) {
+      if (debouncedData != null) {
+        previousDataRef.current = debouncedData;
       }
       return;
     }
@@ -104,31 +120,35 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
       }
 
       try {
-        await Promise.resolve(onSave(debouncedData));
-        
+        await Promise.resolve(
+          onSave(debouncedData, abortControllerRef.current?.signal),
+        );
+
         if (abortControllerRef.current?.signal.aborted) return;
-        
+
         setStatus("saved");
         onSaveSuccess?.();
         toast.success(successMessage);
-        
-        setTimeout(() => {
-          if (status === "saved") {
-            setStatus("idle");
-          }
+
+        if (statusTimeoutRef.current) {
+          clearTimeout(statusTimeoutRef.current);
+        }
+        statusTimeoutRef.current = setTimeout(() => {
+          setStatus((prev) => (prev === "saved" ? "idle" : prev));
         }, 2000);
       } catch (error) {
         if (abortControllerRef.current?.signal.aborted) return;
-        
+
         setStatus("error");
         const err = error instanceof Error ? error : new Error(errorMessage);
         onSaveError?.(err);
         toast.error(errorMessage);
-        
-        setTimeout(() => {
-          if (status === "error") {
-            setStatus("idle");
-          }
+
+        if (statusTimeoutRef.current) {
+          clearTimeout(statusTimeoutRef.current);
+        }
+        statusTimeoutRef.current = setTimeout(() => {
+          setStatus((prev) => (prev === "error" ? "idle" : prev));
         }, 3000);
       }
     };
@@ -138,6 +158,10 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
+      }
+      if (statusTimeoutRef.current) {
+        clearTimeout(statusTimeoutRef.current);
+        statusTimeoutRef.current = null;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,7 +174,6 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
     onSaveError,
     successMessage,
     errorMessage,
-    status,
   ]);
 
   return (
@@ -173,7 +196,9 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
             {status === "saved" && (
               <>
                 <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
-                <span className="text-green-600 dark:text-green-400">Saved</span>
+                <span className="text-green-600 dark:text-green-400">
+                  Saved
+                </span>
               </>
             )}
             {status === "error" && (

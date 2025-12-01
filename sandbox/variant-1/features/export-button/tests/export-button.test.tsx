@@ -1,6 +1,18 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import React from "react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import { toast } from "sonner";
 import { ExportButton } from "../components/export-button";
+
+jest.mock("@/lib/utils", () => ({
+  cn: (...classes: (string | undefined | null | false)[]) =>
+    classes.filter(Boolean).join(" "),
+}));
 
 jest.mock("sonner", () => ({
   toast: {
@@ -13,7 +25,9 @@ jest.mock("framer-motion", () => ({
     <div>{children}</div>
   ),
   motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    div: ({ children, ...props }: React.ComponentPropsWithoutRef<"div">) => (
+      <div {...props}>{children}</div>
+    ),
   },
 }));
 
@@ -24,17 +38,19 @@ const mockClick = jest.fn();
 global.URL.createObjectURL = mockCreateObjectURL;
 global.URL.revokeObjectURL = mockRevokeObjectURL;
 
+const originalCreateElement = document.createElement;
+
 describe("ExportButton", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockCreateObjectURL.mockReturnValue("blob:url");
-    document.body.appendChild = jest.fn();
-    document.body.removeChild = jest.fn();
+    document.createElement = originalCreateElement;
     jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    document.createElement = originalCreateElement;
   });
 
   it("renders with default label", () => {
@@ -57,10 +73,17 @@ describe("ExportButton", () => {
     const mockLink = {
       href: "",
       download: "",
-      style: { display: "" },
+      style: { display: "none" },
       click: mockClick,
     };
-    document.createElement = jest.fn().mockReturnValue(mockLink as any);
+    const createElementSpy = jest
+      .spyOn(document, "createElement")
+      .mockImplementation((tagName) => {
+        if (tagName === "a") {
+          return mockLink as HTMLAnchorElement;
+        }
+        return originalCreateElement.call(document, tagName);
+      });
 
     render(<ExportButton fetchData={fetchData} format="csv" />);
     const button = screen.getByRole("button");
@@ -71,19 +94,26 @@ describe("ExportButton", () => {
       expect(mockCreateObjectURL).toHaveBeenCalled();
       expect(mockClick).toHaveBeenCalled();
     });
+
+    createElementSpy.mockRestore();
   });
 
   it("exports data as JSON", async () => {
-    const fetchData = jest.fn().mockResolvedValue([
-      { id: 1, name: "Test" },
-    ]);
+    const fetchData = jest.fn().mockResolvedValue([{ id: 1, name: "Test" }]);
     const mockLink = {
       href: "",
       download: "",
-      style: { display: "" },
+      style: { display: "none" },
       click: mockClick,
     };
-    document.createElement = jest.fn().mockReturnValue(mockLink as any);
+    const createElementSpy = jest
+      .spyOn(document, "createElement")
+      .mockImplementation((tagName) => {
+        if (tagName === "a") {
+          return mockLink as HTMLAnchorElement;
+        }
+        return originalCreateElement.call(document, tagName);
+      });
 
     render(<ExportButton fetchData={fetchData} format="json" />);
     const button = screen.getByRole("button");
@@ -92,6 +122,8 @@ describe("ExportButton", () => {
     await waitFor(() => {
       expect(fetchData).toHaveBeenCalled();
     });
+
+    createElementSpy.mockRestore();
   });
 
   it("shows toast with custom resource", async () => {
@@ -99,14 +131,19 @@ describe("ExportButton", () => {
     const mockLink = {
       href: "",
       download: "",
-      style: { display: "" },
+      style: { display: "none" },
       click: mockClick,
     };
-    document.createElement = jest.fn().mockReturnValue(mockLink as any);
+    const createElementSpy = jest
+      .spyOn(document, "createElement")
+      .mockImplementation((tagName) => {
+        if (tagName === "a") {
+          return mockLink as HTMLAnchorElement;
+        }
+        return originalCreateElement.call(document, tagName);
+      });
 
-    render(
-      <ExportButton fetchData={fetchData} resource="users" />
-    );
+    render(<ExportButton fetchData={fetchData} resource="users" />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
@@ -117,9 +154,11 @@ describe("ExportButton", () => {
           loading: "Preparing users export...",
           success: "users exported successfully!",
           error: "Failed to export users.",
-        })
+        }),
       );
     });
+
+    createElementSpy.mockRestore();
   });
 
   it("calls onSuccess callback", async () => {
@@ -128,29 +167,34 @@ describe("ExportButton", () => {
     const mockLink = {
       href: "",
       download: "",
-      style: { display: "" },
+      style: { display: "none" },
       click: mockClick,
     };
-    document.createElement = jest.fn().mockReturnValue(mockLink as any);
+    const createElementSpy = jest
+      .spyOn(document, "createElement")
+      .mockImplementation((tagName) => {
+        if (tagName === "a") {
+          return mockLink as HTMLAnchorElement;
+        }
+        return originalCreateElement.call(document, tagName);
+      });
 
-    render(
-      <ExportButton fetchData={fetchData} onSuccess={onSuccess} />
-    );
+    render(<ExportButton fetchData={fetchData} onSuccess={onSuccess} />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
     await waitFor(() => {
       expect(onSuccess).toHaveBeenCalled();
     });
+
+    createElementSpy.mockRestore();
   });
 
   it("calls onError callback on failure", async () => {
     const fetchData = jest.fn().mockRejectedValue(new Error("Export failed"));
     const onError = jest.fn();
 
-    render(
-      <ExportButton fetchData={fetchData} onError={onError} />
-    );
+    render(<ExportButton fetchData={fetchData} onError={onError} />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
@@ -163,9 +207,7 @@ describe("ExportButton", () => {
     const fetchData = jest.fn().mockResolvedValue([]);
     const onError = jest.fn();
 
-    render(
-      <ExportButton fetchData={fetchData} onError={onError} />
-    );
+    render(<ExportButton fetchData={fetchData} onError={onError} />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
@@ -175,24 +217,45 @@ describe("ExportButton", () => {
   });
 
   it("disables button when exporting", async () => {
-    const fetchData = jest.fn().mockImplementation(
-      () => new Promise((resolve) => setTimeout(() => resolve([{ id: 1 }]), 100))
-    );
+    const fetchData = jest
+      .fn()
+      .mockImplementation(
+        () =>
+          new Promise((resolve) => setTimeout(() => resolve([{ id: 1 }]), 100)),
+      );
     const mockLink = {
       href: "",
       download: "",
-      style: { display: "" },
+      style: { display: "none" },
       click: mockClick,
     };
-    document.createElement = jest.fn().mockReturnValue(mockLink as any);
+    const createElementSpy = jest
+      .spyOn(document, "createElement")
+      .mockImplementation((tagName) => {
+        if (tagName === "a") {
+          return mockLink as HTMLAnchorElement;
+        }
+        return originalCreateElement.call(document, tagName);
+      });
 
     render(<ExportButton fetchData={fetchData} />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
-    await waitFor(() => {
-      expect(button).toBeDisabled();
+    // Assert button is disabled immediately after click
+    expect(button).toBeDisabled();
+
+    // Advance timers to let the async operation complete
+    await act(async () => {
+      jest.advanceTimersByTime(100);
     });
+
+    // Assert button becomes enabled again after export completes
+    await waitFor(() => {
+      expect(button).not.toBeDisabled();
+    });
+
+    createElementSpy.mockRestore();
   });
 
   it("generates filename with timestamp", async () => {
@@ -200,20 +263,26 @@ describe("ExportButton", () => {
     const mockLink = {
       href: "",
       download: "",
-      style: { display: "" },
+      style: { display: "none" },
       click: mockClick,
     };
-    document.createElement = jest.fn().mockReturnValue(mockLink as any);
+    const createElementSpy = jest
+      .spyOn(document, "createElement")
+      .mockImplementation((tagName) => {
+        if (tagName === "a") {
+          return mockLink as HTMLAnchorElement;
+        }
+        return originalCreateElement.call(document, tagName);
+      });
 
-    render(
-      <ExportButton fetchData={fetchData} filename="test-data" />
-    );
+    render(<ExportButton fetchData={fetchData} filename="test-data" />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
     await waitFor(() => {
       expect(mockLink.download).toMatch(/^test-data-.*\.csv$/);
     });
+
+    createElementSpy.mockRestore();
   });
 });
-

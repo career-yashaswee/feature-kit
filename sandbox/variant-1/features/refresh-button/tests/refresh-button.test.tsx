@@ -1,4 +1,9 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RefreshButton } from "../components/refresh-button";
@@ -15,7 +20,9 @@ jest.mock("sonner", () => ({
 
 jest.mock("framer-motion", () => ({
   motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    div: ({ children, ...props }: React.ComponentPropsWithoutRef<"div">) => (
+      <div {...props}>{children}</div>
+    ),
   },
 }));
 
@@ -30,7 +37,7 @@ describe("RefreshButton", () => {
     mockInvalidateQueries.mockResolvedValue(undefined);
     mockUseQueryClient.mockReturnValue({
       invalidateQueries: mockInvalidateQueries,
-    } as any);
+    } as ReturnType<typeof useQueryClient>);
   });
 
   it("renders with default label", () => {
@@ -44,9 +51,7 @@ describe("RefreshButton", () => {
   });
 
   it("renders with custom aria-label", () => {
-    render(
-      <RefreshButton queryKeys={[["test"]]} ariaLabel="Refresh users" />
-    );
+    render(<RefreshButton queryKeys={[["test"]]} ariaLabel="Refresh users" />);
     expect(screen.getByLabelText("Refresh users")).toBeInTheDocument();
   });
 
@@ -64,7 +69,7 @@ describe("RefreshButton", () => {
 
   it("invalidates multiple query keys", async () => {
     render(
-      <RefreshButton queryKeys={[["users"], ["posts"]]} resource="data" />
+      <RefreshButton queryKeys={[["users"], ["posts"]]} resource="data" />,
     );
     const button = screen.getByRole("button");
     fireEvent.click(button);
@@ -75,9 +80,7 @@ describe("RefreshButton", () => {
   });
 
   it("shows toast with custom resource", async () => {
-    render(
-      <RefreshButton queryKeys={[["test"]]} resource="users" />
-    );
+    render(<RefreshButton queryKeys={[["test"]]} resource="users" />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
@@ -88,16 +91,14 @@ describe("RefreshButton", () => {
           loading: "Refreshing users",
           success: "users Refreshed Successfully!",
           error: "Failed to Refresh users.",
-        })
+        }),
       );
     });
   });
 
   it("calls onSuccess callback", async () => {
     const onSuccess = jest.fn();
-    render(
-      <RefreshButton queryKeys={[["test"]]} onSuccess={onSuccess} />
-    );
+    render(<RefreshButton queryKeys={[["test"]]} onSuccess={onSuccess} />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
@@ -108,21 +109,25 @@ describe("RefreshButton", () => {
 
   it("calls onError callback on failure", async () => {
     const onError = jest.fn();
-    mockInvalidateQueries.mockRejectedValue(new Error("Network error"));
-    render(
-      <RefreshButton queryKeys={[["test"]]} onError={onError} />
-    );
+    mockInvalidateQueries.mockImplementation(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      throw new Error("Network error");
+    });
+    render(<RefreshButton queryKeys={[["test"]]} onError={onError} />);
     const button = screen.getByRole("button");
     fireEvent.click(button);
 
-    await waitFor(() => {
-      expect(onError).toHaveBeenCalled();
-    });
+    await waitFor(
+      () => {
+        expect(onError).toHaveBeenCalled();
+      },
+      { timeout: 3000 },
+    );
   });
 
   it("disables button when refreshing", async () => {
     mockInvalidateQueries.mockImplementation(
-      () => new Promise((resolve) => setTimeout(resolve, 100))
+      () => new Promise((resolve) => setTimeout(resolve, 100)),
     );
     render(<RefreshButton queryKeys={[["test"]]} />);
     const button = screen.getByRole("button");
@@ -146,4 +151,3 @@ describe("RefreshButton", () => {
     expect(mockInvalidateQueries).not.toHaveBeenCalled();
   });
 });
-

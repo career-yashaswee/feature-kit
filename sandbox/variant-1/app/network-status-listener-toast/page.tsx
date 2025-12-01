@@ -21,15 +21,17 @@ import {
 
 const NetworkStatusListener = dynamic(
   () =>
-    import("@/features/network-status-listener/components/network-status-listener").then((mod) => ({
-      default: mod.NetworkStatusListener,
-    })),
-  { ssr: false }
+    import("@/features/network-status-listener/components/network-status-listener").then(
+      (mod) => ({
+        default: mod.NetworkStatusListener,
+      }),
+    ),
+  { ssr: false },
 );
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <div className="mx-auto max-w-5xl space-y-12 p-8">
         {/* Hero Section */}
         <div className="space-y-6 text-center">
@@ -37,7 +39,7 @@ export default function HomePage() {
             <Wifi className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Network Status</span>
           </div>
-          <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Network Status Listener
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">

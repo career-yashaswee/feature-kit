@@ -3,11 +3,12 @@
 import { type ReactNode, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWindowScroll } from "@uidotdev/usehooks";
+import { ChevronUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface ScrollToTopButtonProps {
+export interface ScrollToTopButtonProps {
   threshold?: number;
   children?: ReactNode;
   position?: "left" | "center" | "right";
@@ -28,8 +29,8 @@ export function ScrollToTopButton({
     position === "left"
       ? "left-6"
       : position === "center"
-      ? "left-1/2 -translate-x-1/2"
-      : "right-6";
+        ? "left-1/2 -translate-x-1/2"
+        : "right-6";
 
   const handleClick = useCallback(() => {
     scrollTo({ left: 0, top: 0, behavior: "smooth" });
@@ -52,10 +53,10 @@ export function ScrollToTopButton({
             onClick={handleClick}
             className={cn(
               "rounded-full shadow-md bg-primary text-primary-foreground hover:bg-primary/90",
-              className
+              className,
             )}
           >
-            {children ?? "Top"}
+            {children ?? <ChevronUp />}
           </Button>
         </motion.div>
       )}

@@ -41,22 +41,34 @@ export function RefreshButton({
 
     setIsRefreshing(true);
 
-    const refreshPromise = Promise.all(
+    const refreshPromise = Promise.allSettled(
       queryKeys.map((key) =>
         queryClient.invalidateQueries({ queryKey: key }).catch((error) => {
-          const err = error instanceof Error ? error : new Error("Refresh failed");
+          const err =
+            error instanceof Error ? error : new Error("Refresh failed");
           onError?.(err);
-          throw err;
-        })
-      )
-    ).then(() => {
-      onSuccess?.();
+          return Promise.reject(err);
+        }),
+      ),
+    ).then((results) => {
+      const failures = results.filter((r) => r.status === "rejected");
+      if (failures.length === 0) {
+        onSuccess?.();
+      } else if (failures.length < results.length) {
+        // Partial success - decide how to handle
+        onSuccess?.(); // or handle differently
+      }
+      if (failures.length > 0) {
+        throw new Error(
+          `Failed to refresh ${failures.length} of ${results.length} queries`,
+        );
+      }
     });
 
     toast.promise(refreshPromise, {
       loading: `Refreshing ${resource}`,
-      success: `${resource} Refreshed Successfully!`,
-      error: `Failed to Refresh ${resource}.`,
+      success: `${resource} refreshed successfully!`,
+      error: `Failed to refresh ${resource}.`,
     });
 
     refreshPromise.finally(() => {
@@ -89,9 +101,7 @@ export function RefreshButton({
           <RefreshCw className="h-4 w-4 shrink-0" />
         </motion.div>
       )}
-      {displayLabel && (
-        <span className="hidden sm:inline">{displayLabel}</span>
-      )}
+      {displayLabel && <span className="hidden sm:inline">{displayLabel}</span>}
     </Button>
   );
 }

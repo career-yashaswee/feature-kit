@@ -29,8 +29,11 @@ import dynamic from "next/dynamic";
 import { Toaster } from "sonner";
 
 const NetworkStatusListener = dynamic(
-  () => import("@/components/network-status-listener").then((mod) => ({ default: mod.NetworkStatusListener })),
-  { ssr: false }
+  () =>
+    import("@/components/network-status-listener").then((mod) => ({
+      default: mod.NetworkStatusListener,
+    })),
+  { ssr: false },
 );
 
 export default function RootLayout({ children }) {
@@ -63,7 +66,7 @@ The component automatically detects network status changes and shows toast notif
 ### Custom Messages
 
 ```tsx
-<NetworkStatusListener 
+<NetworkStatusListener
   offlineMessage="No internet connection"
   onlineMessage="Back online!"
 />
@@ -117,11 +120,11 @@ The component is fully typed. No additional type definitions needed.
 
 ## Props API
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `offlineMessage` | `string` | `"You are offline. Please check your connection."` | Message shown when going offline |
-| `onlineMessage` | `string` | `"Connection restored. You are back online."` | Message shown when coming back online |
-| `showToast` | `boolean` | `true` | Show toast notifications |
+| Prop             | Type      | Default                                            | Description                           |
+| ---------------- | --------- | -------------------------------------------------- | ------------------------------------- |
+| `offlineMessage` | `string`  | `"You are offline. Please check your connection."` | Message shown when going offline      |
+| `onlineMessage`  | `string`  | `"Connection restored. You are back online."`      | Message shown when coming back online |
+| `showToast`      | `boolean` | `true`                                             | Show toast notifications              |
 
 ## Use Cases
 

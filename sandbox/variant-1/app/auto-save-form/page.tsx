@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 
@@ -9,9 +8,9 @@ const AutoSaveForm = dynamic(
     import("@/features/auto-save-form/components/auto-save-form").then(
       (mod) => ({
         default: mod.AutoSaveForm,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   Card,
@@ -29,8 +28,28 @@ interface FormData {
   email: string;
 }
 
-async function saveFormData(data: FormData) {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+async function saveFormData(data: FormData, signal?: AbortSignal) {
+  await new Promise((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      if (signal?.aborted) {
+        reject(new DOMException("The operation was aborted.", "AbortError"));
+      } else {
+        resolve(undefined);
+      }
+    }, 500);
+
+    if (signal) {
+      signal.addEventListener("abort", () => {
+        clearTimeout(timeoutId);
+        reject(new DOMException("The operation was aborted.", "AbortError"));
+      });
+    }
+  });
+
+  if (signal?.aborted) {
+    throw new DOMException("The operation was aborted.", "AbortError");
+  }
+
   if (Math.random() > 0.9) {
     throw new Error("Failed to save");
   }
@@ -38,7 +57,7 @@ async function saveFormData(data: FormData) {
 }
 
 export default function AutoSaveFormPage() {
-  const { register, watch } = useForm<FormData>({
+  const { register, watch, reset } = useForm<FormData>({
     defaultValues: {
       title: "",
       description: "",
@@ -71,6 +90,9 @@ export default function AutoSaveFormPage() {
               onSave={saveFormData}
               storageKey="auto-save-form-demo"
               debounceMs={1000}
+              onLoadFromStorage={(loadedData) => {
+                reset(loadedData);
+              }}
             >
               <form className="space-y-4">
                 <div className="space-y-2">

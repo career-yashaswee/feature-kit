@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 import { Download, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -34,13 +34,19 @@ function convertToCSV(data: unknown[]): string {
         number: (value) => String(value),
       },
     });
-  } catch (error) {
+  } catch {
     throw new Error("Failed to convert data to CSV");
   }
 }
 
 function convertToJSON(data: unknown[]): string {
-  return JSON.stringify(data, null, 2);
+  try {
+    return JSON.stringify(data, null, 2);
+  } catch (error) {
+    throw new Error(
+      `Failed to convert data to JSON: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
 }
 
 function generateFilename(prefix: string, format: "csv" | "json"): string {
@@ -65,7 +71,7 @@ function downloadFile(blob: Blob, filename: string): void {
   link.click();
   document.body.removeChild(link);
 
-  setTimeout(() => URL.revokeObjectURL(url), 100);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 export function ExportButton({
@@ -83,9 +89,23 @@ export function ExportButton({
 }: ExportButtonProps) {
   const [isExporting, setIsExporting] = useState(false);
   const [hasExported, setHasExported] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleClick = useCallback(() => {
     if (isExporting) return;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
 
     const exportPromise = (async () => {
       setIsExporting(true);
@@ -110,7 +130,14 @@ export function ExportButton({
 
         downloadFile(blob, downloadFilename);
 
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
         setHasExported(true);
+        timeoutRef.current = setTimeout(() => {
+          setHasExported(false);
+          timeoutRef.current = null;
+        }, 2000);
         onSuccess?.();
       } catch (error) {
         const err = error instanceof Error ? error : new Error("Export failed");

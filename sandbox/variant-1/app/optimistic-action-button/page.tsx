@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 
 const OptimisticActionButton = dynamic(
   () =>
-    import("@/features/optimistic-action-button/components/optimistic-action-button").then((mod) => ({
-      default: mod.OptimisticActionButton,
-    })),
-  { ssr: false }
+    import("@/features/optimistic-action-button/components/optimistic-action-button").then(
+      (mod) => ({
+        default: mod.OptimisticActionButton,
+      }),
+    ),
+  { ssr: false },
 );
 import {
   Card,
@@ -29,6 +31,7 @@ async function toggleFavorite(id: string, currentState: boolean) {
 
 export default function OptimisticActionButtonPage() {
   const [isFavorite, setIsFavorite] = useState(false);
+  const prevIsFavoriteRef = useRef(isFavorite);
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -55,8 +58,11 @@ export default function OptimisticActionButtonPage() {
                   setIsFavorite(newState);
                 }}
                 optimisticState={!isFavorite}
-                onOptimisticUpdate={() => setIsFavorite(!isFavorite)}
-                onRollback={() => setIsFavorite(isFavorite)}
+                onOptimisticUpdate={() => {
+                  prevIsFavoriteRef.current = isFavorite;
+                  setIsFavorite(!isFavorite);
+                }}
+                onRollback={() => setIsFavorite(prevIsFavoriteRef.current)}
                 variant={isFavorite ? "default" : "outline"}
               >
                 <Heart
