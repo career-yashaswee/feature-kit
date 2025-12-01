@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFeature } from "@/features/features/hooks/use-feature";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
@@ -19,6 +20,12 @@ import { TierTag } from "@/features/features/components/tier-tag";
 import { ReportBugForm } from "@/features/issues/components/report-bug-form";
 import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
 import { Bug, Copy, ExternalLink, X } from "lucide-react";
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@/components/ui/tabs";
 
 export default function FeaturePage() {
   const params = useParams();
@@ -31,7 +38,9 @@ export default function FeaturePage() {
     error,
   } = useFeature(kitSlug, featureSlug);
   const [copied, copy] = useCopyToClipboard();
+  const [showCopied, setShowCopied] = useState(false);
   const [showReportBug, setShowReportBug] = useState(false);
+  const [activeTab, setActiveTab] = useState("code");
   const { copyPrompt } = useCopyPrompt();
 
   const { t } = useTranslation();
@@ -118,6 +127,10 @@ export default function FeaturePage() {
   const handleCopyCode = () => {
     if (feature?.code) {
       copy(feature.code);
+      setShowCopied(true);
+      setTimeout(() => {
+        setShowCopied(false);
+      }, 2000);
     }
   };
 
@@ -142,7 +155,26 @@ export default function FeaturePage() {
             <TierTag tier={feature.tier} />
           </div>
           {feature.description && (
-            <p className="text-muted-foreground mb-8">{feature.description}</p>
+            <p className="text-muted-foreground mb-4">{feature.description}</p>
+          )}
+          {feature.tags && feature.tags.length > 0 && (
+            <div
+              className="flex flex-wrap gap-2 mb-8"
+              role="list"
+              aria-label="Tags"
+            >
+              {feature.tags.map((tag) => (
+                <Badge
+                  key={tag.id}
+                  variant="outline"
+                  className="text-xs"
+                  role="listitem"
+                  aria-label={`Tag: ${tag.name}`}
+                >
+                  {tag.name}
+                </Badge>
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -184,50 +216,67 @@ export default function FeaturePage() {
         </Button>
       </div>
 
-      {feature.youtube_video_url &&
-        (() => {
-          const videoId = getYouTubeId(feature.youtube_video_url);
-
-          if (!videoId) return null;
-
-          return (
-            <div className="mb-8">
-              <LiteYouTubeEmbed
-                id={videoId}
-                title={feature.name}
-                wrapperClass="yt-lite rounded-lg"
-              />
-            </div>
-          );
-        })()}
-
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-semibold">{t("feature.code")}</h2>
-          <Button
-            onClick={handleCopyCode}
-            aria-label={
-              copied ? t("common.codeCopied") : t("common.copyToClipboard")
-            }
-          >
-            <Copy className="size-4 mr-2" />
-            {copied ? t("common.copied") : t("common.copyCode")}
-          </Button>
-        </div>
-        <div className="rounded-lg overflow-hidden">
-          <SyntaxHighlighter
-            language="typescript"
-            style={oneDark}
-            customStyle={{
-              margin: 0,
-              borderRadius: "0.5rem",
-              fontSize: "0.875rem",
-            }}
-            showLineNumbers
-          >
-            {feature.code}
-          </SyntaxHighlighter>
-        </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <div className="flex items-center justify-between mb-4">
+            <TabsList>
+              <TabsTrigger value="code">{t("feature.code")}</TabsTrigger>
+              <TabsTrigger
+                value="preview"
+                disabled={!feature.youtube_video_url}
+              >
+                {t("feature.preview")}
+              </TabsTrigger>
+            </TabsList>
+            {activeTab === "code" && (
+              <Button
+                onClick={handleCopyCode}
+                aria-label={
+                  showCopied ? t("common.codeCopied") : t("common.copyToClipboard")
+                }
+              >
+                <Copy className="size-4 mr-2" />
+                {showCopied ? t("common.copied") : t("common.copyCode")}
+              </Button>
+            )}
+          </div>
+          <TabsContent value="code" className="mt-4">
+            <div className="rounded-lg overflow-hidden border">
+              <div className="max-h-[600px] overflow-y-auto">
+                <SyntaxHighlighter
+                  language="typescript"
+                  style={oneDark}
+                  customStyle={{
+                    margin: 0,
+                    borderRadius: "0.5rem",
+                    fontSize: "0.875rem",
+                  }}
+                  showLineNumbers
+                >
+                  {feature.code}
+                </SyntaxHighlighter>
+              </div>
+            </div>
+          </TabsContent>
+          <TabsContent value="preview" className="mt-4">
+            {feature.youtube_video_url &&
+              (() => {
+                const videoId = getYouTubeId(feature.youtube_video_url);
+
+                if (!videoId) return null;
+
+                return (
+                  <div className="rounded-lg overflow-hidden">
+                    <LiteYouTubeEmbed
+                      id={videoId}
+                      title={feature.name}
+                      wrapperClass="yt-lite rounded-lg"
+                    />
+                  </div>
+                );
+              })()}
+          </TabsContent>
+        </Tabs>
       </div>
 
       <div className="mb-8">
