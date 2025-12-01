@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -27,17 +28,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
         <CardHeader>
           <div className="flex items-start justify-between gap-2">
             <CardTitle className="flex-1">{feature.name}</CardTitle>
-            <div className="flex items-center gap-2 shrink-0">
-              <TierTag tier={feature.tier} />
-              {feature.kit && (
-                <Badge
-                  variant="secondary"
-                  aria-label={`Kit: ${feature.kit.name}`}
-                >
-                  {feature.kit.name}
-                </Badge>
-              )}
-            </div>
+            <TierTag tier={feature.tier} />
           </div>
           {feature.description && (
             <CardDescription>{feature.description}</CardDescription>
@@ -64,6 +55,16 @@ export function FeatureCard({ feature }: FeatureCardProps) {
             </div>
           )}
         </CardContent>
+        {feature.kit && (
+          <CardFooter className="pt-0">
+            <Badge
+              variant="secondary"
+              aria-label={`Kit: ${feature.kit.name}`}
+            >
+              {feature.kit.name}
+            </Badge>
+          </CardFooter>
+        )}
       </Card>
     </Link>
   );
