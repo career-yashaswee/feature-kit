@@ -8,12 +8,16 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { useTranslation } from "react-i18next";
 import { useKits } from "@/features/kits/hooks/use-kits";
 import { useFeatures } from "@/features/features/hooks/use-features";
+import { useProjects } from "@/features/showcases/hooks/use-projects";
+import { useFavoritesStore } from "@/features/favorites/store/use-favorites-store";
 import { Github, Twitter } from "lucide-react";
 
 export function Header() {
   const { t } = useTranslation();
   const { data: kits = [] } = useKits();
   const { data: features = [] } = useFeatures();
+  const { data: projects = [] } = useProjects();
+  const favorites = useFavoritesStore((state) => state.favorites);
 
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -63,6 +67,36 @@ export function Header() {
                     className="h-5 min-w-5 px-1.5 text-xs"
                   >
                     {features.length}
+                  </Badge>
+                </Link>
+              </Button>
+              <Button variant="ghost" asChild className="h-9">
+                <Link
+                  href="/showcases"
+                  className="flex items-center gap-2"
+                  aria-label="Showcases"
+                >
+                  Showcases
+                  <Badge
+                    variant="secondary"
+                    className="h-5 min-w-5 px-1.5 text-xs"
+                  >
+                    {projects.length}
+                  </Badge>
+                </Link>
+              </Button>
+              <Button variant="ghost" asChild className="h-9">
+                <Link
+                  href="/favorites"
+                  className="flex items-center gap-2"
+                  aria-label="Favorites"
+                >
+                  Favorites
+                  <Badge
+                    variant="secondary"
+                    className="h-5 min-w-5 px-1.5 text-xs"
+                  >
+                    {favorites.length}
                   </Badge>
                 </Link>
               </Button>

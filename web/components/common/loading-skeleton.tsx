@@ -34,6 +34,18 @@ export function KitCardSkeleton() {
   );
 }
 
+export function ProjectCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <Skeleton className="w-full aspect-[4/3]" />
+      <CardHeader>
+        <Skeleton className="h-6 w-24 mb-2" />
+        <Skeleton className="h-4 w-full" />
+      </CardHeader>
+    </Card>
+  );
+}
+
 export function FeaturePageSkeleton() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">

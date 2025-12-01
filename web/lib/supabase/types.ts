@@ -45,3 +45,12 @@ export type FeatureTag = {
   tag_id: string;
   tag?: Tag;
 };
+
+export type Project = {
+  id: string;
+  name: string;
+  description: string | null;
+  preview_url: string | null;
+  thumbnail_url: string | null;
+  created_at: string;
+};
