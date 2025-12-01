@@ -46,9 +46,7 @@ async function fetchFeature(
     ...data,
     kit: data.kit,
     tags:
-      data.tags
-        ?.map((ft: FeatureTagWithTag) => ft.tag)
-        .filter(Boolean) || [],
+      data.tags?.map((ft: FeatureTagWithTag) => ft.tag).filter(Boolean) || [],
   };
 }
 

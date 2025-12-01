@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getSupabaseClient } from "@/lib/supabase/client";
-import type { Feature } from "@/lib/supabase/types";
+import type { Feature, Kit, Tag } from "@/lib/supabase/types";
 
 async function fetchFeatures(): Promise<Feature[]> {
   const { data, error } = await getSupabaseClient()
@@ -21,11 +21,11 @@ async function fetchFeatures(): Promise<Feature[]> {
   if (error) throw error;
 
   type FeatureTagWithTag = {
-    tag: { id: string; name: string; slug: string; created_at: string } | null;
+    tag: Tag | null;
   };
 
-  type FeatureWithRelations = {
-    kit: { id: string; name: string; description: string | null; slug: string; thumbnail_url: string | null; created_at: string } | null;
+  type FeatureWithRelations = Feature & {
+    kit: Kit | null;
     tags: FeatureTagWithTag[] | null;
   };
 
@@ -35,7 +35,7 @@ async function fetchFeatures(): Promise<Feature[]> {
     tags:
       feature.tags
         ?.map((ft: FeatureTagWithTag) => ft.tag)
-        .filter(Boolean) || [],
+        .filter((tag): tag is Tag => Boolean(tag)) || [],
   }));
 }
 
