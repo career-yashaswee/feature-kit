@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS features (
   youtube_video_url TEXT,
   code TEXT NOT NULL,
   tier tier_type NOT NULL DEFAULT 'free',
+  preview_url TEXT,
+  prompt TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(kit_id, slug)
 );

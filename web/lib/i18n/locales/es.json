@@ -49,7 +49,15 @@
     "code": "Código",
     "documentation": "Documentación",
     "notFound": "Característica no encontrada",
-    "invalidRoute": "Parámetros de ruta inválidos"
+    "invalidRoute": "Parámetros de ruta inválidos",
+    "preview": "Vista Previa",
+    "previewAria": "Abrir vista previa en nueva pestaña",
+    "copyPrompt": "Copiar Prompt",
+    "copyPromptAria": "Copiar prompt al portapapeles",
+    "copyingPrompt": "Copiando prompt...",
+    "promptCopied": "Prompt copiado al portapapeles",
+    "promptCopyError": "Error al copiar prompt",
+    "promptNotAvailable": "Prompt no disponible"
   },
   "error": {
     "somethingWentWrong": "Algo salió mal",

@@ -6,6 +6,7 @@ import { QueryProvider } from "@/lib/providers/query-provider";
 import { AppErrorBoundary } from "@/components/error-boundary";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { I18nProvider } from "@/lib/providers/i18n-provider";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
               <AppErrorBoundary>
                 <Header />
                 {children}
+                <Toaster richColors />
               </AppErrorBoundary>
             </QueryProvider>
           </I18nProvider>

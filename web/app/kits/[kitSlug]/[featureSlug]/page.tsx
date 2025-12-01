@@ -16,6 +16,8 @@ import { FeaturePageSkeleton } from "@/components/loading-skeleton";
 import { useTranslation } from "react-i18next";
 import { TierTag } from "@/components/tier-tag";
 import { ReportBugForm } from "@/components/report-bug-form";
+import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
+import { ExternalLink } from "lucide-react";
 
 export default function FeaturePage() {
   const params = useParams();
@@ -29,6 +31,7 @@ export default function FeaturePage() {
   } = useFeature(kitSlug, featureSlug);
   const [copied, copy] = useCopyToClipboard();
   const [showReportBug, setShowReportBug] = useState(false);
+  const { copyPrompt } = useCopyPrompt();
 
   const { t } = useTranslation();
 
@@ -71,6 +74,30 @@ export default function FeaturePage() {
           )}
         </div>
       </div>
+
+      {(feature.preview_url || feature.prompt) && (
+        <div className="flex gap-2 mb-8">
+          {feature.preview_url && (
+            <Button
+              variant="outline"
+              onClick={() => window.open(feature.preview_url!, '_blank', 'noopener,noreferrer')}
+              aria-label={t('feature.previewAria')}
+            >
+              <ExternalLink className="size-4 mr-2" />
+              {t('feature.preview')}
+            </Button>
+          )}
+          {feature.prompt && (
+            <Button
+              variant="outline"
+              onClick={() => copyPrompt(feature.prompt)}
+              aria-label={t('feature.copyPromptAria')}
+            >
+              {t('feature.copyPrompt')}
+            </Button>
+          )}
+        </div>
+      )}
 
       {feature.youtube_video_url &&
         (() => {

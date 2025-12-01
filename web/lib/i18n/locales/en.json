@@ -49,7 +49,15 @@
     "code": "Code",
     "documentation": "Documentation",
     "notFound": "Feature not found",
-    "invalidRoute": "Invalid route parameters"
+    "invalidRoute": "Invalid route parameters",
+    "preview": "Preview",
+    "previewAria": "Open preview in new tab",
+    "copyPrompt": "Copy Prompt",
+    "copyPromptAria": "Copy prompt to clipboard",
+    "copyingPrompt": "Copying prompt...",
+    "promptCopied": "Prompt copied to clipboard",
+    "promptCopyError": "Failed to copy prompt",
+    "promptNotAvailable": "Prompt not available"
   },
   "error": {
     "somethingWentWrong": "Something went wrong",

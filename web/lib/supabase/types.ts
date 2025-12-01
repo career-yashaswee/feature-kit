@@ -26,6 +26,8 @@ export type Feature = {
   youtube_video_url: string | null
   code: string
   tier: Tier
+  preview_url: string | null
+  prompt: string | null
   created_at: string
   kit?: Kit
   tags?: Tag[]
