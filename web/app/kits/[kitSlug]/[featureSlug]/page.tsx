@@ -12,12 +12,13 @@ import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import getYouTubeId from "get-youtube-id";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import type { Components } from "react-markdown";
 import { FeaturePageSkeleton } from "@/components/common/loading-skeleton";
 import { useTranslation } from "react-i18next";
 import { TierTag } from "@/features/features/components/tier-tag";
 import { ReportBugForm } from "@/features/issues/components/report-bug-form";
 import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
-import { ExternalLink } from "lucide-react";
+import { Bug, Copy, ExternalLink, X } from "lucide-react";
 
 export default function FeaturePage() {
   const params = useParams();
@@ -34,6 +35,77 @@ export default function FeaturePage() {
   const { copyPrompt } = useCopyPrompt();
 
   const { t } = useTranslation();
+
+  const markdownComponents: Components = {
+    code({ className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || "");
+      const language = match ? match[1] : "";
+      const codeString = String(children).replace(/\n$/, "");
+      const isInline = !className || !className.includes("language-");
+
+      if (!isInline && language) {
+        return (
+          <div className="rounded-lg overflow-hidden my-4">
+            <SyntaxHighlighter
+              language={language}
+              style={oneDark}
+              customStyle={{
+                margin: 0,
+                borderRadius: "0.5rem",
+                fontSize: "0.875rem",
+                fontFamily: "var(--font-mono)",
+              }}
+              showLineNumbers
+            >
+              {codeString}
+            </SyntaxHighlighter>
+          </div>
+        );
+      }
+
+      return (
+        <code
+          className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono"
+          {...props}
+        >
+          {children}
+        </code>
+      );
+    },
+    pre({ children }) {
+      return <>{children}</>;
+    },
+    table({ children }) {
+      return (
+        <div className="overflow-x-auto my-4">
+          <table className="min-w-full border-collapse border border-border">
+            {children}
+          </table>
+        </div>
+      );
+    },
+    thead({ children }) {
+      return <thead className="bg-muted">{children}</thead>;
+    },
+    tbody({ children }) {
+      return <tbody>{children}</tbody>;
+    },
+    tr({ children }) {
+      return <tr className="border-b border-border">{children}</tr>;
+    },
+    th({ children }) {
+      return (
+        <th className="border border-border px-4 py-2 text-left font-semibold">
+          {children}
+        </th>
+      );
+    },
+    td({ children }) {
+      return (
+        <td className="border border-border px-4 py-2">{children}</td>
+      );
+    },
+  };
 
   if (!kitSlug || !featureSlug) {
     return (
@@ -75,35 +147,42 @@ export default function FeaturePage() {
         </div>
       </div>
 
-      {(feature.preview_url || feature.prompt) && (
-        <div className="flex gap-2 mb-8">
-          {feature.preview_url && (
-            <Button
-              variant="outline"
-              onClick={() =>
-                window.open(
-                  feature.preview_url!,
-                  "_blank",
-                  "noopener,noreferrer",
-                )
-              }
-              aria-label={t("feature.previewAria")}
-            >
-              <ExternalLink className="size-4 mr-2" />
-              {t("feature.preview")}
-            </Button>
-          )}
-          {feature.prompt && (
-            <Button
-              variant="outline"
-              onClick={() => copyPrompt(feature.prompt)}
-              aria-label={t("feature.copyPromptAria")}
-            >
-              {t("feature.copyPrompt")}
-            </Button>
-          )}
-        </div>
-      )}
+      <div className="flex flex-wrap gap-2 mb-8">
+        {feature.preview_url && (
+          <Button
+            variant="outline"
+            onClick={() =>
+              window.open(
+                feature.preview_url!,
+                "_blank",
+                "noopener,noreferrer",
+              )
+            }
+            aria-label={t("feature.previewAria")}
+          >
+            <ExternalLink className="size-4 mr-2" />
+            {t("feature.preview")}
+          </Button>
+        )}
+        {feature.prompt && (
+          <Button
+            variant="outline"
+            onClick={() => copyPrompt(feature.prompt)}
+            aria-label={t("feature.copyPromptAria")}
+          >
+            <Copy className="size-4 mr-2" />
+            {t("feature.copyPrompt")}
+          </Button>
+        )}
+        <Button
+          variant="outline"
+          onClick={() => setShowReportBug(true)}
+          aria-label={t("reportBug.buttonAria")}
+        >
+          <Bug className="size-4 mr-2" />
+          {t("reportBug.button")}
+        </Button>
+      </div>
 
       {feature.youtube_video_url &&
         (() => {
@@ -131,6 +210,7 @@ export default function FeaturePage() {
               copied ? t("common.codeCopied") : t("common.copyToClipboard")
             }
           >
+            <Copy className="size-4 mr-2" />
             {copied ? t("common.copied") : t("common.copyCode")}
           </Button>
         </div>
@@ -155,28 +235,48 @@ export default function FeaturePage() {
           {t("feature.documentation")}
         </h2>
         <div className="prose prose-sm max-w-none">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={markdownComponents}
+          >
             {feature.markdown_content}
           </ReactMarkdown>
         </div>
       </div>
 
-      <div className="mb-8">
-        {!showReportBug ? (
-          <Button
-            variant="outline"
-            onClick={() => setShowReportBug(true)}
-            aria-label={t("reportBug.buttonAria")}
+      {showReportBug && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="report-bug-dialog-title"
+            className="w-full max-w-lg rounded-lg border bg-background shadow-lg"
           >
-            {t("reportBug.button")}
-          </Button>
-        ) : (
-          <ReportBugForm
-            featureId={feature.id}
-            onSuccess={() => setShowReportBug(false)}
-          />
-        )}
-      </div>
+            <div className="flex items-center justify-between border-b px-6 py-4">
+              <h2
+                id="report-bug-dialog-title"
+                className="text-lg font-semibold"
+              >
+                {t("reportBug.title")}
+              </h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowReportBug(false)}
+                aria-label={t("common.close")}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="p-6">
+              <ReportBugForm
+                featureId={feature.id}
+                onSuccess={() => setShowReportBug(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
