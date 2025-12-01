@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useFeature } from "@/features/features/hooks/use-feature";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +15,7 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import type { Components } from "react-markdown";
 import { FeaturePageSkeleton } from "@/components/common/loading-skeleton";
 import { useTranslation } from "react-i18next";
+import { useFeature } from "@/features/features/hooks/use-feature";
 import { TierTag } from "@/features/features/components/tier-tag";
 import { ReportBugForm } from "@/features/issues/components/report-bug-form";
 import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
@@ -148,38 +148,40 @@ export default function FeaturePage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-4xl font-bold">{feature.name}</h1>
-            <TierTag tier={feature.tier} />
-          </div>
-          {feature.description && (
-            <p className="text-muted-foreground mb-4">{feature.description}</p>
-          )}
-          {feature.tags && feature.tags.length > 0 && (
-            <div
-              className="flex flex-wrap gap-2 mb-8"
-              role="list"
-              aria-label="Tags"
-            >
-              {feature.tags.map((tag) => (
-                <Badge
-                  key={tag.id}
-                  variant="outline"
-                  className="text-xs"
-                  role="listitem"
-                  aria-label={`Tag: ${tag.name}`}
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-4xl font-bold">{feature.name}</h1>
+                <TierTag tier={feature.tier} />
+              </div>
+              {feature.description && (
+                <p className="text-muted-foreground mb-4">
+                  {feature.description}
+                </p>
+              )}
+              {feature.tags && feature.tags.length > 0 && (
+                <div
+                  className="flex flex-wrap gap-2 mb-8"
+                  role="list"
+                  aria-label="Tags"
                 >
-                  {tag.name}
-                </Badge>
-              ))}
+                  {feature.tags.map((tag) => (
+                    <Badge
+                      key={tag.id}
+                      variant="outline"
+                      className="text-xs"
+                      role="listitem"
+                      aria-label={`Tag: ${tag.name}`}
+                    >
+                      {tag.name}
+                    </Badge>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
 
-      <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-8">
         {feature.preview_url && (
           <Button
             variant="outline"
@@ -214,84 +216,86 @@ export default function FeaturePage() {
           <Bug className="size-4 mr-2" />
           {t("reportBug.button")}
         </Button>
-      </div>
-
-      <div className="mb-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <div className="flex items-center justify-between mb-4">
-            <TabsList>
-              <TabsTrigger value="code">{t("feature.code")}</TabsTrigger>
-              <TabsTrigger
-                value="preview"
-                disabled={!feature.youtube_video_url}
-              >
-                {t("feature.preview")}
-              </TabsTrigger>
-            </TabsList>
-            {activeTab === "code" && (
-              <Button
-                onClick={handleCopyCode}
-                aria-label={
-                  showCopied ? t("common.codeCopied") : t("common.copyToClipboard")
-                }
-              >
-                <Copy className="size-4 mr-2" />
-                {showCopied ? t("common.copied") : t("common.copyCode")}
-              </Button>
-            )}
           </div>
-          <TabsContent value="code" className="mt-4">
-            <div className="rounded-lg overflow-hidden border">
-              <div className="max-h-[600px] overflow-y-auto">
-                <SyntaxHighlighter
-                  language="typescript"
-                  style={oneDark}
-                  customStyle={{
-                    margin: 0,
-                    borderRadius: "0.5rem",
-                    fontSize: "0.875rem",
-                  }}
-                  showLineNumbers
-                >
-                  {feature.code}
-                </SyntaxHighlighter>
+
+          <div className="mb-8">
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <div className="flex items-center justify-between mb-4">
+                <TabsList>
+                  <TabsTrigger value="code">{t("feature.code")}</TabsTrigger>
+                  <TabsTrigger
+                    value="preview"
+                    disabled={!feature.youtube_video_url}
+                  >
+                    {t("feature.preview")}
+                  </TabsTrigger>
+                </TabsList>
+                {activeTab === "code" && (
+                  <Button
+                    onClick={handleCopyCode}
+                    aria-label={
+                      showCopied
+                        ? t("common.codeCopied")
+                        : t("common.copyToClipboard")
+                    }
+                  >
+                    <Copy className="size-4 mr-2" />
+                    {showCopied ? t("common.copied") : t("common.copyCode")}
+                  </Button>
+                )}
               </div>
-            </div>
-          </TabsContent>
-          <TabsContent value="preview" className="mt-4">
-            {feature.youtube_video_url &&
-              (() => {
-                const videoId = getYouTubeId(feature.youtube_video_url);
-
-                if (!videoId) return null;
-
-                return (
-                  <div className="rounded-lg overflow-hidden">
-                    <LiteYouTubeEmbed
-                      id={videoId}
-                      title={feature.name}
-                      wrapperClass="yt-lite rounded-lg"
-                    />
+              <TabsContent value="code" className="mt-4">
+                <div className="rounded-lg overflow-hidden border">
+                  <div className="max-h-[600px] overflow-y-auto">
+                    <SyntaxHighlighter
+                      language="typescript"
+                      style={oneDark}
+                      customStyle={{
+                        margin: 0,
+                        borderRadius: "0.5rem",
+                        fontSize: "0.875rem",
+                      }}
+                      showLineNumbers
+                    >
+                      {feature.code}
+                    </SyntaxHighlighter>
                   </div>
-                );
-              })()}
-          </TabsContent>
-        </Tabs>
-      </div>
+                </div>
+              </TabsContent>
+              <TabsContent value="preview" className="mt-4">
+                {feature.youtube_video_url &&
+                  (() => {
+                    const videoId = getYouTubeId(feature.youtube_video_url);
 
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">
-          {t("feature.documentation")}
-        </h2>
-        <div className="prose prose-sm max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={markdownComponents}
-          >
-            {feature.markdown_content}
-          </ReactMarkdown>
-        </div>
-      </div>
+                    if (!videoId) return null;
+
+                    return (
+                      <div className="rounded-lg overflow-hidden">
+                        <LiteYouTubeEmbed
+                          id={videoId}
+                          title={feature.name}
+                          wrapperClass="yt-lite rounded-lg"
+                        />
+                      </div>
+                    );
+                  })()}
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">
+              {t("feature.documentation")}
+            </h2>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={markdownComponents}
+              >
+                {feature.markdown_content}
+              </ReactMarkdown>
+            </div>
+          </div>
 
       {showReportBug && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
