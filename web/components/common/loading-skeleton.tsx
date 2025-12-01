@@ -1,5 +1,5 @@
-import { Skeleton } from '@/components/ui/skeleton'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export function FeatureCardSkeleton() {
   return (
@@ -19,7 +19,7 @@ export function FeatureCardSkeleton() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 export function KitCardSkeleton() {
@@ -31,7 +31,7 @@ export function KitCardSkeleton() {
         <Skeleton className="h-4 w-20" />
       </CardHeader>
     </Card>
-  )
+  );
 }
 
 export function FeaturePageSkeleton() {
@@ -54,7 +54,5 @@ export function FeaturePageSkeleton() {
         <Skeleton className="h-4 w-3/4" />
       </div>
     </div>
-  )
+  );
 }
-
-

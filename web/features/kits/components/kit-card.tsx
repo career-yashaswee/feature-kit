@@ -1,28 +1,32 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
-import { Img } from 'react-image'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import type { Kit } from '@/lib/supabase/types'
+import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import { Img } from "react-image";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { Kit } from "@/lib/supabase/types";
 
 type KitCardProps = {
-  kit: Kit
-  featureCount?: number
-}
+  kit: Kit;
+  featureCount?: number;
+};
 
 export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
-  const { t } = useTranslation()
-  const featureText = featureCount === 1 ? t("card.feature") : t("card.features")
-  
+  const { t } = useTranslation();
+  const featureText =
+    featureCount === 1 ? t("card.feature") : t("card.features");
+
   return (
-    <Link 
+    <Link
       href={`/kits/${kit.slug}`}
       aria-label={`${t("header.kitsAria")}: ${kit.name} - ${featureCount} ${featureText}`}
       className="block"
     >
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full overflow-hidden group" role="article">
+      <Card
+        className="hover:shadow-lg transition-shadow cursor-pointer h-full overflow-hidden group"
+        role="article"
+      >
         {kit.thumbnail_url && (
           <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted">
             <Img
@@ -44,12 +48,14 @@ export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
         )}
         <CardHeader className="pb-3">
           <CardTitle className="text-xl mb-2">{kit.name}</CardTitle>
-          <p className="text-sm text-muted-foreground" aria-label={`${featureCount} ${featureText} ${t("card.available")}`}>
+          <p
+            className="text-sm text-muted-foreground"
+            aria-label={`${featureCount} ${featureText} ${t("card.available")}`}
+          >
             {featureCount} {featureText}
           </p>
         </CardHeader>
       </Card>
     </Link>
-  )
+  );
 }
-

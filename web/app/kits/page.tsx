@@ -1,22 +1,25 @@
-'use client'
+"use client";
 
-import { useTranslation } from 'react-i18next'
-import { useKits } from '@/features/kits/hooks/use-kits'
-import { useFeatures } from '@/features/features/hooks/use-features'
-import { KitCard } from '@/features/kits/components/kit-card'
-import { KitCardSkeleton } from '@/components/common/loading-skeleton'
+import { useTranslation } from "react-i18next";
+import { useKits } from "@/features/kits/hooks/use-kits";
+import { useFeatures } from "@/features/features/hooks/use-features";
+import { KitCard } from "@/features/kits/components/kit-card";
+import { KitCardSkeleton } from "@/components/common/loading-skeleton";
 
 export default function KitsPage() {
-  const { t } = useTranslation()
-  const { data: kits = [], isLoading: kitsLoading } = useKits()
-  const { data: features = [], isLoading: featuresLoading } = useFeatures()
-  const loading = kitsLoading || featuresLoading
+  const { t } = useTranslation();
+  const { data: kits = [], isLoading: kitsLoading } = useKits();
+  const { data: features = [], isLoading: featuresLoading } = useFeatures();
+  const loading = kitsLoading || featuresLoading;
 
   // Count features per kit
-  const kitFeatureCounts = kits.reduce((acc, kit) => {
-    acc[kit.id] = features.filter((f) => f.kit_id === kit.id).length
-    return acc
-  }, {} as Record<string, number>)
+  const kitFeatureCounts = kits.reduce(
+    (acc, kit) => {
+      acc[kit.id] = features.filter((f) => f.kit_id === kit.id).length;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -41,6 +44,5 @@ export default function KitsPage() {
         <p>{t("kits.noKitsAvailable")}</p>
       )}
     </div>
-  )
+  );
 }
-

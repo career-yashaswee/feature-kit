@@ -16,18 +16,24 @@ type FeatureCardProps = {
 
 export function FeatureCard({ feature }: FeatureCardProps) {
   return (
-    <Link 
+    <Link
       href={`/kits/${feature.kit?.slug}/${feature.slug}`}
-      aria-label={`View ${feature.name} feature${feature.kit ? ` from ${feature.kit.name} kit` : ''}`}
+      aria-label={`View ${feature.name} feature${feature.kit ? ` from ${feature.kit.name} kit` : ""}`}
     >
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full" role="article">
+      <Card
+        className="hover:shadow-lg transition-shadow cursor-pointer h-full"
+        role="article"
+      >
         <CardHeader>
           <div className="flex items-start justify-between gap-2">
             <CardTitle className="flex-1">{feature.name}</CardTitle>
             <div className="flex items-center gap-2 shrink-0">
               <TierTag tier={feature.tier} />
               {feature.kit && (
-                <Badge variant="secondary" aria-label={`Kit: ${feature.kit.name}`}>
+                <Badge
+                  variant="secondary"
+                  aria-label={`Kit: ${feature.kit.name}`}
+                >
                   {feature.kit.name}
                 </Badge>
               )}
@@ -39,11 +45,15 @@ export function FeatureCard({ feature }: FeatureCardProps) {
         </CardHeader>
         <CardContent>
           {feature.tags && feature.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-2" role="list" aria-label="Tags">
+            <div
+              className="flex flex-wrap gap-2 mt-2"
+              role="list"
+              aria-label="Tags"
+            >
               {feature.tags.map((tag) => (
-                <Badge 
-                  key={tag.id} 
-                  variant="outline" 
+                <Badge
+                  key={tag.id}
+                  variant="outline"
                   className="text-xs"
                   role="listitem"
                   aria-label={`Tag: ${tag.name}`}

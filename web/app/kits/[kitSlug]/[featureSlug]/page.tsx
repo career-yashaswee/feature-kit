@@ -80,20 +80,26 @@ export default function FeaturePage() {
           {feature.preview_url && (
             <Button
               variant="outline"
-              onClick={() => window.open(feature.preview_url!, '_blank', 'noopener,noreferrer')}
-              aria-label={t('feature.previewAria')}
+              onClick={() =>
+                window.open(
+                  feature.preview_url!,
+                  "_blank",
+                  "noopener,noreferrer",
+                )
+              }
+              aria-label={t("feature.previewAria")}
             >
               <ExternalLink className="size-4 mr-2" />
-              {t('feature.preview')}
+              {t("feature.preview")}
             </Button>
           )}
           {feature.prompt && (
             <Button
               variant="outline"
               onClick={() => copyPrompt(feature.prompt)}
-              aria-label={t('feature.copyPromptAria')}
+              aria-label={t("feature.copyPromptAria")}
             >
-              {t('feature.copyPrompt')}
+              {t("feature.copyPrompt")}
             </Button>
           )}
         </div>

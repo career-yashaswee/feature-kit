@@ -1,49 +1,61 @@
-'use client'
+"use client";
 
-import { useQuery } from '@tanstack/react-query'
-import { getSupabaseClient } from '@/lib/supabase/client'
-import type { Feature } from '@/lib/supabase/types'
+import { useQuery } from "@tanstack/react-query";
+import { getSupabaseClient } from "@/lib/supabase/client";
+import type { Feature } from "@/lib/supabase/types";
 
-async function fetchFeature(kitSlug: string, featureSlug: string): Promise<Feature> {
+async function fetchFeature(
+  kitSlug: string,
+  featureSlug: string,
+): Promise<Feature> {
   // First get the kit
   const { data: kitData, error: kitError } = await getSupabaseClient()
-    .from('kits')
-    .select('id')
-    .eq('slug', kitSlug)
-    .single()
+    .from("kits")
+    .select("id")
+    .eq("slug", kitSlug)
+    .single();
 
-  if (kitError) throw kitError
+  if (kitError) throw kitError;
   if (!kitData) {
-    throw new Error('Kit not found')
+    throw new Error("Kit not found");
   }
 
   // Then get the feature
   const { data, error } = await getSupabaseClient()
-    .from('features')
-    .select(`
+    .from("features")
+    .select(
+      `
       *,
       kit:kits(*),
       tags:feature_tags(
         tag:tags(*)
       )
-    `)
-    .eq('kit_id', kitData.id)
-    .eq('slug', featureSlug)
-    .single()
+    `,
+    )
+    .eq("kit_id", kitData.id)
+    .eq("slug", featureSlug)
+    .single();
 
-  if (error) throw error
+  if (error) throw error;
+
+  type FeatureTagWithTag = {
+    tag: { id: string; name: string; slug: string; created_at: string } | null;
+  };
 
   return {
     ...data,
     kit: data.kit,
-    tags: data.tags?.map((ft: any) => ft.tag).filter(Boolean) || [],
-  }
+    tags:
+      data.tags
+        ?.map((ft: FeatureTagWithTag) => ft.tag)
+        .filter(Boolean) || [],
+  };
 }
 
 export function useFeature(kitSlug: string, featureSlug: string) {
   return useQuery({
-    queryKey: ['feature', kitSlug, featureSlug],
+    queryKey: ["feature", kitSlug, featureSlug],
     queryFn: () => fetchFeature(kitSlug, featureSlug),
     enabled: !!kitSlug && !!featureSlug,
-  })
+  });
 }

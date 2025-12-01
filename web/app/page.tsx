@@ -1,36 +1,40 @@
-'use client'
+"use client";
 
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useFeatures } from '@/features/features/hooks/use-features'
-import { useKits } from '@/features/kits/hooks/use-kits'
-import { useSearch } from '@/features/search/hooks/use-search'
-import { Input } from '@/components/ui/input'
-import { FeatureCard } from '@/features/features/components/feature-card'
-import { KitCard } from '@/features/kits/components/kit-card'
-import { FeatureCardSkeleton, KitCardSkeleton } from '@/components/common/loading-skeleton'
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useFeatures } from "@/features/features/hooks/use-features";
+import { useKits } from "@/features/kits/hooks/use-kits";
+import { useSearch } from "@/features/search/hooks/use-search";
+import { Input } from "@/components/ui/input";
+import { FeatureCard } from "@/features/features/components/feature-card";
+import { KitCard } from "@/features/kits/components/kit-card";
+import {
+  FeatureCardSkeleton,
+  KitCardSkeleton,
+} from "@/components/common/loading-skeleton";
 
 export default function HomePage() {
-  const { t } = useTranslation()
-  const { data: features = [], isLoading: featuresLoading } = useFeatures()
-  const { data: kits = [], isLoading: kitsLoading } = useKits()
-  const { searchQuery, setSearchQuery, filteredFeatures } = useSearch(features)
+  const { t } = useTranslation();
+  const { data: features = [], isLoading: featuresLoading } = useFeatures();
+  const { data: kits = [], isLoading: kitsLoading } = useKits();
+  const { searchQuery, setSearchQuery, filteredFeatures } = useSearch(features);
 
   const kitFeatureCounts = useMemo(() => {
-    if (featuresLoading || kitsLoading) return {}
-    return kits.reduce((acc, kit) => {
-      acc[kit.id] = features.filter((f) => f.kit_id === kit.id).length
-      return acc
-    }, {} as Record<string, number>)
-  }, [kits, features, featuresLoading, kitsLoading])
+    if (featuresLoading || kitsLoading) return {};
+    return kits.reduce(
+      (acc, kit) => {
+        acc[kit.id] = features.filter((f) => f.kit_id === kit.id).length;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+  }, [kits, features, featuresLoading, kitsLoading]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-4">{t("home.title")}</h1>
-        <p className="text-muted-foreground mb-6">
-          {t("home.subtitle")}
-        </p>
+        <p className="text-muted-foreground mb-6">{t("home.subtitle")}</p>
         <Input
           type="search"
           placeholder={t("home.searchPlaceholder")}
@@ -86,7 +90,9 @@ export default function HomePage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-4">{t("home.features")}</h2>
+            <h2 className="text-2xl font-semibold mb-4">
+              {t("home.features")}
+            </h2>
             {featuresLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
@@ -106,5 +112,5 @@ export default function HomePage() {
         </>
       )}
     </div>
-  )
+  );
 }

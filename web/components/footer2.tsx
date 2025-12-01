@@ -73,7 +73,9 @@ const Footer2 = ({
                     />
                   ) : (
                     <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-                      <span className="text-primary-foreground text-sm font-bold">FK</span>
+                      <span className="text-primary-foreground text-sm font-bold">
+                        FK
+                      </span>
                     </div>
                   )}
                   <LogoText className="text-xl">{logo.title}</LogoText>

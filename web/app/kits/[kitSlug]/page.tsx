@@ -1,21 +1,29 @@
-'use client'
+"use client";
 
-import { useTranslation } from 'react-i18next'
-import { useKitFeatures } from '@/features/kits/hooks/use-kit-features'
-import { FeatureCard } from '@/features/features/components/feature-card'
-import { useParams } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { FeatureCardSkeleton } from '@/components/common/loading-skeleton'
+import { useTranslation } from "react-i18next";
+import { useKitFeatures } from "@/features/kits/hooks/use-kit-features";
+import { FeatureCard } from "@/features/features/components/feature-card";
+import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { FeatureCardSkeleton } from "@/components/common/loading-skeleton";
 
 export default function KitPage() {
-  const { t } = useTranslation()
-  const params = useParams()
-  const kitSlug = typeof params.kitSlug === 'string' ? params.kitSlug : ''
-  
+  const { t } = useTranslation();
+  const params = useParams();
+  const kitSlug = typeof params.kitSlug === "string" ? params.kitSlug : "";
+  const {
+    data: features = [],
+    isLoading: loading,
+    error,
+    refetch,
+  } = useKitFeatures(kitSlug);
   if (!kitSlug) {
-    return <div className="container mx-auto px-4 py-8"><p>{t("feature.invalidRoute")}</p></div>
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <p>{t("feature.invalidRoute")}</p>
+      </div>
+    );
   }
-  const { data: features = [], isLoading: loading, error, refetch } = useKitFeatures(kitSlug)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -28,11 +36,7 @@ export default function KitPage() {
           <p className="text-muted-foreground mb-4">
             {error.message || t("kit.errorMessage")}
           </p>
-          <Button
-            onClick={() => refetch()}
-            variant="outline"
-            className="mt-2"
-          >
+          <Button onClick={() => refetch()} variant="outline" className="mt-2">
             {t("common.tryAgain")}
           </Button>
         </div>
@@ -52,6 +56,5 @@ export default function KitPage() {
         <p>{t("kit.noFeaturesAvailable")}</p>
       )}
     </div>
-  )
+  );
 }
-

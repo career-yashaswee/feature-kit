@@ -1,33 +1,38 @@
-'use client'
+"use client";
 
-import { ErrorBoundary } from 'react-error-boundary'
-import { Button } from '@/components/ui/button'
-import { useTranslation } from 'react-i18next'
-import { useMemo } from 'react'
+import { ErrorBoundary } from "react-error-boundary";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 const fallbackTranslations: Record<string, string> = {
-  'error.somethingWentWrong': 'Something went wrong',
-  'error.unexpectedError': 'An unexpected error occurred',
-  'common.tryAgain': 'Try Again',
-}
+  "error.somethingWentWrong": "Something went wrong",
+  "error.unexpectedError": "An unexpected error occurred",
+  "common.tryAgain": "Try Again",
+};
 
-function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
-  const translation = useTranslation()
-  
-  const t = useMemo(() => {
-    if (translation?.t && typeof translation.t === 'function') {
-      return (key: string) => {
-        try {
-          const translated = translation.t(key)
-          return translated !== key ? translated : (fallbackTranslations[key] || key)
-        } catch {
-          return fallbackTranslations[key] || key
-        }
+function ErrorFallback({
+  error,
+  resetErrorBoundary,
+}: {
+  error: Error;
+  resetErrorBoundary: () => void;
+}) {
+  const translation = useTranslation();
+
+  const t = (key: string) => {
+    if (translation?.t && typeof translation.t === "function") {
+      try {
+        const translated = translation.t(key);
+        return translated !== key
+          ? translated
+          : fallbackTranslations[key] || key;
+      } catch {
+        return fallbackTranslations[key] || key;
       }
     }
-    return (key: string) => fallbackTranslations[key] || key
-  }, [translation.t])
-  
+    return fallbackTranslations[key] || key;
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6 max-w-2xl mx-auto">
@@ -42,15 +47,11 @@ function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetError
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 export function AppErrorBoundary({ children }: { children: React.ReactNode }) {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      {children}
-    </ErrorBoundary>
-  )
+    <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
+  );
 }
-
-

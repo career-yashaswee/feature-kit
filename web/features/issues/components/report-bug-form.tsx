@@ -1,28 +1,28 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useReportBug } from '@/features/issues/hooks/use-report-bug'
-import { useTranslation } from 'react-i18next'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useReportBug } from "@/features/issues/hooks/use-report-bug";
+import { useTranslation } from "react-i18next";
 
 type ReportBugFormProps = {
-  featureId: string
-  onSuccess?: () => void
-}
+  featureId: string;
+  onSuccess?: () => void;
+};
 
-const MAX_ISSUE_TEXT_LENGTH = 2000
+const MAX_ISSUE_TEXT_LENGTH = 2000;
 
 export function ReportBugForm({ featureId, onSuccess }: ReportBugFormProps) {
-  const { t } = useTranslation()
-  const [issueText, setIssueText] = useState('')
-  const mutation = useReportBug()
+  const { t } = useTranslation();
+  const [issueText, setIssueText] = useState("");
+  const mutation = useReportBug();
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const trimmedText = issueText.trim()
-    if (!trimmedText) return
-    if (trimmedText.length > MAX_ISSUE_TEXT_LENGTH) return
+    e.preventDefault();
+    const trimmedText = issueText.trim();
+    if (!trimmedText) return;
+    if (trimmedText.length > MAX_ISSUE_TEXT_LENGTH) return;
 
     mutation.mutate(
       {
@@ -31,52 +31,54 @@ export function ReportBugForm({ featureId, onSuccess }: ReportBugFormProps) {
       },
       {
         onSuccess: () => {
-          setIssueText('')
-          onSuccess?.()
+          setIssueText("");
+          onSuccess?.();
         },
-      }
-    )
-  }
+      },
+    );
+  };
 
   const handleReset = () => {
-    mutation.reset()
-    setIssueText('')
-  }
+    mutation.reset();
+    setIssueText("");
+  };
 
   if (mutation.isSuccess) {
     return (
       <Card>
         <CardContent className="pt-6 space-y-4">
-          <p className="text-sm text-muted-foreground">{t('reportBug.success')}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("reportBug.success")}
+          </p>
           <Button onClick={handleReset} variant="outline">
-            {t('reportBug.reportAnother')}
+            {t("reportBug.reportAnother")}
           </Button>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('reportBug.title')}</CardTitle>
+        <CardTitle>{t("reportBug.title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="issue-text" className="sr-only">
-              {t('reportBug.issueTextLabel')}
+              {t("reportBug.issueTextLabel")}
             </label>
             <textarea
               id="issue-text"
               value={issueText}
               onChange={(e) => {
-                const value = e.target.value
+                const value = e.target.value;
                 if (value.length <= MAX_ISSUE_TEXT_LENGTH) {
-                  setIssueText(value)
+                  setIssueText(value);
                 }
               }}
-              placeholder={t('reportBug.placeholder')}
+              placeholder={t("reportBug.placeholder")}
               required
               maxLength={MAX_ISSUE_TEXT_LENGTH}
               rows={4}
@@ -86,15 +88,18 @@ export function ReportBugForm({ featureId, onSuccess }: ReportBugFormProps) {
               {issueText.length} / {MAX_ISSUE_TEXT_LENGTH}
             </div>
           </div>
-          <Button 
-            type="submit" 
-            disabled={mutation.isPending || !issueText.trim() || issueText.trim().length > MAX_ISSUE_TEXT_LENGTH}
+          <Button
+            type="submit"
+            disabled={
+              mutation.isPending ||
+              !issueText.trim() ||
+              issueText.trim().length > MAX_ISSUE_TEXT_LENGTH
+            }
           >
-            {mutation.isPending ? t('common.loading') : t('reportBug.submit')}
+            {mutation.isPending ? t("common.loading") : t("reportBug.submit")}
           </Button>
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }
-

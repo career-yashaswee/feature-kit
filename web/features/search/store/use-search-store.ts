@@ -1,12 +1,11 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 interface SearchState {
-  searchQuery: string
-  setSearchQuery: (query: string) => void
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
 export const useSearchStore = create<SearchState>((set) => ({
-  searchQuery: '',
+  searchQuery: "",
   setSearchQuery: (query: string) => set({ searchQuery: query }),
-}))
-
+}));

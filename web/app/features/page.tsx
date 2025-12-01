@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import { useTranslation } from 'react-i18next'
-import { useFeatures } from '@/features/features/hooks/use-features'
-import { FeatureCard } from '@/features/features/components/feature-card'
-import { FeatureCardSkeleton } from '@/components/common/loading-skeleton'
+import { useTranslation } from "react-i18next";
+import { useFeatures } from "@/features/features/hooks/use-features";
+import { FeatureCard } from "@/features/features/components/feature-card";
+import { FeatureCardSkeleton } from "@/components/common/loading-skeleton";
 
 export default function FeaturesPage() {
-  const { t } = useTranslation()
-  const { data: features = [], isLoading: loading } = useFeatures()
+  const { t } = useTranslation();
+  const { data: features = [], isLoading: loading } = useFeatures();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -28,6 +28,5 @@ export default function FeaturesPage() {
         <p>{t("home.noFeaturesAvailable")}</p>
       )}
     </div>
-  )
+  );
 }
-
