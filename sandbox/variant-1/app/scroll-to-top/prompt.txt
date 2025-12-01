@@ -1,0 +1,188 @@
+You are given a task to integrate a React component into your codebase.
+Please verify your project has the following setup:
+- Next.js project (App Router) or React project
+- shadcn/ui project structure (or compatible UI library with Button component)
+- Tailwind CSS
+- TypeScript
+- `@uidotdev/usehooks` package installed
+- `framer-motion` package installed
+- `clsx` and `tailwind-merge` packages installed (for cn utility)
+
+If any of these are missing, provide instructions on how to install them:
+- Install dependencies: `npm install @uidotdev/usehooks framer-motion clsx tailwind-merge`
+- If shadcn/ui is not set up, guide the user to install it via: `npx shadcn@latest init`
+- If Button component doesn't exist, install it via: `npx shadcn@latest add button`
+
+Determine the default path for components and utilities.
+- Components should go in /components folder
+- If /lib/utils.ts doesn't exist, create it with the cn utility function
+
+Check if /lib/utils.ts exists. If not, create it:
+
+File location: lib/utils.ts
+
+File content: import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+
+Copy-paste this component to /components folder:
+
+File location: components/scroll-to-top-button.tsx
+
+File content: "use client";
+
+import { type ReactNode, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useWindowScroll } from "@uidotdev/usehooks";
+
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface ScrollToTopButtonProps {
+  threshold?: number;
+  children?: ReactNode;
+  position?: "left" | "center" | "right";
+  className?: string;
+}
+
+export function ScrollToTopButton({
+  threshold = 300,
+  children,
+  position = "right",
+  className,
+}: ScrollToTopButtonProps) {
+  const [{ y }, scrollTo] = useWindowScroll();
+  const currentY = typeof y === "number" ? y : 0;
+  const isVisible = currentY > threshold;
+
+  const alignmentClass =
+    position === "left"
+      ? "left-6"
+      : position === "center"
+      ? "left-1/2 -translate-x-1/2"
+      : "right-6";
+
+  const handleClick = useCallback(() => {
+    scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  }, [scrollTo]);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 16, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 16, scale: 0.9 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className={cn("fixed bottom-6 z-40", alignmentClass)}
+        >
+          <Button
+            type="button"
+            size="icon"
+            aria-label="Scroll to top"
+            onClick={handleClick}
+            className={cn(
+              "rounded-full shadow-md bg-primary text-primary-foreground hover:bg-primary/90",
+              className
+            )}
+          >
+            {children ?? "Top"}
+          </Button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+
+Now, integrate this component into your page or layout:
+
+File location: app/page.tsx (or any page/layout where you want the button)
+
+Instructions:
+1. Import ScrollToTopButton from "@/components/scroll-to-top-button"
+2. Add the component at the end of your JSX, typically after all content
+3. The component is client-side only, so ensure the page has "use client" directive if needed
+
+Example integration:
+
+```tsx
+"use client"; // Only if the page isn't already a client component
+
+import { ScrollToTopButton } from "@/components/scroll-to-top-button";
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen">
+      {/* Your page content */}
+      <main>
+        {/* Long content that requires scrolling */}
+      </main>
+      
+      <ScrollToTopButton />
+    </div>
+  );
+}
+```
+
+Customization examples:
+
+Basic usage (default: appears after 300px scroll, positioned right):
+```tsx
+<ScrollToTopButton />
+```
+
+Custom threshold and position:
+```tsx
+<ScrollToTopButton threshold={500} position="center" />
+```
+
+With custom icon (requires lucide-react):
+```tsx
+import { ArrowUp } from "lucide-react";
+
+<ScrollToTopButton>
+  <ArrowUp className="w-4 h-4" />
+</ScrollToTopButton>
+```
+
+With custom styling:
+```tsx
+<ScrollToTopButton className="bg-blue-500 hover:bg-blue-600">
+  ↑
+</ScrollToTopButton>
+```
+
+Complete example with all options:
+```tsx
+import { ArrowUp } from "lucide-react";
+import { ScrollToTopButton } from "@/components/scroll-to-top-button";
+
+<ScrollToTopButton
+  threshold={400}
+  position="center"
+  className="bg-gradient-to-r from-purple-500 to-pink-500"
+>
+  <ArrowUp className="w-5 h-5" />
+</ScrollToTopButton>
+```
+
+Important notes:
+- The component automatically shows/hides based on scroll position
+- Uses native smooth scrolling behavior
+- Framer Motion handles the entrance/exit animations
+- Button appears fixed at bottom of viewport
+- Fully accessible with ARIA labels
+- Customizable threshold, position, content, and styling
+
+Testing:
+1. Navigate to a page with long content
+2. Scroll down at least 300px (or your custom threshold)
+3. Button should appear with smooth animation in bottom-right corner
+4. Click the button to smoothly scroll back to top
+5. Button should disappear when scrolled back to top
+
