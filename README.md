@@ -1,1 +1,1 @@
-# feature-kit
+# Feature Kit
