@@ -3,8 +3,8 @@
 import { useTranslation } from 'react-i18next'
 import { useKits } from '@/features/kits/hooks/use-kits'
 import { useFeatures } from '@/features/features/hooks/use-features'
-import { KitCard } from '@/components/kit-card'
-import { KitCardSkeleton } from '@/components/loading-skeleton'
+import { KitCard } from '@/features/kits/components/kit-card'
+import { KitCardSkeleton } from '@/components/common/loading-skeleton'
 
 export default function KitsPage() {
   const { t } = useTranslation()

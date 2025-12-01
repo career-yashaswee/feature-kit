@@ -2,10 +2,10 @@
 
 import { useTranslation } from 'react-i18next'
 import { useKitFeatures } from '@/features/kits/hooks/use-kit-features'
-import { FeatureCard } from '@/components/feature-card'
+import { FeatureCard } from '@/features/features/components/feature-card'
 import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { FeatureCardSkeleton } from '@/components/loading-skeleton'
+import { FeatureCardSkeleton } from '@/components/common/loading-skeleton'
 
 export default function KitPage() {
   const { t } = useTranslation()

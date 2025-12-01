@@ -2,8 +2,8 @@
 
 import { useTranslation } from 'react-i18next'
 import { useFeatures } from '@/features/features/hooks/use-features'
-import { FeatureCard } from '@/components/feature-card'
-import { FeatureCardSkeleton } from '@/components/loading-skeleton'
+import { FeatureCard } from '@/features/features/components/feature-card'
+import { FeatureCardSkeleton } from '@/components/common/loading-skeleton'
 
 export default function FeaturesPage() {
   const { t } = useTranslation()

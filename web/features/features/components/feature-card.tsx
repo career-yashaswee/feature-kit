@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Feature } from "@/lib/supabase/types";
-import { TierTag } from "@/components/tier-tag";
+import { TierTag } from "@/features/features/components/tier-tag";
 
 type FeatureCardProps = {
   feature: Feature;

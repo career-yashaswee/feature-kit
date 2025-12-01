@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/header";
+import { Header } from "@/components/common/header";
 import { QueryProvider } from "@/lib/providers/query-provider";
-import { AppErrorBoundary } from "@/components/error-boundary";
+import { AppErrorBoundary } from "@/components/common/error-boundary";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { I18nProvider } from "@/lib/providers/i18n-provider";
 import { Toaster } from "sonner";
+import { Footer2 } from "@/components/common/footer2";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,10 @@ export default function RootLayout({
             <QueryProvider>
               <AppErrorBoundary>
                 <Header />
-                {children}
+                <main className="min-h-screen">{children}</main>
+
+                <Footer2 />
+
                 <Toaster richColors />
               </AppErrorBoundary>
             </QueryProvider>

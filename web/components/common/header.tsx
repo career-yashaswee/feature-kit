@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import { LanguageSwitcher } from "@/components/language-switcher";
+import { LanguageSwitcher } from "@/components/common/language-switcher";
 import { useTranslation } from "react-i18next";
 import { useKits } from "@/features/kits/hooks/use-kits";
 import { useFeatures } from "@/features/features/hooks/use-features";

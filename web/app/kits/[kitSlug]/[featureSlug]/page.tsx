@@ -12,10 +12,10 @@ import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import getYouTubeId from "get-youtube-id";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { FeaturePageSkeleton } from "@/components/loading-skeleton";
+import { FeaturePageSkeleton } from "@/components/common/loading-skeleton";
 import { useTranslation } from "react-i18next";
-import { TierTag } from "@/components/tier-tag";
-import { ReportBugForm } from "@/components/report-bug-form";
+import { TierTag } from "@/features/features/components/tier-tag";
+import { ReportBugForm } from "@/features/issues/components/report-bug-form";
 import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
 import { ExternalLink } from "lucide-react";
 
