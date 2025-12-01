@@ -60,6 +60,20 @@
     "features": "features",
     "available": "available",
     "imageError": "Image not available"
+  },
+  "tier": {
+    "free": "Free",
+    "plus": "Plus",
+    "ariaLabel": "Tier: {{tier}}"
+  },
+  "reportBug": {
+    "button": "Report Bug",
+    "buttonAria": "Report a bug for this feature",
+    "title": "Report a Bug",
+    "issueTextLabel": "Issue description",
+    "placeholder": "Describe the issue you encountered...",
+    "submit": "Submit Report",
+    "success": "Thank you for reporting this bug. We'll look into it."
   }
 }
 

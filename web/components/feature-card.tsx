@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Feature } from "@/lib/supabase/types";
+import { TierTag } from "@/components/tier-tag";
 
 type FeatureCardProps = {
   feature: Feature;
@@ -21,13 +22,16 @@ export function FeatureCard({ feature }: FeatureCardProps) {
     >
       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full" role="article">
         <CardHeader>
-          <div className="flex items-start justify-between">
-            <CardTitle>{feature.name}</CardTitle>
-            {feature.kit && (
-              <Badge variant="secondary" aria-label={`Kit: ${feature.kit.name}`}>
-                {feature.kit.name}
-              </Badge>
-            )}
+          <div className="flex items-start justify-between gap-2">
+            <CardTitle className="flex-1">{feature.name}</CardTitle>
+            <div className="flex items-center gap-2 shrink-0">
+              <TierTag tier={feature.tier} />
+              {feature.kit && (
+                <Badge variant="secondary" aria-label={`Kit: ${feature.kit.name}`}>
+                  {feature.kit.name}
+                </Badge>
+              )}
+            </div>
           </div>
           {feature.description && (
             <CardDescription>{feature.description}</CardDescription>

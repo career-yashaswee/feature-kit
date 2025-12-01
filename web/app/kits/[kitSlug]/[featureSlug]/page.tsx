@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useFeature } from '@/features/features/hooks/use-feature'
 import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -13,6 +14,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { FeaturePageSkeleton } from '@/components/loading-skeleton'
 import { useTranslation } from 'react-i18next'
+import { TierTag } from '@/components/tier-tag'
+import { ReportBugForm } from '@/components/report-bug-form'
 
 export default function FeaturePage() {
   const params = useParams()
@@ -30,6 +33,7 @@ export default function FeaturePage() {
   }
   const { data: feature, isLoading: loading, error } = useFeature(kitSlug, featureSlug)
   const [copied, copy] = useCopyToClipboard()
+  const [showReportBug, setShowReportBug] = useState(false)
 
   const handleCopyCode = () => {
     if (feature?.code) {
@@ -51,10 +55,17 @@ export default function FeaturePage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-4xl font-bold mb-4">{feature.name}</h1>
-      {feature.description && (
-        <p className="text-muted-foreground mb-8">{feature.description}</p>
-      )}
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-4xl font-bold">{feature.name}</h1>
+            <TierTag tier={feature.tier} />
+          </div>
+          {feature.description && (
+            <p className="text-muted-foreground mb-8">{feature.description}</p>
+          )}
+        </div>
+      </div>
 
       {feature.youtube_video_url && (() => {
         const videoId = getYouTubeId(feature.youtube_video_url)
@@ -98,13 +109,30 @@ export default function FeaturePage() {
         </div>
       </div>
 
-      <div>
+      <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">{t("feature.documentation")}</h2>
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {feature.markdown_content}
           </ReactMarkdown>
         </div>
+      </div>
+
+      <div className="mb-8">
+        {!showReportBug ? (
+          <Button
+            variant="outline"
+            onClick={() => setShowReportBug(true)}
+            aria-label={t("reportBug.buttonAria")}
+          >
+            {t("reportBug.button")}
+          </Button>
+        ) : (
+          <ReportBugForm
+            featureId={feature.id}
+            onSuccess={() => setShowReportBug(false)}
+          />
+        )}
       </div>
     </div>
   )

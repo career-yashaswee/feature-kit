@@ -60,6 +60,20 @@
     "features": "características",
     "available": "disponible",
     "imageError": "Imagen no disponible"
+  },
+  "tier": {
+    "free": "Gratis",
+    "plus": "Plus",
+    "ariaLabel": "Nivel: {{tier}}"
+  },
+  "reportBug": {
+    "button": "Reportar Error",
+    "buttonAria": "Reportar un error para esta característica",
+    "title": "Reportar un Error",
+    "issueTextLabel": "Descripción del problema",
+    "placeholder": "Describe el problema que encontraste...",
+    "submit": "Enviar Reporte",
+    "success": "Gracias por reportar este error. Lo revisaremos."
   }
 }
 
