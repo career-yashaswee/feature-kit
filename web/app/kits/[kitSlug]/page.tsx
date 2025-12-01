@@ -4,7 +4,6 @@ import { useKitFeatures } from '@/features/kits/hooks/use-kit-features'
 import { FeatureCard } from '@/components/feature-card'
 import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { useEffect } from 'react'
 
 export default function KitPage() {
   const params = useParams()
@@ -13,21 +12,7 @@ export default function KitPage() {
   if (!kitSlug) {
     return <div className="container mx-auto px-4 py-8"><p>Invalid kit</p></div>
   }
-  const { features, loading, error, refetch } = useKitFeatures(kitSlug)
-
-  useEffect(() => {
-    if (error) {
-      console.error('Error loading kit features:', error)
-      if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
-        console.error('Kit slug:', kitSlug)
-        console.error('Error details:', {
-          message: error.message,
-          stack: error.stack,
-          name: error.name,
-        })
-      }
-    }
-  }, [error, kitSlug])
+  const { data: features = [], isLoading: loading, error, refetch } = useKitFeatures(kitSlug)
 
   return (
     <div className="container mx-auto px-4 py-8">

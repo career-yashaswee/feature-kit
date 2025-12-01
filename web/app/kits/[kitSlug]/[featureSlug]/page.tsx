@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm'
 import { useCopyToClipboard } from '@uidotdev/usehooks'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed'
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
+import getYouTubeId from 'get-youtube-id'
 
 export default function FeaturePage() {
   const params = useParams()
@@ -21,7 +22,7 @@ export default function FeaturePage() {
       </div>
     )
   }
-  const { feature, loading, error } = useFeature(kitSlug, featureSlug)
+  const { data: feature, isLoading: loading, error } = useFeature(kitSlug, featureSlug)
   const [copied, copy] = useCopyToClipboard()
 
   const handleCopyCode = () => {
@@ -54,31 +55,7 @@ export default function FeaturePage() {
       )}
 
       {feature.youtube_video_url && (() => {
-        // Extract video ID from various YouTube URL formats
-        const getVideoId = (url: string): string | null => {
-          if (!url) return null
-          
-          // Already a video ID
-          if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
-            return url
-          }
-          
-          // Extract from embed URL: https://www.youtube.com/embed/VIDEO_ID
-          const embedMatch = url.match(/youtube\.com\/embed\/([^?&]+)/)
-          if (embedMatch) return embedMatch[1]
-          
-          // Extract from watch URL: https://www.youtube.com/watch?v=VIDEO_ID
-          const watchMatch = url.match(/youtube\.com\/watch\?v=([^&]+)/)
-          if (watchMatch) return watchMatch[1]
-          
-          // Extract from short URL: https://youtu.be/VIDEO_ID
-          const shortMatch = url.match(/youtu\.be\/([^?&]+)/)
-          if (shortMatch) return shortMatch[1]
-          
-          return null
-        }
-
-        const videoId = getVideoId(feature.youtube_video_url)
+        const videoId = getYouTubeId(feature.youtube_video_url)
         
         if (!videoId) return null
 

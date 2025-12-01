@@ -5,8 +5,8 @@ import { useFeatures } from '@/features/features/hooks/use-features'
 import { KitCard } from '@/components/kit-card'
 
 export default function KitsPage() {
-  const { kits, loading: kitsLoading } = useKits()
-  const { features, loading: featuresLoading } = useFeatures()
+  const { data: kits = [], isLoading: kitsLoading } = useKits()
+  const { data: features = [], isLoading: featuresLoading } = useFeatures()
   const loading = kitsLoading || featuresLoading
 
   // Count features per kit

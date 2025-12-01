@@ -1,79 +1,49 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { getSupabaseClient } from '@/lib/supabase/client'
 import type { Feature } from '@/lib/supabase/types'
 
-export function useFeature(kitSlug: string, featureSlug: string) {
-  const [feature, setFeature] = useState<Feature | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-  const isMountedRef = useRef(true)
+async function fetchFeature(kitSlug: string, featureSlug: string): Promise<Feature> {
+  // First get the kit
+  const { data: kitData, error: kitError } = await getSupabaseClient()
+    .from('kits')
+    .select('id')
+    .eq('slug', kitSlug)
+    .single()
 
-  useEffect(() => {
-    isMountedRef.current = true
+  if (kitError) throw kitError
+  if (!kitData) {
+    throw new Error('Kit not found')
+  }
 
-    async function fetchFeature() {
-      try {
-        // First get the kit
-        const { data: kitData, error: kitError } = await getSupabaseClient()
-          .from('kits')
-          .select('id')
-          .eq('slug', kitSlug)
-          .single()
+  // Then get the feature
+  const { data, error } = await getSupabaseClient()
+    .from('features')
+    .select(`
+      *,
+      kit:kits(*),
+      tags:feature_tags(
+        tag:tags(*)
+      )
+    `)
+    .eq('kit_id', kitData.id)
+    .eq('slug', featureSlug)
+    .single()
 
-        if (!isMountedRef.current) return
+  if (error) throw error
 
-        if (kitError) throw kitError
-        if (!kitData) {
-          throw new Error('Kit not found')
-        }
-
-        // Then get the feature
-        const { data, error } = await getSupabaseClient()
-          .from('features')
-          .select(`
-            *,
-            kit:kits(*),
-            tags:feature_tags(
-              tag:tags(*)
-            )
-          `)
-          .eq('kit_id', kitData.id)
-          .eq('slug', featureSlug)
-          .single()
-
-        if (!isMountedRef.current) return
-
-        if (error) throw error
-
-        const formattedFeature = {
-          ...data,
-          kit: data.kit,
-          tags: data.tags?.map((ft: any) => ft.tag).filter(Boolean) || [],
-        }
-
-        if (isMountedRef.current) {
-          setFeature(formattedFeature)
-        }
-      } catch (err) {
-        if (isMountedRef.current) {
-          setError(err as Error)
-        }
-      } finally {
-        if (isMountedRef.current) {
-          setLoading(false)
-        }
-      }
-    }
-
-    fetchFeature()
-
-    return () => {
-      isMountedRef.current = false
-    }
-  }, [kitSlug, featureSlug])
-
-  return { feature, loading, error }
+  return {
+    ...data,
+    kit: data.kit,
+    tags: data.tags?.map((ft: any) => ft.tag).filter(Boolean) || [],
+  }
 }
 
+export function useFeature(kitSlug: string, featureSlug: string) {
+  return useQuery({
+    queryKey: ['feature', kitSlug, featureSlug],
+    queryFn: () => fetchFeature(kitSlug, featureSlug),
+    enabled: !!kitSlug && !!featureSlug,
+  })
+}

@@ -4,7 +4,7 @@ import { useFeatures } from '@/features/features/hooks/use-features'
 import { FeatureCard } from '@/components/feature-card'
 
 export default function FeaturesPage() {
-  const { features, loading } = useFeatures()
+  const { data: features = [], isLoading: loading } = useFeatures()
 
   return (
     <div className="container mx-auto px-4 py-8">

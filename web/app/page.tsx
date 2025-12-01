@@ -9,8 +9,8 @@ import { FeatureCard } from '@/components/feature-card'
 import { KitCard } from '@/components/kit-card'
 
 export default function HomePage() {
-  const { features, loading: featuresLoading } = useFeatures()
-  const { kits, loading: kitsLoading } = useKits()
+  const { data: features = [], isLoading: featuresLoading } = useFeatures()
+  const { data: kits = [], isLoading: kitsLoading } = useKits()
   const { searchQuery, setSearchQuery, filteredFeatures } = useSearch(features)
 
   const kitFeatureCounts = useMemo(() => {
