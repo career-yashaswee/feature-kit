@@ -5,20 +5,28 @@ import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { useState } from 'react'
+import { useCopyToClipboard } from '@uidotdev/usehooks'
+import LiteYouTubeEmbed from 'react-lite-youtube-embed'
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 export default function FeaturePage() {
   const params = useParams()
-  const kitSlug = params.kitSlug as string
-  const featureSlug = params.featureSlug as string
+  const kitSlug = typeof params.kitSlug === 'string' ? params.kitSlug : ''
+  const featureSlug = typeof params.featureSlug === 'string' ? params.featureSlug : ''
+  
+  if (!kitSlug || !featureSlug) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <p>Invalid route parameters</p>
+      </div>
+    )
+  }
   const { feature, loading, error } = useFeature(kitSlug, featureSlug)
-  const [copied, setCopied] = useState(false)
+  const [copied, copy] = useCopyToClipboard()
 
-  const handleCopyCode = async () => {
+  const handleCopyCode = () => {
     if (feature?.code) {
-      await navigator.clipboard.writeText(feature.code)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      copy(feature.code)
     }
   }
 
@@ -46,31 +54,41 @@ export default function FeaturePage() {
       )}
 
       {feature.youtube_video_url && (() => {
-        // Convert YouTube URL to embed format
-        const getEmbedUrl = (url: string) => {
-          if (url.includes('embed/')) return url
-          if (url.includes('watch?v=')) {
-            const videoId = url.split('watch?v=')[1].split('&')[0]
-            return `https://www.youtube.com/embed/${videoId}`
+        // Extract video ID from various YouTube URL formats
+        const getVideoId = (url: string): string | null => {
+          if (!url) return null
+          
+          // Already a video ID
+          if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
+            return url
           }
-          if (url.includes('youtu.be/')) {
-            const videoId = url.split('youtu.be/')[1].split('?')[0]
-            return `https://www.youtube.com/embed/${videoId}`
-          }
-          return url
+          
+          // Extract from embed URL: https://www.youtube.com/embed/VIDEO_ID
+          const embedMatch = url.match(/youtube\.com\/embed\/([^?&]+)/)
+          if (embedMatch) return embedMatch[1]
+          
+          // Extract from watch URL: https://www.youtube.com/watch?v=VIDEO_ID
+          const watchMatch = url.match(/youtube\.com\/watch\?v=([^&]+)/)
+          if (watchMatch) return watchMatch[1]
+          
+          // Extract from short URL: https://youtu.be/VIDEO_ID
+          const shortMatch = url.match(/youtu\.be\/([^?&]+)/)
+          if (shortMatch) return shortMatch[1]
+          
+          return null
         }
+
+        const videoId = getVideoId(feature.youtube_video_url)
+        
+        if (!videoId) return null
 
         return (
           <div className="mb-8">
-            <div className="aspect-video w-full rounded-lg overflow-hidden">
-              <iframe
-                src={getEmbedUrl(feature.youtube_video_url)}
-                title={feature.name}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            <LiteYouTubeEmbed
+              id={videoId}
+              title={feature.name}
+              wrapperClass="yt-lite rounded-lg"
+            />
           </div>
         )
       })()}

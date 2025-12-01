@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { getSupabaseClient } from '@/lib/supabase/client'
 import type { Feature } from '@/lib/supabase/types'
 
@@ -8,8 +8,11 @@ export function useFeature(kitSlug: string, featureSlug: string) {
   const [feature, setFeature] = useState<Feature | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
+  const isMountedRef = useRef(true)
 
   useEffect(() => {
+    isMountedRef.current = true
+
     async function fetchFeature() {
       try {
         // First get the kit
@@ -18,6 +21,8 @@ export function useFeature(kitSlug: string, featureSlug: string) {
           .select('id')
           .eq('slug', kitSlug)
           .single()
+
+        if (!isMountedRef.current) return
 
         if (kitError) throw kitError
         if (!kitData) {
@@ -38,6 +43,8 @@ export function useFeature(kitSlug: string, featureSlug: string) {
           .eq('slug', featureSlug)
           .single()
 
+        if (!isMountedRef.current) return
+
         if (error) throw error
 
         const formattedFeature = {
@@ -46,15 +53,25 @@ export function useFeature(kitSlug: string, featureSlug: string) {
           tags: data.tags?.map((ft: any) => ft.tag).filter(Boolean) || [],
         }
 
-        setFeature(formattedFeature)
+        if (isMountedRef.current) {
+          setFeature(formattedFeature)
+        }
       } catch (err) {
-        setError(err as Error)
+        if (isMountedRef.current) {
+          setError(err as Error)
+        }
       } finally {
-        setLoading(false)
+        if (isMountedRef.current) {
+          setLoading(false)
+        }
       }
     }
 
     fetchFeature()
+
+    return () => {
+      isMountedRef.current = false
+    }
   }, [kitSlug, featureSlug])
 
   return { feature, loading, error }

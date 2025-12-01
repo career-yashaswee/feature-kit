@@ -11,10 +11,10 @@ export function useSearch(features: Feature[]) {
 
     const query = searchQuery.toLowerCase()
     return features.filter((feature) => {
-      const nameMatch = feature.name.toLowerCase().includes(query)
-      const descriptionMatch = feature.description?.toLowerCase().includes(query)
-      const tagMatch = feature.tags?.some((tag) => tag.name.toLowerCase().includes(query))
-      const kitMatch = feature.kit?.name.toLowerCase().includes(query)
+      const nameMatch = (feature.name?.toLowerCase() ?? '').includes(query)
+      const descriptionMatch = (feature.description?.toLowerCase() ?? '').includes(query)
+      const tagMatch = feature.tags?.some((tag) => (tag.name?.toLowerCase() ?? '').includes(query))
+      const kitMatch = (feature.kit?.name?.toLowerCase() ?? '').includes(query)
 
       return nameMatch || descriptionMatch || tagMatch || kitMatch
     })

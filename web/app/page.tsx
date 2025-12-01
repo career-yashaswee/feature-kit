@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { useFeatures } from '@/features/features/hooks/use-features'
 import { useKits } from '@/features/kits/hooks/use-kits'
 import { useSearch } from '@/features/search/hooks/use-search'
@@ -12,11 +13,13 @@ export default function HomePage() {
   const { kits, loading: kitsLoading } = useKits()
   const { searchQuery, setSearchQuery, filteredFeatures } = useSearch(features)
 
-  // Count features per kit
-  const kitFeatureCounts = kits.reduce((acc, kit) => {
-    acc[kit.id] = features.filter((f) => f.kit_id === kit.id).length
-    return acc
-  }, {} as Record<string, number>)
+  const kitFeatureCounts = useMemo(() => {
+    if (featuresLoading || kitsLoading) return {}
+    return kits.reduce((acc, kit) => {
+      acc[kit.id] = features.filter((f) => f.kit_id === kit.id).length
+      return acc
+    }, {} as Record<string, number>)
+  }, [kits, features, featuresLoading, kitsLoading])
 
   return (
     <div className="container mx-auto px-4 py-8">

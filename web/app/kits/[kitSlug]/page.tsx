@@ -3,16 +3,52 @@
 import { useKitFeatures } from '@/features/kits/hooks/use-kit-features'
 import { FeatureCard } from '@/components/feature-card'
 import { useParams } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { useEffect } from 'react'
 
 export default function KitPage() {
   const params = useParams()
-  const kitSlug = params.kitSlug as string
-  const { features, loading } = useKitFeatures(kitSlug)
+  const kitSlug = typeof params.kitSlug === 'string' ? params.kitSlug : ''
+  
+  if (!kitSlug) {
+    return <div className="container mx-auto px-4 py-8"><p>Invalid kit</p></div>
+  }
+  const { features, loading, error, refetch } = useKitFeatures(kitSlug)
+
+  useEffect(() => {
+    if (error) {
+      console.error('Error loading kit features:', error)
+      if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
+        console.error('Kit slug:', kitSlug)
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack,
+          name: error.name,
+        })
+      }
+    }
+  }, [error, kitSlug])
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">Features</h1>
-      {loading ? (
+      {error ? (
+        <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-6">
+          <h2 className="text-lg font-semibold text-destructive mb-2">
+            Unable to load features
+          </h2>
+          <p className="text-muted-foreground mb-4">
+            {error.message || 'An unexpected error occurred while loading features. Please try again.'}
+          </p>
+          <Button
+            onClick={() => refetch()}
+            variant="outline"
+            className="mt-2"
+          >
+            Try Again
+          </Button>
+        </div>
+      ) : loading ? (
         <p>Loading...</p>
       ) : features.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

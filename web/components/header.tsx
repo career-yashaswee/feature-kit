@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function Header() {
   return (
@@ -9,18 +9,19 @@ export function Header() {
           Feature Kit
         </Link>
         <nav className="flex gap-4">
-          <Link href="/">
-            <Button variant="ghost">Home</Button>
-          </Link>
-          <Link href="/kits">
-            <Button variant="ghost">Kits</Button>
-          </Link>
-          <Link href="/features">
-            <Button variant="ghost">Features</Button>
-          </Link>
+          <nav className="flex gap-4">
+            <Button variant="ghost" asChild>
+              <Link href="/">Home</Link>
+            </Button>
+            <Button variant="ghost" asChild>
+              <Link href="/kits">Kits</Link>
+            </Button>
+            <Button variant="ghost" asChild>
+              <Link href="/features">Features</Link>
+            </Button>
+          </nav>
         </nav>
       </div>
     </header>
-  )
+  );
 }
-

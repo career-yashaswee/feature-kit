@@ -10,6 +10,8 @@ export function useKits() {
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
+    let isMounted = true
+
     async function fetchKits() {
       try {
         const { data, error } = await getSupabaseClient()
@@ -18,15 +20,25 @@ export function useKits() {
           .order('name', { ascending: true })
 
         if (error) throw error
-        setKits(data || [])
+        if (isMounted) {
+          setKits(data || [])
+        }
       } catch (err) {
-        setError(err as Error)
+        if (isMounted) {
+          setError(err as Error)
+        }
       } finally {
-        setLoading(false)
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
 
     fetchKits()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return { kits, loading, error }

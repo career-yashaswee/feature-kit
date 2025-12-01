@@ -28,15 +28,22 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+const CardTitle = React.forwardRef<
+  HTMLElement,
+  React.ComponentPropsWithoutRef<"h3"> & {
+    as?: React.ElementType
+  }
+>(({ className, as: Component = "h3", ...props }, ref) => {
   return (
-    <div
+    <Component
+      ref={ref}
       data-slot="card-title"
       className={cn("leading-none font-semibold", className)}
       {...props}
     />
   )
-}
+})
+CardTitle.displayName = "CardTitle"
 
 function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (

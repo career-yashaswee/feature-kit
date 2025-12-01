@@ -1,11 +1,17 @@
-import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import type { Feature } from '@/lib/supabase/types'
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import type { Feature } from "@/lib/supabase/types";
 
 type FeatureCardProps = {
-  feature: Feature
-}
+  feature: Feature;
+};
 
 export function FeatureCard({ feature }: FeatureCardProps) {
   return (
@@ -35,6 +41,5 @@ export function FeatureCard({ feature }: FeatureCardProps) {
         </CardContent>
       </Card>
     </Link>
-  )
+  );
 }
-
