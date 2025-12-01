@@ -31,14 +31,31 @@ export function Tabs({
   const value = controlledValue ?? internalValue;
   const handleValueChange = React.useCallback(
     (newValue: string) => {
-      if (onValueChange) {
-        onValueChange(newValue);
-      } else {
+      if (controlledValue === undefined) {
         setInternalValue(newValue);
       }
+      if (onValueChange) {
+        onValueChange(newValue);
+      }
     },
-    [onValueChange],
+    [controlledValue, onValueChange],
   );
+
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      if (controlledValue !== undefined && !onValueChange) {
+        console.warn(
+          "Tabs: `value` prop is provided without `onValueChange`. This will render the component read-only.",
+        );
+      }
+
+      if (controlledValue !== undefined && defaultValue !== undefined) {
+        console.warn(
+          "Tabs: Both `value` and `defaultValue` props are provided. `defaultValue` will be ignored in controlled mode.",
+        );
+      }
+    }
+  }, [controlledValue, defaultValue, onValueChange]);
 
   return (
     <TabsContext.Provider value={{ value, onValueChange: handleValueChange }}>

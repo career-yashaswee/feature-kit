@@ -21,6 +21,7 @@ import { ReportBugForm } from "@/features/issues/components/report-bug-form";
 import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
 import { Bug, Copy, ExternalLink, X } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export default function FeaturePage() {
   const params = useParams();
@@ -284,29 +285,23 @@ export default function FeaturePage() {
         </div>
       </div>
 
-      {showReportBug && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="report-bug-dialog-title"
-            className="w-full max-w-lg rounded-lg border bg-background shadow-lg"
-          >
+      <Dialog.Root open={showReportBug} onOpenChange={setShowReportBug}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" />
+          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <div className="flex items-center justify-between border-b px-6 py-4">
-              <h2
-                id="report-bug-dialog-title"
-                className="text-lg font-semibold"
-              >
+              <Dialog.Title className="text-lg font-semibold">
                 {t("reportBug.title")}
-              </h2>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setShowReportBug(false)}
-                aria-label={t("common.close")}
-              >
-                <X className="h-4 w-4" />
-              </Button>
+              </Dialog.Title>
+              <Dialog.Close asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label={t("common.close")}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </Dialog.Close>
             </div>
             <div className="p-6">
               <ReportBugForm
@@ -314,9 +309,9 @@ export default function FeaturePage() {
                 onSuccess={() => setShowReportBug(false)}
               />
             </div>
-          </div>
-        </div>
-      )}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   );
 }
