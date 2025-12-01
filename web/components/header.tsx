@@ -10,10 +10,12 @@ import { useKits } from "@/features/kits/hooks/use-kits";
 import { useFeatures } from "@/features/features/hooks/use-features";
 import { useProjects } from "@/features/showcases/hooks/use-projects";
 import { useFavoritesStore } from "@/features/favorites/store/use-favorites-store";
-import { Github, Twitter } from "lucide-react";
+import { Github, Twitter, Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function Header() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { data: kits = [] } = useKits();
   const { data: features = [] } = useFeatures();
   const { data: projects = [] } = useProjects();
@@ -124,6 +126,15 @@ export function Header() {
               </a>
             </Button>
             <div className="h-6 w-px bg-border" />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9"
+              onClick={() => router.push("/favorites")}
+              aria-label="Favorites"
+            >
+              <Heart className="h-4 w-4" />
+            </Button>
             <AnimatedThemeToggler className="h-9 w-9" />
             <LanguageSwitcher />
           </div>

@@ -8,12 +8,16 @@ import { LanguageSwitcher } from "@/components/common/language-switcher";
 import { useTranslation } from "react-i18next";
 import { useKits } from "@/features/kits/hooks/use-kits";
 import { useFeatures } from "@/features/features/hooks/use-features";
-import { Github, Twitter } from "lucide-react";
+import { useProjects } from "@/features/showcases/hooks/use-projects";
+import { Github, Twitter, Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function Header() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { data: kits = [] } = useKits();
   const { data: features = [] } = useFeatures();
+  const { data: projects = [] } = useProjects();
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -66,6 +70,21 @@ export function Header() {
                   </Badge>
                 </Link>
               </Button>
+              <Button variant="ghost" asChild className="h-9">
+                <Link
+                  href="/showcases"
+                  className="flex items-center gap-2"
+                  aria-label="Showcases"
+                >
+                  Showcases
+                  <Badge
+                    variant="secondary"
+                    className="h-5 min-w-5 px-1.5 text-xs"
+                  >
+                    {projects.length}
+                  </Badge>
+                </Link>
+              </Button>
             </nav>
           </div>
           <div className="flex items-center gap-2">
@@ -90,6 +109,15 @@ export function Header() {
               </a>
             </Button>
             <div className="h-6 w-px bg-border" />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9"
+              onClick={() => router.push("/favorites")}
+              aria-label="Favorites"
+            >
+              <Heart className="h-4 w-4" />
+            </Button>
             <AnimatedThemeToggler className="h-9 w-9" />
             <LanguageSwitcher />
           </div>

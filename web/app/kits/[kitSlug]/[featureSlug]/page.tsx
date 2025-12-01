@@ -19,7 +19,9 @@ import { useFeature } from "@/features/features/hooks/use-feature";
 import { TierTag } from "@/features/features/components/tier-tag";
 import { ReportBugForm } from "@/features/issues/components/report-bug-form";
 import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
-import { Bug, Copy, ExternalLink, X } from "lucide-react";
+import { useFavoritesStore } from "@/features/favorites/store/use-favorites-store";
+import { Bug, Copy, ExternalLink, X, Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import * as Dialog from "@radix-ui/react-dialog";
 
@@ -38,6 +40,7 @@ export default function FeaturePage() {
   const [showReportBug, setShowReportBug] = useState(false);
   const [activeTab, setActiveTab] = useState("code");
   const { copyPrompt } = useCopyPrompt();
+  const { toggleFavorite, isFavorite } = useFavoritesStore();
 
   const { t } = useTranslation();
 
@@ -204,6 +207,27 @@ export default function FeaturePage() {
           <Bug className="size-4 mr-2" />
           {t("reportBug.button")}
         </Button>
+        {feature && (
+          <Button
+            variant="outline"
+            onClick={() => toggleFavorite(feature.id)}
+            aria-label={
+              isFavorite(feature.id)
+                ? "Remove from favorites"
+                : "Add to favorites"
+            }
+          >
+            <Heart
+              className={cn(
+                "size-4 mr-2",
+                isFavorite(feature.id)
+                  ? "fill-red-500 text-red-500"
+                  : "",
+              )}
+            />
+            {isFavorite(feature.id) ? "Favorited" : "Favorite"}
+          </Button>
+        )}
       </div>
 
       <div className="mb-8">
