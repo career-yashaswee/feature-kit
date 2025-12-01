@@ -8,9 +8,9 @@ const AutoSaveForm = dynamic(
     import("@/features/auto-save-form/components/auto-save-form").then(
       (mod) => ({
         default: mod.AutoSaveForm,
-      }),
+      })
     ),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   Card,
@@ -22,13 +22,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-interface FormData {
+interface AutoSaveFormData extends Record<string, unknown> {
   title: string;
   description: string;
   email: string;
 }
 
-async function saveFormData(data: FormData, signal?: AbortSignal) {
+async function saveFormData(
+  data: Record<string, unknown>,
+  signal?: AbortSignal
+) {
   await new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       if (signal?.aborted) {
@@ -53,11 +56,11 @@ async function saveFormData(data: FormData, signal?: AbortSignal) {
   if (Math.random() > 0.9) {
     throw new Error("Failed to save");
   }
-  console.log("Saved:", data);
+  console.log("Saved:", data as AutoSaveFormData);
 }
 
 export default function AutoSaveFormPage() {
-  const { register, watch, reset } = useForm<FormData>({
+  const { register, watch, reset } = useForm<AutoSaveFormData>({
     defaultValues: {
       title: "",
       description: "",
