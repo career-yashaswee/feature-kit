@@ -3,6 +3,7 @@
 import { useKits } from '@/features/kits/hooks/use-kits'
 import { useFeatures } from '@/features/features/hooks/use-features'
 import { KitCard } from '@/components/kit-card'
+import { KitCardSkeleton } from '@/components/loading-skeleton'
 
 export default function KitsPage() {
   const { data: kits = [], isLoading: kitsLoading } = useKits()
@@ -19,7 +20,11 @@ export default function KitsPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">Kits</h1>
       {loading ? (
-        <p>Loading...</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <KitCardSkeleton key={i} />
+          ))}
+        </div>
       ) : kits.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {kits.map((kit) => (

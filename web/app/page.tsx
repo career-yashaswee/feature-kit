@@ -7,6 +7,7 @@ import { useSearch } from '@/features/search/hooks/use-search'
 import { Input } from '@/components/ui/input'
 import { FeatureCard } from '@/components/feature-card'
 import { KitCard } from '@/components/kit-card'
+import { FeatureCardSkeleton, KitCardSkeleton } from '@/components/loading-skeleton'
 
 export default function HomePage() {
   const { data: features = [], isLoading: featuresLoading } = useFeatures()
@@ -34,6 +35,7 @@ export default function HomePage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="max-w-md"
+          aria-label="Search features"
         />
       </div>
 
@@ -43,7 +45,11 @@ export default function HomePage() {
             Search Results ({filteredFeatures.length})
           </h2>
           {featuresLoading ? (
-            <p>Loading...</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <FeatureCardSkeleton key={i} />
+              ))}
+            </div>
           ) : filteredFeatures.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredFeatures.map((feature) => (
@@ -59,7 +65,11 @@ export default function HomePage() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Kits</h2>
             {kitsLoading ? (
-              <p>Loading...</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[...Array(3)].map((_, i) => (
+                  <KitCardSkeleton key={i} />
+                ))}
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {kits.map((kit) => (
@@ -76,7 +86,11 @@ export default function HomePage() {
           <div>
             <h2 className="text-2xl font-semibold mb-4">Features</h2>
             {featuresLoading ? (
-              <p>Loading...</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[...Array(6)].map((_, i) => (
+                  <FeatureCardSkeleton key={i} />
+                ))}
+              </div>
             ) : features.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {features.map((feature) => (

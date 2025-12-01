@@ -9,8 +9,11 @@ type KitCardProps = {
 
 export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
   return (
-    <Link href={`/kits/${kit.slug}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+    <Link 
+      href={`/kits/${kit.slug}`}
+      aria-label={`Browse ${kit.name} kit with ${featureCount} ${featureCount === 1 ? 'feature' : 'features'}`}
+    >
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full" role="article">
         <CardHeader>
           <CardTitle>{kit.name}</CardTitle>
           {kit.description && (
@@ -18,7 +21,7 @@ export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
           )}
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground" aria-label={`${featureCount} ${featureCount === 1 ? 'feature' : 'features'} available`}>
             {featureCount} {featureCount === 1 ? 'feature' : 'features'}
           </p>
         </CardContent>

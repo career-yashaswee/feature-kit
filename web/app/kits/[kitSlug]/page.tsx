@@ -4,6 +4,7 @@ import { useKitFeatures } from '@/features/kits/hooks/use-kit-features'
 import { FeatureCard } from '@/components/feature-card'
 import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
+import { FeatureCardSkeleton } from '@/components/loading-skeleton'
 
 export default function KitPage() {
   const params = useParams()
@@ -34,7 +35,11 @@ export default function KitPage() {
           </Button>
         </div>
       ) : loading ? (
-        <p>Loading...</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <FeatureCardSkeleton key={i} />
+          ))}
+        </div>
       ) : features.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature) => (

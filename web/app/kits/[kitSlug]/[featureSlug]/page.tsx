@@ -9,6 +9,9 @@ import { useCopyToClipboard } from '@uidotdev/usehooks'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed'
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 import getYouTubeId from 'get-youtube-id'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { FeaturePageSkeleton } from '@/components/loading-skeleton'
 
 export default function FeaturePage() {
   const params = useParams()
@@ -32,11 +35,7 @@ export default function FeaturePage() {
   }
 
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <p>Loading...</p>
-      </div>
-    )
+    return <FeaturePageSkeleton />
   }
 
   if (error || !feature) {
@@ -73,14 +72,26 @@ export default function FeaturePage() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-semibold">Code</h2>
-          <Button onClick={handleCopyCode}>
+          <Button 
+            onClick={handleCopyCode}
+            aria-label={copied ? 'Code copied to clipboard' : 'Copy code to clipboard'}
+          >
             {copied ? 'Copied!' : 'Copy Code'}
           </Button>
         </div>
-        <div className="bg-muted p-4 rounded-lg overflow-x-auto">
-          <pre className="text-sm">
-            <code>{feature.code}</code>
-          </pre>
+        <div className="rounded-lg overflow-hidden">
+          <SyntaxHighlighter
+            language="typescript"
+            style={oneDark}
+            customStyle={{
+              margin: 0,
+              borderRadius: '0.5rem',
+              fontSize: '0.875rem',
+            }}
+            showLineNumbers
+          >
+            {feature.code}
+          </SyntaxHighlighter>
         </div>
       </div>
 
