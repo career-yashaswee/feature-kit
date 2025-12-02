@@ -64,6 +64,7 @@ export type Dependency = {
     | "library"
     | "other";
   version: string;
+  mark_url: string | null;
   created_at: string;
 };
 

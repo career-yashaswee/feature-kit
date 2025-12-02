@@ -36,6 +36,20 @@ export function VariantSelect({
   const selectedVariantId = getSelectedVariant(featureId);
   const selectedVariant = variants?.find((v) => v.id === selectedVariantId);
 
+  // Auto-select first variant if none selected and variants are available
+  React.useEffect(() => {
+    if (
+      featureId &&
+      variants &&
+      variants.length > 0 &&
+      !selectedVariantId &&
+      !isLoading
+    ) {
+      setSelectedVariant(featureId, variants[0].id);
+      onVariantSelect?.(variants[0].id);
+    }
+  }, [featureId, variants, selectedVariantId, isLoading, setSelectedVariant, onVariantSelect]);
+
   const handleVariantSelect = (variantId: string) => {
     setSelectedVariant(featureId, variantId);
     onVariantSelect?.(variantId);

@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS dependencies (
   slug TEXT NOT NULL UNIQUE,
   category dependency_category NOT NULL,
   version TEXT NOT NULL,
+  mark_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

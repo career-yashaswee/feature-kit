@@ -13,14 +13,18 @@ interface FeatureData {
   name: string;
   description: string | null;
   slug: string;
-  markdown_content: string;
-  code: string;
-  prompt: string | null;
   youtube_video_url: string | null;
   preview_url: string | null;
   tier: Tier;
   tags: string[];
   kitSlug: string;
+}
+
+interface VariantData {
+  display_name: string;
+  code: string;
+  markdown_content: string;
+  prompt: string | null;
 }
 
 interface Kit {
@@ -33,6 +37,22 @@ interface Tag {
   id: string;
   name: string;
   slug: string;
+}
+
+interface Stack {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+}
+
+interface Dependency {
+  id: string;
+  name: string;
+  slug: string;
+  category: string;
+  version: string;
+  mark_url: string | null;
 }
 
 class EnvironmentLoader {
@@ -101,19 +121,16 @@ class FeatureDataParser {
   static parseFeatureDirectory(featurePath: string): FeatureData | null {
     const configPath = join(featurePath, "config.md");
     const promptPath = join(featurePath, "prompt.txt");
-    const componentsPath = join(featurePath, "components");
 
     if (!existsSync(configPath) || !existsSync(promptPath)) {
       return null;
     }
 
     const configContent = readFileSync(configPath, "utf-8");
-    const promptContent = readFileSync(promptPath, "utf-8");
 
     const name = this.extractName(configContent, featurePath);
     const description = this.extractDescription(configContent);
     const slug = createSlug(name);
-    const code = this.extractCode(componentsPath);
     const youtube_video_url = this.extractYouTubeUrl(configContent);
     const preview_url = this.extractPreviewUrl(configContent);
     const tier = this.extractTier(configContent);
@@ -122,14 +139,33 @@ class FeatureDataParser {
       name,
       description,
       slug,
-      markdown_content: configContent,
-      code,
-      prompt: promptContent || null,
       youtube_video_url,
       preview_url,
       tier,
       tags: [],
       kitSlug: "",
+    };
+  }
+
+  static getVariantData(featurePath: string): VariantData | null {
+    const configPath = join(featurePath, "config.md");
+    const promptPath = join(featurePath, "prompt.txt");
+    const componentsPath = join(featurePath, "components");
+
+    if (!existsSync(configPath) || !existsSync(promptPath)) {
+      return null;
+    }
+
+    const configContent = readFileSync(configPath, "utf-8");
+    const promptContent = readFileSync(promptPath, "utf-8");
+    const code = this.extractCode(componentsPath);
+    const name = this.extractName(configContent, featurePath);
+
+    return {
+      display_name: name,
+      markdown_content: configContent,
+      code,
+      prompt: promptContent || null,
     };
   }
 
@@ -302,11 +338,101 @@ class DatabaseOperations {
     return data || [];
   }
 
+  async getAllStacks(): Promise<Stack[]> {
+    const { data, error } = await this.supabase
+      .from("stacks")
+      .select("id, name, slug, description")
+      .order("name");
+
+    if (error) throw error;
+    return data || [];
+  }
+
+  async getOrCreateStack(
+    name: string,
+    slug: string,
+    description?: string,
+  ): Promise<string> {
+    const { data: existing } = await this.supabase
+      .from("stacks")
+      .select("id")
+      .eq("slug", slug)
+      .single();
+
+    if (existing) {
+      return existing.id;
+    }
+
+    const { data, error } = await this.supabase
+      .from("stacks")
+      .insert({ name, slug, description: description || null })
+      .select("id")
+      .single();
+
+    if (error) throw error;
+    if (!data) throw new Error("Failed to create stack");
+
+    return data.id;
+  }
+
+  async getAllDependencies(): Promise<Dependency[]> {
+    const { data, error } = await this.supabase
+      .from("dependencies")
+      .select("id, name, slug, category, version, mark_url")
+      .order("name");
+
+    if (error) throw error;
+    return data || [];
+  }
+
+  async getOrCreateDependency(
+    name: string,
+    slug: string,
+    category: string,
+    version: string,
+    mark_url?: string | null,
+  ): Promise<string> {
+    const { data: existing } = await this.supabase
+      .from("dependencies")
+      .select("id")
+      .eq("slug", slug)
+      .single();
+
+    if (existing) {
+      return existing.id;
+    }
+
+    const { data, error } = await this.supabase
+      .from("dependencies")
+      .insert({ name, slug, category, version, mark_url: mark_url || null })
+      .select("id")
+      .single();
+
+    if (error) throw error;
+    if (!data) throw new Error("Failed to create dependency");
+
+    return data.id;
+  }
+
+  async linkDependencyToStack(
+    stackId: string,
+    dependencyId: string,
+  ): Promise<void> {
+    const { error } = await this.supabase
+      .from("stack_dependencies")
+      .insert({ stack_id: stackId, dependency_id: dependencyId })
+      .select();
+
+    if (error && !error.message.includes("duplicate")) {
+      throw error;
+    }
+  }
+
   async createFeature(
     featureData: FeatureData,
     kitId: string,
     tagIds: string[],
-  ): Promise<void> {
+  ): Promise<string> {
     const { data: existing } = await this.supabase
       .from("features")
       .select("id")
@@ -322,9 +448,6 @@ class DatabaseOperations {
         .update({
           name: featureData.name,
           description: featureData.description,
-          markdown_content: featureData.markdown_content,
-          code: featureData.code,
-          prompt: featureData.prompt,
           youtube_video_url: featureData.youtube_video_url,
           preview_url: featureData.preview_url,
           tier: featureData.tier,
@@ -341,9 +464,6 @@ class DatabaseOperations {
           description: featureData.description,
           kit_id: kitId,
           slug: featureData.slug,
-          markdown_content: featureData.markdown_content,
-          code: featureData.code,
-          prompt: featureData.prompt,
           youtube_video_url: featureData.youtube_video_url,
           preview_url: featureData.preview_url,
           tier: featureData.tier,
@@ -358,6 +478,82 @@ class DatabaseOperations {
 
     if (tagIds.length > 0) {
       await this.syncFeatureTags(featureId, tagIds);
+    }
+
+    return featureId;
+  }
+
+  async createVariant(
+    featureId: string,
+    stackId: string,
+    variantData: VariantData,
+  ): Promise<string> {
+    const { data: existing } = await this.supabase
+      .from("variants")
+      .select("id")
+      .eq("feature_id", featureId)
+      .eq("stack_id", stackId)
+      .eq("display_name", variantData.display_name)
+      .single();
+
+    let variantId: string;
+
+    if (existing) {
+      const { error: updateError } = await this.supabase
+        .from("variants")
+        .update({
+          code: variantData.code,
+          markdown_content: variantData.markdown_content,
+          prompt: variantData.prompt,
+        })
+        .eq("id", existing.id);
+
+      if (updateError) throw updateError;
+      variantId = existing.id;
+    } else {
+      const { data, error: insertError } = await this.supabase
+        .from("variants")
+        .insert({
+          feature_id: featureId,
+          stack_id: stackId,
+          display_name: variantData.display_name,
+          code: variantData.code,
+          markdown_content: variantData.markdown_content,
+          prompt: variantData.prompt,
+        })
+        .select("id")
+        .single();
+
+      if (insertError) throw insertError;
+      if (!data) throw new Error("Failed to create variant");
+      variantId = data.id;
+    }
+
+    return variantId;
+  }
+
+  async syncVariantDependencies(
+    variantId: string,
+    dependencyIds: string[],
+  ): Promise<void> {
+    const { error: deleteError } = await this.supabase
+      .from("variant_dependencies")
+      .delete()
+      .eq("variant_id", variantId);
+
+    if (deleteError) throw deleteError;
+
+    if (dependencyIds.length > 0) {
+      const variantDeps = dependencyIds.map((depId) => ({
+        variant_id: variantId,
+        dependency_id: depId,
+      }));
+
+      const { error: insertError } = await this.supabase
+        .from("variant_dependencies")
+        .insert(variantDeps);
+
+      if (insertError) throw insertError;
     }
   }
 
@@ -491,6 +687,118 @@ class InteractiveCLI {
     return tier;
   }
 
+  async selectStack(stacks: Stack[]): Promise<Stack> {
+    console.log("\nAvailable stacks:");
+    stacks.forEach((stack, index) => {
+      console.log(
+        `${index + 1}. ${stack.name} (${stack.slug})${stack.description ? ` - ${stack.description}` : ""}`,
+      );
+    });
+
+    const answer = await this.question(
+      "\nSelect stack number (or enter new stack name): ",
+    );
+    const index = parseInt(answer.trim(), 10) - 1;
+
+    if (isNaN(index) || index < 0 || index >= stacks.length) {
+      const newStackName = answer.trim();
+      if (!newStackName) {
+        throw new Error("Invalid stack selection");
+      }
+      return {
+        id: "",
+        name: newStackName,
+        slug: createSlug(newStackName),
+        description: null,
+      };
+    }
+
+    return stacks[index];
+  }
+
+  async selectDependencies(
+    dependencies: Dependency[],
+  ): Promise<Dependency[]> {
+    console.log("\nAvailable dependencies:");
+    dependencies.forEach((dep, index) => {
+      console.log(
+        `${index + 1}. ${dep.name} (${dep.slug}) - ${dep.category} v${dep.version}`,
+      );
+    });
+
+    const answer = await this.question(
+      "\nSelect dependencies (comma-separated numbers, or enter new dependency names): ",
+    );
+
+    const selectedDeps: Dependency[] = [];
+    const parts = answer.split(",").map((p) => p.trim());
+
+    for (const part of parts) {
+      const index = parseInt(part, 10) - 1;
+      if (!isNaN(index) && index >= 0 && index < dependencies.length) {
+        selectedDeps.push(dependencies[index]);
+      } else if (part) {
+        selectedDeps.push({
+          id: "",
+          name: part,
+          slug: createSlug(part),
+          category: "library",
+          version: "latest",
+          mark_url: null,
+        });
+      }
+    }
+
+    return selectedDeps;
+  }
+
+  async selectDependencyCategory(): Promise<string> {
+    const categories = [
+      "language",
+      "framework",
+      "styling",
+      "build-tool",
+      "library",
+      "other",
+    ];
+    console.log("\nDependency categories:");
+    categories.forEach((cat, index) => {
+      console.log(`${index + 1}. ${cat}`);
+    });
+
+    const answer = await this.question(
+      "\nSelect category number [library]: ",
+    );
+    const index = parseInt(answer.trim(), 10) - 1;
+
+    if (isNaN(index) || index < 0 || index >= categories.length) {
+      return "library";
+    }
+
+    return categories[index];
+  }
+
+  async selectDependencyVersion(): Promise<string> {
+    const answer = await this.question(
+      "Enter dependency version [latest]: ",
+    );
+    return answer.trim() || "latest";
+  }
+
+  async selectDependencyMarkUrl(): Promise<string | null> {
+    const answer = await this.question(
+      "Enter mark_url (optional, press Enter to skip): ",
+    );
+    return answer.trim() || null;
+  }
+
+  async selectVariantDisplayName(defaultName: string): Promise<string> {
+    const answer = await this.question(
+      `Enter variant display name [${defaultName}]: `,
+    );
+    return answer.trim() || defaultName;
+  }
+
   close(): void {
     this.rl.close();
   }
@@ -541,6 +849,13 @@ async function main() {
       throw new Error("Failed to parse feature data");
     }
 
+    const variantData =
+      FeatureDataParser.getVariantData(selectedFeaturePath);
+
+    if (!variantData) {
+      throw new Error("Failed to parse variant data");
+    }
+
     console.log(`\nParsed feature: ${featureData.name}`);
 
     const kits = await db.getAllKits();
@@ -573,7 +888,71 @@ async function main() {
     featureData.tier = tier;
 
     console.log("\nSeeding feature to database...");
-    await db.createFeature(featureData, selectedKit.id, tagIds);
+    const featureId = await db.createFeature(
+      featureData,
+      selectedKit.id,
+      tagIds,
+    );
+
+    const stacks = await db.getAllStacks();
+    const selectedStack = await cli.selectStack(stacks);
+
+    if (!selectedStack.id) {
+      const stackDescription = await cli.question(
+        "Enter stack description (optional): ",
+      );
+      const stackId = await db.getOrCreateStack(
+        selectedStack.name,
+        selectedStack.slug,
+        stackDescription.trim() || undefined,
+      );
+      selectedStack.id = stackId;
+      console.log(`Created stack: ${selectedStack.name}`);
+    }
+
+    const displayName = await cli.selectVariantDisplayName(
+      variantData.display_name,
+    );
+    variantData.display_name = displayName;
+
+    console.log("\nSeeding variant to database...");
+    const variantId = await db.createVariant(
+      featureId,
+      selectedStack.id,
+      variantData,
+    );
+
+    const dependencies = await db.getAllDependencies();
+    const selectedDeps = await cli.selectDependencies(dependencies);
+
+    const depIds: string[] = [];
+    for (const dep of selectedDeps) {
+      if (!dep.id) {
+        const category = await cli.selectDependencyCategory();
+        const version = await cli.selectDependencyVersion();
+        const mark_url = await cli.selectDependencyMarkUrl();
+        const depId = await db.getOrCreateDependency(
+          dep.name,
+          dep.slug,
+          category,
+          version,
+          mark_url,
+        );
+        dep.id = depId;
+        console.log(`Created dependency: ${dep.name}`);
+
+        await db.linkDependencyToStack(selectedStack.id, depId);
+        console.log(`Linked dependency ${dep.name} to stack ${selectedStack.name}`);
+      } else {
+        await db.linkDependencyToStack(selectedStack.id, dep.id);
+      }
+      depIds.push(dep.id);
+    }
+
+    if (depIds.length > 0) {
+      await db.syncVariantDependencies(variantId, depIds);
+      console.log(`Linked ${depIds.length} dependency(ies) to variant`);
+    }
 
     console.log("\nFeature seeded successfully!");
     console.log(`- Name: ${featureData.name}`);
@@ -582,6 +961,11 @@ async function main() {
       `- Tags: ${selectedTags.map((t) => t.name).join(", ") || "None"}`,
     );
     console.log(`- Tier: ${tier}`);
+    console.log(`- Stack: ${selectedStack.name}`);
+    console.log(`- Variant: ${variantData.display_name}`);
+    console.log(
+      `- Dependencies: ${selectedDeps.map((d) => d.name).join(", ") || "None"}`,
+    );
   } catch (error) {
     console.error("\nError:", error instanceof Error ? error.message : error);
     process.exit(1);

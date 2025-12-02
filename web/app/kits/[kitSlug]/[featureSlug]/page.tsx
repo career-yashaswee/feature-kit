@@ -29,8 +29,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ScrollToTopButton } from "@/features/scroll-to-top/components/scroll-to-top-button";
 import { VariantSelect } from "@/features/variants/components/variant-select";
 import { useSelectedVariantData } from "@/features/variants/hooks/use-selected-variant-data";
-import { useSelectedVariantStore } from "@/features/variants/store/use-selected-variant-store";
-import { useEffect } from "react";
 
 export default function FeaturePage() {
   const params = useParams();
@@ -54,19 +52,12 @@ export default function FeaturePage() {
     variants,
     isLoading: variantsLoading,
   } = useSelectedVariantData(feature?.id);
-  const { setSelectedVariant } = useSelectedVariantStore();
-
-  // Set default variant to first one if none selected and variants exist
-  useEffect(() => {
-    if (feature?.id && variants && variants.length > 0 && !selectedVariantId) {
-      setSelectedVariant(feature.id, variants[0].id);
-    }
-  }, [feature?.id, variants, selectedVariantId, setSelectedVariant]);
-
-  // Use variant data only
+  // Use variant data only - only show content when variant is actually selected
+  // Auto-selection is handled by VariantSelect component
   const displayCode = selectedVariant?.code || "";
   const displayMarkdown = selectedVariant?.markdown_content || "";
   const displayPrompt = selectedVariant?.prompt || null;
+  const hasVariantSelected = !!selectedVariant;
 
   const { t } = useTranslation();
 
@@ -220,7 +211,7 @@ export default function FeaturePage() {
             {t("feature.preview")}
           </Button>
         )}
-        {displayPrompt && (
+        {hasVariantSelected && displayPrompt && (
           <Button
             variant="outline"
             onClick={() => copyPrompt(displayPrompt)}
@@ -280,7 +271,7 @@ export default function FeaturePage() {
               </TabsTrigger>
               <TabsTrigger value="code">{t("feature.code")}</TabsTrigger>
             </TabsList>
-            {activeTab === "code" && displayCode && (
+            {activeTab === "code" && hasVariantSelected && displayCode && (
               <Button
                 onClick={handleCopyCode}
                 aria-label={
@@ -295,7 +286,11 @@ export default function FeaturePage() {
             )}
           </div>
           <TabsContent value="code" className="mt-4">
-            {displayCode ? (
+            {!hasVariantSelected ? (
+              <div className="text-center text-muted-foreground py-8">
+                Please select a variant to view code
+              </div>
+            ) : displayCode ? (
               <div className="rounded-lg overflow-hidden border">
                 <div className="max-h-[600px] overflow-y-auto">
                   <SyntaxHighlighter
@@ -343,26 +338,32 @@ export default function FeaturePage() {
         <h2 className="text-2xl font-semibold mb-4">
           {t("feature.documentation")}
         </h2>
-        <div className="prose prose-sm max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[
-              rehypeSlug,
-              [
-                rehypeAutolinkHeadings,
-                {
-                  behavior: "wrap",
-                  properties: {
-                    className: ["anchor"],
+        {!hasVariantSelected ? (
+          <div className="text-center text-muted-foreground py-8">
+            Please select a variant to view documentation
+          </div>
+        ) : (
+          <div className="prose prose-sm max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[
+                rehypeSlug,
+                [
+                  rehypeAutolinkHeadings,
+                  {
+                    behavior: "wrap",
+                    properties: {
+                      className: ["anchor"],
+                    },
                   },
-                },
-              ],
-            ]}
-            components={markdownComponents}
-          >
-            {displayMarkdown}
-          </ReactMarkdown>
-        </div>
+                ],
+              ]}
+              components={markdownComponents}
+            >
+              {displayMarkdown}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
 
       <Dialog.Root open={showReportBug} onOpenChange={setShowReportBug}>
