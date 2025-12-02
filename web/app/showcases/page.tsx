@@ -1,12 +1,10 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
 import { useProjects } from "@/features/showcases/hooks/use-projects";
 import { ProjectCard } from "@/features/showcases/components/project-card";
 import { ProjectCardSkeleton } from "@/components/common/loading-skeleton";
 
 export default function ShowcasesPage() {
-  const { t } = useTranslation();
   const { data: projects = [], isLoading: loading } = useProjects();
 
   return (

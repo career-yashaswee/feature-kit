@@ -47,5 +47,3 @@ export function useVariants(featureId: string | undefined) {
     enabled: !!featureId,
   });
 }
-
-

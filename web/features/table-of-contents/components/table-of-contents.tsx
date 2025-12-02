@@ -67,7 +67,7 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
     <nav
       className={cn(
         "sticky top-[124px] h-[calc(100vh-124px)] overflow-y-auto px-6 py-6",
-        className
+        className,
       )}
       aria-label="Table of contents"
     >
@@ -98,7 +98,7 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
                     indentClass,
                     isActive
                       ? "text-foreground font-medium bg-muted border-l-2 border-primary -ml-4 pl-6"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 >
                   {item.text}

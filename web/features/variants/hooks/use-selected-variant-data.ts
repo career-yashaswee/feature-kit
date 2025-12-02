@@ -21,4 +21,3 @@ export function useSelectedVariantData(featureId: string | undefined) {
     isLoading,
   };
 }
-

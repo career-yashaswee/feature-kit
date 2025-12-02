@@ -28,4 +28,3 @@ export function TableOfContentsProvider({
 export function useTableOfContentsContext() {
   return useContext(TableOfContentsContext);
 }
-

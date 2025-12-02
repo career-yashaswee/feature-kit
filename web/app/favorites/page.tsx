@@ -1,12 +1,10 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
 import { useFavoriteFeatures } from "@/features/favorites/hooks/use-favorite-features";
 import { FeatureCard } from "@/features/features/components/feature-card";
 import { FeatureCardSkeleton } from "@/components/common/loading-skeleton";
 
 export default function FavoritesPage() {
-  const { t } = useTranslation();
   const { data: favoriteFeatures = [], isLoading: loading } =
     useFavoriteFeatures();
 

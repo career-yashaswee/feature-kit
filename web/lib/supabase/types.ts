@@ -56,7 +56,13 @@ export type Dependency = {
   id: string;
   name: string;
   slug: string;
-  category: "language" | "framework" | "styling" | "build-tool" | "library" | "other";
+  category:
+    | "language"
+    | "framework"
+    | "styling"
+    | "build-tool"
+    | "library"
+    | "other";
   version: string;
   created_at: string;
 };

@@ -30,4 +30,3 @@ export function useTableOfContents(markdown: string): TocItem[] {
     return headings.filter((item) => item.level >= 2 && item.level <= 4);
   }, [markdown]);
 }
-

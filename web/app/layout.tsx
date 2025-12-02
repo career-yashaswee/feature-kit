@@ -7,7 +7,6 @@ import { AppErrorBoundary } from "@/components/common/error-boundary";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { I18nProvider } from "@/lib/providers/i18n-provider";
 import { Toaster } from "sonner";
-import { Footer2 } from "@/components/common/footer2";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",

@@ -157,7 +157,8 @@ export default function FeaturePage() {
     }
   };
 
-  const handleVariantSelect = (variantId: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleVariantSelect = (_variantId: string) => {
     // Re-render will happen automatically via state update
   };
 

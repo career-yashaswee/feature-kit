@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Feature } from "@/lib/supabase/types";
 
 interface FavoritesState {
   favorites: string[];
