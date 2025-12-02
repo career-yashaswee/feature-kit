@@ -30,12 +30,10 @@ export const useFavoritesStore = create<FavoritesState>()(
             ? state.favorites.filter((id) => id !== featureId)
             : [...state.favorites, featureId],
         })),
-      isFavorite: (featureId: string) =>
-        get().favorites.includes(featureId),
+      isFavorite: (featureId: string) => get().favorites.includes(featureId),
     }),
     {
       name: "favorites-storage",
     },
   ),
 );
-

@@ -12,6 +12,7 @@ import {
   FeatureCardSkeleton,
   KitCardSkeleton,
 } from "@/components/common/loading-skeleton";
+import { Footer2 } from "@/components/common/footer2";
 
 export default function HomePage() {
   const { t } = useTranslation();

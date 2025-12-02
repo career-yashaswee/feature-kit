@@ -52,9 +52,6 @@ export default function RootLayout({
               <AppErrorBoundary>
                 <Header />
                 <main className="min-h-screen">{children}</main>
-
-                <Footer2 />
-
                 <Toaster richColors />
               </AppErrorBoundary>
             </QueryProvider>

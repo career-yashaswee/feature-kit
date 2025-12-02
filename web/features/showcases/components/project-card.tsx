@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import { Img } from "react-image";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Project } from "@/lib/supabase/types";
 import { ExternalLink } from "lucide-react";
@@ -61,4 +66,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Card>
   );
 }
-

@@ -22,12 +22,9 @@ export type Feature = {
   description: string | null;
   kit_id: string;
   slug: string;
-  markdown_content: string;
   youtube_video_url: string | null;
-  code: string;
   tier: Tier;
   preview_url: string | null;
-  prompt: string | null;
   created_at: string;
   kit?: Kit;
   tags?: Tag[];
@@ -53,4 +50,34 @@ export type Project = {
   preview_url: string | null;
   thumbnail_url: string | null;
   created_at: string;
+};
+
+export type Dependency = {
+  id: string;
+  name: string;
+  slug: string;
+  category: "language" | "framework" | "styling" | "build-tool" | "library" | "other";
+  version: string;
+  created_at: string;
+};
+
+export type Stack = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  created_at: string;
+};
+
+export type Variant = {
+  id: string;
+  feature_id: string;
+  stack_id: string;
+  display_name: string;
+  code: string;
+  markdown_content: string;
+  prompt: string | null;
+  created_at: string;
+  stack?: Stack;
+  dependencies?: Dependency[];
 };

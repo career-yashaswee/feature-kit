@@ -20,4 +20,3 @@ export function useFavoriteFeatures() {
     isLoading,
   };
 }
-

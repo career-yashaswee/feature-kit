@@ -22,9 +22,9 @@ export function Header() {
   const favorites = useFavoritesStore((state) => state.favorites);
 
   return (
-    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <header className="border-b bg-background">
+      <div className="w-full px-4 py-4">
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-4">
             <Link
               href="/"

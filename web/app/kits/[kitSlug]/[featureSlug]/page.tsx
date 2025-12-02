@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
@@ -24,6 +26,11 @@ import { Bug, Copy, ExternalLink, X, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import * as Dialog from "@radix-ui/react-dialog";
+import { ScrollToTopButton } from "@/features/scroll-to-top/components/scroll-to-top-button";
+import { VariantSelect } from "@/features/variants/components/variant-select";
+import { useSelectedVariantData } from "@/features/variants/hooks/use-selected-variant-data";
+import { useSelectedVariantStore } from "@/features/variants/store/use-selected-variant-store";
+import { useEffect } from "react";
 
 export default function FeaturePage() {
   const params = useParams();
@@ -35,12 +42,31 @@ export default function FeaturePage() {
     isLoading: loading,
     error,
   } = useFeature(kitSlug, featureSlug);
-  const [copied, copy] = useCopyToClipboard();
+  const [, copy] = useCopyToClipboard();
   const [showCopied, setShowCopied] = useState(false);
   const [showReportBug, setShowReportBug] = useState(false);
-  const [activeTab, setActiveTab] = useState("code");
+  const [activeTab, setActiveTab] = useState("preview");
   const { copyPrompt } = useCopyPrompt();
   const { toggleFavorite, isFavorite } = useFavoritesStore();
+  const {
+    selectedVariant,
+    selectedVariantId,
+    variants,
+    isLoading: variantsLoading,
+  } = useSelectedVariantData(feature?.id);
+  const { setSelectedVariant } = useSelectedVariantStore();
+
+  // Set default variant to first one if none selected and variants exist
+  useEffect(() => {
+    if (feature?.id && variants && variants.length > 0 && !selectedVariantId) {
+      setSelectedVariant(feature.id, variants[0].id);
+    }
+  }, [feature?.id, variants, selectedVariantId, setSelectedVariant]);
+
+  // Use variant data only
+  const displayCode = selectedVariant?.code || "";
+  const displayMarkdown = selectedVariant?.markdown_content || "";
+  const displayPrompt = selectedVariant?.prompt || null;
 
   const { t } = useTranslation();
 
@@ -122,13 +148,17 @@ export default function FeaturePage() {
   }
 
   const handleCopyCode = () => {
-    if (feature?.code) {
-      copy(feature.code);
+    if (displayCode) {
+      copy(displayCode);
       setShowCopied(true);
       setTimeout(() => {
         setShowCopied(false);
       }, 2000);
     }
+  };
+
+  const handleVariantSelect = (variantId: string) => {
+    // Re-render will happen automatically via state update
   };
 
   if (loading) {
@@ -189,10 +219,10 @@ export default function FeaturePage() {
             {t("feature.preview")}
           </Button>
         )}
-        {feature.prompt && (
+        {displayPrompt && (
           <Button
             variant="outline"
-            onClick={() => copyPrompt(feature.prompt)}
+            onClick={() => copyPrompt(displayPrompt)}
             aria-label={t("feature.copyPromptAria")}
           >
             <Copy className="size-4 mr-2" />
@@ -208,25 +238,32 @@ export default function FeaturePage() {
           {t("reportBug.button")}
         </Button>
         {feature && (
-          <Button
-            variant="outline"
-            onClick={() => toggleFavorite(feature.id)}
-            aria-label={
-              isFavorite(feature.id)
-                ? "Remove from favorites"
-                : "Add to favorites"
-            }
-          >
-            <Heart
-              className={cn(
-                "size-4 mr-2",
-                isFavorite(feature.id)
-                  ? "fill-red-500 text-red-500"
-                  : "",
-              )}
+          <>
+            <VariantSelect
+              featureId={feature.id}
+              variants={variants}
+              isLoading={variantsLoading}
+              onVariantSelect={handleVariantSelect}
+              mode="selector"
             />
-            {isFavorite(feature.id) ? "Favorited" : "Favorite"}
-          </Button>
+            <Button
+              variant="outline"
+              onClick={() => toggleFavorite(feature.id)}
+              aria-label={
+                isFavorite(feature.id)
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+              }
+            >
+              <Heart
+                className={cn(
+                  "size-4 mr-2",
+                  isFavorite(feature.id) ? "fill-red-500 text-red-500" : "",
+                )}
+              />
+              {isFavorite(feature.id) ? "Favorited" : "Favorite"}
+            </Button>
+          </>
         )}
       </div>
 
@@ -234,15 +271,15 @@ export default function FeaturePage() {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <div className="flex items-center justify-between mb-4">
             <TabsList>
-              <TabsTrigger value="code">{t("feature.code")}</TabsTrigger>
               <TabsTrigger
                 value="preview"
                 disabled={!feature.youtube_video_url}
               >
                 {t("feature.preview")}
               </TabsTrigger>
+              <TabsTrigger value="code">{t("feature.code")}</TabsTrigger>
             </TabsList>
-            {activeTab === "code" && (
+            {activeTab === "code" && displayCode && (
               <Button
                 onClick={handleCopyCode}
                 aria-label={
@@ -257,22 +294,28 @@ export default function FeaturePage() {
             )}
           </div>
           <TabsContent value="code" className="mt-4">
-            <div className="rounded-lg overflow-hidden border">
-              <div className="max-h-[600px] overflow-y-auto">
-                <SyntaxHighlighter
-                  language="typescript"
-                  style={oneDark}
-                  customStyle={{
-                    margin: 0,
-                    borderRadius: "0.5rem",
-                    fontSize: "0.875rem",
-                  }}
-                  showLineNumbers
-                >
-                  {feature.code}
-                </SyntaxHighlighter>
+            {displayCode ? (
+              <div className="rounded-lg overflow-hidden border">
+                <div className="max-h-[600px] overflow-y-auto">
+                  <SyntaxHighlighter
+                    language="typescript"
+                    style={oneDark}
+                    customStyle={{
+                      margin: 0,
+                      borderRadius: "0.5rem",
+                      fontSize: "0.875rem",
+                    }}
+                    showLineNumbers
+                  >
+                    {displayCode}
+                  </SyntaxHighlighter>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="text-center text-muted-foreground py-8">
+                No code available
+              </div>
+            )}
           </TabsContent>
           <TabsContent value="preview" className="mt-4">
             {feature.youtube_video_url &&
@@ -295,16 +338,28 @@ export default function FeaturePage() {
         </Tabs>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-8" id="markdown-content" key={selectedVariantId}>
         <h2 className="text-2xl font-semibold mb-4">
           {t("feature.documentation")}
         </h2>
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
+            rehypePlugins={[
+              rehypeSlug,
+              [
+                rehypeAutolinkHeadings,
+                {
+                  behavior: "wrap",
+                  properties: {
+                    className: ["anchor"],
+                  },
+                },
+              ],
+            ]}
             components={markdownComponents}
           >
-            {feature.markdown_content}
+            {displayMarkdown}
           </ReactMarkdown>
         </div>
       </div>
@@ -336,6 +391,7 @@ export default function FeaturePage() {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
+      <ScrollToTopButton position="center" />
     </div>
   );
 }

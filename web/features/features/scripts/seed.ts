@@ -70,9 +70,9 @@ class EnvironmentLoader {
     if (!serviceRoleKey) {
       throw new Error(
         `Missing SUPABASE_SERVICE_ROLE_KEY in ${envFile}.\n` +
-        `The seed script requires the service role key to bypass RLS policies.\n` +
-        `You can find it in your Supabase dashboard: Settings → API → service_role key (secret)\n` +
-        `Add it to your ${envFile} file as: SUPABASE_SERVICE_ROLE_KEY=your_key_here`,
+          `The seed script requires the service role key to bypass RLS policies.\n` +
+          `You can find it in your Supabase dashboard: Settings → API → service_role key (secret)\n` +
+          `Add it to your ${envFile} file as: SUPABASE_SERVICE_ROLE_KEY=your_key_here`,
       );
     }
 
@@ -133,8 +133,10 @@ class FeatureDataParser {
     };
   }
 
-
-  private static extractName(configContent: string, fallbackPath: string): string {
+  private static extractName(
+    configContent: string,
+    fallbackPath: string,
+  ): string {
     const titleMatch = configContent.match(/^#\s+(.+)$/m);
     if (titleMatch) {
       return titleMatch[1].trim();
@@ -179,24 +181,29 @@ class FeatureDataParser {
     }
 
     const files = readdirSync(componentsPath);
-    const tsxFiles = files.filter((file) => file.endsWith(".tsx") || file.endsWith(".ts"));
+    const tsxFiles = files.filter(
+      (file) => file.endsWith(".tsx") || file.endsWith(".ts"),
+    );
 
     if (tsxFiles.length === 0) {
       return "";
     }
 
-    const mainFile = tsxFiles.find((file) => {
-      const name = file.replace(/\.(tsx?|jsx?)$/, "");
-      const dirName = componentsPath.split("/").pop() || "";
-      return name === dirName || name === "index";
-    }) || tsxFiles[0];
+    const mainFile =
+      tsxFiles.find((file) => {
+        const name = file.replace(/\.(tsx?|jsx?)$/, "");
+        const dirName = componentsPath.split("/").pop() || "";
+        return name === dirName || name === "index";
+      }) || tsxFiles[0];
 
     const filePath = join(componentsPath, mainFile);
     return readFileSync(filePath, "utf-8");
   }
 
   private static extractYouTubeUrl(configContent: string): string | null {
-    const youtubeMatch = configContent.match(/youtube[:\s]+(https?:\/\/[^\s\n]+)/i);
+    const youtubeMatch = configContent.match(
+      /youtube[:\s]+(https?:\/\/[^\s\n]+)/i,
+    );
     if (youtubeMatch) {
       return youtubeMatch[1];
     }
@@ -204,7 +211,9 @@ class FeatureDataParser {
   }
 
   private static extractPreviewUrl(configContent: string): string | null {
-    const previewMatch = configContent.match(/preview[:\s]+(https?:\/\/[^\s\n]+)/i);
+    const previewMatch = configContent.match(
+      /preview[:\s]+(https?:\/\/[^\s\n]+)/i,
+    );
     if (previewMatch) {
       return previewMatch[1];
     }
@@ -352,7 +361,10 @@ class DatabaseOperations {
     }
   }
 
-  private async syncFeatureTags(featureId: string, tagIds: string[]): Promise<void> {
+  private async syncFeatureTags(
+    featureId: string,
+    tagIds: string[],
+  ): Promise<void> {
     const { error: deleteError } = await this.supabase
       .from("feature_tags")
       .delete()
@@ -501,10 +513,10 @@ async function main() {
     const featureDirs = FeatureDataParser.findFeatureDirectories(basePath);
 
     if (featureDirs.length === 0) {
+      console.error(`No feature directories found at ${basePath}`);
       console.error(
-        `No feature directories found at ${basePath}`,
+        "Please ensure the features directory exists and contains feature folders",
       );
-      console.error("Please ensure the features directory exists and contains feature folders");
       process.exit(1);
     }
 
@@ -522,7 +534,8 @@ async function main() {
       throw new Error("Feature path not found");
     }
 
-    const featureData = FeatureDataParser.parseFeatureDirectory(selectedFeaturePath);
+    const featureData =
+      FeatureDataParser.parseFeatureDirectory(selectedFeaturePath);
 
     if (!featureData) {
       throw new Error("Failed to parse feature data");
@@ -565,7 +578,9 @@ async function main() {
     console.log("\nFeature seeded successfully!");
     console.log(`- Name: ${featureData.name}`);
     console.log(`- Kit: ${selectedKit.name}`);
-    console.log(`- Tags: ${selectedTags.map((t) => t.name).join(", ") || "None"}`);
+    console.log(
+      `- Tags: ${selectedTags.map((t) => t.name).join(", ") || "None"}`,
+    );
     console.log(`- Tier: ${tier}`);
   } catch (error) {
     console.error("\nError:", error instanceof Error ? error.message : error);
@@ -576,4 +591,3 @@ async function main() {
 }
 
 main();
-

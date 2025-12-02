@@ -20,9 +20,9 @@ export function Header() {
   const { data: projects = [] } = useProjects();
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <header className="sticky top-0 z-50 border-b bg-background">
+      <div className="w-full px-4 py-4">
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-4">
             <Link
               href="/"
