@@ -10,8 +10,8 @@ export function useSelectedVariantData(featureId: string | undefined) {
 
   const selectedVariantId = featureId ? getSelectedVariant(featureId) : null;
   const selectedVariant = useMemo(
-    () => (selectedVariantId ? variants?.find((v) => v.id === selectedVariantId) : null),
-    [variants, selectedVariantId],
+    () => variants?.find((v) => v.id === selectedVariantId) ?? null,
+    [variants, selectedVariantId]
   );
 
   return {

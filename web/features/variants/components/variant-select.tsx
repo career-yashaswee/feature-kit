@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Circle, Layers } from "lucide-react";
+import { Img } from "react-image";
 import type { Variant } from "@/lib/supabase/types";
 import { useSelectedVariantStore } from "../store/use-selected-variant-store";
 
@@ -36,6 +37,12 @@ export function VariantSelect({
   const selectedVariantId = getSelectedVariant(featureId);
   const selectedVariant = variants?.find((v) => v.id === selectedVariantId);
 
+  const onVariantSelectRef = React.useRef(onVariantSelect);
+
+  React.useEffect(() => {
+    onVariantSelectRef.current = onVariantSelect;
+  }, [onVariantSelect]);
+
   // Auto-select first variant if none selected and variants are available
   React.useEffect(() => {
     if (
@@ -46,9 +53,9 @@ export function VariantSelect({
       !isLoading
     ) {
       setSelectedVariant(featureId, variants[0].id);
-      onVariantSelect?.(variants[0].id);
+      onVariantSelectRef.current?.(variants[0].id);
     }
-  }, [featureId, variants, selectedVariantId, isLoading, setSelectedVariant, onVariantSelect]);
+  }, [featureId, variants, selectedVariantId, isLoading, setSelectedVariant]);
 
   const handleVariantSelect = (variantId: string) => {
     setSelectedVariant(featureId, variantId);
@@ -121,7 +128,7 @@ export function VariantSelect({
                 key={variant.id}
                 className={cn(
                   "flex items-center gap-3 p-3 cursor-pointer focus:bg-accent",
-                  "hover:bg-accent",
+                  "hover:bg-accent"
                 )}
                 onSelect={(e) => {
                   e.preventDefault();
@@ -143,20 +150,49 @@ export function VariantSelect({
 
                 {/* Dependency Icons */}
                 <div className="flex items-center gap-1.5 shrink-0">
-                  {topDependencies.map((dep) => (
-                    <div
-                      key={dep.id}
-                      className="size-5 flex items-center justify-center overflow-hidden rounded bg-muted border border-border"
-                      title={dep.name}
-                      style={{
-                        filter: "grayscale(100%)",
-                      }}
-                    >
-                      <span className="text-[10px] font-semibold text-muted-foreground">
-                        {dep.name.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  ))}
+                  {topDependencies.map((dep) =>
+                    dep.mark_url ? (
+                      <div
+                        key={dep.id}
+                        className="size-5 flex items-center justify-center p-0.5"
+                        title={dep.name}
+                        style={{
+                          filter: "grayscale(100%)",
+                        }}
+                      >
+                        <Img
+                          src={dep.mark_url}
+                          alt={dep.name}
+                          className="size-full object-contain"
+                          loader={
+                            <div className="size-full flex items-center justify-center">
+                              <Skeleton className="size-3 rounded" />
+                            </div>
+                          }
+                          unloader={
+                            <div className="size-5 flex items-center justify-center overflow-hidden rounded bg-muted border border-border">
+                              <span className="text-[10px] font-semibold text-muted-foreground">
+                                {dep.name.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                          }
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        key={dep.id}
+                        className="size-5 flex items-center justify-center overflow-hidden rounded bg-muted border border-border"
+                        title={dep.name}
+                        style={{
+                          filter: "grayscale(100%)",
+                        }}
+                      >
+                        <span className="text-[10px] font-semibold text-muted-foreground">
+                          {dep.name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )
+                  )}
                   {variant.dependencies && variant.dependencies.length > 4 && (
                     <div
                       className="size-5 bg-muted flex items-center justify-center text-[10px] font-semibold text-muted-foreground rounded border border-border"

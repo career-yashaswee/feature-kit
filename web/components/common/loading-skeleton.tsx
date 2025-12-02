@@ -34,6 +34,18 @@ export function KitCardSkeleton() {
   );
 }
 
+export function StackCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <CardHeader className="pb-3">
+        <Skeleton className="h-6 w-32 mb-2" />
+        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="h-4 w-24" />
+      </CardHeader>
+    </Card>
+  );
+}
+
 export function ProjectCardSkeleton() {
   return (
     <Card className="overflow-hidden">
