@@ -155,8 +155,8 @@ export function ResizablePanels({
             collapsedSize={panel.collapsedSize}
             className={cn(
               "relative flex flex-col overflow-hidden rounded-lg border bg-background",
-              direction === "horizontal" && !isLast && "mr-2",
-              direction === "vertical" && !isLast && "mb-2",
+              direction === "horizontal" && !isLast && "",
+              direction === "vertical" && !isLast && "",
             )}
           >
             {panel.label && (
@@ -210,8 +210,8 @@ export function ResizablePanels({
               className={cn(
                 "group relative flex items-center justify-center bg-border transition-colors hover:bg-primary/20",
                 direction === "horizontal"
-                  ? "w-2 cursor-col-resize"
-                  : "h-2 cursor-row-resize",
+                  ? "w-2 cursor-col-resize mx-0.5"
+                  : "h-2 cursor-row-resize my-0.5",
               )}
             >
               <div

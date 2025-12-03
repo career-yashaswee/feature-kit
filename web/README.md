@@ -12,3 +12,13 @@ A collection of reusable web features and components.
 - **Scroll to Top** - Smooth animated scroll-to-top button
 - Stateful Button
 - Table of Contents
+- In Game Currency Details
+- Leaderboard
+- Healthbar
+- Notification Shade
+- Language Switcher
+- Circular Progress Score
+- File Explorer
+- Card with Markdown Points
+- Download Report Button
+- Domain Badge

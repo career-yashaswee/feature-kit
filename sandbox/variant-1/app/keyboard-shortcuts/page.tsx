@@ -176,7 +176,7 @@ export default function KeyboardShortcutsPage() {
                 ))}
               </ol>
             </div>
-            <div className="rounded-lg border-l-4 border-primary bg-primary/5 p-4">
+            <div className="rounded-sm border-l-8 border-primary bg-primary/5 p-4">
               <p className="text-sm font-medium text-foreground">
                 The shortcuts dialog shows all available shortcuts grouped by
                 category. You can customize the trigger key and add your own

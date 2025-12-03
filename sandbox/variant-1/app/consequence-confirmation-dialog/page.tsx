@@ -17,6 +17,9 @@ import {
   Settings,
   Zap,
   MousePointerClick,
+  Crown,
+  Star,
+  Trophy,
 } from "lucide-react";
 import { ConsequenceConfirmationDialog } from "@/features/consequence-confirmation-dialog/components/consequence-confirmation-dialog";
 import { useConsequenceConfirmationDialog } from "@/features/consequence-confirmation-dialog/hooks/use-consequence-confirmation-dialog";
@@ -25,7 +28,7 @@ import { toast } from "sonner";
 export default function ConsequenceConfirmationDialogPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [variant, setVariant] = useState<
-    "default" | "destructive" | "warning" | "info"
+    "default" | "destructive" | "warning" | "info" | "consequence"
   >("default");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -215,6 +218,21 @@ export default function ConsequenceConfirmationDialogPage() {
                   Open Info Dialog
                 </Button>
               </div>
+              <div className="space-y-3">
+                <h3 className="font-semibold">Consequence Variant</h3>
+                <p className="text-sm text-muted-foreground">
+                  For destructive actions with labels, values, and confirmation input
+                </p>
+                <Button
+                  variant="destructive"
+                  onClick={() => {
+                    setVariant("consequence");
+                    setIsOpen(true);
+                  }}
+                >
+                  Open Consequence Dialog
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -343,7 +361,9 @@ export default function ConsequenceConfirmationDialogPage() {
                 ? "Warning"
                 : variant === "info"
                   ? "Information"
-                  : "Confirm Action"
+                  : variant === "consequence"
+                    ? "Delete Account"
+                    : "Confirm Action"
           }
           message={
             variant === "destructive"
@@ -352,11 +372,42 @@ export default function ConsequenceConfirmationDialogPage() {
                 ? "This action may have unintended consequences. Are you sure you want to continue?"
                 : variant === "info"
                   ? "Please confirm that you want to proceed with this action."
-                  : "Are you sure you want to proceed with this action?"
+                  : variant === "consequence"
+                    ? undefined
+                    : "Are you sure you want to proceed with this action?"
           }
           variant={variant}
           isLoading={isLoading}
-          confirmLabel={variant === "destructive" ? "Delete" : "Confirm"}
+          confirmLabel={variant === "destructive" || variant === "consequence" ? "Delete Account" : "Confirm"}
+          subtitle={variant === "consequence" ? "This action cannot be undone" : undefined}
+          items={
+            variant === "consequence"
+              ? [
+                  {
+                    icon: Crown,
+                    label: "Subscription",
+                    value: "Plus Active",
+                  },
+                  {
+                    icon: Star,
+                    label: "Level",
+                    value: "1",
+                  },
+                  {
+                    icon: Trophy,
+                    label: "Compositions Solved",
+                    value: "1 solved",
+                  },
+                ]
+              : undefined
+          }
+          details={
+            variant === "consequence"
+              ? "Your profile and account data, All compositions and progress, Badges, points, and achievements, Notifications and preferences, All other associated data."
+              : undefined
+          }
+          confirmationText={variant === "consequence" ? "DELETE" : undefined}
+          confirmationPlaceholder={variant === "consequence" ? "DELETE" : undefined}
         />
 
         {hookIsOpen && options && (

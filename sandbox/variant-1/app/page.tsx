@@ -25,6 +25,8 @@ import {
   Share2,
   Layout,
   Search,
+  MessageSquare,
+  Linkedin,
 } from "lucide-react";
 
 const features = [
@@ -113,10 +115,40 @@ const features = [
     description: "LeetCode-style resizable panels with persistent layouts",
   },
   {
-    name: "Auto Complete Form",
-    path: "/auto-complete-form",
+    name: "Table of Contents",
+    path: "/table-of-contents",
+    icon: FileText,
+    description: "Auto-generated table of contents from markdown with active highlighting",
+  },
+  {
+    name: "Stateful Button",
+    path: "/stateful-button",
+    icon: Zap,
+    description: "Button with loading, success, and error states with rate limiting",
+  },
+  {
+    name: "Search Input",
+    path: "/search-input",
     icon: Search,
-    description: "Autocomplete with static and async data support",
+    description: "Search input with fuzzy search, debouncing, and speech recognition",
+  },
+  {
+    name: "Share QR Code",
+    path: "/share-qr-code",
+    icon: Share2,
+    description: "Instagram-style QR code sharing with customizable themes",
+  },
+  {
+    name: "Ask Agent",
+    path: "/ask-agent",
+    icon: MessageSquare,
+    description: "Reddit-style Ask Agent page with animated tags and voice input",
+  },
+  {
+    name: "User Card",
+    path: "/user-card",
+    icon: Linkedin,
+    description: "User card component with LinkedIn and Twitter variants, light and dark mode",
   },
 ];
 

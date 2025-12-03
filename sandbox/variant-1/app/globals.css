@@ -176,6 +176,13 @@
   .demo-badge {
     @apply text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground;
   }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
   .prose {
     @apply text-foreground;
   }

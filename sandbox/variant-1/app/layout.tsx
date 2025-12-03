@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { QueryProvider } from "@/lib/providers/query-provider";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
+import { SpeechRecognitionProvider } from "@/lib/providers/speech-recognition-provider";
 import { DemoHeader } from "@/components/demo-header";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -40,9 +41,11 @@ export default function RootLayout({
       <body className={`${ibmPlexSans.variable} antialiased`}>
         <ThemeProvider>
           <QueryProvider>
-            <DemoHeader />
-            {children}
-            <Toaster richColors position="top-right" />
+            <SpeechRecognitionProvider>
+              <DemoHeader />
+              {children}
+              <Toaster richColors position="top-right" />
+            </SpeechRecognitionProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>
