@@ -12,6 +12,8 @@ import {
   type UseWindowScrollPositionCallbackOptions,
 } from "@n8tb1t/use-scroll-position";
 
+const SCROLL_POSITION_DISABLED_KEY = "__scroll_position_disabled__";
+
 interface UseScrollPositionOptions {
   enabled?: boolean;
   storageKey?: string;
@@ -43,12 +45,18 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
       ? (scrollContainer as HTMLElement)
       : null,
   );
+  
+  const localStorageKey =
+    persist && storageKey ? storageKey : SCROLL_POSITION_DISABLED_KEY;
+  const sessionStorageKey =
+    !persist && storageKey ? storageKey : SCROLL_POSITION_DISABLED_KEY;
+  
   const [savedPositionLocal, setSavedPositionLocal] = useLocalStorage<
     string | null
-  >(persist && storageKey ? storageKey : "", null);
+  >(localStorageKey, null);
   const [savedPositionSession, setSavedPositionSession] = useSessionStorage<
     string | null
-  >(!persist && storageKey ? storageKey : "", null);
+  >(sessionStorageKey, null);
 
   const handleScrollPosition = (
     options: UseWindowScrollPositionCallbackOptions,
@@ -86,7 +94,14 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
   }, [scrollContainer]);
 
   useEffect(() => {
-    if (!enabled || !scrollContainer || !storageKey || hasRestoredRef.current)
+    if (
+      !enabled ||
+      !scrollContainer ||
+      !storageKey ||
+      hasRestoredRef.current ||
+      (persist && localStorageKey === SCROLL_POSITION_DISABLED_KEY) ||
+      (!persist && sessionStorageKey === SCROLL_POSITION_DISABLED_KEY)
+    )
       return;
 
     const savedPosition = persist ? savedPositionLocal : savedPositionSession;
@@ -110,12 +125,20 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
     storageKey,
     persist,
     scrollContainer,
+    localStorageKey,
+    sessionStorageKey,
     savedPositionLocal,
     savedPositionSession,
   ]);
 
   useEffect(() => {
-    if (!enabled || !storageKey) return;
+    if (
+      !enabled ||
+      !storageKey ||
+      (persist && localStorageKey === SCROLL_POSITION_DISABLED_KEY) ||
+      (!persist && sessionStorageKey === SCROLL_POSITION_DISABLED_KEY)
+    )
+      return;
 
     if (persist) {
       setSavedPositionLocal(debouncedScrollY.toString());
@@ -127,6 +150,8 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
     enabled,
     storageKey,
     persist,
+    localStorageKey,
+    sessionStorageKey,
     setSavedPositionLocal,
     setSavedPositionSession,
   ]);

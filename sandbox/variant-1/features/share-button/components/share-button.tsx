@@ -202,9 +202,9 @@ export function ShareButton({
               <label className="text-sm font-medium text-foreground">
                 Link
               </label>
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="flex-1 min-w-0 rounded-md border bg-muted px-3 py-2 text-sm text-muted-foreground overflow-hidden">
-                  <div className="truncate" title={shareUrl}>
+              <div className="flex items-center gap-2 min-w-0 max-w-full">
+                <div className="flex-1 min-w-0 max-w-full rounded-md border bg-muted px-3 py-2 text-sm text-muted-foreground overflow-x-auto">
+                  <div className="whitespace-nowrap" title={shareUrl}>
                     {shareUrl}
                   </div>
                 </div>

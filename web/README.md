@@ -12,4 +12,3 @@ A collection of reusable web features and components.
 - **Scroll to Top** - Smooth animated scroll-to-top button
 - Stateful Button
 - Table of Contents
--

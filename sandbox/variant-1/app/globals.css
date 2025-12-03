@@ -36,7 +36,7 @@
   --sidebar-border: oklch(0.93 0.01 261.82);
   --sidebar-ring: oklch(0.48 0.2 260.47);
 
-  --font-sans: var(--font-plus-jakarta-sans);
+  --font-sans: "Google Sans Flex", sans-serif;
   --font-serif: Source Serif 4, serif;
   --font-mono: var(--font-ibm-plex-sans);
 
@@ -160,11 +160,11 @@
     @apply border-border outline-ring/50;
   }
   html {
-    font-family: var(--font-plus-jakarta-sans);
+    font-family: var(--font-sans);
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-plus-jakarta-sans);
+    font-family: var(--font-sans);
   }
   code,
   pre {

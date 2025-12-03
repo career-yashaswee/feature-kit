@@ -36,17 +36,24 @@ interface EmptyStateProps {
 
 const defaultConfig: Record<
   EmptyStateType,
-  { icon: typeof Inbox; title: string; description: string }
+  {
+    icon: typeof Inbox;
+    title: string;
+    description: string;
+    defaultActionLabel?: string;
+  }
 > = {
   "no-data": {
     icon: Inbox,
     title: "No data available",
     description: "There's nothing to display here yet.",
+    defaultActionLabel: "Refresh",
   },
   error: {
     icon: AlertCircle,
     title: "Something went wrong",
     description: "We encountered an error. Please try again.",
+    defaultActionLabel: "Try again",
   },
   loading: {
     icon: Loader2,
@@ -57,26 +64,31 @@ const defaultConfig: Record<
     icon: FileQuestion,
     title: "Not found",
     description: "The item you're looking for doesn't exist.",
+    defaultActionLabel: "Go back",
   },
   search: {
     icon: Search,
     title: "No results found",
     description: "Try adjusting your search criteria.",
+    defaultActionLabel: "Clear search",
   },
   "not-authorized": {
     icon: ShieldX,
     title: "Access denied",
     description: "You don't have permission to view this content.",
+    defaultActionLabel: "Request access",
   },
   "not-authenticated": {
     icon: LogIn,
     title: "Authentication required",
     description: "Please sign in to access this content.",
+    defaultActionLabel: "Sign in",
   },
   "not-sufficient-data": {
     icon: Database,
     title: "Insufficient data",
     description: "There isn't enough data to display this content.",
+    defaultActionLabel: "Refresh",
   },
 };
 
@@ -93,6 +105,9 @@ export function EmptyState({
   const displayTitle = title || config.title;
   const displayDescription = description || config.description;
   const DefaultIcon = config.icon;
+  const displayActionLabel =
+    actionLabel || config.defaultActionLabel || undefined;
+  const shouldShowButton = !!displayActionLabel;
 
   return (
     <div
@@ -149,9 +164,14 @@ export function EmptyState({
       <p className="mb-6 max-w-sm text-sm text-muted-foreground">
         {displayDescription}
       </p>
-      {onAction && actionLabel && (
-        <Button type="button" variant="outline" onClick={onAction}>
-          {actionLabel}
+      {shouldShowButton && displayActionLabel && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onAction || (() => {})}
+          disabled={!onAction}
+        >
+          {displayActionLabel}
         </Button>
       )}
     </div>
