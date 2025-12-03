@@ -1,6 +1,6 @@
 import { render, waitFor } from "@testing-library/react";
 import { toast } from "sonner";
-import { useNetworkState } from "@uidotdev/usehooks";
+import { useNetworkState, useIsFirstRender } from "@uidotdev/usehooks";
 import { NetworkStatusListener } from "../components/network-status-listener";
 
 jest.mock("sonner", () => ({
@@ -12,15 +12,20 @@ jest.mock("sonner", () => ({
 
 jest.mock("@uidotdev/usehooks", () => ({
   useNetworkState: jest.fn(),
+  useIsFirstRender: jest.fn(),
 }));
 
 const mockUseNetworkState = useNetworkState as jest.MockedFunction<
   typeof useNetworkState
 >;
+const mockUseIsFirstRender = useIsFirstRender as jest.MockedFunction<
+  typeof useIsFirstRender
+>;
 
 describe("NetworkStatusListener", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUseIsFirstRender.mockReturnValue(true);
   });
 
   it("renders nothing", () => {
@@ -50,11 +55,13 @@ describe("NetworkStatusListener", () => {
   });
 
   it("shows error toast when going offline", async () => {
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     mockUseNetworkState.mockReturnValue({
       online: true,
     } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(<NetworkStatusListener />);
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseNetworkState.mockReturnValue({
       online: false,
     } as ReturnType<typeof useNetworkState>);
@@ -69,11 +76,13 @@ describe("NetworkStatusListener", () => {
   });
 
   it("shows success toast when coming back online", async () => {
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     mockUseNetworkState.mockReturnValue({
       online: false,
     } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(<NetworkStatusListener />);
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseNetworkState.mockReturnValue({
       online: true,
     } as ReturnType<typeof useNetworkState>);
@@ -88,6 +97,7 @@ describe("NetworkStatusListener", () => {
   });
 
   it("uses custom offline message", async () => {
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     mockUseNetworkState.mockReturnValue({
       online: true,
     } as ReturnType<typeof useNetworkState>);
@@ -95,6 +105,7 @@ describe("NetworkStatusListener", () => {
       <NetworkStatusListener offlineMessage="Custom offline message" />,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseNetworkState.mockReturnValue({
       online: false,
     } as ReturnType<typeof useNetworkState>);
@@ -108,6 +119,7 @@ describe("NetworkStatusListener", () => {
   });
 
   it("uses custom online message", async () => {
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     mockUseNetworkState.mockReturnValue({
       online: false,
     } as ReturnType<typeof useNetworkState>);
@@ -115,6 +127,7 @@ describe("NetworkStatusListener", () => {
       <NetworkStatusListener onlineMessage="Custom online message" />,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseNetworkState.mockReturnValue({
       online: true,
     } as ReturnType<typeof useNetworkState>);
@@ -129,11 +142,13 @@ describe("NetworkStatusListener", () => {
 
   it("does not show toast when showToast is false", async () => {
     // Test online → offline transition
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     mockUseNetworkState.mockReturnValue({
       online: true,
     } as ReturnType<typeof useNetworkState>);
     const { rerender } = render(<NetworkStatusListener showToast={false} />);
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseNetworkState.mockReturnValue({
       online: false,
     } as ReturnType<typeof useNetworkState>);
@@ -147,11 +162,13 @@ describe("NetworkStatusListener", () => {
     jest.clearAllMocks();
 
     // Test offline → online transition
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     mockUseNetworkState.mockReturnValue({
       online: false,
     } as ReturnType<typeof useNetworkState>);
     rerender(<NetworkStatusListener showToast={false} />);
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseNetworkState.mockReturnValue({
       online: true,
     } as ReturnType<typeof useNetworkState>);

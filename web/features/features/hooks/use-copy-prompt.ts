@@ -2,9 +2,11 @@
 
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
 
 export function useCopyPrompt() {
   const { t } = useTranslation();
+  const [, copy] = useCopyToClipboard();
 
   const copyPrompt = async (prompt: string | null) => {
     if (!prompt) {
@@ -16,10 +18,10 @@ export function useCopyPrompt() {
       id: "copy-prompt",
     });
 
-    try {
-      await navigator.clipboard.writeText(prompt);
+    const success = copy(prompt);
+    if (success) {
       toast.success(t("feature.promptCopied"), { id: toastId });
-    } catch {
+    } else {
       toast.error(t("feature.promptCopyError"), { id: toastId });
     }
   };

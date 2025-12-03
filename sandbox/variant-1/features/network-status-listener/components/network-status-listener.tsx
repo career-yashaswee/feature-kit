@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useNetworkState } from "@uidotdev/usehooks";
+import { useNetworkState, useIsFirstRender } from "@uidotdev/usehooks";
 import { toast } from "sonner";
 
 interface NetworkStatusListenerProps {
@@ -20,11 +20,10 @@ export function NetworkStatusListener({
 }: NetworkStatusListenerProps) {
   const network = useNetworkState();
   const wasOffline = useRef(false);
-  const isFirstRender = useRef(true);
+  const isFirstRender = useIsFirstRender();
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
+    if (isFirstRender) {
       wasOffline.current = network.online === false;
       return;
     }

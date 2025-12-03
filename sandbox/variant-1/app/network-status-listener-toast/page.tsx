@@ -48,19 +48,19 @@ export default function HomePage() {
             offline or come back online.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Zap className="h-3 w-3" />
               Real-time Detection
             </Badge>
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Bell className="h-3 w-3" />
               Toast Notifications
             </Badge>
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Code className="h-3 w-3" />
               TypeScript
             </Badge>
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Settings className="h-3 w-3" />
               Zero Config
             </Badge>

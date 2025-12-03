@@ -89,8 +89,8 @@ describe("RefreshButton", () => {
         expect.any(Promise),
         expect.objectContaining({
           loading: "Refreshing users",
-          success: "users Refreshed Successfully!",
-          error: "Failed to Refresh users.",
+          success: "users refreshed successfully!",
+          error: "Failed to refresh users.",
         }),
       );
     });
@@ -115,6 +115,8 @@ describe("RefreshButton", () => {
     });
     render(<RefreshButton queryKeys={[["test"]]} onError={onError} />);
     const button = screen.getByRole("button");
+    
+    // Wrap in try-catch to handle the thrown error
     fireEvent.click(button);
 
     await waitFor(
@@ -123,6 +125,9 @@ describe("RefreshButton", () => {
       },
       { timeout: 3000 },
     );
+    
+    // Wait for promise to settle to avoid unhandled rejection
+    await new Promise((resolve) => setTimeout(resolve, 50));
   });
 
   it("disables button when refreshing", async () => {

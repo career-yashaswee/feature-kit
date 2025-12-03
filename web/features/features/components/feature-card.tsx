@@ -76,7 +76,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
         </CardContent>
         <CardFooter className="flex flex-wrap items-center gap-2 flex-shrink-0">
           {feature.kit && (
-            <Badge variant="secondary" aria-label={`Kit: ${feature.kit.name}`}>
+            <Badge variant="default" aria-label={`Kit: ${feature.kit.name}`}>
               {feature.kit.name}
             </Badge>
           )}

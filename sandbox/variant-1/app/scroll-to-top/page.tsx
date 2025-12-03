@@ -48,19 +48,19 @@ export default function ScrollToTopPage() {
             delightful animation.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Sparkles className="h-3 w-3" />
               Smooth Animation
             </Badge>
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Settings className="h-3 w-3" />
               Customizable
             </Badge>
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Code className="h-3 w-3" />
               TypeScript
             </Badge>
-            <Badge variant="secondary" className="gap-1.5">
+            <Badge variant="default" className="gap-1.5 demo-badge">
               <Zap className="h-3 w-3" />
               Zero Config
             </Badge>

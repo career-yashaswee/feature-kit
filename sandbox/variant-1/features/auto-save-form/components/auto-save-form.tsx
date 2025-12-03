@@ -1,7 +1,7 @@
 "use client";
 
 import { type ReactNode, useEffect, useRef, useState } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useDebounce, useLocalStorage, useIsFirstRender } from "@uidotdev/usehooks";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Loader2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -61,27 +61,25 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
   const [status, setStatus] = useState<SaveStatus>("idle");
   const debouncedData = useDebounce(data, debounceMs);
   const previousDataRef = useRef<T | null>(null);
-  const isInitialMount = useRef(true);
+  const isFirstRender = useIsFirstRender();
   const abortControllerRef = useRef<AbortController | null>(null);
-  const statusTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [savedData, setSavedData] = useLocalStorage<T | null>(
+    storageKey || "",
+    null,
+  );
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
+    if (isFirstRender) {
       if (debouncedData != null) {
         previousDataRef.current = debouncedData;
       }
 
-      if (storageKey && typeof window !== "undefined") {
+      if (storageKey && savedData) {
         try {
-          const saved = localStorage.getItem(storageKey);
-          if (saved) {
-            const parsed = JSON.parse(saved) as Partial<T>;
-            const merged = { ...data, ...parsed };
-            onLoadFromStorage?.(merged);
-          }
+          const merged = { ...data, ...savedData };
+          onLoadFromStorage?.(merged);
         } catch {
-          // Ignore localStorage errors
+          // Ignore errors
         }
       }
       return;
@@ -111,12 +109,8 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
       setStatus("saving");
       onSaveStart?.();
 
-      if (storageKey && typeof window !== "undefined") {
-        try {
-          localStorage.setItem(storageKey, JSON.stringify(debouncedData));
-        } catch {
-          // Ignore localStorage errors
-        }
+      if (storageKey) {
+        setSavedData(debouncedData);
       }
 
       try {
@@ -130,10 +124,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
         onSaveSuccess?.();
         toast.success(successMessage);
 
-        if (statusTimeoutRef.current) {
-          clearTimeout(statusTimeoutRef.current);
-        }
-        statusTimeoutRef.current = setTimeout(() => {
+        setTimeout(() => {
           setStatus((prev) => (prev === "saved" ? "idle" : prev));
         }, 2000);
       } catch (error) {
@@ -144,24 +135,16 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
         onSaveError?.(err);
         toast.error(errorMessage);
 
-        if (statusTimeoutRef.current) {
-          clearTimeout(statusTimeoutRef.current);
-        }
-        statusTimeoutRef.current = setTimeout(() => {
+        setTimeout(() => {
           setStatus((prev) => (prev === "error" ? "idle" : prev));
         }, 3000);
       }
     };
 
     saveData();
-
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
-      }
-      if (statusTimeoutRef.current) {
-        clearTimeout(statusTimeoutRef.current);
-        statusTimeoutRef.current = null;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -174,6 +157,9 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
     onSaveError,
     successMessage,
     errorMessage,
+    setSavedData,
+    isFirstRender,
+    savedData,
   ]);
 
   return (

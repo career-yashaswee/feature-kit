@@ -1,10 +1,12 @@
 import { render, screen, waitFor, act } from "@testing-library/react";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useDebounce, useIsFirstRender, useLocalStorage } from "@uidotdev/usehooks";
 import { toast } from "sonner";
 import { AutoSaveForm } from "../components/auto-save-form";
 
 jest.mock("@uidotdev/usehooks", () => ({
   useDebounce: jest.fn(),
+  useIsFirstRender: jest.fn(),
+  useLocalStorage: jest.fn(),
 }));
 
 jest.mock("sonner", () => ({
@@ -26,12 +28,29 @@ jest.mock("framer-motion", () => ({
 }));
 
 const mockUseDebounce = useDebounce as jest.MockedFunction<typeof useDebounce>;
+const mockUseIsFirstRender = useIsFirstRender as jest.MockedFunction<typeof useIsFirstRender>;
+const mockUseLocalStorage = useLocalStorage as jest.MockedFunction<typeof useLocalStorage>;
 
 describe("AutoSaveForm", () => {
+  const mockSetSavedData = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
     jest.useFakeTimers();
+    mockUseIsFirstRender.mockReturnValue(true);
+    mockUseLocalStorage.mockReturnValue([null, mockSetSavedData]);
+    
+    // Mock localStorage methods
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: jest.fn(),
+        setItem: jest.fn(),
+        removeItem: jest.fn(),
+        clear: jest.fn(),
+      },
+      writable: true,
+    });
   });
 
   afterEach(() => {
@@ -41,6 +60,7 @@ describe("AutoSaveForm", () => {
 
   it("renders children", () => {
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={jest.fn()}>
         <form>Test form</form>
@@ -52,6 +72,7 @@ describe("AutoSaveForm", () => {
   it("saves data when debounced value changes", async () => {
     const onSave = jest.fn().mockResolvedValue(undefined);
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
@@ -63,6 +84,7 @@ describe("AutoSaveForm", () => {
       jest.advanceTimersByTime(50);
     });
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
@@ -85,6 +107,7 @@ describe("AutoSaveForm", () => {
   it("saves to localStorage when storageKey is provided", async () => {
     const onSave = jest.fn().mockResolvedValue(undefined);
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm
@@ -97,7 +120,9 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Test" });
+    mockUseLocalStorage.mockReturnValue([null, mockSetSavedData]);
     rerender(
       <AutoSaveForm
         data={{ name: "Test" }}
@@ -114,18 +139,18 @@ describe("AutoSaveForm", () => {
     });
 
     await waitFor(() => {
-      expect(localStorage.setItem).toHaveBeenCalledWith(
-        "test-key",
-        JSON.stringify({ name: "Test" }),
-      );
+      expect(mockSetSavedData).toHaveBeenCalledWith({ name: "Test" });
     });
   });
 
   it("restores from localStorage on mount", () => {
+    const restoredData = { name: "Restored" };
     (localStorage.getItem as jest.Mock).mockReturnValue(
-      JSON.stringify({ name: "Restored" }),
+      JSON.stringify(restoredData),
     );
     mockUseDebounce.mockReturnValue({ name: "Restored" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
+    mockUseLocalStorage.mockReturnValue([restoredData, mockSetSavedData]);
 
     render(
       <AutoSaveForm
@@ -137,16 +162,18 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
-    expect(localStorage.getItem).toHaveBeenCalledWith("test-key");
+    expect(mockUseLocalStorage).toHaveBeenCalledWith("test-key", null);
   });
 
   it("shows saving indicator", async () => {
-    const onSave = jest
-      .fn()
-      .mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100)),
-      );
+    let resolveSave: () => void;
+    const onSave = jest.fn().mockImplementation(
+      () => new Promise<void>((resolve) => {
+        resolveSave = resolve;
+      }),
+    );
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
@@ -154,6 +181,7 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
@@ -168,11 +196,18 @@ describe("AutoSaveForm", () => {
     await waitFor(() => {
       expect(screen.getByText("Saving...")).toBeInTheDocument();
     });
+
+    // Resolve the save promise
+    await act(async () => {
+      resolveSave!();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
   });
 
   it("shows saved indicator after successful save", async () => {
     const onSave = jest.fn().mockResolvedValue(undefined);
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
@@ -180,6 +215,7 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
@@ -204,6 +240,7 @@ describe("AutoSaveForm", () => {
       .fn()
       .mockImplementation(() => Promise.reject(new Error("Save failed")));
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
@@ -211,6 +248,7 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
@@ -234,6 +272,7 @@ describe("AutoSaveForm", () => {
     const onSaveStart = jest.fn();
     const onSave = jest.fn().mockResolvedValue(undefined);
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm
@@ -246,6 +285,7 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm
@@ -271,6 +311,7 @@ describe("AutoSaveForm", () => {
     const onSaveSuccess = jest.fn();
     const onSave = jest.fn().mockResolvedValue(undefined);
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm
@@ -283,6 +324,7 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm
@@ -313,6 +355,7 @@ describe("AutoSaveForm", () => {
       .fn()
       .mockImplementation(() => Promise.reject(new Error("Save failed")));
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm
@@ -325,6 +368,11 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    await act(async () => {
+      jest.advanceTimersByTime(50);
+    });
+
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm
@@ -339,6 +387,7 @@ describe("AutoSaveForm", () => {
 
     await act(async () => {
       jest.advanceTimersByTime(150);
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await waitFor(
@@ -352,6 +401,7 @@ describe("AutoSaveForm", () => {
   it("uses custom success message", async () => {
     const onSave = jest.fn().mockResolvedValue(undefined);
     mockUseDebounce.mockReturnValue({ name: "Initial" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
 
     const { rerender } = render(
       <AutoSaveForm
@@ -364,6 +414,11 @@ describe("AutoSaveForm", () => {
       </AutoSaveForm>,
     );
 
+    await act(async () => {
+      jest.advanceTimersByTime(50);
+    });
+
+    mockUseIsFirstRender.mockReturnValue(false);
     mockUseDebounce.mockReturnValue({ name: "Updated" });
     rerender(
       <AutoSaveForm
@@ -378,6 +433,7 @@ describe("AutoSaveForm", () => {
 
     await act(async () => {
       jest.advanceTimersByTime(150);
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     await waitFor(
@@ -390,6 +446,7 @@ describe("AutoSaveForm", () => {
 
   it("hides indicator when showIndicator is false", () => {
     mockUseDebounce.mockReturnValue({ name: "Test" });
+    mockUseIsFirstRender.mockReturnValueOnce(true);
     render(
       <AutoSaveForm
         data={{ name: "Test" }}

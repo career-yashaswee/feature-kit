@@ -173,6 +173,9 @@
 }
 
 @layer utilities {
+  .demo-badge {
+    @apply text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground;
+  }
   .prose {
     @apply text-foreground;
   }

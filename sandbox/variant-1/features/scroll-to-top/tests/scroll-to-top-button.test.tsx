@@ -50,13 +50,14 @@ describe("ScrollToTopButton", () => {
     expect(screen.getByLabelText("Scroll to top")).toBeInTheDocument();
   });
 
-  it("renders with default text when no children provided", () => {
+  it("renders with default icon when no children provided", () => {
     mockUseWindowScroll.mockReturnValue([
       { x: 0, y: 400 },
       mockScrollTo,
     ] as ReturnType<typeof useWindowScroll>);
     render(<ScrollToTopButton />);
-    expect(screen.getByText("Top")).toBeInTheDocument();
+    const button = screen.getByLabelText("Scroll to top");
+    expect(button.querySelector("svg")).toBeInTheDocument();
   });
 
   it("renders custom children", () => {

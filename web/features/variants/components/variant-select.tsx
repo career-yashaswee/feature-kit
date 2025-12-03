@@ -84,7 +84,7 @@ export function VariantSelect({
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2">
           <span>{selectedVariant?.display_name || "Select variant"}</span>
-          <Badge variant="secondary" className="h-5 min-w-5 px-1.5 text-xs">
+          <Badge variant="default" className="h-5 min-w-5 px-1.5 text-xs">
             {variantCount}
           </Badge>
           <ChevronDown className="size-4" />

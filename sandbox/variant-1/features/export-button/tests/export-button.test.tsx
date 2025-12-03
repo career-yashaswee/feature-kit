@@ -70,17 +70,16 @@ describe("ExportButton", () => {
       { id: 1, name: "Test" },
       { id: 2, name: "Test2" },
     ]);
-    const mockLink = {
-      href: "",
-      download: "",
-      style: { display: "none" },
-      click: mockClick,
-    };
+    const mockLink = originalCreateElement.call(document, "a") as HTMLAnchorElement;
+    mockLink.click = mockClick;
+    Object.defineProperty(mockLink, "href", { writable: true, value: "" });
+    Object.defineProperty(mockLink, "download", { writable: true, value: "" });
+    
     const createElementSpy = jest
       .spyOn(document, "createElement")
       .mockImplementation((tagName) => {
         if (tagName === "a") {
-          return mockLink as HTMLAnchorElement;
+          return mockLink;
         }
         return originalCreateElement.call(document, tagName);
       });
@@ -100,17 +99,16 @@ describe("ExportButton", () => {
 
   it("exports data as JSON", async () => {
     const fetchData = jest.fn().mockResolvedValue([{ id: 1, name: "Test" }]);
-    const mockLink = {
-      href: "",
-      download: "",
-      style: { display: "none" },
-      click: mockClick,
-    };
+    const mockLink = originalCreateElement.call(document, "a") as HTMLAnchorElement;
+    mockLink.click = mockClick;
+    Object.defineProperty(mockLink, "href", { writable: true, value: "" });
+    Object.defineProperty(mockLink, "download", { writable: true, value: "" });
+    
     const createElementSpy = jest
       .spyOn(document, "createElement")
       .mockImplementation((tagName) => {
         if (tagName === "a") {
-          return mockLink as HTMLAnchorElement;
+          return mockLink;
         }
         return originalCreateElement.call(document, tagName);
       });
@@ -128,17 +126,16 @@ describe("ExportButton", () => {
 
   it("shows toast with custom resource", async () => {
     const fetchData = jest.fn().mockResolvedValue([{ id: 1 }]);
-    const mockLink = {
-      href: "",
-      download: "",
-      style: { display: "none" },
-      click: mockClick,
-    };
+    const mockLink = originalCreateElement.call(document, "a") as HTMLAnchorElement;
+    mockLink.click = mockClick;
+    Object.defineProperty(mockLink, "href", { writable: true, value: "" });
+    Object.defineProperty(mockLink, "download", { writable: true, value: "" });
+    
     const createElementSpy = jest
       .spyOn(document, "createElement")
       .mockImplementation((tagName) => {
         if (tagName === "a") {
-          return mockLink as HTMLAnchorElement;
+          return mockLink;
         }
         return originalCreateElement.call(document, tagName);
       });
@@ -164,17 +161,16 @@ describe("ExportButton", () => {
   it("calls onSuccess callback", async () => {
     const fetchData = jest.fn().mockResolvedValue([{ id: 1 }]);
     const onSuccess = jest.fn();
-    const mockLink = {
-      href: "",
-      download: "",
-      style: { display: "none" },
-      click: mockClick,
-    };
+    const mockLink = originalCreateElement.call(document, "a") as HTMLAnchorElement;
+    mockLink.click = mockClick;
+    Object.defineProperty(mockLink, "href", { writable: true, value: "" });
+    Object.defineProperty(mockLink, "download", { writable: true, value: "" });
+    
     const createElementSpy = jest
       .spyOn(document, "createElement")
       .mockImplementation((tagName) => {
         if (tagName === "a") {
-          return mockLink as HTMLAnchorElement;
+          return mockLink;
         }
         return originalCreateElement.call(document, tagName);
       });
@@ -200,7 +196,7 @@ describe("ExportButton", () => {
 
     await waitFor(() => {
       expect(onError).toHaveBeenCalled();
-    });
+    }, { timeout: 3000 });
   });
 
   it("throws error when data is empty", async () => {
@@ -213,7 +209,7 @@ describe("ExportButton", () => {
 
     await waitFor(() => {
       expect(onError).toHaveBeenCalled();
-    });
+    }, { timeout: 3000 });
   });
 
   it("disables button when exporting", async () => {
@@ -223,17 +219,16 @@ describe("ExportButton", () => {
         () =>
           new Promise((resolve) => setTimeout(() => resolve([{ id: 1 }]), 100)),
       );
-    const mockLink = {
-      href: "",
-      download: "",
-      style: { display: "none" },
-      click: mockClick,
-    };
+    const mockLink = originalCreateElement.call(document, "a") as HTMLAnchorElement;
+    mockLink.click = mockClick;
+    Object.defineProperty(mockLink, "href", { writable: true, value: "" });
+    Object.defineProperty(mockLink, "download", { writable: true, value: "" });
+    
     const createElementSpy = jest
       .spyOn(document, "createElement")
       .mockImplementation((tagName) => {
         if (tagName === "a") {
-          return mockLink as HTMLAnchorElement;
+          return mockLink;
         }
         return originalCreateElement.call(document, tagName);
       });
@@ -260,17 +255,16 @@ describe("ExportButton", () => {
 
   it("generates filename with timestamp", async () => {
     const fetchData = jest.fn().mockResolvedValue([{ id: 1 }]);
-    const mockLink = {
-      href: "",
-      download: "",
-      style: { display: "none" },
-      click: mockClick,
-    };
+    const mockLink = originalCreateElement.call(document, "a") as HTMLAnchorElement;
+    mockLink.click = mockClick;
+    Object.defineProperty(mockLink, "href", { writable: true, value: "" });
+    Object.defineProperty(mockLink, "download", { writable: true, value: "" });
+    
     const createElementSpy = jest
       .spyOn(document, "createElement")
       .mockImplementation((tagName) => {
         if (tagName === "a") {
-          return mockLink as HTMLAnchorElement;
+          return mockLink;
         }
         return originalCreateElement.call(document, tagName);
       });

@@ -113,6 +113,9 @@ describe("OptimisticActionButton", () => {
       },
       { timeout: 3000 },
     );
+    
+    // Wait for promise to settle to avoid unhandled rejection warnings
+    await new Promise((resolve) => setTimeout(resolve, 20));
   });
 
   it("calls onSuccess when action succeeds", async () => {
@@ -167,6 +170,9 @@ describe("OptimisticActionButton", () => {
       },
       { timeout: 3000 },
     );
+    
+    // Wait for promise to settle to avoid unhandled rejection warnings
+    await new Promise((resolve) => setTimeout(resolve, 20));
   });
 
   it("shows toast with custom messages", async () => {
