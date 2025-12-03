@@ -8,9 +8,9 @@ const AutoSaveForm = dynamic(
     import("@/features/auto-save-form/components/auto-save-form").then(
       (mod) => ({
         default: mod.AutoSaveForm,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   Card,
@@ -30,7 +30,7 @@ interface AutoSaveFormData extends Record<string, unknown> {
 
 async function saveFormData(
   data: Record<string, unknown>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) {
   await new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {

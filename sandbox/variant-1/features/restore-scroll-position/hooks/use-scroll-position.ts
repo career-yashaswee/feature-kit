@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useDebounce, useLocalStorage, useSessionStorage } from "@uidotdev/usehooks";
+import {
+  useDebounce,
+  useLocalStorage,
+  useSessionStorage,
+} from "@uidotdev/usehooks";
 import {
   useWindowScrollPosition,
   useOverflowScrollPosition,
@@ -25,25 +29,30 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
     debounceMs = 100,
   } = options;
 
-  const scrollContainer = container || (typeof window !== "undefined" ? window : null);
+  const scrollContainer =
+    container || (typeof window !== "undefined" ? window : null);
   const hasRestoredRef = useRef(false);
   const [scrollY, setScrollY] = useState<number>(0);
   const containerRef = useRef<HTMLElement | null>(
-    scrollContainer && scrollContainer !== window ? (scrollContainer as HTMLElement) : null,
+    scrollContainer && scrollContainer !== window
+      ? (scrollContainer as HTMLElement)
+      : null,
   );
   const containerElementRef = useRef<HTMLElement | null>(
-    scrollContainer && scrollContainer !== window ? (scrollContainer as HTMLElement) : null,
+    scrollContainer && scrollContainer !== window
+      ? (scrollContainer as HTMLElement)
+      : null,
   );
-  const [savedPositionLocal, setSavedPositionLocal] = useLocalStorage<string | null>(
-    persist && storageKey ? storageKey : "",
-    null,
-  );
-  const [savedPositionSession, setSavedPositionSession] = useSessionStorage<string | null>(
-    !persist && storageKey ? storageKey : "",
-    null,
-  );
+  const [savedPositionLocal, setSavedPositionLocal] = useLocalStorage<
+    string | null
+  >(persist && storageKey ? storageKey : "", null);
+  const [savedPositionSession, setSavedPositionSession] = useSessionStorage<
+    string | null
+  >(!persist && storageKey ? storageKey : "", null);
 
-  const handleScrollPosition = (options: UseWindowScrollPositionCallbackOptions) => {
+  const handleScrollPosition = (
+    options: UseWindowScrollPositionCallbackOptions,
+  ) => {
     if (!enabled || !storageKey) return;
     setScrollY(options.currPos.y);
   };
@@ -77,7 +86,8 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
   }, [scrollContainer]);
 
   useEffect(() => {
-    if (!enabled || !scrollContainer || !storageKey || hasRestoredRef.current) return;
+    if (!enabled || !scrollContainer || !storageKey || hasRestoredRef.current)
+      return;
 
     const savedPosition = persist ? savedPositionLocal : savedPositionSession;
 
@@ -95,7 +105,14 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
         hasRestoredRef.current = true;
       }
     }
-  }, [enabled, storageKey, persist, scrollContainer, savedPositionLocal, savedPositionSession]);
+  }, [
+    enabled,
+    storageKey,
+    persist,
+    scrollContainer,
+    savedPositionLocal,
+    savedPositionSession,
+  ]);
 
   useEffect(() => {
     if (!enabled || !storageKey) return;
@@ -105,6 +122,12 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
     } else {
       setSavedPositionSession(debouncedScrollY.toString());
     }
-  }, [debouncedScrollY, enabled, storageKey, persist, setSavedPositionLocal, setSavedPositionSession]);
+  }, [
+    debouncedScrollY,
+    enabled,
+    storageKey,
+    persist,
+    setSavedPositionLocal,
+    setSavedPositionSession,
+  ]);
 }
-

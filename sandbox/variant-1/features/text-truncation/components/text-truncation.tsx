@@ -78,7 +78,7 @@ export function TextTruncation({
           type="button"
           variant="ghost"
           size="sm"
-          onClick={toggleExpanded}
+          onClick={() => toggleExpanded()}
           className="h-auto p-0 text-xs text-primary hover:text-primary/80"
         >
           {isExpanded ? (
@@ -97,4 +97,3 @@ export function TextTruncation({
     </div>
   );
 }
-

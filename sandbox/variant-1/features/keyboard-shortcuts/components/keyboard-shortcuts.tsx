@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   Dialog,
@@ -10,7 +10,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 
 interface Shortcut {
   keys: string[];
@@ -29,7 +28,6 @@ export function KeyboardShortcuts({
   shortcuts,
   triggerKey = "mod+k",
   showHelp = true,
-  className,
 }: KeyboardShortcutsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -84,42 +82,47 @@ export function KeyboardShortcuts({
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-6 pt-4">
-              {Object.entries(groupedShortcuts).map(([category, categoryShortcuts]) => (
-                <div key={category}>
-                  <h3 className="mb-3 text-sm font-semibold text-foreground">
-                    {category}
-                  </h3>
-                  <div className="space-y-2">
-                    {categoryShortcuts.map((shortcut, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between border-b border-border pb-2 last:border-0"
-                      >
-                        <span className="text-sm text-muted-foreground">
-                          {shortcut.description}
-                        </span>
-                        <div className="flex items-center gap-1">
-                          {shortcut.keys.map((key, keyIndex) => (
-                            <div key={keyIndex} className="flex items-center gap-1">
-                              <Badge
-                                variant="outline"
-                                className="font-mono text-xs font-normal"
+              {Object.entries(groupedShortcuts).map(
+                ([category, categoryShortcuts]) => (
+                  <div key={category}>
+                    <h3 className="mb-3 text-sm font-semibold text-foreground">
+                      {category}
+                    </h3>
+                    <div className="space-y-2">
+                      {categoryShortcuts.map((shortcut, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between border-b border-border pb-2 last:border-0"
+                        >
+                          <span className="text-sm text-muted-foreground">
+                            {shortcut.description}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            {shortcut.keys.map((key, keyIndex) => (
+                              <div
+                                key={keyIndex}
+                                className="flex items-center gap-1"
                               >
-                                {formatKey(key)}
-                              </Badge>
-                              {keyIndex < shortcut.keys.length - 1 && (
-                                <span className="text-xs text-muted-foreground">
-                                  +
-                                </span>
-                              )}
-                            </div>
-                          ))}
+                                <Badge
+                                  variant="outline"
+                                  className="font-mono text-xs font-normal"
+                                >
+                                  {formatKey(key)}
+                                </Badge>
+                                {keyIndex < shortcut.keys.length - 1 && (
+                                  <span className="text-xs text-muted-foreground">
+                                    +
+                                  </span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
           </DialogContent>
         </Dialog>
@@ -144,4 +147,3 @@ export function useKeyboardShortcut(
     { enabled: options?.enabled !== false },
   );
 }
-

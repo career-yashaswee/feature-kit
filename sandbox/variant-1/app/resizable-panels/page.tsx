@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import {
   Card,
   CardContent,
@@ -34,8 +36,8 @@ export default function ResizablePanelsPage() {
             Resizable Panels
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            LeetCode-style resizable panels with horizontal and vertical layouts,
-            collapsible panels, persistent layouts, and custom cursors.
+            LeetCode-style resizable panels with horizontal and vertical
+            layouts, collapsible panels, persistent layouts, and custom cursors.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 demo-badge">
@@ -67,8 +69,8 @@ export default function ResizablePanelsPage() {
                 <CardTitle className="text-2xl">How to Test</CardTitle>
                 <CardDescription className="text-base">
                   Drag the resize handles between panels to resize them. Click
-                  the collapse button to collapse panels. The layout will persist
-                  in localStorage.
+                  the collapse button to collapse panels. The layout will
+                  persist in localStorage.
                 </CardDescription>
               </div>
             </div>
@@ -296,4 +298,3 @@ export default function ResizablePanelsPage() {
     </div>
   );
 }
-

@@ -1,5 +1,9 @@
 import { render, screen, waitFor, act } from "@testing-library/react";
-import { useDebounce, useIsFirstRender, useLocalStorage } from "@uidotdev/usehooks";
+import {
+  useDebounce,
+  useIsFirstRender,
+  useLocalStorage,
+} from "@uidotdev/usehooks";
 import { toast } from "sonner";
 import { AutoSaveForm } from "../components/auto-save-form";
 
@@ -28,8 +32,12 @@ jest.mock("framer-motion", () => ({
 }));
 
 const mockUseDebounce = useDebounce as jest.MockedFunction<typeof useDebounce>;
-const mockUseIsFirstRender = useIsFirstRender as jest.MockedFunction<typeof useIsFirstRender>;
-const mockUseLocalStorage = useLocalStorage as jest.MockedFunction<typeof useLocalStorage>;
+const mockUseIsFirstRender = useIsFirstRender as jest.MockedFunction<
+  typeof useIsFirstRender
+>;
+const mockUseLocalStorage = useLocalStorage as jest.MockedFunction<
+  typeof useLocalStorage
+>;
 
 describe("AutoSaveForm", () => {
   const mockSetSavedData = jest.fn();
@@ -40,9 +48,9 @@ describe("AutoSaveForm", () => {
     jest.useFakeTimers();
     mockUseIsFirstRender.mockReturnValue(true);
     mockUseLocalStorage.mockReturnValue([null, mockSetSavedData]);
-    
+
     // Mock localStorage methods
-    Object.defineProperty(window, 'localStorage', {
+    Object.defineProperty(window, "localStorage", {
       value: {
         getItem: jest.fn(),
         setItem: jest.fn(),
@@ -168,9 +176,10 @@ describe("AutoSaveForm", () => {
   it("shows saving indicator", async () => {
     let resolveSave: () => void;
     const onSave = jest.fn().mockImplementation(
-      () => new Promise<void>((resolve) => {
-        resolveSave = resolve;
-      }),
+      () =>
+        new Promise<void>((resolve) => {
+          resolveSave = resolve;
+        }),
     );
     mockUseDebounce.mockReturnValue({ name: "Initial" });
     mockUseIsFirstRender.mockReturnValueOnce(true);

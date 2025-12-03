@@ -50,7 +50,11 @@ export function CopyToClipboard({
       // Immediately set copied state for snappy animation
       setCopied(true);
 
-      if (html && typeof navigator !== "undefined" && navigator.clipboard?.write) {
+      if (
+        html &&
+        typeof navigator !== "undefined" &&
+        navigator.clipboard?.write
+      ) {
         const clipboardItem = new ClipboardItem({
           "text/plain": new Blob([text], { type: "text/plain" }),
           "text/html": new Blob([html], { type: "text/html" }),
@@ -58,7 +62,10 @@ export function CopyToClipboard({
         await navigator.clipboard.write([clipboardItem]);
         toast.success(successMessage);
         onCopy?.(text);
-      } else if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      } else if (
+        typeof navigator !== "undefined" &&
+        navigator.clipboard?.writeText
+      ) {
         await navigator.clipboard.writeText(text);
         toast.success(successMessage);
         onCopy?.(text);
@@ -74,7 +81,7 @@ export function CopyToClipboard({
           document.execCommand("copy");
           toast.success(successMessage);
           onCopy?.(text);
-        } catch (err) {
+        } catch {
           throw new Error("Copy failed");
         } finally {
           document.body.removeChild(textArea);
@@ -86,14 +93,7 @@ export function CopyToClipboard({
       toast.error(errorMessage);
       onError?.(err);
     }
-  }, [
-    text,
-    html,
-    successMessage,
-    errorMessage,
-    onCopy,
-    onError,
-  ]);
+  }, [text, html, successMessage, errorMessage, onCopy, onError]);
 
   return (
     <Button
@@ -131,4 +131,3 @@ export function CopyToClipboard({
     </Button>
   );
 }
-

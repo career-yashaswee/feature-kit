@@ -18,10 +18,10 @@ export function useCopyPrompt() {
       id: "copy-prompt",
     });
 
-    const success = copy(prompt);
-    if (success) {
+    try {
+      copy(prompt);
       toast.success(t("feature.promptCopied"), { id: toastId });
-    } else {
+    } catch {
       toast.error(t("feature.promptCopyError"), { id: toastId });
     }
   };

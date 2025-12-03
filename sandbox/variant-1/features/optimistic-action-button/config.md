@@ -213,22 +213,22 @@ async function handleAction(): Promise<void> {
 
 ## Props API
 
-| Prop                  | Type                              | Default                              | Description                                    |
-| --------------------- | --------------------------------- | ------------------------------------ | ---------------------------------------------- |
-| `action`              | `() => Promise<void>`             | -                                    | Async function to execute                       |
-| `optimisticState`     | `boolean`                          | -                                    | Current optimistic state (for tracking)         |
-| `onOptimisticUpdate`  | `() => void`                       | -                                    | Callback to apply optimistic update             |
-| `onRollback`          | `() => void`                       | -                                    | Callback to rollback on error                   |
-| `children`             | `ReactNode`                        | -                                    | Button content                                  |
-| `loadingMessage`      | `string`                           | `"Processing..."`                    | Toast message during loading                    |
-| `successMessage`      | `string`                           | `"Action completed successfully."`   | Toast message on success                        |
-| `errorMessage`        | `string`                           | `"Action failed. Please try again."` | Toast message on error                          |
-| `onSuccess`           | `() => void`                       | -                                    | Callback when action succeeds                   |
-| `onError`             | `(error: Error) => void`           | -                                    | Callback when action fails                      |
-| `className`           | `string`                           | -                                    | Additional CSS classes                          |
-| `disabled`            | `boolean`                          | `false`                              | Disable button                                  |
-| `variant`             | `VariantProps<typeof buttonVariants>["variant"]` | - | Button variant                                 |
-| `size`                | `VariantProps<typeof buttonVariants>["size"]`     | - | Button size                                    |
+| Prop                 | Type                                             | Default                              | Description                             |
+| -------------------- | ------------------------------------------------ | ------------------------------------ | --------------------------------------- |
+| `action`             | `() => Promise<void>`                            | -                                    | Async function to execute               |
+| `optimisticState`    | `boolean`                                        | -                                    | Current optimistic state (for tracking) |
+| `onOptimisticUpdate` | `() => void`                                     | -                                    | Callback to apply optimistic update     |
+| `onRollback`         | `() => void`                                     | -                                    | Callback to rollback on error           |
+| `children`           | `ReactNode`                                      | -                                    | Button content                          |
+| `loadingMessage`     | `string`                                         | `"Processing..."`                    | Toast message during loading            |
+| `successMessage`     | `string`                                         | `"Action completed successfully."`   | Toast message on success                |
+| `errorMessage`       | `string`                                         | `"Action failed. Please try again."` | Toast message on error                  |
+| `onSuccess`          | `() => void`                                     | -                                    | Callback when action succeeds           |
+| `onError`            | `(error: Error) => void`                         | -                                    | Callback when action fails              |
+| `className`          | `string`                                         | -                                    | Additional CSS classes                  |
+| `disabled`           | `boolean`                                        | `false`                              | Disable button                          |
+| `variant`            | `VariantProps<typeof buttonVariants>["variant"]` | -                                    | Button variant                          |
+| `size`               | `VariantProps<typeof buttonVariants>["size"]`    | -                                    | Button size                             |
 
 ## Features
 
@@ -248,4 +248,3 @@ async function handleAction(): Promise<void> {
 - Form submissions: Immediate feedback
 - Vote buttons: Quick user feedback
 - Bookmark actions: Instant visual feedback
-

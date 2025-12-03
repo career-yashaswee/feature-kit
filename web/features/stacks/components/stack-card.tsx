@@ -33,4 +33,3 @@ export function StackCard({ stack }: StackCardProps) {
     </Card>
   );
 }
-

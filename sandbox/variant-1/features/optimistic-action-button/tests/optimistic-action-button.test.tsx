@@ -1,9 +1,4 @@
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { toast } from "sonner";
 import { OptimisticActionButton } from "../components/optimistic-action-button";
 
@@ -113,7 +108,7 @@ describe("OptimisticActionButton", () => {
       },
       { timeout: 3000 },
     );
-    
+
     // Wait for promise to settle to avoid unhandled rejection warnings
     await new Promise((resolve) => setTimeout(resolve, 20));
   });
@@ -170,7 +165,7 @@ describe("OptimisticActionButton", () => {
       },
       { timeout: 3000 },
     );
-    
+
     // Wait for promise to settle to avoid unhandled rejection warnings
     await new Promise((resolve) => setTimeout(resolve, 20));
   });

@@ -6,7 +6,6 @@ import {
   Twitter,
   Facebook,
   Linkedin,
-  Link2,
   Check,
 } from "lucide-react";
 import {
@@ -20,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { CopyToClipboard } from "@/features/copy-to-clipboard/components/copy-to-clipboard";
 import { useCopyToClipboard, useToggle } from "@uidotdev/usehooks";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 
 interface ShareButtonProps {
   url: string;
@@ -57,30 +56,28 @@ export function ShareButton({
 }: ShareButtonProps) {
   const [isOpen, toggleOpen] = useToggle(false);
   const [copied, copy] = useCopyToClipboard();
-  const [shareUrl, setShareUrl] = useState(url);
 
-  useEffect(() => {
+  const shareUrl = useMemo(() => {
     if (!withUtmParams) {
-      setShareUrl(url);
-      return;
+      return url;
     }
 
     // Only compute UTM parameters on the client side
     if (typeof window === "undefined") {
-      setShareUrl(url);
-      return;
+      return url;
     }
 
     try {
       const shareUrlObj = new URL(url, window.location.origin);
       if (utmSource) shareUrlObj.searchParams.set("utm_source", utmSource);
       if (utmMedium) shareUrlObj.searchParams.set("utm_medium", utmMedium);
-      if (utmCampaign) shareUrlObj.searchParams.set("utm_campaign", utmCampaign);
-      setShareUrl(shareUrlObj.toString());
+      if (utmCampaign)
+        shareUrlObj.searchParams.set("utm_campaign", utmCampaign);
+      return shareUrlObj.toString();
     } catch (error) {
       // Fallback to original URL if URL construction fails
       console.error("Error constructing share URL:", error);
-      setShareUrl(url);
+      return url;
     }
   }, [url, withUtmParams, utmSource, utmMedium, utmCampaign]);
 
@@ -88,7 +85,8 @@ export function ShareButton({
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({
-          title: title || (typeof document !== "undefined" ? document.title : ""),
+          title:
+            title || (typeof document !== "undefined" ? document.title : ""),
           text: description,
           url: shareUrl,
         });
@@ -129,7 +127,8 @@ export function ShareButton({
   };
 
   const shareOptions: ShareOption[] = [
-    ...(typeof navigator !== "undefined" && navigator.share
+    ...(typeof navigator !== "undefined" &&
+    typeof navigator.share !== "undefined"
       ? [
           {
             id: "native",
@@ -174,7 +173,7 @@ export function ShareButton({
         type="button"
         variant={variant}
         size={size}
-        onClick={toggleOpen}
+        onClick={() => toggleOpen()}
         className={cn("inline-flex items-center gap-2", className)}
         aria-label="Share"
       >
@@ -182,11 +181,14 @@ export function ShareButton({
         <span className="hidden sm:inline">Share</span>
       </Button>
 
-      <Dialog open={isOpen} onOpenChange={(open) => {
-        if (open !== isOpen) {
-          toggleOpen();
-        }
-      }}>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (open !== isOpen) {
+            toggleOpen();
+          }
+        }}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Share</DialogTitle>
@@ -254,4 +256,3 @@ export function ShareButton({
     </>
   );
 }
-

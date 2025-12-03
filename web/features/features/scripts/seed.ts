@@ -716,9 +716,7 @@ class InteractiveCLI {
     return stacks[index];
   }
 
-  async selectDependencies(
-    dependencies: Dependency[],
-  ): Promise<Dependency[]> {
+  async selectDependencies(dependencies: Dependency[]): Promise<Dependency[]> {
     console.log("\nAvailable dependencies:");
     dependencies.forEach((dep, index) => {
       console.log(
@@ -766,9 +764,7 @@ class InteractiveCLI {
       console.log(`${index + 1}. ${cat}`);
     });
 
-    const answer = await this.question(
-      "\nSelect category number [library]: ",
-    );
+    const answer = await this.question("\nSelect category number [library]: ");
     const index = parseInt(answer.trim(), 10) - 1;
 
     if (isNaN(index) || index < 0 || index >= categories.length) {
@@ -779,9 +775,7 @@ class InteractiveCLI {
   }
 
   async selectDependencyVersion(): Promise<string> {
-    const answer = await this.question(
-      "Enter dependency version [latest]: ",
-    );
+    const answer = await this.question("Enter dependency version [latest]: ");
     return answer.trim() || "latest";
   }
 
@@ -849,8 +843,7 @@ async function main() {
       throw new Error("Failed to parse feature data");
     }
 
-    const variantData =
-      FeatureDataParser.getVariantData(selectedFeaturePath);
+    const variantData = FeatureDataParser.getVariantData(selectedFeaturePath);
 
     if (!variantData) {
       throw new Error("Failed to parse variant data");
@@ -942,7 +935,9 @@ async function main() {
         console.log(`Created dependency: ${dep.name}`);
 
         await db.linkDependencyToStack(selectedStack.id, depId);
-        console.log(`Linked dependency ${dep.name} to stack ${selectedStack.name}`);
+        console.log(
+          `Linked dependency ${dep.name} to stack ${selectedStack.name}`,
+        );
       } else {
         await db.linkDependencyToStack(selectedStack.id, dep.id);
       }

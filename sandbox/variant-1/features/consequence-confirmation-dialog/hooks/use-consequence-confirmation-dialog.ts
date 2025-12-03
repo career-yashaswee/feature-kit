@@ -13,9 +13,11 @@ interface ConsequenceConfirmationOptions {
 
 export function useConsequenceConfirmationDialog() {
   const [isOpen, setIsOpen] = useState(false);
-  const [options, setOptions] = useState<ConsequenceConfirmationOptions | null>(null);
+  const [options, setOptions] = useState<ConsequenceConfirmationOptions | null>(
+    null,
+  );
 
-  const confirm = useCallback((opts: ConfirmationOptions) => {
+  const confirm = useCallback((opts: ConsequenceConfirmationOptions) => {
     setOptions(opts);
     setIsOpen(true);
   }, []);
@@ -41,4 +43,3 @@ export function useConsequenceConfirmationDialog() {
     handleCancel,
   };
 }
-

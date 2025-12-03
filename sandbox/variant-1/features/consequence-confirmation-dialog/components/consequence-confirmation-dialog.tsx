@@ -87,9 +87,12 @@ export function ConsequenceConfirmationDialog({
             <div
               className={cn(
                 "flex h-10 w-10 shrink-0 items-center justify-center rounded-full",
-                variant === "destructive" && "bg-destructive/10 text-destructive",
-                variant === "warning" && "bg-yellow-500/10 text-yellow-600 dark:text-yellow-500",
-                variant === "info" && "bg-blue-500/10 text-blue-600 dark:text-blue-500",
+                variant === "destructive" &&
+                  "bg-destructive/10 text-destructive",
+                variant === "warning" &&
+                  "bg-yellow-500/10 text-yellow-600 dark:text-yellow-500",
+                variant === "info" &&
+                  "bg-blue-500/10 text-blue-600 dark:text-blue-500",
                 variant === "default" && "bg-primary/10 text-primary",
               )}
             >
@@ -130,4 +133,3 @@ export function ConsequenceConfirmationDialog({
     </Dialog>
   );
 }
-

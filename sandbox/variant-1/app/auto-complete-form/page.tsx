@@ -67,8 +67,8 @@ export default function AutoCompleteFormPage() {
             Form Auto-complete
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            A powerful autocomplete component with static and async data support,
-            debouncing, custom filtering, and flexible rendering.
+            A powerful autocomplete component with static and async data
+            support, debouncing, custom filtering, and flexible rendering.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 demo-badge">
@@ -99,8 +99,8 @@ export default function AutoCompleteFormPage() {
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
             <CardDescription className="text-base">
-              Start typing in any autocomplete field to see suggestions
-              appear. Select an option or continue typing for custom values.
+              Start typing in any autocomplete field to see suggestions appear.
+              Select an option or continue typing for custom values.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -317,4 +317,3 @@ export default function AutoCompleteFormPage() {
     </div>
   );
 }
-

@@ -186,19 +186,19 @@ async function fetchUsers(): Promise<User[]> {
 
 ## Props API
 
-| Prop         | Type                              | Default              | Description                                    |
-| ------------ | --------------------------------- | -------------------- | ---------------------------------------------- |
-| `fetchData`  | `() => Promise<unknown[]>`        | -                    | Function that returns data to export           |
-| `filename`   | `string`                           | `"export"`           | Base filename (timestamp will be added)        |
-| `resource`   | `string`                           | `"data"`             | Resource name for toast messages                |
-| `label`      | `string`                           | `"Export CSV"` or `"Export JSON"` | Button label                                   |
-| `format`     | `"csv" \| "json"`                 | `"csv"`              | Export format                                  |
-| `onSuccess`  | `() => void`                       | -                    | Callback when export succeeds                  |
-| `onError`    | `(error: Error) => void`           | -                    | Callback when export fails                     |
-| `className`  | `string`                           | -                    | Additional CSS classes                          |
-| `showIcon`   | `boolean`                          | `true`               | Show download icon                              |
-| `variant`    | `VariantProps<typeof buttonVariants>["variant"]` | `"outline"` | Button variant                                 |
-| `size`       | `VariantProps<typeof buttonVariants>["size"]`     | `"sm"`               | Button size                                    |
+| Prop        | Type                                             | Default                           | Description                             |
+| ----------- | ------------------------------------------------ | --------------------------------- | --------------------------------------- |
+| `fetchData` | `() => Promise<unknown[]>`                       | -                                 | Function that returns data to export    |
+| `filename`  | `string`                                         | `"export"`                        | Base filename (timestamp will be added) |
+| `resource`  | `string`                                         | `"data"`                          | Resource name for toast messages        |
+| `label`     | `string`                                         | `"Export CSV"` or `"Export JSON"` | Button label                            |
+| `format`    | `"csv" \| "json"`                                | `"csv"`                           | Export format                           |
+| `onSuccess` | `() => void`                                     | -                                 | Callback when export succeeds           |
+| `onError`   | `(error: Error) => void`                         | -                                 | Callback when export fails              |
+| `className` | `string`                                         | -                                 | Additional CSS classes                  |
+| `showIcon`  | `boolean`                                        | `true`                            | Show download icon                      |
+| `variant`   | `VariantProps<typeof buttonVariants>["variant"]` | `"outline"`                       | Button variant                          |
+| `size`      | `VariantProps<typeof buttonVariants>["size"]`    | `"sm"`                            | Button size                             |
 
 ## Features
 
@@ -220,4 +220,3 @@ async function fetchUsers(): Promise<User[]> {
 - Analytics: Download analytics data
 - Admin panels: Export various data sets
 - Dashboards: Quick data export functionality
-

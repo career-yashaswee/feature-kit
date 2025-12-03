@@ -28,7 +28,7 @@ export const AnimatedThemeToggler = ({
     } else if (theme === "light") {
       document.documentElement.classList.remove("dark");
     }
-    
+
     // Initialize state from DOM after DOM update
     updateTheme();
 
@@ -93,7 +93,7 @@ export const AnimatedThemeToggler = ({
       onClick={toggleTheme}
       className={cn(
         "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground",
-        className
+        className,
       )}
       aria-label="Toggle theme"
       {...props}

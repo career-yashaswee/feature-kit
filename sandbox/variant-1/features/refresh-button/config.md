@@ -34,9 +34,7 @@ const queryClient = new QueryClient();
 
 export default function RootLayout({ children }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
 ```
@@ -202,18 +200,18 @@ The component is fully typed. Query keys should match your React Query setup:
 
 ## Props API
 
-| Prop         | Type                              | Default      | Description                                    |
-| ------------ | --------------------------------- | ------------ | ---------------------------------------------- |
-| `queryKeys`  | `QueryKey[]`                      | -            | Array of query keys to invalidate              |
-| `resource`   | `string`                           | `"data"`     | Resource name for toast messages                |
-| `label`      | `string`                           | `"Refresh"`  | Button label                                   |
-| `ariaLabel`  | `string`                           | `"Refresh {resource}"` | ARIA label for accessibility                  |
-| `onSuccess`  | `() => void`                       | -            | Callback when refresh succeeds                 |
-| `onError`    | `(error: Error) => void`           | -            | Callback when refresh fails                    |
-| `className`  | `string`                           | -            | Additional CSS classes                          |
-| `showIcon`   | `boolean`                          | `true`       | Show refresh icon                               |
-| `variant`    | `VariantProps<typeof buttonVariants>["variant"]` | `"outline"` | Button variant                                 |
-| `size`       | `VariantProps<typeof buttonVariants>["size"]`     | `"sm"`       | Button size                                    |
+| Prop        | Type                                             | Default                | Description                       |
+| ----------- | ------------------------------------------------ | ---------------------- | --------------------------------- |
+| `queryKeys` | `QueryKey[]`                                     | -                      | Array of query keys to invalidate |
+| `resource`  | `string`                                         | `"data"`               | Resource name for toast messages  |
+| `label`     | `string`                                         | `"Refresh"`            | Button label                      |
+| `ariaLabel` | `string`                                         | `"Refresh {resource}"` | ARIA label for accessibility      |
+| `onSuccess` | `() => void`                                     | -                      | Callback when refresh succeeds    |
+| `onError`   | `(error: Error) => void`                         | -                      | Callback when refresh fails       |
+| `className` | `string`                                         | -                      | Additional CSS classes            |
+| `showIcon`  | `boolean`                                        | `true`                 | Show refresh icon                 |
+| `variant`   | `VariantProps<typeof buttonVariants>["variant"]` | `"outline"`            | Button variant                    |
+| `size`      | `VariantProps<typeof buttonVariants>["size"]`    | `"sm"`                 | Button size                       |
 
 ## Features
 
@@ -233,4 +231,3 @@ The component is fully typed. Query keys should match your React Query setup:
 - Admin panels: Refresh various data sets
 - Real-time data: Manual refresh option
 - Cache management: Invalidate stale data
-

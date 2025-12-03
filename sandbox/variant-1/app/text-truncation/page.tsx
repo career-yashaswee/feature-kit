@@ -42,19 +42,31 @@ export default function TextTruncationPage() {
             automatic detection.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Sparkles className="h-3 w-3" />
               Auto Detection
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Settings className="h-3 w-3" />
               Customizable
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Code className="h-3 w-3" />
               TypeScript
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Zap className="h-3 w-3" />
               Zero Config
             </Badge>
@@ -70,8 +82,9 @@ export default function TextTruncationPage() {
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
                 <CardDescription className="text-base">
-                  Scroll down to see different truncation examples. Click "Show
-                  more" to expand and "Show less" to collapse.
+                  Scroll down to see different truncation examples. Click
+                  &quot;Show more&quot; to expand and &quot;Show less&quot; to
+                  collapse.
                 </CardDescription>
               </div>
             </div>
@@ -258,4 +271,3 @@ export default function TextTruncationPage() {
     </div>
   );
 }
-

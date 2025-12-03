@@ -141,10 +141,7 @@ export function EmptyState({
         ) : (
           // Default icon from lucide-react - always rendered when no custom icon
           <DefaultIcon
-            className={cn(
-              "h-8 w-8",
-              type === "loading" && "animate-spin",
-            )}
+            className={cn("h-8 w-8", type === "loading" && "animate-spin")}
           />
         )}
       </div>
@@ -160,4 +157,3 @@ export function EmptyState({
     </div>
   );
 }
-

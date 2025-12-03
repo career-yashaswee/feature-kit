@@ -42,7 +42,6 @@ export function AutoCompleteForm({
   inputClassName,
   debounceMs = 300,
   minLength = 0,
-  allowCustom = true,
   renderOption,
   filterOptions,
   disabled = false,
@@ -52,25 +51,22 @@ export function AutoCompleteForm({
   const [inputValue, setInputValue] = useState(value);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const autocompleterInstanceRef = useRef<ReturnType<typeof autocompleter> | null>(
-    null,
-  );
+  const autocompleterInstanceRef = useRef<ReturnType<
+    typeof autocompleter
+  > | null>(null);
 
-  const loadOptions = useCallback(
-    async (): Promise<AutocompleteOption[]> => {
-      if (typeof options === "function") {
-        setIsLoading(true);
-        try {
-          const fetchedOptions = await options();
-          return fetchedOptions;
-        } finally {
-          setIsLoading(false);
-        }
+  const loadOptions = useCallback(async (): Promise<AutocompleteOption[]> => {
+    if (typeof options === "function") {
+      setIsLoading(true);
+      try {
+        const fetchedOptions = await options();
+        return fetchedOptions;
+      } finally {
+        setIsLoading(false);
       }
-      return options;
-    },
-    [options],
-  );
+    }
+    return options;
+  }, [options]);
 
   const defaultFilterOptions = useCallback(
     (opts: AutocompleteOption[], query: string): AutocompleteOption[] => {
@@ -106,7 +102,10 @@ export function AutoCompleteForm({
 
     autocompleterInstanceRef.current = autocompleter({
       input: inputRef.current,
-      fetch: async (text: string, update: (items: AutocompleteOption[]) => void) => {
+      fetch: async (
+        text: string,
+        update: (items: AutocompleteOption[]) => void,
+      ) => {
         if (text.length < minLength) {
           update([]);
           return;
@@ -136,7 +135,8 @@ export function AutoCompleteForm({
         }
         return element;
       },
-      className: "autocomplete-suggestions bg-background border rounded-md shadow-lg mt-1 max-h-60 overflow-auto z-50",
+      className:
+        "autocomplete-suggestions bg-background border rounded-md shadow-lg mt-1 max-h-60 overflow-auto z-50",
       minLength,
       debounceWaitMs: debounceMs,
       emptyMsg: "No suggestions found",
@@ -148,7 +148,16 @@ export function AutoCompleteForm({
         autocompleterInstanceRef.current = null;
       }
     };
-  }, [loadOptions, filter, minLength, debounceMs, onChange, onSelect, renderOption, disabled]);
+  }, [
+    loadOptions,
+    filter,
+    minLength,
+    debounceMs,
+    onChange,
+    onSelect,
+    renderOption,
+    disabled,
+  ]);
 
   useEffect(() => {
     // Only update if value prop changes externally
@@ -158,7 +167,7 @@ export function AutoCompleteForm({
         inputRef.current.value = value;
       }
     }
-  }, [value]);
+  }, [value, inputValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -188,4 +197,3 @@ export function AutoCompleteForm({
     </div>
   );
 }
-

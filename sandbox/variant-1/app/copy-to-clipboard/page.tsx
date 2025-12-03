@@ -45,19 +45,31 @@ export default function CopyToClipboardPage() {
             notifications, and support for both plain text and HTML content.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Sparkles className="h-3 w-3" />
               Smooth Animations
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Settings className="h-3 w-3" />
               Customizable
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Code className="h-3 w-3" />
               TypeScript
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Zap className="h-3 w-3" />
               Toast Notifications
             </Badge>
@@ -138,7 +150,9 @@ export default function CopyToClipboardPage() {
                 </div>
               </div>
               <div>
-                <h3 className="mb-2 text-sm font-semibold">Different Variants</h3>
+                <h3 className="mb-2 text-sm font-semibold">
+                  Different Variants
+                </h3>
                 <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-4">
                   <CopyToClipboard text={sampleText} variant="default" />
                   <CopyToClipboard text={sampleText} variant="outline" />
@@ -278,4 +292,3 @@ export default function CopyToClipboardPage() {
     </div>
   );
 }
-

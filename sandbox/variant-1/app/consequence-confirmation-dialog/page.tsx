@@ -70,19 +70,31 @@ export default function ConsequenceConfirmationDialogPage() {
             destructive actions or important operations.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Sparkles className="h-3 w-3" />
               Multiple Variants
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Settings className="h-3 w-3" />
               Customizable
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Code className="h-3 w-3" />
               TypeScript
             </Badge>
-            <Badge variant="default" className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground">
+            <Badge
+              variant="default"
+              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
+            >
               <Zap className="h-3 w-3" />
               Hook Support
             </Badge>
@@ -215,8 +227,8 @@ export default function ConsequenceConfirmationDialogPage() {
               </div>
               <CardTitle className="text-2xl">Hook-Based Usage</CardTitle>
               <CardDescription>
-                Use the useConsequenceConfirmationDialog hook for programmatic dialog
-                control
+                Use the useConsequenceConfirmationDialog hook for programmatic
+                dialog control
               </CardDescription>
             </div>
           </CardHeader>
@@ -298,8 +310,7 @@ export default function ConsequenceConfirmationDialogPage() {
                 {
                   icon: Zap,
                   title: "Customizable",
-                  description:
-                    "Custom labels, messages, and styling options",
+                  description: "Custom labels, messages, and styling options",
                 },
               ].map((feature, index) => (
                 <div
@@ -345,9 +356,7 @@ export default function ConsequenceConfirmationDialogPage() {
           }
           variant={variant}
           isLoading={isLoading}
-          confirmLabel={
-            variant === "destructive" ? "Delete" : "Confirm"
-          }
+          confirmLabel={variant === "destructive" ? "Delete" : "Confirm"}
         />
 
         {hookIsOpen && options && (
@@ -367,4 +376,3 @@ export default function ConsequenceConfirmationDialogPage() {
     </div>
   );
 }
-

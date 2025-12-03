@@ -15,7 +15,6 @@ import {
   Download,
   Save,
   Wifi,
-  WifiOff,
   Keyboard,
   Inbox,
   FileText,

@@ -20,11 +20,11 @@ import {
 
 const RestoreScrollPosition = dynamic(
   () =>
-    import(
-      "@/features/restore-scroll-position/components/restore-scroll-position"
-    ).then((mod) => ({
-      default: mod.RestoreScrollPosition,
-    })),
+    import("@/features/restore-scroll-position/components/restore-scroll-position").then(
+      (mod) => ({
+        default: mod.RestoreScrollPosition,
+      }),
+    ),
   { ssr: false },
 );
 
@@ -74,8 +74,8 @@ export default function RestoreScrollPositionPage() {
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
                 <CardDescription className="text-base">
-                  Scroll down this page, then navigate away and come back to
-                  see your scroll position automatically restored
+                  Scroll down this page, then navigate away and come back to see
+                  your scroll position automatically restored
                 </CardDescription>
               </div>
             </div>
@@ -148,10 +148,7 @@ export default function RestoreScrollPositionPage() {
                     </p>
                     <div className="mt-4 grid grid-cols-3 gap-2">
                       {[1, 2, 3].map((i) => (
-                        <div
-                          key={i}
-                          className="h-20 rounded-md bg-muted/50"
-                        />
+                        <div key={i} className="h-20 rounded-md bg-muted/50" />
                       ))}
                     </div>
                   </div>
@@ -261,4 +258,3 @@ export default function RestoreScrollPositionPage() {
     </div>
   );
 }
-

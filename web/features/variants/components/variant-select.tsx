@@ -128,7 +128,7 @@ export function VariantSelect({
                 key={variant.id}
                 className={cn(
                   "flex items-center gap-3 p-3 cursor-pointer focus:bg-accent",
-                  "hover:bg-accent"
+                  "hover:bg-accent",
                 )}
                 onSelect={(e) => {
                   e.preventDefault();
@@ -191,7 +191,7 @@ export function VariantSelect({
                           {dep.name.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                    )
+                    ),
                   )}
                   {variant.dependencies && variant.dependencies.length > 4 && (
                     <div

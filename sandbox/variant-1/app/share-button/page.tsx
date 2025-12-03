@@ -162,7 +162,9 @@ export default function ShareButtonPage() {
                 </div>
               </div>
               <div>
-                <h3 className="mb-2 text-sm font-semibold">Different Variants</h3>
+                <h3 className="mb-2 text-sm font-semibold">
+                  Different Variants
+                </h3>
                 <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-4">
                   <ShareButton url={shareUrl} variant="default" />
                   <ShareButton url={shareUrl} variant="outline" />
@@ -241,4 +243,3 @@ export default function ShareButtonPage() {
     </div>
   );
 }
-

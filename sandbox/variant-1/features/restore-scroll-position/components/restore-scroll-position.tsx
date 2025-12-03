@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef } from "react";
+import { type ReactNode, useRef, useCallback, useState } from "react";
 import { useScrollPosition } from "../hooks/use-scroll-position";
 
 interface RestoreScrollPositionProps {
@@ -21,12 +21,25 @@ export function RestoreScrollPosition({
   debounceMs = 100,
 }: RestoreScrollPositionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [containerElement, setContainerElement] = useState<HTMLElement | null>(
+    container || null,
+  );
+
+  const setContainerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      containerRef.current = node;
+      if (!container && node) {
+        setContainerElement(node);
+      }
+    },
+    [container],
+  );
 
   useScrollPosition({
     enabled,
     storageKey,
     persist,
-    container: container || containerRef.current,
+    container: container || containerElement,
     debounceMs,
   });
 
@@ -35,9 +48,8 @@ export function RestoreScrollPosition({
   }
 
   return (
-    <div ref={containerRef} className="h-full w-full">
+    <div ref={setContainerRef} className="h-full w-full">
       {children}
     </div>
   );
 }
-

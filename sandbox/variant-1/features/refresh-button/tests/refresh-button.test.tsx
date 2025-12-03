@@ -1,9 +1,4 @@
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RefreshButton } from "../components/refresh-button";
@@ -115,7 +110,7 @@ describe("RefreshButton", () => {
     });
     render(<RefreshButton queryKeys={[["test"]]} onError={onError} />);
     const button = screen.getByRole("button");
-    
+
     // Wrap in try-catch to handle the thrown error
     fireEvent.click(button);
 
@@ -125,7 +120,7 @@ describe("RefreshButton", () => {
       },
       { timeout: 3000 },
     );
-    
+
     // Wait for promise to settle to avoid unhandled rejection
     await new Promise((resolve) => setTimeout(resolve, 50));
   });

@@ -9,11 +9,13 @@ import {
   type PanelGroupProps,
 } from "react-resizable-panels";
 import { ChevronLeft, ChevronUp } from "lucide-react";
-import { useLocalStorage } from "@uidotdev/usehooks";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface ResizablePanelsProps extends Omit<PanelGroupProps, "children" | "direction"> {
+interface ResizablePanelsProps extends Omit<
+  PanelGroupProps,
+  "children" | "direction"
+> {
   panels: Array<{
     id: string;
     content: ReactNode;
@@ -42,10 +44,19 @@ export function ResizablePanels({
   ...panelGroupProps
 }: ResizablePanelsProps) {
   const panelRefs = useRef<Record<string, ImperativePanelHandle>>({});
-  const [collapsedStates, setCollapsedStates] = useState<Record<string, boolean>>({});
-  const [savedLayout, setSavedLayout] = useLocalStorage<Record<string, number> | null>(
-    persistLayout ? storageKey : "",
-    null,
+  const [collapsedStates, setCollapsedStates] = useState<
+    Record<string, boolean>
+  >({});
+  const [savedLayout, setSavedLayout] = useState<Record<string, number> | null>(
+    () => {
+      if (!persistLayout || typeof window === "undefined") return null;
+      try {
+        const stored = localStorage.getItem(storageKey);
+        return stored ? JSON.parse(stored) : null;
+      } catch {
+        return null;
+      }
+    },
   );
 
   useEffect(() => {
@@ -64,7 +75,7 @@ export function ResizablePanels({
   }, [persistLayout, savedLayout]);
 
   const saveLayout = () => {
-    if (!persistLayout) return;
+    if (!persistLayout || typeof window === "undefined") return;
 
     const layout: Record<string, number> = {};
     Object.entries(panelRefs.current).forEach(([id, ref]) => {
@@ -75,6 +86,11 @@ export function ResizablePanels({
     });
 
     setSavedLayout(layout);
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(layout));
+    } catch {
+      // Ignore errors
+    }
   };
 
   const handleResize = () => {
@@ -111,8 +127,7 @@ export function ResizablePanels({
     }
   };
 
-  const CollapseIcon =
-    direction === "horizontal" ? ChevronLeft : ChevronUp;
+  const CollapseIcon = direction === "horizontal" ? ChevronLeft : ChevronUp;
 
   return (
     <PanelGroup
@@ -168,9 +183,7 @@ export function ResizablePanels({
               </div>
             )}
 
-            <div className="flex-1 overflow-auto p-4">
-              {panel.content}
-            </div>
+            <div className="flex-1 overflow-auto p-4">{panel.content}</div>
 
             {showIconsWhenCollapsed && panel.icon && (
               <div
@@ -204,9 +217,7 @@ export function ResizablePanels({
               <div
                 className={cn(
                   "absolute rounded-full bg-primary/40 opacity-0 transition-opacity group-hover:opacity-100",
-                  direction === "horizontal"
-                    ? "h-8 w-1"
-                    : "h-1 w-8",
+                  direction === "horizontal" ? "h-8 w-1" : "h-1 w-8",
                 )}
               />
             </PanelResizeHandle>,
@@ -218,4 +229,3 @@ export function ResizablePanels({
     </PanelGroup>
   );
 }
-

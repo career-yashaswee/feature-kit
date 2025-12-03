@@ -111,11 +111,7 @@ The form automatically saves changes after the debounce period and shows status 
 ### Custom Debounce Time
 
 ```tsx
-<AutoSaveForm
-  data={formData}
-  onSave={saveFormData}
-  debounceMs={2000}
->
+<AutoSaveForm data={formData} onSave={saveFormData} debounceMs={2000}>
   <form>{/* Your form fields */}</form>
 </AutoSaveForm>
 ```
@@ -135,11 +131,7 @@ The form automatically saves changes after the debounce period and shows status 
 ### Hide Status Indicator
 
 ```tsx
-<AutoSaveForm
-  data={formData}
-  onSave={saveFormData}
-  showIndicator={false}
->
+<AutoSaveForm data={formData} onSave={saveFormData} showIndicator={false}>
   <form>{/* Your form fields */}</form>
 </AutoSaveForm>
 ```
@@ -230,21 +222,21 @@ interface MyFormData extends Record<string, unknown> {
 
 ## Props API
 
-| Prop                  | Type                                                          | Default                    | Description                                          |
-| --------------------- | ------------------------------------------------------------- | -------------------------- | ---------------------------------------------------- |
-| `children`            | `ReactNode`                                                   | -                          | Form content to wrap                                 |
-| `data`                | `T extends Record<string, unknown>`                           | -                          | Form data object to save                             |
-| `onSave`              | `(data: T, signal?: AbortSignal) => Promise<void> \| void`   | -                          | Function to save the data                            |
-| `debounceMs`          | `number`                                                      | `1000`                     | Debounce delay in milliseconds                       |
-| `storageKey`          | `string`                                                      | -                          | localStorage key for backup                          |
-| `onSaveStart`         | `() => void`                                                  | -                          | Callback when save starts                            |
-| `onSaveSuccess`       | `() => void`                                                  | -                          | Callback when save succeeds                          |
-| `onSaveError`         | `(error: Error) => void`                                      | -                          | Callback when save fails                             |
-| `onLoadFromStorage`   | `(data: T) => void`                                           | -                          | Callback when loading from localStorage              |
-| `showIndicator`       | `boolean`                                                     | `true`                     | Show status indicator                                |
-| `indicatorPosition`   | `"top-right" \| "top-left" \| "bottom-right" \| "bottom-left"` | `"top-right"`              | Position of status indicator                         |
-| `successMessage`      | `string`                                                      | `"Changes saved"`          | Toast message on success                             |
-| `errorMessage`        | `string`                                                      | `"Failed to save changes"` | Toast message on error                               |
+| Prop                | Type                                                           | Default                    | Description                             |
+| ------------------- | -------------------------------------------------------------- | -------------------------- | --------------------------------------- |
+| `children`          | `ReactNode`                                                    | -                          | Form content to wrap                    |
+| `data`              | `T extends Record<string, unknown>`                            | -                          | Form data object to save                |
+| `onSave`            | `(data: T, signal?: AbortSignal) => Promise<void> \| void`     | -                          | Function to save the data               |
+| `debounceMs`        | `number`                                                       | `1000`                     | Debounce delay in milliseconds          |
+| `storageKey`        | `string`                                                       | -                          | localStorage key for backup             |
+| `onSaveStart`       | `() => void`                                                   | -                          | Callback when save starts               |
+| `onSaveSuccess`     | `() => void`                                                   | -                          | Callback when save succeeds             |
+| `onSaveError`       | `(error: Error) => void`                                       | -                          | Callback when save fails                |
+| `onLoadFromStorage` | `(data: T) => void`                                            | -                          | Callback when loading from localStorage |
+| `showIndicator`     | `boolean`                                                      | `true`                     | Show status indicator                   |
+| `indicatorPosition` | `"top-right" \| "top-left" \| "bottom-right" \| "bottom-left"` | `"top-right"`              | Position of status indicator            |
+| `successMessage`    | `string`                                                       | `"Changes saved"`          | Toast message on success                |
+| `errorMessage`      | `string`                                                       | `"Failed to save changes"` | Toast message on error                  |
 
 ## Features
 
@@ -265,4 +257,3 @@ interface MyFormData extends Record<string, unknown> {
 - Long forms: Prevent data loss
 - Multi-step forms: Save progress between steps
 - Comment forms: Auto-save drafts
-
