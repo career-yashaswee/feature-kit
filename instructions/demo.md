@@ -145,6 +145,91 @@ Every demo page should include:
 </Card>
 ```
 
+## Icon Usage Guidelines
+
+### Phosphor Icons React Only
+
+**All demo pages must use Phosphor Icons React exclusively.** No other icon libraries should be used in demo pages.
+
+- **Package**: `@phosphor-icons/react`
+- **Installation**: `npm i @phosphor-icons/react`
+- **Import Pattern**: Import only the icons you need as named exports
+- **Usage**: Use icons as React components with props
+
+#### Basic Import and Usage
+
+```typescript
+import { Smiley, Heart, Horse, Lightning, Gear } from "@phosphor-icons/react";
+
+const DemoPage = () => {
+  return (
+    <div>
+      <Smiley />
+      <Heart size={32} color="hotpink" weight="fill" />
+      <Horse weight="duotone" />
+    </div>
+  );
+};
+```
+
+#### Icon Component Props
+
+- `size?: number | string` - Icon height & width (number or string with units)
+- `color?: string` - Icon stroke/fill color (CSS color string or `currentColor`)
+- `weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone"` - Icon weight/style
+- `mirrored?: boolean` - Flip icon horizontally (useful for RTL)
+- `alt?: string` - Accessible alt text
+
+#### Demo Page Icon Sizing Standards
+
+- **Hero Section Badge Icons**: `h-4 w-4` (16px)
+- **Card Header Icons**: `h-5 w-5` (20px)
+- **Feature Grid Icons**: `h-5 w-5` (20px)
+- **Badge Icons**: `h-3 w-3` (12px)
+
+#### Best Practices for Demo Pages
+
+- **Tree-shaking**: Import only needed icons to keep bundle size small
+- **Naming**: Icon names follow PascalCase (e.g., `ArrowRight`, `CheckCircle`, `Lightning`)
+- **Default weight**: Icons default to `"regular"` weight if not specified
+- **Size**: Use numbers for pixel values (e.g., `size={24}` or `className="h-5 w-5"`)
+- **Color**: Use `currentColor` or `text-primary` to inherit text color from parent
+- **Accessibility**: Always provide `alt` text for icon-only buttons or interactive elements
+
+#### Example: Icons in Demo Page
+
+```typescript
+import { Lightning, Gear, Sparkle, CheckCircle } from "@phosphor-icons/react";
+
+// Hero section badge
+<Badge variant="default" className="gap-1.5 bg-secondary/80">
+  <Lightning className="h-3 w-3" />
+  Fast
+</Badge>
+
+// Card header icon
+<div className="rounded-lg bg-primary/10 p-2 shrink-0">
+  <Gear className="h-5 w-5 text-primary" />
+</div>
+
+// Feature grid icon
+<div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
+  <Sparkle className="h-5 w-5 text-primary" />
+</div>
+```
+
+#### Optimization for Next.js
+
+For Next.js 13+ projects, add to `next.config.js`:
+
+```javascript
+module.exports = {
+  experimental: {
+    optimizePackageImports: ["@phosphor-icons/react"],
+  },
+};
+```
+
 ## Checklist
 
 When creating a demo page, ensure:
@@ -156,4 +241,7 @@ When creating a demo page, ensure:
 - [ ] Consistent spacing (`gap-12` between sections, `gap-6` between cards)
 - [ ] All icons are properly sized (h-4 w-4 for badges, h-5 w-5 for card headers)
 - [ ] CardTitle uses `text-2xl mb-2` when followed by description
+- [ ] **Only Phosphor Icons React is used** - no other icon libraries
+- [ ] Icons are imported as named exports from `@phosphor-icons/react`
+- [ ] Icon sizing follows demo page standards (h-3 w-3 for badges, h-5 w-5 for headers)
 

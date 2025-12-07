@@ -32,6 +32,90 @@ This document defines the standards and guidelines for creating standalone, exte
 - Ensure components feel responsive and polished
 - Balance functionality with aesthetic appeal
 
+#### Text and Label Guidelines
+
+**Never use ellipses in loading or processing text.** Use the verb directly without trailing dots.
+
+```typescript
+// [✓] Good: Clean, direct text
+"Loading"
+"Processing"
+"Saving"
+"Submitting"
+"Refreshing"
+
+// [X] Bad: Ellipses create visual clutter
+"Loading..."
+"Processing..."
+"Saving..."
+"Submitting..."
+"Refreshing..."
+```
+
+This applies to:
+- Loading states and messages
+- Button labels during async operations
+- Toast notifications
+- Status messages
+- Any user-facing text that indicates an ongoing action
+
+Visual indicators (spinners, progress bars) already communicate that an action is in progress, so ellipses are redundant and add unnecessary visual noise.
+
+#### ASCII Symbols Only - No Emojis
+
+**Never use emojis anywhere in code or documentation.** Always use ASCII symbols instead.
+
+```typescript
+// [✓] Good: ASCII symbols
+"[✓] Success"
+"[✗] Error"
+"[!] Warning"
+"[?] Question"
+"[*] Info"
+"[+] Add"
+"[-] Remove"
+"[>] Next"
+"[<] Previous"
+
+// [X] Bad: Emojis create compatibility and rendering issues
+"[✓] Success"
+"[X] Error"
+"[!] Warning"
+"[?] Question"
+"[*] Info"
+"[+] Add"
+"[-] Remove"
+"[>] Next"
+"[<] Previous"
+```
+
+This applies to:
+- Code comments and documentation
+- User-facing messages and labels
+- Status indicators
+- Button labels
+- Toast notifications
+- Any text content in components or documentation
+
+**Common ASCII Symbol Replacements:**
+- Checkmark: `[✓]` or `[OK]`
+- Cross/Error: `[✗]` or `[X]` or `[ERROR]`
+- Warning: `[!]` or `[WARN]`
+- Question: `[?]`
+- Info: `[*]` or `[INFO]`
+- Plus: `[+]`
+- Minus: `[-]`
+- Arrow Right: `[>]` or `[->]`
+- Arrow Left: `[<]` or `[<-]`
+- Arrow Up: `[^]` or `[/\]`
+- Arrow Down: `[v]` or `[\/]`
+
+ASCII symbols ensure:
+- Consistent rendering across all platforms and terminals
+- Better compatibility with code editors and documentation tools
+- Professional appearance in technical documentation
+- No encoding issues or font dependencies
+
 ### 5. Pluggable System of Providers
 
 - Use provider pattern for configurable dependencies (i18n, theme, state management)
@@ -119,13 +203,13 @@ function createI18nextAdapter(i18n: i18n): LanguageSwitcherAdapter {
 When external data is needed, accept it as props rather than calling hooks directly:
 
 ```typescript
-// ❌ Bad: Component calls hook directly
+// [X] Bad: Component calls hook directly
 function PremiumIdentifier() {
   const { isPlusActive } = usePlusStatus(); // Application-specific
   // ...
 }
 
-// ✅ Good: Accept as prop or from configurable store
+// [✓] Good: Accept as prop or from configurable store
 interface PremiumIdentifierProps {
   isUserSubscribed?: boolean; // Direct prop
   // OR
@@ -158,8 +242,105 @@ features/
     adapters/
       {adapter-name}.ts (if needed)
     types.ts (if complex types)
+    index.ts (public API exports)
     config.md (installation guide)
     prompt.txt (integration instructions)
+```
+
+### Index.ts and Types.ts Files
+
+Every feature must have an `index.ts` file that serves as the public API for the feature. This file should export components, hooks, and types in a clean, organized manner.
+
+#### Index.ts Structure
+
+The `index.ts` file should:
+- Export all public components from their component files
+- Export all public hooks from their hook files
+- **Export all types from `./types`** (not from component files)
+- Provide a clean, single import point for users
+
+```typescript
+// [✓] Good: Types imported from types.ts
+export { FeatureComponent } from "./components/feature-component";
+export { useFeature } from "./hooks/use-feature";
+export type { FeatureProps, FeatureConfig } from "./types";
+export type { UseFeatureOptions, UseFeatureReturn } from "./hooks/use-feature";
+
+// [X] Bad: Types imported from component files
+export { FeatureComponent } from "./components/feature-component";
+export type { FeatureProps } from "./components/feature-component"; // Wrong!
+```
+
+#### Types.ts Structure
+
+The `types.ts` file should:
+- Contain all TypeScript interfaces and types for the feature
+- Export component props interfaces (e.g., `FeatureProps`)
+- Export configuration types (e.g., `FeatureConfig`, `FeatureOptions`)
+- Export adapter interfaces when applicable
+- Export hook option and return types when hooks are in separate files
+- Be the single source of truth for all type definitions
+
+```typescript
+// types.ts
+export interface FeatureProps {
+  // Component props
+}
+
+export interface FeatureConfig {
+  // Configuration options
+}
+
+export interface FeatureAdapter {
+  // Adapter interface
+}
+```
+
+#### Why Import Types from types.ts?
+
+1. **Single Source of Truth**: All types are defined in one place, making maintenance easier
+2. **Consistency**: Prevents duplicate type definitions across files
+3. **Cleaner Imports**: Users can import types from the feature root without knowing internal structure
+4. **Better Tree-shaking**: Type-only imports are properly handled by bundlers
+5. **Separation of Concerns**: Types are separated from implementation logic
+
+#### Example: Complete Feature Structure
+
+```typescript
+// features/search-input/types.ts
+export interface SearchInputProps<T> {
+  data: T[];
+  searchKeys: string[];
+  debounceMs?: number;
+  onSearch?: (query: string, results: T[]) => void;
+}
+
+export interface SearchConfig {
+  fuzzyThreshold?: number;
+  maxResults?: number;
+}
+
+// features/search-input/components/search-input.tsx
+import type { SearchInputProps } from "../types";
+
+export function SearchInput<T>(props: SearchInputProps<T>) {
+  // Implementation
+}
+
+// features/search-input/hooks/use-search-input.ts
+export interface UseSearchInputOptions<T> {
+  // Hook-specific options
+}
+
+export interface UseSearchInputReturn<T> {
+  // Hook return type
+}
+
+// features/search-input/index.ts
+export { SearchInput } from "./components/search-input";
+export { useSearchInput } from "./hooks/use-search-input";
+export type { SearchInputProps, SearchConfig } from "./types";
+export type { UseSearchInputOptions, UseSearchInputReturn } from "./hooks/use-search-input";
 ```
 
 ### Headless Hooks Pattern
@@ -561,7 +742,7 @@ interface UseSearchInputReturn<T> {
 ### Examples of Good Naming
 
 ```typescript
-// ✅ Good: Clear, consistent naming
+// [✓] Good: Clear, consistent naming
 interface SearchInputProps<T> {
   data: T[];
   searchKeys: string[];
@@ -596,7 +777,7 @@ function SearchInput<T>({
   // ...
 }
 
-// ❌ Bad: Inconsistent, unclear naming
+// [X] Bad: Inconsistent, unclear naming
 interface SearchProps<T> {
   items: T[]; // Should be 'data'
   keys: string[]; // Should be 'searchKeys'
@@ -815,6 +996,8 @@ Follow `instructions/demo.md` for all demo pages:
 - [ ] Demo page follows demo.md guidelines
 - [ ] Documentation includes installation and usage examples
 - [ ] All dependencies listed in config.md
+- [ ] No emojis used anywhere - only ASCII symbols (e.g., [✓], [X], [!], [?])
+- [ ] No ellipses in loading/processing text (use "Loading" not "Loading...")
 
 ## Common Patterns
 

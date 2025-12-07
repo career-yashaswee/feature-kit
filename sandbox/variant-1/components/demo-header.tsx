@@ -12,7 +12,7 @@ export function DemoHeader() {
             href="/"
             className="text-lg font-semibold transition-colors hover:text-primary cursor-pointer"
           >
-            Feature Kit Preview
+            FeatureKit Previews
           </Link>
         </div>
         <div className="flex items-center gap-2">
