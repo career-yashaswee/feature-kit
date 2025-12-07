@@ -5,4 +5,3 @@ export type {
   OnboardingBranding,
   OnboardingLayoutProps,
 } from "./types";
-

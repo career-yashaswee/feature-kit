@@ -38,4 +38,3 @@ export interface UserCardData {
 
 export type UserCardVariant = "linkedin" | "twitter";
 export type ThemeVariant = "light" | "dark";
-

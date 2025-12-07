@@ -31,10 +31,7 @@ import {
   Zap,
 } from "lucide-react";
 import { FilterSheet } from "@/features/filter-sheet/components/filter-sheet";
-import type {
-  Filter,
-  FilterOption,
-} from "@/features/filter-sheet/types";
+import type { Filter, FilterOption } from "@/features/filter-sheet/types";
 
 const features = [
   {
@@ -62,7 +59,9 @@ export default function FilterSheetPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
-  const [selectedDependencies, setSelectedDependencies] = useState<string[]>([]);
+  const [selectedDependencies, setSelectedDependencies] = useState<string[]>(
+    [],
+  );
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
 
   const difficultyOptions: FilterOption[] = [
@@ -347,7 +346,8 @@ export default function FilterSheetPage() {
               <div>
                 <h3 className="font-semibold mb-1">Filter Sheet</h3>
                 <p className="text-sm text-muted-foreground">
-                  {activeFiltersCount} active filter{activeFiltersCount !== 1 ? "s" : ""}
+                  {activeFiltersCount} active filter
+                  {activeFiltersCount !== 1 ? "s" : ""}
                 </p>
               </div>
               <Button onClick={() => setOpen(true)}>
@@ -509,4 +509,3 @@ export default function FilterSheetPage() {
     </div>
   );
 }
-

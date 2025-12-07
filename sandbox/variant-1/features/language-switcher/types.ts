@@ -23,4 +23,3 @@ export interface LanguageSwitcherProps {
   showLabel?: boolean;
   adapter?: LanguageSwitcherAdapter;
 }
-

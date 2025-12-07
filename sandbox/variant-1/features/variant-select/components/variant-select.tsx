@@ -14,7 +14,10 @@ import { cn } from "@/lib/utils";
 import { CaretDown, Circle, Stack } from "@phosphor-icons/react";
 import { Img } from "react-image";
 import type { VariantSelectProps } from "../types";
-import { useVariantSelectStore, createVariantSelectAdapter } from "../store/use-variant-select-store";
+import {
+  useVariantSelectStore,
+  createVariantSelectAdapter,
+} from "../store/use-variant-select-store";
 
 export function VariantSelect({
   featureId,
@@ -25,10 +28,7 @@ export function VariantSelect({
   adapter,
   className,
 }: VariantSelectProps) {
-  const defaultAdapter = React.useMemo(
-    () => createVariantSelectAdapter(),
-    []
-  );
+  const defaultAdapter = React.useMemo(() => createVariantSelectAdapter(), []);
   const activeAdapter = adapter || defaultAdapter;
 
   const selectedVariantId = activeAdapter.getSelectedVariant(featureId);
@@ -53,13 +53,7 @@ export function VariantSelect({
       activeAdapter.setSelectedVariant(featureId, variants[0].id);
       onVariantSelectRef.current?.(variants[0].id);
     }
-  }, [
-    featureId,
-    variants,
-    selectedVariantId,
-    isLoading,
-    activeAdapter,
-  ]);
+  }, [featureId, variants, selectedVariantId, isLoading, activeAdapter]);
 
   const handleVariantSelect = (variantId: string) => {
     activeAdapter.setSelectedVariant(featureId, variantId);
@@ -234,4 +228,3 @@ export function VariantSelect({
     </DropdownMenu>
   );
 }
-

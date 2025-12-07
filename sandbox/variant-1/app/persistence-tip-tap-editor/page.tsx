@@ -1,6 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
+
+const PersistenceTipTapEditor = dynamic(
+  () => import("@/features/persistence-tip-tap-editor").then((mod) => ({ default: mod.PersistenceTipTapEditor })),
+  { ssr: false }
+);
 import {
   Card,
   CardContent,
@@ -10,7 +16,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Save, Database, Zap } from "lucide-react";
-import { PersistenceTipTapEditor } from "@/features/persistence-tip-tap-editor";
 
 export default function PersistenceTipTapEditorPage() {
   const [content, setContent] = useState("");
@@ -32,15 +37,17 @@ export default function PersistenceTipTapEditorPage() {
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
             <FileText className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Persistence TipTap Editor</span>
+            <span className="text-sm font-medium">
+              Persistence TipTap Editor
+            </span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             TipTap Editor with Persistence
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Rich text editor with automatic localStorage persistence and optional
-            database synchronization. Supports auto-save, manual save, and
-            multiple persistence strategies.
+            Rich text editor with automatic localStorage persistence and
+            optional database synchronization. Supports auto-save, manual save,
+            and multiple persistence strategies.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -67,7 +74,7 @@ export default function PersistenceTipTapEditorPage() {
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
             <CardDescription>
-              Test the editor's persistence and save functionality
+              Test the editor&apos;s persistence and save functionality
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -187,4 +194,3 @@ export default function PersistenceTipTapEditorPage() {
     </div>
   );
 }
-

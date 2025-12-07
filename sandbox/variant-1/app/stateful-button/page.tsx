@@ -203,8 +203,8 @@ export default function StatefulButtonPage() {
               Rate Limited Action (1s)
             </StatefulButton>
             <p className="text-sm text-muted-foreground">
-              Try clicking this button multiple times quickly. You&apos;ll notice
-              it only executes once per second due to rate limiting.
+              Try clicking this button multiple times quickly. You&apos;ll
+              notice it only executes once per second due to rate limiting.
             </p>
           </CardContent>
         </Card>
@@ -281,4 +281,3 @@ export default function StatefulButtonPage() {
     </div>
   );
 }
-

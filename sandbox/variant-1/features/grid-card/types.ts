@@ -50,4 +50,3 @@ export interface GridCardFooterProps {
   children: ReactNode;
   className?: string;
 }
-

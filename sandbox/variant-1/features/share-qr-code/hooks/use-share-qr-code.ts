@@ -69,7 +69,12 @@ export function useShareQRCode(url: string, username?: string) {
         img.onload = () => {
           if (ctx) {
             // Create gradient background
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            const gradient = ctx.createLinearGradient(
+              0,
+              0,
+              canvas.width,
+              canvas.height,
+            );
             if (currentTheme.bgGradient.includes("667eea")) {
               gradient.addColorStop(0, "#667eea");
               gradient.addColorStop(1, "#764ba2");
@@ -86,7 +91,7 @@ export function useShareQRCode(url: string, username?: string) {
               gradient.addColorStop(0, "#fa709a");
               gradient.addColorStop(1, "#fee140");
             }
-            
+
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -94,7 +99,9 @@ export function useShareQRCode(url: string, username?: string) {
             const cardPadding = 32;
             const qrSize = 200;
             const cardWidth = qrSize + cardPadding * 2;
-            const cardHeight = username ? qrSize + cardPadding * 2 + 40 : qrSize + cardPadding * 2;
+            const cardHeight = username
+              ? qrSize + cardPadding * 2 + 40
+              : qrSize + cardPadding * 2;
             const cardX = (canvas.width - cardWidth) / 2;
             const cardY = (canvas.height - cardHeight) / 2;
 
@@ -139,7 +146,9 @@ export function useShareQRCode(url: string, username?: string) {
         };
 
         img.onerror = reject;
-        const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+        const svgBlob = new Blob([svgData], {
+          type: "image/svg+xml;charset=utf-8",
+        });
         const url = URL.createObjectURL(svgBlob);
         img.src = url;
       });
@@ -157,4 +166,3 @@ export function useShareQRCode(url: string, username?: string) {
     themeName: currentTheme.name,
   };
 }
-

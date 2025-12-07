@@ -12,7 +12,13 @@ import {
 type StatefulButtonProps = UseStatefulButtonOptions & {
   children: React.ReactNode;
   className?: string;
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
   size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
   disabled?: boolean;
 };
@@ -93,4 +99,3 @@ export function StatefulButton({
     </Button>
   );
 }
-

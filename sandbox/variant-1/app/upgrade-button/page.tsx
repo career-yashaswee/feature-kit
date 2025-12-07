@@ -16,7 +16,8 @@ import type { UpgradeAction } from "@/features/upgrade-button/types";
 const features = [
   {
     title: "Smart State Management",
-    description: "Automatically shows appropriate button based on subscription status",
+    description:
+      "Automatically shows appropriate button based on subscription status",
     icon: CreditCard,
   },
   {
@@ -151,10 +152,7 @@ export default function UpgradeButtonPage() {
               </div>
               <div>
                 <p className="text-sm font-medium mb-2">Subscribed:</p>
-                <UpgradeButton
-                  isSubscribed={true}
-                  onUpgrade={handleManage}
-                />
+                <UpgradeButton isSubscribed={true} onUpgrade={handleManage} />
               </div>
               <div>
                 <p className="text-sm font-medium mb-2">Loading State:</p>
@@ -279,4 +277,3 @@ export default function UpgradeButtonPage() {
     </div>
   );
 }
-

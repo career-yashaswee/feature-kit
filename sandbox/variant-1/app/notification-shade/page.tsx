@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import {
   Card,
   CardContent,
@@ -18,8 +19,12 @@ import {
   Settings,
   Zap,
 } from "lucide-react";
-import { NotificationShade } from "@/features/notification-shade/components/notification-shade";
 import type { Notification } from "@/features/notification-shade/types";
+
+const NotificationShade = dynamic(
+  () => import("@/features/notification-shade/components/notification-shade").then((mod) => ({ default: mod.NotificationShade })),
+  { ssr: false }
+);
 
 const features = [
   {
@@ -53,7 +58,8 @@ const sampleNotifications: Notification[] = [
     id: "2",
     type: "info",
     title: "AI Analysis Available",
-    message: "Your commit has been analyzed. Click to view detailed feedback and suggestions.",
+    message:
+      "Your commit has been analyzed. Click to view detailed feedback and suggestions.",
     timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
     isRead: false,
     category: "composition",
@@ -66,7 +72,8 @@ const sampleNotifications: Notification[] = [
     id: "3",
     type: "warning",
     title: "Tests Need Review",
-    message: "AI analysis is available but some tests failed. Please review the test results.",
+    message:
+      "AI analysis is available but some tests failed. Please review the test results.",
     timestamp: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
     isRead: true,
     category: "composition",
@@ -75,7 +82,8 @@ const sampleNotifications: Notification[] = [
     id: "4",
     type: "error",
     title: "Analysis Unavailable",
-    message: "Both AI analysis and tests failed. Please check your code and try again.",
+    message:
+      "Both AI analysis and tests failed. Please check your code and try again.",
     timestamp: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
     isRead: true,
     category: "composition",
@@ -104,24 +112,21 @@ const sampleNotifications: Notification[] = [
 ];
 
 export default function NotificationShadePage() {
-  const [notifications, setNotifications] = useState<Notification[]>(sampleNotifications);
+  const [notifications, setNotifications] =
+    useState<Notification[]>(sampleNotifications);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const handleMarkAllAsRead = () => {
-    setNotifications((prev) =>
-      prev.map((n) => ({ ...n, isRead: true }))
-    );
+    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 
   const handleNotificationClick = (notification: Notification) => {
     console.log("Notification clicked:", notification);
     // Mark as read
     setNotifications((prev) =>
-      prev.map((n) =>
-        n.id === notification.id ? { ...n, isRead: true } : n
-      )
+      prev.map((n) => (n.id === notification.id ? { ...n, isRead: true } : n)),
     );
   };
 
@@ -153,8 +158,8 @@ export default function NotificationShadePage() {
             Notification Shade
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            A comprehensive notification panel with tabbed filtering, smart icons,
-            and responsive design for desktop and mobile.
+            A comprehensive notification panel with tabbed filtering, smart
+            icons, and responsive design for desktop and mobile.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -223,7 +228,8 @@ export default function NotificationShadePage() {
                 <div>
                   <h3 className="font-semibold mb-1">Notification Shade</h3>
                   <p className="text-sm text-muted-foreground">
-                    {unreadCount} unread notification{unreadCount !== 1 ? "s" : ""}
+                    {unreadCount} unread notification
+                    {unreadCount !== 1 ? "s" : ""}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -239,7 +245,9 @@ export default function NotificationShadePage() {
                 </div>
               </div>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>• Click the bell icon above to open the notification panel</p>
+                <p>
+                  • Click the bell icon above to open the notification panel
+                </p>
                 <p>• Try different tabs and interactions</p>
                 <p>• Notifications update in real-time</p>
               </div>
@@ -360,4 +368,3 @@ export default function NotificationShadePage() {
     </div>
   );
 }
-

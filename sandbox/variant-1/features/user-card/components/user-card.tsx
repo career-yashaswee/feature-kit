@@ -1,14 +1,16 @@
 "use client";
 
-import { Check, ExternalLink, Link as LinkIcon, Calendar, Edit } from "lucide-react";
+import {
+  Check,
+  ExternalLink,
+  Link as LinkIcon,
+  Calendar,
+  Edit,
+} from "lucide-react";
 import { Img } from "react-image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import type {
-  UserCardData,
-  UserCardVariant,
-  ThemeVariant,
-} from "../types";
+import type { UserCardData, UserCardVariant, ThemeVariant } from "../types";
 
 export interface UserCardProps extends UserCardData {
   variant?: UserCardVariant;
@@ -96,9 +98,7 @@ export function UserCard({
                   {lastName.toLowerCase()}
                 </span>
               </div>
-              {tagline && (
-                <p className="mt-2 text-sm text-white">{tagline}</p>
-              )}
+              {tagline && <p className="mt-2 text-sm text-white">{tagline}</p>}
             </div>
 
             {/* Bottom: Social Icons and URL */}
@@ -196,7 +196,12 @@ export function UserCard({
 
           {/* Username */}
           {username && (
-            <p className={cn("mb-2 text-sm", isDark ? "text-gray-500" : "text-gray-600")}>
+            <p
+              className={cn(
+                "mb-2 text-sm",
+                isDark ? "text-gray-500" : "text-gray-600",
+              )}
+            >
               @{username}
             </p>
           )}
@@ -345,7 +350,9 @@ export function UserCard({
       </div>
 
       {/* Main Content Area */}
-      <div className={cn("px-4 pb-4 pt-2", isDark ? "bg-[#1a1a1a]" : "bg-gray-50")}>
+      <div
+        className={cn("px-4 pb-4 pt-2", isDark ? "bg-[#1a1a1a]" : "bg-gray-50")}
+      >
         {/* Name and Verification */}
         <div className="mb-2 flex items-center gap-2">
           <h2
@@ -468,4 +475,3 @@ export function UserCard({
     </div>
   );
 }
-

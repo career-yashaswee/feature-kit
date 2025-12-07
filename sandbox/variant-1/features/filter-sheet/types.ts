@@ -55,7 +55,11 @@ export interface TagFilter {
   onChange: (tags: string[]) => void;
 }
 
-export type Filter = SelectFilter | CheckboxFilter | MultiSelectFilter | TagFilter;
+export type Filter =
+  | SelectFilter
+  | CheckboxFilter
+  | MultiSelectFilter
+  | TagFilter;
 
 export interface FilterSheetProps {
   open: boolean;
@@ -69,4 +73,3 @@ export interface FilterSheetProps {
   side?: "left" | "right" | "top" | "bottom";
   width?: string;
 }
-

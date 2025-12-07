@@ -26,7 +26,7 @@ function GlassIcon({ icon, size = "md" }: GlassIconProps) {
     <div
       className={cn(
         "relative bg-transparent outline-none perspective-[24em] transform-3d group shrink-0",
-        sizeClasses[size]
+        sizeClasses[size],
       )}
     >
       <span
@@ -54,7 +54,7 @@ function GlassIcon({ icon, size = "md" }: GlassIconProps) {
         <span
           className={cn(
             "m-auto flex items-center justify-center text-primary dark:text-white relative z-10",
-            iconSizeClasses[size]
+            iconSizeClasses[size],
           )}
           aria-hidden="true"
         >
@@ -107,7 +107,7 @@ export function PageHeader({
       className={cn(
         "w-full text-sidebar-foreground p-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between relative",
         variantClasses[variant],
-        className
+        className,
       )}
     >
       {showDashedBorder && (
@@ -171,4 +171,3 @@ export function PageHeader({
 }
 
 export default memo(PageHeader);
-

@@ -40,4 +40,3 @@ export interface OnboardingLayoutProps {
   branding?: OnboardingBranding;
   className?: string;
 }
-

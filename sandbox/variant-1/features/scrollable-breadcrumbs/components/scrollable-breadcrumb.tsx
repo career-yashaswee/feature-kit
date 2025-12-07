@@ -42,7 +42,10 @@ export function ScrollableBreadcrumb({
     return () => window.removeEventListener("resize", handler);
   }, [autoScroll]);
 
-  const defaultRenderLink = (item: typeof items[0], children: React.ReactNode) => {
+  const defaultRenderLink = (
+    item: (typeof items)[0],
+    children: React.ReactNode,
+  ) => {
     return (
       <a
         href={item.href}
@@ -54,7 +57,9 @@ export function ScrollableBreadcrumb({
   };
 
   const linkRenderer = renderLink || defaultRenderLink;
-  const separatorElement = separator || <ChevronRight className="h-3.5 w-3.5" />;
+  const separatorElement = separator || (
+    <ChevronRight className="h-3.5 w-3.5" />
+  );
 
   return (
     <div className="relative w-full h-10">
@@ -70,7 +75,7 @@ export function ScrollableBreadcrumb({
           "scroll-smooth w-full h-10",
           "min-w-0", // Allow shrinking
           "bg-muted/20 rounded-md border",
-          className
+          className,
         )}
         style={{
           scrollbarWidth: "none", // Firefox
@@ -116,4 +121,3 @@ export function ScrollableBreadcrumb({
     </div>
   );
 }
-

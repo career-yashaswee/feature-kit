@@ -34,10 +34,14 @@ export default function UserCardPage() {
   const linkedinData = {
     firstName: "Yashaswee",
     lastName: "Kesharwani",
-    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-    bannerUrl: "https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=200&fit=crop",
-    bannerFallback: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&h=200&fit=crop",
-    description: "Building Recompose | SIH'24 Winner (Lead) | AI and Full Stack Developer",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    bannerUrl:
+      "https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=200&fit=crop",
+    bannerFallback:
+      "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&h=200&fit=crop",
+    description:
+      "Building Recompose | SIH'24 Winner (Lead) | AI and Full Stack Developer",
     location: "Phagwara Tehsil, Punjab",
     items: [
       {
@@ -67,9 +71,13 @@ export default function UserCardPage() {
     firstName: "Yashaswee",
     lastName: "Kesharwani",
     username: "yashaswee_",
-    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-    bannerUrl: "https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=200&fit=crop",
-    bannerFallback: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&h=200&fit=crop",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    bannerUrl:
+      "https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=200&fit=crop",
+    bannerFallback:
+      "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&h=200&fit=crop",
+    description: "Building Recompose - A better leetcode for full-stack web dev.",
     tagline: "would ❤️ to connect...",
     bio: "Building Recompose - A better leetcode for full-stack web dev.",
     websiteUrl: "yashaswee.classing.in",
@@ -187,7 +195,9 @@ export default function UserCardPage() {
                 <div className="rounded-lg bg-primary/10 p-2">
                   <Sparkles className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Variant & Theme Toggle</CardTitle>
+                <CardTitle className="text-2xl">
+                  Variant & Theme Toggle
+                </CardTitle>
               </div>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
@@ -293,4 +303,3 @@ export default function UserCardPage() {
     </div>
   );
 }
-

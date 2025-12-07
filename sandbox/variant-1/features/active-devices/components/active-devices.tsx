@@ -24,7 +24,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { ActiveDevicesProps } from "../types";
 
 function getDeviceIcon(device: string) {
@@ -160,9 +166,7 @@ export function ActiveDevices({
   const sessions = adapter?.sessions || propSessions || [];
   const isLoading = adapter?.isLoading ?? propIsLoading ?? false;
 
-  const sessionToDeleteInfo = sessions.find(
-    (s) => s.token === sessionToDelete
-  );
+  const sessionToDeleteInfo = sessions.find((s) => s.token === sessionToDelete);
 
   const deleteSession = adapter?.deleteSession || onDeleteSession;
   const setActiveSession = adapter?.setActiveSession || onSetActiveSession;
@@ -175,9 +179,10 @@ export function ActiveDevices({
         sessions
           .map((s) => s.ipAddress)
           .filter(
-            (ip) => ip && ip !== "Unknown" && ip !== "127.0.0.1" && ip !== "Local"
-          )
-      )
+            (ip) =>
+              ip && ip !== "Unknown" && ip !== "127.0.0.1" && ip !== "Local",
+          ),
+      ),
     );
   }, [sessions]);
 
@@ -195,7 +200,7 @@ export function ActiveDevices({
           } catch {
             // Ignore errors
           }
-        })
+        }),
       );
       return locations;
     },
@@ -351,7 +356,9 @@ export function ActiveDevices({
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => handleSetActiveSession(session.token)}
+                            onClick={() =>
+                              handleSetActiveSession(session.token)
+                            }
                             disabled={isSettingActive}
                             className="text-xs px-2 sm:px-3 h-8 sm:h-9"
                           >
@@ -362,7 +369,9 @@ export function ActiveDevices({
                         )}
                         {deleteSession && (
                           <Button
-                            variant={session.isCurrent ? "destructive" : "ghost"}
+                            variant={
+                              session.isCurrent ? "destructive" : "ghost"
+                            }
                             size={session.isCurrent ? "sm" : "icon"}
                             onClick={() => setSessionToDelete(session.token)}
                             disabled={isDeleting}
@@ -375,10 +384,15 @@ export function ActiveDevices({
                             {session.isCurrent ? (
                               <>
                                 <SignOut size={16} className="mr-1" />
-                                <span className="text-xs sm:text-sm">Log Out</span>
+                                <span className="text-xs sm:text-sm">
+                                  Log Out
+                                </span>
                               </>
                             ) : (
-                              <Trash size={16} className="text-muted-foreground hover:text-destructive" />
+                              <Trash
+                                size={16}
+                                className="text-muted-foreground hover:text-destructive"
+                              />
                             )}
                           </Button>
                         )}
@@ -411,4 +425,3 @@ export function ActiveDevices({
     </>
   );
 }
-

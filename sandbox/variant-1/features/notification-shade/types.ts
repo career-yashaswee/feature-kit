@@ -32,4 +32,3 @@ export interface NotificationShadeProps {
   emptyMessage?: string;
   viewAllLabel?: string;
 }
-

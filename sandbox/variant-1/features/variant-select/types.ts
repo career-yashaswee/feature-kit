@@ -33,4 +33,3 @@ export interface VariantSelectProps {
   adapter?: VariantSelectAdapter;
   className?: string;
 }
-

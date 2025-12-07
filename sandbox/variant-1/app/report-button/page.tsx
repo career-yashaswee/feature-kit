@@ -9,7 +9,10 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Flag, AlertTriangle, Zap } from "lucide-react";
-import { ReportButton, type ReportIssue } from "@/features/report-button/components/report-button";
+import {
+  ReportButton,
+  type ReportIssue,
+} from "@/features/report-button/components/report-button";
 
 const sampleIssues: ReportIssue[] = [
   {
@@ -62,10 +65,9 @@ async function submitReport(payload: {
   customIssue?: string;
   description?: string;
   context?: { path?: string; url?: string };
-}) {
+}): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 1500));
   console.log("Report submitted:", payload);
-  return { success: true };
 }
 
 export default function ReportButtonPage() {
@@ -233,4 +235,3 @@ export default function ReportButtonPage() {
     </div>
   );
 }
-

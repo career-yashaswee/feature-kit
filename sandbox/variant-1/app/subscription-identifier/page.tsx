@@ -9,24 +9,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Crown, Sparkles, Zap } from "@phosphor-icons/react";
+import { Crown, Sparkle, Lightning } from "@phosphor-icons/react";
 import { SubscriptionIdentifier } from "@/features/subscription-identifier/components/subscription-identifier";
 
 const features = [
   {
     title: "Subscription Status",
-    description: "Visual indicator for subscription status with elegant styling",
+    description:
+      "Visual indicator for subscription status with elegant styling",
     icon: Crown,
   },
   {
     title: "Multiple Variants",
     description: "Outline and solid variants with different styling options",
-    icon: Sparkles,
+    icon: Sparkle,
   },
   {
     title: "Flexible Props",
     description: "Accepts subscription status as prop or from store",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -63,7 +64,7 @@ export default function SubscriptionIdentifierPage() {
               Subscription
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Sparkles size={12} />
+              <Sparkle size={12} />
               Badge
             </Badge>
           </div>
@@ -138,21 +139,27 @@ export default function SubscriptionIdentifierPage() {
                 />
               </div>
               <div>
-                <p className="text-sm font-medium mb-2">Outline - Not Subscribed:</p>
+                <p className="text-sm font-medium mb-2">
+                  Outline - Not Subscribed:
+                </p>
                 <SubscriptionIdentifier
                   isUserSubscribed={false}
                   variant="outline"
                 />
               </div>
               <div>
-                <p className="text-sm font-medium mb-2">Outline - Subscribed:</p>
+                <p className="text-sm font-medium mb-2">
+                  Outline - Subscribed:
+                </p>
                 <SubscriptionIdentifier
                   isUserSubscribed={true}
                   variant="outline"
                 />
               </div>
               <div>
-                <p className="text-sm font-medium mb-2">Solid - Not Subscribed:</p>
+                <p className="text-sm font-medium mb-2">
+                  Solid - Not Subscribed:
+                </p>
                 <SubscriptionIdentifier
                   isUserSubscribed={false}
                   variant="solid"
@@ -212,7 +219,7 @@ export default function SubscriptionIdentifierPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap size={20} className="text-primary" />
+                <Lightning size={20} className="text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -242,4 +249,3 @@ export default function SubscriptionIdentifierPage() {
     </div>
   );
 }
-

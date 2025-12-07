@@ -154,11 +154,7 @@ export default function HealthBarPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <HealthBar
-              data={manualData}
-              showTimer
-              showRemaining
-            />
+            <HealthBar data={manualData} showTimer showRemaining />
             <div className="flex gap-2">
               <button
                 onClick={() =>
@@ -220,4 +216,3 @@ export default function HealthBarPage() {
     </div>
   );
 }
-

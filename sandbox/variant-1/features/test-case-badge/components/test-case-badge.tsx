@@ -43,7 +43,7 @@ export function TestCaseBadge({
         className={cn(
           "inline-flex items-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm animate-pulse",
           sizeConfig.container,
-          className
+          className,
         )}
       >
         <Skeleton className={cn(sizeConfig.height, sizeConfig.width)} />
@@ -57,7 +57,7 @@ export function TestCaseBadge({
       <div
         className={cn(
           "inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900",
-          className
+          className,
         )}
       >
         <span className="text-xs text-slate-400 dark:text-slate-500">
@@ -112,7 +112,7 @@ export function TestCaseBadge({
         "inline-flex items-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm",
         sizeConfig.container,
         sizeConfig.gap,
-        className
+        className,
       )}
     >
       {/* Passed Count */}
@@ -122,7 +122,7 @@ export function TestCaseBadge({
             "inline-flex items-center justify-center rounded-full border",
             "border-green-600 dark:border-green-400",
             size === "sm" ? "size-4" : size === "md" ? "size-5" : "size-6",
-            "bg-white dark:bg-slate-900"
+            "bg-white dark:bg-slate-900",
           )}
         >
           <Check
@@ -133,7 +133,7 @@ export function TestCaseBadge({
         <span
           className={cn(
             sizeConfig.text,
-            "font-semibold text-green-600 dark:text-green-500"
+            "font-semibold text-green-600 dark:text-green-500",
           )}
         >
           {testResults.passed}
@@ -153,7 +153,7 @@ export function TestCaseBadge({
             "inline-flex items-center justify-center rounded-full border",
             "border-red-600 dark:border-red-400",
             size === "sm" ? "size-4" : size === "md" ? "size-5" : "size-6",
-            "bg-white dark:bg-slate-900"
+            "bg-white dark:bg-slate-900",
           )}
         >
           <X
@@ -164,7 +164,7 @@ export function TestCaseBadge({
         <span
           className={cn(
             sizeConfig.text,
-            "font-semibold text-red-600 dark:text-red-500"
+            "font-semibold text-red-600 dark:text-red-500",
           )}
         >
           {testResults.failed}
@@ -189,4 +189,3 @@ export function TestCaseBadge({
     </div>
   );
 }
-

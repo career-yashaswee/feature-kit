@@ -21,4 +21,3 @@ export interface TestCaseBadgeProps {
   size?: TestCaseBadgeSize;
   emptyMessage?: string;
 }
-

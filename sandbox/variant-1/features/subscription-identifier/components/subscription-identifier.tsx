@@ -29,11 +29,7 @@ export function SubscriptionIdentifier({
   const baseClasses =
     "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium relative";
   const sizeClasses =
-    size === "sm"
-      ? "text-[10px]"
-      : size === "md"
-        ? "text-xs"
-        : "text-sm";
+    size === "sm" ? "text-[10px]" : size === "md" ? "text-xs" : "text-sm";
 
   if (isLoading) {
     return (
@@ -43,7 +39,7 @@ export function SubscriptionIdentifier({
             baseClasses,
             sizeClasses,
             "bg-gradient-to-b from-yellow-50/80 to-yellow-100/60 border border-yellow-200/80 text-yellow-700 animate-pulse",
-            className
+            className,
           )}
           style={{
             boxShadow:
@@ -128,4 +124,3 @@ export function SubscriptionIdentifier({
     </span>
   );
 }
-

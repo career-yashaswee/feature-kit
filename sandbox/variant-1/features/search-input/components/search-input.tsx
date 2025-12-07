@@ -5,7 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Search, Mic, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useSearchInput, type UseSearchInputOptions } from "@/features/search-input/hooks/use-search-input";
+import {
+  useSearchInput,
+  type UseSearchInputOptions,
+} from "@/features/search-input/hooks/use-search-input";
 import { useSpeechRecognition } from "@/lib/providers/speech-recognition-provider";
 import SpeechRecognition from "react-speech-recognition";
 
@@ -23,12 +26,7 @@ export function SearchInput<T>({
   renderResult,
   ...options
 }: SearchInputProps<T>) {
-  const {
-    query,
-    setQuery,
-    results,
-    isSearching,
-  } = useSearchInput(options);
+  const { query, setQuery, results, isSearching } = useSearchInput(options);
 
   const {
     transcript,
@@ -48,7 +46,10 @@ export function SearchInput<T>({
       SpeechRecognition.stopListening();
     } else {
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: false, language: "en-US" });
+      SpeechRecognition.startListening({
+        continuous: false,
+        language: "en-US",
+      });
     }
   };
 
@@ -110,4 +111,3 @@ export function SearchInput<T>({
     </div>
   );
 }
-

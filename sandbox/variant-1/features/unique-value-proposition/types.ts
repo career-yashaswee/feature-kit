@@ -31,4 +31,3 @@ export interface UniqueValuePropositionProps {
   chartHeight?: "sm" | "md" | "lg";
   showLegend?: boolean;
 }
-

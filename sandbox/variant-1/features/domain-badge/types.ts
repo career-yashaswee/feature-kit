@@ -18,4 +18,3 @@ export interface DomainBadgeProps {
   showTooltip?: boolean;
   tooltipLayout?: "grid" | "list";
 }
-

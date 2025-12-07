@@ -21,20 +21,57 @@ import {
 import { SearchInput } from "@/features/search-input/components/search-input";
 
 const sampleData = [
-  { id: 1, name: "Apple", category: "Fruit", description: "A red or green fruit" },
-  { id: 2, name: "Banana", category: "Fruit", description: "A yellow curved fruit" },
-  { id: 3, name: "Carrot", category: "Vegetable", description: "An orange root vegetable" },
-  { id: 4, name: "Broccoli", category: "Vegetable", description: "A green vegetable" },
-  { id: 5, name: "Chicken", category: "Meat", description: "A white meat protein" },
+  {
+    id: 1,
+    name: "Apple",
+    category: "Fruit",
+    description: "A red or green fruit",
+  },
+  {
+    id: 2,
+    name: "Banana",
+    category: "Fruit",
+    description: "A yellow curved fruit",
+  },
+  {
+    id: 3,
+    name: "Carrot",
+    category: "Vegetable",
+    description: "An orange root vegetable",
+  },
+  {
+    id: 4,
+    name: "Broccoli",
+    category: "Vegetable",
+    description: "A green vegetable",
+  },
+  {
+    id: 5,
+    name: "Chicken",
+    category: "Meat",
+    description: "A white meat protein",
+  },
   { id: 6, name: "Salmon", category: "Fish", description: "A pink fish" },
   { id: 7, name: "Rice", category: "Grain", description: "A white grain" },
-  { id: 8, name: "Bread", category: "Grain", description: "Baked flour product" },
+  {
+    id: 8,
+    name: "Bread",
+    category: "Grain",
+    description: "Baked flour product",
+  },
   { id: 9, name: "Milk", category: "Dairy", description: "White dairy drink" },
-  { id: 10, name: "Cheese", category: "Dairy", description: "Fermented dairy product" },
+  {
+    id: 10,
+    name: "Cheese",
+    category: "Dairy",
+    description: "Fermented dairy product",
+  },
 ];
 
 export default function SearchInputPage() {
-  const [selectedItem, setSelectedItem] = useState<typeof sampleData[0] | null>(null);
+  const [selectedItem, setSelectedItem] = useState<
+    (typeof sampleData)[0] | null
+  >(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<typeof sampleData>([]);
 
@@ -156,7 +193,9 @@ export default function SearchInputPage() {
               />
               {searchQuery && (
                 <div className="text-sm text-muted-foreground">
-                  Found {searchResults.length} result{searchResults.length !== 1 ? "s" : ""} for &quot;{searchQuery}&quot;
+                  Found {searchResults.length} result
+                  {searchResults.length !== 1 ? "s" : ""} for &quot;
+                  {searchQuery}&quot;
                 </div>
               )}
             </CardContent>
@@ -265,4 +304,3 @@ export default function SearchInputPage() {
     </div>
   );
 }
-

@@ -11,7 +11,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Loader2, FileText, Zap, RefreshCw } from "lucide-react";
-import { PageLoader, type LoadingState } from "@/features/page-loader/components/page-loader";
+import {
+  PageLoader,
+  type LoadingState,
+} from "@/features/page-loader/components/page-loader";
 import { useQuery } from "@tanstack/react-query";
 
 const features = [
@@ -132,13 +135,8 @@ export default function PageLoaderPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-2">
-              <Button onClick={() => setShowLoader(true)}>
-                Show Loader
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setShowLoader(false)}
-              >
+              <Button onClick={() => setShowLoader(true)}>Show Loader</Button>
+              <Button variant="outline" onClick={() => setShowLoader(false)}>
                 Hide Loader
               </Button>
             </div>
@@ -152,7 +150,7 @@ export default function PageLoaderPage() {
               />
               {!showLoader && (
                 <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                  Click "Show Loader" to see it in action
+                  Click &quot;Show Loader&quot; to see it in action
                 </div>
               )}
             </div>
@@ -231,4 +229,3 @@ export default function PageLoaderPage() {
     </div>
   );
 }
-

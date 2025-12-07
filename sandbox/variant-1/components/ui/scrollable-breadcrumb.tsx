@@ -8,9 +8,9 @@ function ScrollableBreadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
 }
 
-function ScrollableBreadcrumbList({ 
-  className, 
-  ...props 
+function ScrollableBreadcrumbList({
+  className,
+  ...props
 }: React.ComponentProps<"div">) {
   return (
     <div
@@ -24,9 +24,9 @@ function ScrollableBreadcrumbList({
   );
 }
 
-function ScrollableBreadcrumbItem({ 
-  className, 
-  ...props 
+function ScrollableBreadcrumbItem({
+  className,
+  ...props
 }: React.ComponentProps<"div">) {
   return (
     <div
@@ -44,24 +44,25 @@ function ScrollableBreadcrumbLink({
 }: React.ComponentProps<"a"> & {
   asChild?: boolean;
 }) {
-  const Comp = asChild ? React.Fragment : "a";
-
   if (asChild) {
     return <>{props.children}</>;
   }
 
   return (
-    <Comp
+    <a
       data-slot="breadcrumb-link"
-      className={cn("hover:text-foreground transition-colors text-muted-foreground text-sm", className)}
+      className={cn(
+        "hover:text-foreground transition-colors text-muted-foreground text-sm",
+        className,
+      )}
       {...props}
     />
   );
 }
 
-function ScrollableBreadcrumbPage({ 
-  className, 
-  ...props 
+function ScrollableBreadcrumbPage({
+  className,
+  ...props
 }: React.ComponentProps<"span">) {
   return (
     <span
@@ -102,7 +103,10 @@ function ScrollableBreadcrumbEllipsis({
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       aria-hidden="true"
-      className={cn("flex size-9 items-center justify-center shrink-0", className)}
+      className={cn(
+        "flex size-9 items-center justify-center shrink-0",
+        className,
+      )}
       {...props}
     >
       <MoreHorizontal className="size-4" />
@@ -119,8 +123,3 @@ export {
   ScrollableBreadcrumbSeparator,
   ScrollableBreadcrumbEllipsis,
 };
-
-
-
-
-

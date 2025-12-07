@@ -24,7 +24,7 @@ export function useTableOfContents(markdown: string): TocItem[] {
     try {
       const headings: TocItem[] = [];
       const lines = markdown.split("\n");
-      let seenCounts: Record<string, number> = {};
+      const seenCounts: Record<string, number> = {};
 
       lines.forEach((line, index) => {
         const match = line.match(/^(#{1,6})\s+(.+)$/);
@@ -32,7 +32,7 @@ export function useTableOfContents(markdown: string): TocItem[] {
           const level = match[1].length;
           const content = match[2].trim();
           const baseSlug = slugify(content);
-          
+
           // Handle duplicate slugs
           const count = seenCounts[baseSlug] || 0;
           seenCounts[baseSlug] = count + 1;
@@ -55,4 +55,3 @@ export function useTableOfContents(markdown: string): TocItem[] {
     }
   }, [markdown]);
 }
-

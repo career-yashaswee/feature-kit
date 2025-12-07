@@ -28,4 +28,3 @@ export interface UpgradeButtonProps {
   subscribedIcon?: React.ComponentType<{ className?: string }>;
   upgradeIcon?: React.ComponentType<{ className?: string }>;
 }
-

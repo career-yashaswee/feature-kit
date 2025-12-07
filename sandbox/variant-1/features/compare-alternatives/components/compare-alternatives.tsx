@@ -23,7 +23,7 @@ export function CompareAlternatives({
 
   const renderIcon = (
     icon: ComparisonFeature["icon"],
-    isPricing: boolean
+    isPricing: boolean,
   ): React.ReactNode => {
     if (!icon) return null;
 
@@ -39,7 +39,7 @@ export function CompareAlternatives({
       return React.createElement(IconComponent, {
         className: cn(
           "h-5 w-5 text-gray-500",
-          isPricing && "text-white dark:text-black"
+          isPricing && "text-white dark:text-black",
         ),
       });
     }
@@ -51,7 +51,7 @@ export function CompareAlternatives({
   const renderValue = (
     value: string | boolean | "partial",
     isPricing: boolean,
-    pricingText?: string
+    pricingText?: string,
   ) => {
     if (isPricing && pricingText) {
       return (
@@ -104,11 +104,12 @@ export function CompareAlternatives({
             <div className="w-16 px-6 py-4"></div>
             <div className="flex-1 px-6 py-4">Feature</div>
             {alternatives.map((alt) => (
-              <div key={alt.id} className="flex w-40 items-center gap-2 px-6 py-4">
+              <div
+                key={alt.id}
+                className="flex w-40 items-center gap-2 px-6 py-4"
+              >
                 <div className="flex items-center gap-2">
-                  {alt.icon && (
-                    <alt.icon className="h-5 w-5 text-primary" />
-                  )}
+                  {alt.icon && <alt.icon className="h-5 w-5 text-primary" />}
                   <span>{alt.name}</span>
                 </div>
               </div>
@@ -128,14 +129,14 @@ export function CompareAlternatives({
                 <div
                   className={cn(
                     "flex items-center justify-start px-6 pt-4 lg:hidden",
-                    isPricing && "text-white dark:text-black"
+                    isPricing && "text-white dark:text-black",
                   )}
                 >
                   {renderIcon(feature.icon, isPricing)}
                   <span
                     className={cn(
                       "ml-3 text-base font-medium",
-                      isPricing && "text-white dark:text-black"
+                      isPricing && "text-white dark:text-black",
                     )}
                   >
                     {feature.label}
@@ -144,7 +145,7 @@ export function CompareAlternatives({
                 <div
                   className={cn(
                     "px-6 pb-2 lg:hidden",
-                    isPricing && "text-white dark:text-black"
+                    isPricing && "text-white dark:text-black",
                   )}
                 >
                   <div
@@ -152,7 +153,7 @@ export function CompareAlternatives({
                       "mt-2 text-sm",
                       isPricing
                         ? "text-white/90 dark:text-black/90"
-                        : "text-muted-foreground"
+                        : "text-muted-foreground",
                     )}
                   >
                     {feature.description}
@@ -175,7 +176,7 @@ export function CompareAlternatives({
                             "text-xs font-medium",
                             isPricing
                               ? "text-white/70 dark:text-black/70"
-                              : "text-muted-foreground"
+                              : "text-muted-foreground",
                           )}
                         >
                           {alt.name}
@@ -195,7 +196,7 @@ export function CompareAlternatives({
                     <div
                       className={cn(
                         "font-medium",
-                        isPricing && "text-white dark:text-black"
+                        isPricing && "text-white dark:text-black",
                       )}
                     >
                       {feature.label}
@@ -205,7 +206,7 @@ export function CompareAlternatives({
                         "text-sm",
                         isPricing
                           ? "text-white/90 dark:text-black/90"
-                          : "text-muted-foreground"
+                          : "text-muted-foreground",
                       )}
                     >
                       {feature.description}
@@ -233,4 +234,3 @@ export function CompareAlternatives({
     </section>
   );
 }
-

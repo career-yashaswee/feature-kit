@@ -11,4 +11,3 @@ export interface PageHeaderProps {
   variant?: "default" | "minimal" | "bordered";
   iconSize?: "sm" | "md" | "lg";
 }
-

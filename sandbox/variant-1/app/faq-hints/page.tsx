@@ -9,7 +9,10 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { HelpCircle, CheckCircle2, Sparkles } from "lucide-react";
-import { FaqHints, type FaqItem } from "@/features/faq-hints/components/faq-hints";
+import {
+  FaqHints,
+  type FaqItem,
+} from "@/features/faq-hints/components/faq-hints";
 
 const sampleFaqItems: FaqItem[] = [
   {
@@ -163,10 +166,7 @@ export default function FaqHintsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <FaqHints
-              items={sampleFaqItems.slice(0, 3)}
-              variant="compact"
-            />
+            <FaqHints items={sampleFaqItems.slice(0, 3)} variant="compact" />
           </CardContent>
         </Card>
 
@@ -204,4 +204,3 @@ export default function FaqHintsPage() {
     </div>
   );
 }
-

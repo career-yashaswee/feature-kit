@@ -46,7 +46,7 @@ export function HealthBar({
     <div
       className={cn(
         "h-10 px-3 rounded-md flex items-center gap-2 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 shadow-[0_1.2px_2.4px_0_rgba(0,0,0,0.05),0_-4px_0_0_rgba(0,0,0,0.12)_inset] dark:shadow-[0_1.2px_2.4px_0_rgba(255,255,255,0.05),0_-4px_0_0_rgba(255,255,255,0.25)_inset]",
-        className
+        className,
       )}
     >
       <Heart className="h-4 w-4 text-red-500" fill="currentColor" />
@@ -56,7 +56,7 @@ export function HealthBar({
             className={cn(
               "h-2 rounded transition-[width,background-color] duration-300",
               barClass,
-              isFull && "animate-shine shine-strong"
+              isFull && "animate-shine shine-strong",
             )}
             style={{ width: `${percent}%` }}
           />
@@ -67,7 +67,8 @@ export function HealthBar({
           +{remaining}
           {showTimer && secondsToNext > 0 && (
             <>
-              {" "}• {mm.toString().padStart(2, "0")}:
+              {" "}
+              • {mm.toString().padStart(2, "0")}:
               {ss.toString().padStart(2, "0")}
             </>
           )}
@@ -79,4 +80,3 @@ export function HealthBar({
     </div>
   );
 }
-

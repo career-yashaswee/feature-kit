@@ -351,7 +351,7 @@ const USPAxis = () => {
                           className={cn(
                             "rounded-full bg-gray-400 dark:bg-gray-500 transition-all duration-200 group-hover:scale-125",
                             app.isHighlighted &&
-                              "bg-blue-600 dark:bg-blue-400 shadow-lg"
+                              "bg-blue-600 dark:bg-blue-400 shadow-lg",
                           )}
                           style={{
                             width: `${finalSize}px`,
@@ -364,7 +364,7 @@ const USPAxis = () => {
                             className={cn(
                               "ml-2 text-xs md:text-sm text-muted-foreground transition-all duration-200 whitespace-nowrap",
                               app.isHighlighted &&
-                                "font-bold text-blue-600 dark:text-blue-400 text-sm md:text-base"
+                                "font-bold text-blue-600 dark:text-blue-400 text-sm md:text-base",
                             )}
                           >
                             {app.name}

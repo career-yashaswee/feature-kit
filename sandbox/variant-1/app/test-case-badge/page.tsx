@@ -12,7 +12,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, Loader2, TestTube } from "lucide-react";
 import { TestCaseBadge } from "@/features/test-case-badge/components/test-case-badge";
-import type { TestResults, TestCaseStatus } from "@/features/test-case-badge/types";
+import type {
+  TestResults,
+  TestCaseStatus,
+} from "@/features/test-case-badge/types";
 
 const features = [
   {
@@ -51,9 +54,9 @@ const statuses: TestCaseStatus[] = [
 
 export default function TestCaseBadgePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentStatus, setCurrentStatus] = useState<TestCaseStatus | undefined>(
-    undefined
-  );
+  const [currentStatus, setCurrentStatus] = useState<
+    TestCaseStatus | undefined
+  >(undefined);
 
   const currentResults = sampleTestResults[currentIndex];
 
@@ -69,8 +72,8 @@ export default function TestCaseBadgePage() {
             Test Case Badge
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            A badge component that displays test results with passed/failed counts
-            and a circular progress indicator showing success percentage.
+            A badge component that displays test results with passed/failed
+            counts and a circular progress indicator showing success percentage.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -145,7 +148,9 @@ export default function TestCaseBadgePage() {
                 <Button
                   variant="outline"
                   onClick={() =>
-                    setCurrentIndex((prev) => (prev + 1) % sampleTestResults.length)
+                    setCurrentIndex(
+                      (prev) => (prev + 1) % sampleTestResults.length,
+                    )
                   }
                 >
                   Next Scenario
@@ -204,7 +209,8 @@ export default function TestCaseBadgePage() {
               {currentStatus === "ANALYSING" && (
                 <div className="p-4 border rounded-lg bg-yellow-50 dark:bg-yellow-950/20">
                   <p className="text-sm text-muted-foreground">
-                    When status is "ANALYSING", the badge shows a loading skeleton.
+                    When status is &quot;ANALYSING&quot;, the badge shows a loading
+                    skeleton.
                   </p>
                 </div>
               )}
@@ -316,4 +322,3 @@ export default function TestCaseBadgePage() {
     </div>
   );
 }
-

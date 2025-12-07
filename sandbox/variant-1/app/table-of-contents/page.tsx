@@ -178,9 +178,7 @@ export default function TableOfContentsPage() {
                         .replace(/\s+/g, "-")
                         .replace(/-+/g, "-")
                         .trim();
-                      return (
-                        <h1 id={id} className="scroll-mt-24" {...props} />
-                      );
+                      return <h1 id={id} className="scroll-mt-24" {...props} />;
                     },
                     h2: ({ node, ...props }) => {
                       const text = props.children?.toString() || "";
@@ -190,9 +188,7 @@ export default function TableOfContentsPage() {
                         .replace(/\s+/g, "-")
                         .replace(/-+/g, "-")
                         .trim();
-                      return (
-                        <h2 id={id} className="scroll-mt-24" {...props} />
-                      );
+                      return <h2 id={id} className="scroll-mt-24" {...props} />;
                     },
                     h3: ({ node, ...props }) => {
                       const text = props.children?.toString() || "";
@@ -202,9 +198,7 @@ export default function TableOfContentsPage() {
                         .replace(/\s+/g, "-")
                         .replace(/-+/g, "-")
                         .trim();
-                      return (
-                        <h3 id={id} className="scroll-mt-24" {...props} />
-                      );
+                      return <h3 id={id} className="scroll-mt-24" {...props} />;
                     },
                   }}
                 >
@@ -293,4 +287,3 @@ export default function TableOfContentsPage() {
     </div>
   );
 }
-

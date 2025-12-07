@@ -30,7 +30,7 @@ export function PersistenceTipTapEditor({
 }: PersistenceTipTapEditorProps) {
   const [localContent, setLocalContent] = useLocalStorage<string>(
     storageKey || "tiptap-editor-content",
-    ""
+    "",
   );
   const [content, setContent] = useState(propContent || localContent || "");
   const [isSaving, setIsSaving] = useState(false);
@@ -65,7 +65,13 @@ export function PersistenceTipTapEditor({
     if (autoSave && storageKey && persistenceType === "localStorage") {
       setLocalContent(debouncedContent);
     }
-  }, [debouncedContent, autoSave, storageKey, persistenceType, setLocalContent]);
+  }, [
+    debouncedContent,
+    autoSave,
+    storageKey,
+    persistenceType,
+    setLocalContent,
+  ]);
 
   // Auto-save to DB if onSave is provided
   useEffect(() => {
@@ -157,16 +163,12 @@ export function PersistenceTipTapEditor({
       <div className="w-full min-h-[200px] rounded-md border bg-background p-4">
         <div className="text-sm text-muted-foreground mb-4">
           <p className="font-semibold mb-2">TipTap Editor Placeholder</p>
-          <p>
-            To use this component, install TipTap packages:
-          </p>
+          <p>To use this component, install TipTap packages:</p>
           <code className="block mt-2 p-2 bg-muted rounded text-xs">
             npm install @tiptap/react @tiptap/starter-kit
             @tiptap/extension-placeholder
           </code>
-          <p className="mt-4">
-            The editor will support:
-          </p>
+          <p className="mt-4">The editor will support:</p>
           <ul className="list-disc list-inside mt-2 space-y-1">
             <li>LocalStorage persistence (automatic)</li>
             <li>Zustand/TanStack Store persistence (configurable)</li>
@@ -187,4 +189,3 @@ export function PersistenceTipTapEditor({
     </div>
   );
 }
-

@@ -221,7 +221,8 @@ export default function ConsequenceConfirmationDialogPage() {
               <div className="space-y-3">
                 <h3 className="font-semibold">Consequence Variant</h3>
                 <p className="text-sm text-muted-foreground">
-                  For destructive actions with labels, values, and confirmation input
+                  For destructive actions with labels, values, and confirmation
+                  input
                 </p>
                 <Button
                   variant="destructive"
@@ -378,8 +379,16 @@ export default function ConsequenceConfirmationDialogPage() {
           }
           variant={variant}
           isLoading={isLoading}
-          confirmLabel={variant === "destructive" || variant === "consequence" ? "Delete Account" : "Confirm"}
-          subtitle={variant === "consequence" ? "This action cannot be undone" : undefined}
+          confirmLabel={
+            variant === "destructive" || variant === "consequence"
+              ? "Delete Account"
+              : "Confirm"
+          }
+          subtitle={
+            variant === "consequence"
+              ? "This action cannot be undone"
+              : undefined
+          }
           items={
             variant === "consequence"
               ? [
@@ -407,7 +416,9 @@ export default function ConsequenceConfirmationDialogPage() {
               : undefined
           }
           confirmationText={variant === "consequence" ? "DELETE" : undefined}
-          confirmationPlaceholder={variant === "consequence" ? "DELETE" : undefined}
+          confirmationPlaceholder={
+            variant === "consequence" ? "DELETE" : undefined
+          }
         />
 
         {hookIsOpen && options && (

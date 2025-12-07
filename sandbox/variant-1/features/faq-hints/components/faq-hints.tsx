@@ -59,7 +59,9 @@ export function FaqHints({
                   <div
                     className={cn(
                       "font-medium",
-                      variant === "compact" ? "sm:py-1 text-sm" : "sm:py-1 lg:py-2 lg:text-lg"
+                      variant === "compact"
+                        ? "sm:py-1 text-sm"
+                        : "sm:py-1 lg:py-2 lg:text-lg",
                     )}
                   >
                     {item.question}
@@ -71,7 +73,12 @@ export function FaqHints({
                   )}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className={cn("sm:mb-1", variant === "compact" ? "text-sm" : "lg:mb-2")}>
+              <AccordionContent
+                className={cn(
+                  "sm:mb-1",
+                  variant === "compact" ? "text-sm" : "lg:mb-2",
+                )}
+              >
                 <div className="text-muted-foreground lg:text-lg">
                   {item.answer}
                 </div>
@@ -83,4 +90,3 @@ export function FaqHints({
     </section>
   );
 }
-

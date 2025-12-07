@@ -51,24 +51,25 @@ export default function AskAgentPage() {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  useEffect(() => {
-    if (transcript) {
-      setMessage(transcript);
-    }
-  }, [transcript]);
+  // Use transcript when available, otherwise use message
+  const currentMessage = transcript || message;
 
   const handleMicClick = () => {
     if (listening) {
       SpeechRecognition.stopListening();
     } else {
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: false, language: "en-US" });
+      SpeechRecognition.startListening({
+        continuous: false,
+        language: "en-US",
+      });
     }
   };
 
   const handleSend = () => {
-    if (message.trim()) {
-      setMessages([...messages, message]);
+    const msgToSend = currentMessage.trim();
+    if (msgToSend) {
+      setMessages([...messages, msgToSend]);
       setMessage("");
       resetTranscript();
       if (listening) {
@@ -136,8 +137,8 @@ export default function AskAgentPage() {
             </div>
             <CardDescription>
               Interact with the Ask Agent interface. Try typing a message or
-              using voice input. Notice the animated tags scrolling from right to
-              left.
+              using voice input. Notice the animated tags scrolling from right
+              to left.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -194,15 +195,17 @@ export default function AskAgentPage() {
                     },
                   }}
                 >
-                  {[...sampleTags, ...sampleTags, ...sampleTags].map((tag, index) => (
-                    <Badge
-                      key={`${tag}-${index}`}
-                      variant="outline"
-                      className="shrink-0 px-3 py-1 whitespace-nowrap"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
+                  {[...sampleTags, ...sampleTags, ...sampleTags].map(
+                    (tag, index) => (
+                      <Badge
+                        key={`${tag}-${index}`}
+                        variant="outline"
+                        className="shrink-0 px-3 py-1 whitespace-nowrap"
+                      >
+                        {tag}
+                      </Badge>
+                    ),
+                  )}
                 </motion.div>
               </div>
             </div>
@@ -218,17 +221,17 @@ export default function AskAgentPage() {
                   className={listening ? "bg-primary/10 text-primary" : ""}
                 >
                   <Mic
-                    className={cn(
-                      "h-4 w-4",
-                      listening && "animate-pulse"
-                    )}
+                    className={cn("h-4 w-4", listening && "animate-pulse")}
                   />
                 </Button>
               )}
               <Input
                 type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                value={currentMessage}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  if (transcript) resetTranscript();
+                }}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask a question..."
                 className="flex-1"
@@ -334,4 +337,3 @@ export default function AskAgentPage() {
     </div>
   );
 }
-

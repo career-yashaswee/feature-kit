@@ -48,7 +48,10 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
     return null;
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, slug: string) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    slug: string,
+  ) => {
     e.preventDefault();
     const element = document.getElementById(slug);
     if (element) {
@@ -115,4 +118,3 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
     </nav>
   );
 }
-

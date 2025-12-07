@@ -46,4 +46,3 @@ export function createVariantSelectAdapter(): VariantSelectAdapter {
       useVariantSelectStore.getState().clearSelectedVariant(featureId),
   };
 }
-

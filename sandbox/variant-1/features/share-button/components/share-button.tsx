@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Share2,
-  Copy,
-  Twitter,
-  Facebook,
-  Linkedin,
-  Check,
-} from "lucide-react";
+import { Share2, Copy, Twitter, Facebook, Linkedin, Check } from "lucide-react";
 import {
   Dialog,
   DialogContent,

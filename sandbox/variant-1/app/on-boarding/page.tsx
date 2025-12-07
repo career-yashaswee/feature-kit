@@ -116,7 +116,7 @@ export default function OnBoardingPage() {
             <CardHeader>
               <CardTitle>Welcome to FeatureKit</CardTitle>
               <CardDescription>
-                Let's get you started with a quick setup process
+                Let&apos;s get you started with a quick setup process
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -181,7 +181,7 @@ export default function OnBoardingPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-green-500" />
-                You're All Set!
+                You&apos;re All Set!
               </CardTitle>
               <CardDescription>Your onboarding is complete</CardDescription>
             </CardHeader>
@@ -234,8 +234,8 @@ export default function OnBoardingPage() {
             Onboarding Layout
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            A comprehensive multi-step onboarding layout with stepper navigation,
-            progress tracking, and responsive design.
+            A comprehensive multi-step onboarding layout with stepper
+            navigation, progress tracking, and responsive design.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -301,7 +301,7 @@ export default function OnBoardingPage() {
             <div className="p-6 border rounded-lg bg-muted/50">
               <p className="text-sm text-muted-foreground mb-4">
                 Click the button below to launch the full-screen onboarding
-                layout. You'll see:
+                layout. You&apos;ll see:
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground mb-6">
                 <li className="flex items-center gap-2">

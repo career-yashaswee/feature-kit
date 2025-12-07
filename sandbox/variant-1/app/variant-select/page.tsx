@@ -15,7 +15,7 @@ import type { Variant } from "@/features/variant-select/types";
 
 export default function VariantSelectPage() {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    null
+    null,
   );
 
   const sampleVariants: Variant[] = [
@@ -60,9 +60,9 @@ export default function VariantSelectPage() {
             Variant Selector
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Flexible variant selector with dependency visualization, stack badges,
-            and persistent selection state. Supports both display and selector
-            modes.
+            Flexible variant selector with dependency visualization, stack
+            badges, and persistent selection state. Supports both display and
+            selector modes.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -142,7 +142,8 @@ export default function VariantSelectPage() {
             {selectedVariantId && (
               <div className="p-4 bg-muted rounded-lg">
                 <p className="text-sm text-muted-foreground">
-                  Selected: <span className="font-semibold">{selectedVariantId}</span>
+                  Selected:{" "}
+                  <span className="font-semibold">{selectedVariantId}</span>
                 </p>
               </div>
             )}
@@ -206,8 +207,7 @@ export default function VariantSelectPage() {
                 {
                   icon: Layers,
                   title: "Stack Badges",
-                  description:
-                    "Display stack information with visual badges",
+                  description: "Display stack information with visual badges",
                 },
               ].map((feature, index) => (
                 <div
@@ -232,4 +232,3 @@ export default function VariantSelectPage() {
     </div>
   );
 }
-

@@ -149,7 +149,8 @@ export default function CompareAlternativesPage() {
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             A flexible comparison table component for comparing features across
-            multiple alternatives with responsive design and customizable values.
+            multiple alternatives with responsive design and customizable
+            values.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -308,4 +309,3 @@ export default function CompareAlternativesPage() {
     </div>
   );
 }
-

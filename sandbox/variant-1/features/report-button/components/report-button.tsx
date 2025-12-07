@@ -63,23 +63,22 @@ export function ReportButton({
   const [selectedIssues, setSelectedIssues] = useState<string[]>([]);
   const [customIssue, setCustomIssue] = useState("");
   const [description, setDescription] = useState("");
-  const [pageContext, setPageContext] = useState<{
+  const [pageContext] = useState<{
     path?: string;
     url?: string;
-  }>({});
+  }>(() => {
+    if (typeof window !== "undefined") {
+      return {
+        path: window.location.pathname,
+        url: window.location.href,
+      };
+    }
+    return {};
+  });
 
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : internalOpen;
   const setIsOpen = controlledOnOpenChange || setInternalOpen;
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setPageContext({
-        path: window.location.pathname,
-        url: window.location.href,
-      });
-    }
-  }, []);
 
   const resetForm = useCallback(() => {
     setSelectedIssues([]);
@@ -111,22 +110,19 @@ export function ReportButton({
     },
   });
 
-  const handleIssueToggle = useCallback(
-    (issueId: string, checked: boolean) => {
-      setSelectedIssues((prev) => {
-        if (checked) {
-          if (prev.includes(issueId)) return prev;
-          return [...prev, issueId];
-        }
-        const newIssues = prev.filter((item) => item !== issueId);
-        if (issueId === "OTHER") {
-          setCustomIssue("");
-        }
-        return newIssues;
-      });
-    },
-    []
-  );
+  const handleIssueToggle = useCallback((issueId: string, checked: boolean) => {
+    setSelectedIssues((prev) => {
+      if (checked) {
+        if (prev.includes(issueId)) return prev;
+        return [...prev, issueId];
+      }
+      const newIssues = prev.filter((item) => item !== issueId);
+      if (issueId === "OTHER") {
+        setCustomIssue("");
+      }
+      return newIssues;
+    });
+  }, []);
 
   const handleSubmit = useCallback(() => {
     if (mutation.isPending) return;
@@ -135,11 +131,7 @@ export function ReportButton({
     const trimmedDescription = description.trim();
     const reportIssues = selectedIssues;
 
-    if (
-      reportIssues.length === 0 &&
-      !trimmedCustom &&
-      !trimmedDescription
-    ) {
+    if (reportIssues.length === 0 && !trimmedCustom && !trimmedDescription) {
       toast.warning("Add a report", {
         description:
           "Select an issue or add a short note so we know what to fix.",
@@ -169,15 +161,13 @@ export function ReportButton({
     setIsOpen(open);
   };
 
+  const buttonSize = size === "md" ? "default" : size;
+
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       {!isControlled && (
         <DialogTrigger asChild>
-          <Button
-            variant={variant}
-            size={size}
-            className={className}
-          >
+          <Button variant={variant} size={buttonSize} className={className}>
             <Flag size={16} />
             {triggerLabel}
           </Button>
@@ -187,7 +177,7 @@ export function ReportButton({
         <DialogHeader>
           <DialogTitle>Report {reportTitle}</DialogTitle>
           <DialogDescription>
-            Flag issues with "{reportTitle}" so we can investigate.
+            Flag issues with &quot;{reportTitle}&quot; so we can investigate.
           </DialogDescription>
         </DialogHeader>
 
@@ -316,4 +306,3 @@ export function ReportButton({
     </Dialog>
   );
 }
-

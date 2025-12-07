@@ -14,7 +14,7 @@ import { ActiveDevices } from "@/features/active-devices";
 import type { Session } from "@/features/active-devices/types";
 
 export default function ActiveDevicesPage() {
-  const [sessions, setSessions] = useState<Session[]>([
+  const initialSessions: Session[] = [
     {
       id: "session-1",
       token: "token-1",
@@ -22,7 +22,7 @@ export default function ActiveDevicesPage() {
       browser: "Chrome 120",
       ipAddress: "192.168.1.100",
       location: "Local",
-      updatedAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+      updatedAt: "2024-01-15T10:30:00.000Z",
       isCurrent: true,
     },
     {
@@ -31,7 +31,7 @@ export default function ActiveDevicesPage() {
       device: "iPhone 15",
       browser: "Safari 17",
       ipAddress: "203.0.113.42",
-      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+      updatedAt: "2024-01-15T08:30:00.000Z",
       isCurrent: false,
     },
     {
@@ -40,10 +40,11 @@ export default function ActiveDevicesPage() {
       device: "Windows PC",
       browser: "Edge 120",
       ipAddress: "198.51.100.10",
-      updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+      updatedAt: "2024-01-14T10:30:00.000Z",
       isCurrent: false,
     },
-  ]);
+  ];
+  const [sessions, setSessions] = useState<Session[]>(initialSessions);
 
   const handleDeleteSession = async (sessionToken: string) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -56,7 +57,7 @@ export default function ActiveDevicesPage() {
       prev.map((s) => ({
         ...s,
         isCurrent: s.token === sessionToken,
-      }))
+      })),
     );
   };
 
@@ -211,4 +212,3 @@ export default function ActiveDevicesPage() {
     </div>
   );
 }
-

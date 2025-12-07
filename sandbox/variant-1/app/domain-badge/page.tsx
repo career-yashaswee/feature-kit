@@ -98,7 +98,7 @@ export default function DomainBadgePage() {
     setSelectedDomains((prev) =>
       prev.includes(domainId)
         ? prev.filter((id) => id !== domainId)
-        : [...prev, domainId]
+        : [...prev, domainId],
     );
   };
 
@@ -186,7 +186,7 @@ export default function DomainBadgePage() {
                     "px-3 py-1.5 rounded-md border text-sm transition-colors",
                     selectedDomains.includes(domain.id)
                       ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-background hover:bg-muted"
+                      : "bg-background hover:bg-muted",
                   )}
                 >
                   {domain.label}
@@ -295,4 +295,3 @@ export default function DomainBadgePage() {
     </div>
   );
 }
-

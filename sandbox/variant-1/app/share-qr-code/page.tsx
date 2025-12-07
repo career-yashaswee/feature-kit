@@ -28,7 +28,9 @@ import { useToggle } from "@uidotdev/usehooks";
 export default function ShareQRCodePage() {
   const [isOpen, toggleOpen] = useToggle(false);
   const shareUrl =
-    typeof window !== "undefined" ? window.location.href : "https://example.com";
+    typeof window !== "undefined"
+      ? window.location.href
+      : "https://example.com";
   const username = "ISTUDIO2001";
 
   return (
@@ -109,7 +111,11 @@ export default function ShareQRCodePage() {
               ))}
             </ol>
             <div className="pt-4">
-              <Button onClick={toggleOpen} size="lg" className="w-full sm:w-auto">
+              <Button
+                onClick={() => toggleOpen()}
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 <QrCode className="h-4 w-4 mr-2" />
                 Open QR Code
               </Button>
@@ -143,7 +149,11 @@ export default function ShareQRCodePage() {
                   <p className="text-sm font-medium mb-2">Username:</p>
                   <p className="text-sm text-muted-foreground">@{username}</p>
                 </div>
-                <Button onClick={toggleOpen} variant="outline" className="w-full">
+                <Button
+                  onClick={() => toggleOpen()}
+                  variant="outline"
+                  className="w-full"
+                >
                   <QrCode className="h-4 w-4 mr-2" />
                   Open QR Code Share Modal
                 </Button>
@@ -234,9 +244,3 @@ export default function ShareQRCodePage() {
     </div>
   );
 }
-
-
-
-
-
-

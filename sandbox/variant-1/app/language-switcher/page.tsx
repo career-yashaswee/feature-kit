@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -42,8 +42,19 @@ const features = [
 ];
 
 export default function LanguageSwitcherPage() {
-  const [currentLang, setCurrentLang] = useState("en");
-  const [persistedLang, setPersistedLang] = useState<string | null>(null);
+  const [currentLang, setCurrentLang] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("demo-language");
+      return saved || "en";
+    }
+    return "en";
+  });
+  const [persistedLang, setPersistedLang] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("demo-language");
+    }
+    return null;
+  });
 
   const handleLanguageChange = (code: string) => {
     setCurrentLang(code);
@@ -53,15 +64,6 @@ export default function LanguageSwitcherPage() {
     }
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("demo-language");
-      if (saved) {
-        setCurrentLang(saved);
-        setPersistedLang(saved);
-      }
-    }
-  }, []);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -228,4 +230,3 @@ export default function LanguageSwitcherPage() {
     </div>
   );
 }
-

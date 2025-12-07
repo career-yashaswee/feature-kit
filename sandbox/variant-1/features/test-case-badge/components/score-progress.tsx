@@ -23,7 +23,12 @@ export function ScoreProgress({
   const offset = circumference - (value / 100) * circumference;
 
   return (
-    <div className={cn("relative inline-flex items-center justify-center", className)}>
+    <div
+      className={cn(
+        "relative inline-flex items-center justify-center",
+        className,
+      )}
+    >
       <svg
         width={size}
         height={size}
@@ -57,7 +62,7 @@ export function ScoreProgress({
               ? "text-green-500"
               : value >= 50
                 ? "text-yellow-500"
-                : "text-red-500"
+                : "text-red-500",
           )}
         />
       </svg>
@@ -70,7 +75,7 @@ export function ScoreProgress({
             ? "text-green-600 dark:text-green-400"
             : value >= 50
               ? "text-yellow-600 dark:text-yellow-400"
-              : "text-red-600 dark:text-red-400"
+              : "text-red-600 dark:text-red-400",
         )}
       >
         {value}%
@@ -78,4 +83,3 @@ export function ScoreProgress({
     </div>
   );
 }
-

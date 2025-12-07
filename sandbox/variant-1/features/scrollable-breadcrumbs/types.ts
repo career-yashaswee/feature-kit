@@ -14,4 +14,3 @@ export interface ScrollableBreadcrumbProps {
   autoScroll?: boolean;
   onSidebarChange?: () => void;
 }
-

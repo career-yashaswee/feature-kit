@@ -33,4 +33,3 @@ export interface ActiveDevicesProps {
   showLocation?: boolean;
   getLocationFromIP?: (ipAddress: string) => Promise<string>;
 }
-

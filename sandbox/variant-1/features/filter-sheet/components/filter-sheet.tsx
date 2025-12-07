@@ -91,7 +91,9 @@ export function FilterSheet({
 
   const renderFilterIcon = (
     icon: Filter["icon"],
-    defaultIcon: React.ComponentType<{ className?: string }> = SlidersHorizontal
+    defaultIcon: React.ComponentType<{
+      className?: string;
+    }> = SlidersHorizontal,
   ) => {
     if (icon) {
       const IconComponent = icon;
@@ -108,12 +110,11 @@ export function FilterSheet({
           {renderFilterIcon(filter.icon)}
           {filter.label}
         </Label>
-        <Select
-          value={filter.value || "ALL"}
-          onValueChange={filter.onChange}
-        >
+        <Select value={filter.value || "ALL"} onValueChange={filter.onChange}>
           <SelectTrigger>
-            <SelectValue placeholder={filter.placeholder || `All ${filter.label}`} />
+            <SelectValue
+              placeholder={filter.placeholder || `All ${filter.label}`}
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="ALL">All {filter.label}</SelectItem>
@@ -126,7 +127,7 @@ export function FilterSheet({
                       <OptionIcon
                         className={cn(
                           "h-4 w-4",
-                          option.iconColor || "text-current"
+                          option.iconColor || "text-current",
                         )}
                       />
                       {option.label}
@@ -144,7 +145,7 @@ export function FilterSheet({
   };
 
   const renderCheckboxFilter = (
-    filter: Extract<Filter, { type: "checkbox" }>
+    filter: Extract<Filter, { type: "checkbox" }>,
   ) => {
     return (
       <div key={filter.id} className="space-y-3">
@@ -170,13 +171,11 @@ export function FilterSheet({
   };
 
   const renderMultiSelectFilter = (
-    filter: Extract<Filter, { type: "multiselect" }>
+    filter: Extract<Filter, { type: "multiselect" }>,
   ) => {
     const handleToggle = (optionId: string) => {
       if (filter.selectedValues.includes(optionId)) {
-        filter.onChange(
-          filter.selectedValues.filter((id) => id !== optionId)
-        );
+        filter.onChange(filter.selectedValues.filter((id) => id !== optionId));
       } else {
         filter.onChange([...filter.selectedValues, optionId]);
       }
@@ -265,11 +264,7 @@ export function FilterSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side={side}
-        className={cn(
-          width,
-          "overflow-y-auto p-6",
-          className
-        )}
+        className={cn(width, "overflow-y-auto p-6", className)}
       >
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
@@ -311,4 +306,3 @@ export function FilterSheet({
     </Sheet>
   );
 }
-

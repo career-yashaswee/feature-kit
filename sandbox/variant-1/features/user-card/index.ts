@@ -8,4 +8,3 @@ export type {
   UserCardSocialIcon,
   UserCardExternalLink,
 } from "./types";
-

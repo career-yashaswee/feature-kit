@@ -51,7 +51,11 @@ const sampleBreadcrumbs: BreadcrumbItem[][] = [
     { href: "/", label: "Home", icon: Home },
     { href: "/projects", label: "Projects", icon: Folder },
     { href: "/projects/feature-kit", label: "Feature Kit", icon: Folder },
-    { href: "/projects/feature-kit/components", label: "Components", icon: FileText },
+    {
+      href: "/projects/feature-kit/components",
+      label: "Components",
+      icon: FileText,
+    },
   ],
   [
     { href: "/", label: "Home", icon: Home },
@@ -75,7 +79,10 @@ export default function ScrollableBreadcrumbsPage() {
   const currentBreadcrumbs = sampleBreadcrumbs[currentIndex];
 
   // Custom renderLink for Next.js Link
-  const nextLinkRenderer = (item: BreadcrumbItem, children: React.ReactNode) => {
+  const nextLinkRenderer = (
+    item: BreadcrumbItem,
+    children: React.ReactNode,
+  ) => {
     return (
       <Link
         href={item.href}
@@ -99,7 +106,8 @@ export default function ScrollableBreadcrumbsPage() {
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             A horizontally scrollable breadcrumb component that automatically
-            scrolls to show the current page with fade indicators and custom icons.
+            scrolls to show the current page with fade indicators and custom
+            icons.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -173,7 +181,9 @@ export default function ScrollableBreadcrumbsPage() {
                 <Button
                   variant="outline"
                   onClick={() =>
-                    setCurrentIndex((prev) => (prev + 1) % sampleBreadcrumbs.length)
+                    setCurrentIndex(
+                      (prev) => (prev + 1) % sampleBreadcrumbs.length,
+                    )
                   }
                 >
                   Next Scenario
@@ -246,14 +256,14 @@ export default function ScrollableBreadcrumbsPage() {
               </div>
               <CardTitle className="text-2xl">Custom Separator</CardTitle>
             </div>
-            <CardDescription>
-              Using a custom separator icon
-            </CardDescription>
+            <CardDescription>Using a custom separator icon</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="p-6 border rounded-lg bg-muted/50 space-y-4">
               <div>
-                <div className="text-sm font-medium mb-2">Default Separator</div>
+                <div className="text-sm font-medium mb-2">
+                  Default Separator
+                </div>
                 <ScrollableBreadcrumb items={currentBreadcrumbs} />
               </div>
               <div>
@@ -301,4 +311,3 @@ export default function ScrollableBreadcrumbsPage() {
     </div>
   );
 }
-

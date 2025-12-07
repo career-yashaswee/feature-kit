@@ -9,14 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  FileText,
-  Settings,
-  Zap,
-  Plus,
-  Download,
-  Share2,
-} from "lucide-react";
+import { FileText, Settings, Zap, Plus, Download, Share2 } from "lucide-react";
 import { PageHeader } from "@/features/page-header/components/page-header";
 
 const features = [
@@ -285,4 +278,3 @@ export default function PageHeaderPage() {
     </div>
   );
 }
-

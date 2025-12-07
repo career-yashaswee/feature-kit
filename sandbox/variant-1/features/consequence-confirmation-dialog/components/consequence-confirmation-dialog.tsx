@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { AlertTriangle, Info, HelpCircle, Crown, Star, Trophy, Trash2, X } from "lucide-react";
+import {
+  AlertTriangle,
+  Info,
+  HelpCircle,
+  Crown,
+  Star,
+  Trophy,
+  Trash2,
+  X,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -102,7 +111,12 @@ export function ConsequenceConfirmationDialog({
   if (isConsequenceVariant) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className={cn("sm:max-w-md bg-[#1a1a1a] border-red-500/20", className)}>
+        <DialogContent
+          className={cn(
+            "sm:max-w-md bg-[#1a1a1a] border-red-500/20",
+            className,
+          )}
+        >
           <DialogHeader>
             <div className="flex items-start gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center">
@@ -147,7 +161,9 @@ export function ConsequenceConfirmationDialog({
                       >
                         <div className="flex items-center gap-2">
                           <ItemIcon className={cn("h-4 w-4", iconColorClass)} />
-                          <span className="text-white text-sm">{item.label}</span>
+                          <span className="text-white text-sm">
+                            {item.label}
+                          </span>
                         </div>
                         <span className="text-white/80 text-sm font-medium">
                           {item.value}
@@ -170,7 +186,9 @@ export function ConsequenceConfirmationDialog({
               <Input
                 type="text"
                 value={confirmationInput}
-                onChange={(e) => setConfirmationInput(e.target.value.toUpperCase())}
+                onChange={(e) =>
+                  setConfirmationInput(e.target.value.toUpperCase())
+                }
                 placeholder={confirmationPlaceholder}
                 className="bg-[#2a2a2a] border-gray-600 text-white placeholder:text-white/40 uppercase"
               />

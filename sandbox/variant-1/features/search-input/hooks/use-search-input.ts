@@ -56,4 +56,3 @@ export function useSearchInput<T>({
     isSearching: debouncedQuery !== query,
   };
 }
-

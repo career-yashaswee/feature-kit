@@ -46,7 +46,7 @@ export function DomainBadge({
         sizeConfig.container,
         sizeConfig.gap,
         showTooltip && "cursor-pointer",
-        className
+        className,
       )}
     >
       {domainConfigs.map((domain) => {
@@ -59,7 +59,7 @@ export function DomainBadge({
             className={cn(
               "flex items-center justify-center transition-all duration-200",
               sizeConfig.icon,
-              !isActive && "opacity-30 dark:opacity-20"
+              !isActive && "opacity-30 dark:opacity-20",
             )}
           >
             <IconComponent
@@ -67,7 +67,7 @@ export function DomainBadge({
                 sizeConfig.icon,
                 isActive
                   ? cn(domain.color.light, domain.color.dark)
-                  : "text-slate-400 dark:text-slate-600"
+                  : "text-slate-400 dark:text-slate-600",
               )}
             />
           </div>
@@ -105,7 +105,7 @@ export function DomainBadge({
                           "text-xs font-medium",
                           isActive
                             ? "text-slate-100 dark:text-slate-200"
-                            : "text-slate-400 dark:text-slate-500 line-through"
+                            : "text-slate-400 dark:text-slate-500 line-through",
                         )}
                       >
                         {domain.label}
@@ -131,7 +131,7 @@ export function DomainBadge({
                         "text-xs font-medium",
                         isActive
                           ? "text-slate-100 dark:text-slate-200"
-                          : "text-slate-400 dark:text-slate-500 line-through"
+                          : "text-slate-400 dark:text-slate-500 line-through",
                       )}
                     >
                       {domain.label}
@@ -146,4 +146,3 @@ export function DomainBadge({
     </TooltipProvider>
   );
 }
-

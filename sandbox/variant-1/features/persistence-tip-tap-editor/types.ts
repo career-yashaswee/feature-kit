@@ -20,4 +20,3 @@ export interface PersistenceTipTapEditorProps {
   showToolbar?: boolean;
   editable?: boolean;
 }
-

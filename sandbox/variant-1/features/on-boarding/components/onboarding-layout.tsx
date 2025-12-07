@@ -49,22 +49,11 @@ export function OnboardingLayout({
   branding,
   className,
 }: OnboardingLayoutProps) {
-  const [mounted, setMounted] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   const t = { ...defaultTranslations, ...translations };
   const brandName = branding?.name || "App";
-  const brandIcon = branding?.icon || (
-    <Wand2 className="w-5 h-5 text-white" />
-  );
+  const brandIcon = branding?.icon || <Wand2 className="w-5 h-5 text-white" />;
   const helpUrl = branding?.helpUrl;
 
   const currentStepData = steps.find((step) => step.order === currentStep);
@@ -75,7 +64,7 @@ export function OnboardingLayout({
     <div
       className={cn(
         "min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800",
-        className
+        className,
       )}
     >
       <div className="flex h-screen flex-col lg:flex-row">
@@ -146,7 +135,7 @@ export function OnboardingLayout({
                                           "bg-green-500 text-white",
                                         isActive && "bg-blue-600 text-white",
                                         isUpcoming &&
-                                          "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400"
+                                          "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400",
                                       )}
                                     >
                                       {isCompleted ? (
@@ -164,7 +153,7 @@ export function OnboardingLayout({
                                           isActive &&
                                             "text-blue-600 dark:text-blue-400",
                                           isUpcoming &&
-                                            "text-slate-500 dark:text-slate-400"
+                                            "text-slate-500 dark:text-slate-400",
                                         )}
                                       >
                                         {step.title}
@@ -177,7 +166,7 @@ export function OnboardingLayout({
                                         "absolute left-4 top-10 w-0.5 h-8",
                                         isCompleted
                                           ? "bg-green-500"
-                                          : "bg-slate-200 dark:bg-slate-700"
+                                          : "bg-slate-200 dark:bg-slate-700",
                                       )}
                                     />
                                   )}
@@ -213,7 +202,7 @@ export function OnboardingLayout({
                             isCompleted && "bg-green-500 text-white",
                             isActive && "bg-blue-600 text-white",
                             isUpcoming &&
-                              "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400"
+                              "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400",
                           )}
                         >
                           {isCompleted ? (
@@ -230,7 +219,7 @@ export function OnboardingLayout({
                                 "text-green-700 dark:text-green-400",
                               isActive && "text-blue-600 dark:text-blue-400",
                               isUpcoming &&
-                                "text-slate-500 dark:text-slate-400"
+                                "text-slate-500 dark:text-slate-400",
                             )}
                           >
                             {step.title}
@@ -243,7 +232,7 @@ export function OnboardingLayout({
                             "absolute left-4 top-10 w-0.5 h-12",
                             isCompleted
                               ? "bg-green-500"
-                              : "bg-slate-200 dark:bg-slate-700"
+                              : "bg-slate-200 dark:bg-slate-700",
                           )}
                         />
                       )}
@@ -394,4 +383,3 @@ export function OnboardingLayout({
     </div>
   );
 }
-

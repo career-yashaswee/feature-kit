@@ -5,4 +5,3 @@ export type {
   ComparisonFeature,
   CompareAlternativesProps,
 } from "./types";
-

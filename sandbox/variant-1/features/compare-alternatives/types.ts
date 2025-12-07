@@ -27,4 +27,3 @@ export interface CompareAlternativesProps {
   showCrownIcon?: boolean;
   pricingRowId?: string; // ID of the feature that should be styled as pricing row
 }
-

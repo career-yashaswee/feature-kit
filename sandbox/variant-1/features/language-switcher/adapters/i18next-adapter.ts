@@ -3,7 +3,7 @@ import type { Language, LanguageSwitcherAdapter } from "../types";
 
 export function createI18nextAdapter(
   i18n: i18n,
-  languages: Language[]
+  languages: Language[],
 ): LanguageSwitcherAdapter {
   return {
     currentLanguage: i18n.language,
@@ -18,4 +18,3 @@ export function createI18nextAdapter(
     },
   };
 }
-

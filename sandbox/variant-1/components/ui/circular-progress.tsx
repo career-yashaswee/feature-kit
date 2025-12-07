@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 interface CircularProgressProps {
   value: number;
@@ -29,37 +29,37 @@ export default function CircularProgress({
   return (
     <div
       className={cn(
-        'relative inline-flex items-center justify-center',
-        className
+        "relative inline-flex items-center justify-center",
+        className,
       )}
       style={{ width: size, height: size }}
       aria-label={`Progress ${clamped}%`}
-      role='img'
+      role="img"
     >
-      <svg width={size} height={size} className='rotate-[-90deg]'>
+      <svg width={size} height={size} className="rotate-[-90deg]">
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          fill='none'
-          stroke='currentColor'
-          className='text-slate-200 dark:text-slate-700'
+          fill="none"
+          stroke="currentColor"
+          className="text-slate-200 dark:text-slate-700"
           strokeWidth={strokeWidth}
         />
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          fill='none'
-          stroke='currentColor'
-          className='text-blue-600 dark:text-blue-500 transition-[stroke-dasharray] duration-300 ease-out'
+          fill="none"
+          stroke="currentColor"
+          className="text-blue-600 dark:text-blue-500 transition-[stroke-dasharray] duration-300 ease-out"
           strokeWidth={strokeWidth}
-          strokeLinecap='round'
+          strokeLinecap="round"
           strokeDasharray={`${dash} ${circumference - dash}`}
         />
       </svg>
       {showLabel && (
-        <span className='absolute text-[11px] font-semibold text-slate-900 dark:text-slate-100'>
+        <span className="absolute text-[11px] font-semibold text-slate-900 dark:text-slate-100">
           {clamped}
         </span>
       )}

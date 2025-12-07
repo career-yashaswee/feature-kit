@@ -50,7 +50,7 @@ export function LanguageSwitcher({
         adapterInstance.persist?.(code);
       });
     },
-    [current, adapterInstance]
+    [current, adapterInstance],
   );
 
   const sizeClasses = {
@@ -71,19 +71,12 @@ export function LanguageSwitcher({
         <Button
           variant="outline"
           size="icon"
-          className={cn(
-            sizeClasses[size],
-            "justify-center",
-            className
-          )}
+          className={cn(sizeClasses[size], "justify-center", className)}
           disabled={isPending}
         >
           <currentOption.flag
             title={currentOption.label}
-            className={cn(
-              flagSizeClasses[size],
-              "rounded-sm shadow-sm"
-            )}
+            className={cn(flagSizeClasses[size], "rounded-sm shadow-sm")}
           />
           {showLabel && (
             <span className="ml-2 text-sm">{currentOption.label}</span>
@@ -106,10 +99,7 @@ export function LanguageSwitcher({
               )}
               <lang.flag
                 title={lang.label}
-                className={cn(
-                  flagSizeClasses[size],
-                  "rounded-sm shadow-sm"
-                )}
+                className={cn(flagSizeClasses[size], "rounded-sm shadow-sm")}
               />
               <span>{lang.label}</span>
             </div>
@@ -119,4 +109,3 @@ export function LanguageSwitcher({
     </DropdownMenu>
   );
 }
-

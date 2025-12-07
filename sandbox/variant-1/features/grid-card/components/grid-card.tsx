@@ -36,8 +36,9 @@ export function GridCard({
       "cursor-pointer": onClick || href,
       "cursor-default": !onClick && !href,
       "opacity-50 cursor-not-allowed": disabled,
-      "hover:scale-[1.005] active:scale-[0.995]": onClick || href && !disabled,
-    }
+      "hover:scale-[1.005] active:scale-[0.995]":
+        onClick || (href && !disabled),
+    },
   );
 
   const variantClasses = {
@@ -79,7 +80,7 @@ export function GridCard({
         sizeClasses[size],
         className,
         "relative",
-        "flex flex-col h-full"
+        "flex flex-col h-full",
       )}
       whileHover={onClick || href ? { y: -1 } : undefined}
       whileTap={onClick || href ? { y: 0 } : undefined}
@@ -143,10 +144,7 @@ export function GridCardHeader({
 }: GridCardHeaderProps) {
   return (
     <div
-      className={cn(
-        "flex items-start justify-between gap-3 mb-3",
-        className
-      )}
+      className={cn("flex items-start justify-between gap-3 mb-3", className)}
     >
       <div className="flex-1 min-w-0">{children}</div>
       {action && <div className="shrink-0">{action}</div>}
@@ -164,7 +162,7 @@ export function GridCardTitle({
       className={cn(
         "font-semibold text-gray-900 dark:text-gray-100 leading-tight",
         "group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-150",
-        className
+        className,
       )}
     >
       {children}
@@ -181,7 +179,7 @@ export function GridCardDescription({
     <p
       className={cn(
         "text-sm text-gray-600 dark:text-gray-400 leading-relaxed",
-        className
+        className,
       )}
       style={{
         display: "-webkit-box",
@@ -195,26 +193,19 @@ export function GridCardDescription({
   );
 }
 
-export function GridCardContent({
-  children,
-  className,
-}: GridCardContentProps) {
+export function GridCardContent({ children, className }: GridCardContentProps) {
   return <div className={cn("space-y-3", className)}>{children}</div>;
 }
 
-export function GridCardFooter({
-  children,
-  className,
-}: GridCardFooterProps) {
+export function GridCardFooter({ children, className }: GridCardFooterProps) {
   return (
     <div
       className={cn(
         "flex items-center justify-between pt-3 mt-3 border-t border-gray-200 dark:border-gray-700",
-        className
+        className,
       )}
     >
       {children}
     </div>
   );
 }
-

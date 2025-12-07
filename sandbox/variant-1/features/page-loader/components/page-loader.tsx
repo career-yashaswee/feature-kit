@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, startTransition } from "react";
 import { motion } from "framer-motion";
 import { Loader2, Wand } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -51,13 +51,26 @@ export function PageLoader({
 
   useEffect(() => {
     if (isVisible) {
-      setShouldRender(true);
-      const timer = setTimeout(() => setIsAnimating(true), 10);
+      // Use startTransition to avoid synchronous setState
+      startTransition(() => {
+        setShouldRender(true);
+      });
+      const timer = setTimeout(() => {
+        startTransition(() => {
+          setIsAnimating(true);
+        });
+      }, 10);
       return () => clearTimeout(timer);
     } else {
-      setIsAnimating(false);
-      setShowRefreshButton(false);
-      const timer = setTimeout(() => setShouldRender(false), 300);
+      startTransition(() => {
+        setIsAnimating(false);
+        setShowRefreshButton(false);
+      });
+      const timer = setTimeout(() => {
+        startTransition(() => {
+          setShouldRender(false);
+        });
+      }, 300);
       return () => clearTimeout(timer);
     }
   }, [isVisible]);
@@ -65,12 +78,16 @@ export function PageLoader({
   useEffect(() => {
     if (isVisible && (refreshQueryKeys || onRefresh)) {
       const refreshTimer = setTimeout(() => {
-        setShowRefreshButton(true);
+        startTransition(() => {
+          setShowRefreshButton(true);
+        });
       }, refreshDelay);
 
       return () => clearTimeout(refreshTimer);
     } else {
-      setShowRefreshButton(false);
+      startTransition(() => {
+        setShowRefreshButton(false);
+      });
     }
   }, [isVisible, refreshQueryKeys, onRefresh, refreshDelay]);
 
@@ -81,7 +98,7 @@ export function PageLoader({
       <div
         className={cn(
           "top-0 left-0 right-0 z-[10000] h-1 bg-transparent",
-          isFullScreen ? "fixed" : "absolute"
+          isFullScreen ? "fixed" : "absolute",
         )}
       >
         <div className="h-full bg-primary animate-progress-smooth" />
@@ -95,13 +112,13 @@ export function PageLoader({
           isAnimating
             ? "opacity-100 backdrop-blur-sm"
             : "opacity-0 backdrop-blur-none",
-          className
+          className,
         )}
       >
         <div
           className={cn(
             "absolute inset-0 bg-background/80 transition-opacity duration-300",
-            isAnimating ? "opacity-100" : "opacity-0"
+            isAnimating ? "opacity-100" : "opacity-0",
           )}
         />
 
@@ -109,7 +126,7 @@ export function PageLoader({
           className={cn(
             "relative z-10 w-full h-full flex flex-col",
             "transition-all duration-300 ease-in-out",
-            isAnimating ? "scale-100 opacity-100" : "scale-95 opacity-0"
+            isAnimating ? "scale-100 opacity-100" : "scale-95 opacity-0",
           )}
         >
           {!hideBranding && (
@@ -174,10 +191,7 @@ export function PageLoader({
                   Taking longer than expected?
                 </p>
                 {refreshQueryKeys ? (
-                  <RefreshButton
-                    queryKeys={refreshQueryKeys}
-                    resource="page"
-                  />
+                  <RefreshButton queryKeys={refreshQueryKeys} resource="page" />
                 ) : onRefresh ? (
                   <button
                     onClick={onRefresh}
@@ -194,4 +208,3 @@ export function PageLoader({
     </>
   );
 }
-

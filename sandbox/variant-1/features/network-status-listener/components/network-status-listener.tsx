@@ -39,13 +39,7 @@ export function NetworkStatusListener({
         toast.success(onlineMessage, { duration: 3000 });
       }
     }
-  }, [
-    network.online,
-    showToast,
-    offlineMessage,
-    onlineMessage,
-    isFirstRender,
-  ]);
+  }, [network.online, showToast, offlineMessage, onlineMessage, isFirstRender]);
 
   return null;
 }

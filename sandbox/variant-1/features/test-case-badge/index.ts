@@ -6,4 +6,3 @@ export type {
   TestCaseBadgeSize,
   TestCaseBadgeProps,
 } from "./types";
-

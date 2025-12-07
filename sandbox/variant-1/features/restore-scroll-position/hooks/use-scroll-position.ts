@@ -45,12 +45,12 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
       ? (scrollContainer as HTMLElement)
       : null,
   );
-  
+
   const localStorageKey =
     persist && storageKey ? storageKey : SCROLL_POSITION_DISABLED_KEY;
   const sessionStorageKey =
     !persist && storageKey ? storageKey : SCROLL_POSITION_DISABLED_KEY;
-  
+
   const [savedPositionLocal, setSavedPositionLocal] = useLocalStorage<
     string | null
   >(localStorageKey, null);

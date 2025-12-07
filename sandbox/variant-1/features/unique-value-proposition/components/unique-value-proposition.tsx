@@ -41,12 +41,14 @@ export function UniqueValueProposition({
   // Merge highlighted point into data points if provided
   const allDataPoints = React.useMemo(() => {
     if (!highlightedPoint) return dataPoints;
-    
+
     // Check if highlighted point already exists in dataPoints
     const exists = dataPoints.some((p) => p.id === highlightedPoint.id);
     if (exists) {
       return dataPoints.map((p) =>
-        p.id === highlightedPoint.id ? { ...p, ...highlightedPoint, isHighlighted: true } : p
+        p.id === highlightedPoint.id
+          ? { ...p, ...highlightedPoint, isHighlighted: true }
+          : p,
       );
     }
     return [...dataPoints, { ...highlightedPoint, isHighlighted: true }];
@@ -75,7 +77,7 @@ export function UniqueValueProposition({
           <div
             className={cn(
               "relative w-full border border-border rounded-lg bg-muted/20",
-              heightClasses[chartHeight]
+              heightClasses[chartHeight],
             )}
           >
             {/* X-axis label */}
@@ -132,7 +134,7 @@ export function UniqueValueProposition({
                           className={cn(
                             "rounded-full transition-all duration-200 group-hover:scale-125",
                             dotColor,
-                            point.isHighlighted && "shadow-lg"
+                            point.isHighlighted && "shadow-lg",
                           )}
                           style={{
                             width: `${finalSize}px`,
@@ -145,7 +147,7 @@ export function UniqueValueProposition({
                             className={cn(
                               "ml-2 text-xs md:text-sm text-muted-foreground transition-all duration-200 whitespace-nowrap",
                               point.isHighlighted &&
-                                "font-bold text-blue-600 dark:text-blue-400 text-sm md:text-base"
+                                "font-bold text-blue-600 dark:text-blue-400 text-sm md:text-base",
                             )}
                           >
                             {point.name}
@@ -175,7 +177,8 @@ export function UniqueValueProposition({
                     <span
                       className={cn(
                         "size-2 rounded-full",
-                        highlightedPoint.color || "bg-blue-600 dark:bg-blue-400"
+                        highlightedPoint.color ||
+                          "bg-blue-600 dark:bg-blue-400",
                       )}
                     ></span>
                     <span className="text-foreground font-medium">
@@ -228,4 +231,3 @@ export function UniqueValueProposition({
     </section>
   );
 }
-

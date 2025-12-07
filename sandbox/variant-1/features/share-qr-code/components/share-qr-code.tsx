@@ -5,14 +5,8 @@ import QRCode from "react-qr-code";
 import { X, Download, Share2, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  useShareQRCode,
-} from "@/features/share-qr-code/hooks/use-share-qr-code";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { useShareQRCode } from "@/features/share-qr-code/hooks/use-share-qr-code";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { CopyToClipboard } from "@/features/copy-to-clipboard/components/copy-to-clipboard";
 import { StatefulButton } from "@/features/stateful-button/components/stateful-button";
 
@@ -35,27 +29,23 @@ export function ShareQRCode({
   onOpenChange,
   className,
 }: ShareQRCodeProps) {
-  const {
-    currentTheme,
-    cycleTheme,
-    handleDownload,
-    qrCodeRef,
-  } = useShareQRCode(url, username);
+  const { currentTheme, cycleTheme, handleDownload, qrCodeRef } =
+    useShareQRCode(url, username);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md p-0 overflow-hidden" showCloseButton={false}>
+      <DialogContent
+        className="sm:max-w-md p-0 overflow-hidden"
+        showCloseButton={false}
+      >
         <DialogTitle className="sr-only">
           Share QR Code {username ? `for @${username}` : ""}
         </DialogTitle>
         <div
           ref={containerRef}
-          className={cn(
-            "relative min-h-[600px] flex flex-col",
-            className,
-          )}
+          className={cn("relative min-h-[600px] flex flex-col", className)}
           style={{
             background: currentTheme.bgGradient,
           }}
@@ -86,10 +76,7 @@ export function ShareQRCode({
             >
               <div className="grid grid-cols-3 gap-0.5">
                 {[...Array(9)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-1 h-1 bg-white rounded-sm"
-                  />
+                  <div key={i} className="w-1 h-1 bg-white rounded-sm" />
                 ))}
               </div>
             </Button>
@@ -145,7 +132,9 @@ export function ShareQRCode({
                 if (typeof navigator !== "undefined" && navigator.share) {
                   try {
                     await navigator.share({
-                      title: title || `Share ${username ? `@${username}` : "profile"}`,
+                      title:
+                        title ||
+                        `Share ${username ? `@${username}` : "profile"}`,
                       text: description,
                       url: url,
                     });
@@ -188,13 +177,10 @@ export function ShareQRCode({
 
           {/* Instruction Text */}
           <div className="px-6 pb-4 text-center">
-            <p className="text-white/80 text-sm">
-              Tap anywhere to close
-            </p>
+            <p className="text-white/80 text-sm">Tap anywhere to close</p>
           </div>
         </div>
       </DialogContent>
     </Dialog>
   );
 }
-

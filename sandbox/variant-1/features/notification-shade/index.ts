@@ -4,4 +4,3 @@ export type {
   NotificationAction,
   NotificationShadeProps,
 } from "./types";
-

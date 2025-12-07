@@ -9,9 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Target, TrendingUp, Zap, BarChart3 } from "lucide-react";
-import {
-  UniqueValueProposition,
-} from "@/features/unique-value-proposition/components/unique-value-proposition";
+import { UniqueValueProposition } from "@/features/unique-value-proposition/components/unique-value-proposition";
 import type { DataPoint } from "@/features/unique-value-proposition/types";
 
 const sampleDataPoints: DataPoint[] = [
@@ -121,7 +119,8 @@ const features = [
   },
   {
     title: "Quadrant Analysis",
-    description: "Four-quadrant layout with customizable labels and descriptions",
+    description:
+      "Four-quadrant layout with customizable labels and descriptions",
     icon: Target,
   },
   {
@@ -138,7 +137,9 @@ export default function UniqueValuePropositionPage() {
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
             <Target className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Unique Value Proposition</span>
+            <span className="text-sm font-medium">
+              Unique Value Proposition
+            </span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Unique Value Proposition
@@ -304,4 +305,3 @@ export default function UniqueValuePropositionPage() {
     </div>
   );
 }
-
