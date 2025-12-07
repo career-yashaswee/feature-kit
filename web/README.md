@@ -14,11 +14,23 @@ A collection of reusable web features and components.
 - Table of Contents
 - In Game Currency Details
 - Leaderboard
-- Healthbar
+- Healthbar [DONE]
 - Notification Shade
-- Language Switcher
+- Language Switcher 
 - Circular Progress Score
 - File Explorer
 - Card with Markdown Points
 - Download Report Button
 - Domain Badge
+- Scrollable Breadcrumbs
+- Daily Calendar
+- Heatmap
+- Store with Items and Order Page
+- Loading Screen
+- FAQ with hints [DONE]
+- UVP Grid [DONE]
+- USP Table
+- Leaderboard
+- User Preference Sync
+- Report Button [DONE]
+- Editor with Local Storage Sync and Save to DB

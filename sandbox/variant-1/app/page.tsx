@@ -27,6 +27,9 @@ import {
   Search,
   MessageSquare,
   Linkedin,
+  Target,
+  Tag,
+  Rocket,
 } from "lucide-react";
 
 const features = [
@@ -149,6 +152,78 @@ const features = [
     path: "/user-card",
     icon: Linkedin,
     description: "User card component with LinkedIn and Twitter variants, light and dark mode",
+  },
+  {
+    name: "FAQ Hints",
+    path: "/faq-hints",
+    icon: MessageSquare,
+    description: "FAQ component with short answer hints and expandable details",
+  },
+  {
+    name: "Health Bar",
+    path: "/health-bar",
+    icon: AlertTriangle,
+    description: "Visual health indicator with color-coded status and timer",
+  },
+  {
+    name: "Language Switcher",
+    path: "/language-switcher",
+    icon: Linkedin,
+    description: "Flexible language switcher with adapter pattern and country flags",
+  },
+  {
+    name: "Page Loader",
+    path: "/page-loader",
+    icon: RefreshCw,
+    description: "Full-featured page loader with refresh functionality and animations",
+  },
+  {
+    name: "Premium Identifier",
+    path: "/premium-identifier",
+    icon: Zap,
+    description: "Badge component for premium/subscription status with multiple variants",
+  },
+  {
+    name: "Report Button",
+    path: "/report-button",
+    icon: AlertTriangle,
+    description: "Comprehensive report dialog with issue selection and TanStack Query",
+  },
+  {
+    name: "Unique Value Proposition",
+    path: "/unique-value-proposition",
+    icon: Target,
+    description: "Scatter plot visualization for comparing products across two dimensions",
+  },
+  {
+    name: "Domain Badge",
+    path: "/domain-badge",
+    icon: Tag,
+    description: "Visual badge component displaying multiple domain indicators with tooltips",
+  },
+  {
+    name: "Upgrade Button",
+    path: "/upgrade-button",
+    icon: ArrowUp,
+    description: "Smart button that adapts based on subscription status with configurable actions",
+  },
+  {
+    name: "Page Header",
+    path: "/page-header",
+    icon: FileText,
+    description: "Full-width page header with glass morphism icon and optional actions",
+  },
+  {
+    name: "Grid Card",
+    path: "/grid-card",
+    icon: Layout,
+    description: "Flexible card component for grid layouts with header, content, and footer",
+  },
+  {
+    name: "Onboarding",
+    path: "/on-boarding",
+    icon: Rocket,
+    description: "Multi-step onboarding layout with stepper navigation and progress tracking",
   },
 ];
 
