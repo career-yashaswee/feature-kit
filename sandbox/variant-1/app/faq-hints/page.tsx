@@ -9,10 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Question, CheckCircle, Sparkle } from "@phosphor-icons/react";
-import {
-  FaqHints,
-  type FaqItem,
-} from "@/features/faq-hints";
+import { FaqHints, type FaqItem } from "@/features/faq-hints";
 
 const sampleFaqItems: FaqItem[] = [
   {

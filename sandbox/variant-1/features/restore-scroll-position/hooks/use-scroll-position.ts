@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   useDebounce,
+  useIsClient,
   useLocalStorage,
   useSessionStorage,
 } from "@uidotdev/usehooks";
@@ -46,17 +47,25 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
       : null,
   );
 
+  const isClient = useIsClient();
   const localStorageKey =
     persist && storageKey ? storageKey : SCROLL_POSITION_DISABLED_KEY;
   const sessionStorageKey =
     !persist && storageKey ? storageKey : SCROLL_POSITION_DISABLED_KEY;
 
+  const storageKeyLocal = isClient
+    ? localStorageKey
+    : SCROLL_POSITION_DISABLED_KEY;
+  const storageKeySession = isClient
+    ? sessionStorageKey
+    : SCROLL_POSITION_DISABLED_KEY;
+
   const [savedPositionLocal, setSavedPositionLocal] = useLocalStorage<
     string | null
-  >(localStorageKey, null);
+  >(storageKeyLocal, null);
   const [savedPositionSession, setSavedPositionSession] = useSessionStorage<
     string | null
-  >(sessionStorageKey, null);
+  >(storageKeySession, null);
 
   const handleScrollPosition = (
     options: UseWindowScrollPositionCallbackOptions,
@@ -95,6 +104,7 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
 
   useEffect(() => {
     if (
+      !isClient ||
       !enabled ||
       !scrollContainer ||
       !storageKey ||
@@ -121,6 +131,7 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
       }
     }
   }, [
+    isClient,
     enabled,
     storageKey,
     persist,
@@ -133,6 +144,7 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
 
   useEffect(() => {
     if (
+      !isClient ||
       !enabled ||
       !storageKey ||
       (persist && localStorageKey === SCROLL_POSITION_DISABLED_KEY) ||
@@ -146,6 +158,7 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
       setSavedPositionSession(debouncedScrollY.toString());
     }
   }, [
+    isClient,
     debouncedScrollY,
     enabled,
     storageKey,

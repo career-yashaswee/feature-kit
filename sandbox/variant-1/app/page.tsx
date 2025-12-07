@@ -1,6 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import {
   Card,
   CardContent,
@@ -8,20 +10,121 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { EmptyState } from "@/features/empty-states";
+import { FilterSheet } from "@/features/filter-sheet";
+import type { Filter } from "@/features/filter-sheet/types";
+import { ScrollToTopButton } from "@/features/scroll-to-top";
+import { useSearchInput } from "@/features/search-input";
 import {
+  ArrowCircleUp,
+  ArrowUp,
+  ArrowsClockwise,
+  Bell,
+  ChartBar,
+  ChatCircle,
+  Compass,
+  Copy,
+  Download,
+  FileText,
+  FloppyDisk,
+  Keyboard,
+  Lightning,
+  LinkedinLogo,
+  MagnifyingGlass,
+  Monitor,
+  Rocket,
+  Scroll,
+  Share,
+  SlidersHorizontal,
+  SquaresFour,
+  Stack,
+  Tag,
+  Target,
+  Tray,
+  Warning,
+  WifiHigh,
+} from "@phosphor-icons/react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+
+const RestoreScrollPosition = dynamic(
+  () =>
+    import("@/features/restore-scroll-position").then((mod) => ({
+      default: mod.RestoreScrollPosition,
+    })),
+  { ssr: false },
+);
+
+const NetworkStatusListener = dynamic(
+  () =>
+    import("@/features/network-status-listener").then((mod) => ({
+      default: mod.NetworkStatusListener,
+    })),
+  { ssr: false },
+);
+
+import featuresData from "@/data/features.json";
+
+type FeatureData = {
+  name: string;
+  path: string;
+  icon: string;
+  description: string;
+  category: string;
+  statusBadge?: string;
+  lastUpdatedAt?: string;
+};
+
+type Feature = {
+  name: string;
+  path: string;
+  icon: typeof ArrowUp;
+  description: string;
+  category: string;
+  statusBadge?: string;
+  lastUpdatedAt?: string;
+};
+
+const getStatusFromBadge = (
+  statusBadge?: string,
+): "online" | "offline" | "maintenance" | "degraded" | null => {
+  if (!statusBadge) return null;
+  const badgeLower = statusBadge.toLowerCase();
+  if (
+    badgeLower === "new" ||
+    badgeLower === "updated" ||
+    badgeLower === "fixed"
+  ) {
+    return "online";
+  }
+  if (badgeLower === "maintenance") {
+    return "maintenance";
+  }
+  if (badgeLower === "degraded" || badgeLower === "deprecated") {
+    return "degraded";
+  }
+  if (badgeLower === "offline") {
+    return "offline";
+  }
+  return "online";
+};
+
+const iconMap: Record<string, typeof ArrowUp> = {
   ArrowUp,
   ArrowsClockwise,
   Download,
   FloppyDisk,
   WifiHigh,
+  Lightning,
   Keyboard,
   Tray,
   FileText,
   Warning,
   Copy,
   Scroll,
-  Lightning,
   Share,
   SquaresFour,
   MagnifyingGlass,
@@ -36,322 +139,282 @@ import {
   SlidersHorizontal,
   Stack,
   Monitor,
-} from "@phosphor-icons/react";
+};
+
+const allFeatures: Feature[] = (featuresData as FeatureData[]).map(
+  (feature) => ({
+    ...feature,
+    icon: iconMap[feature.icon] || ArrowUp,
+  }),
+);
 
 function HomePage() {
-  const features = [
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedFeatureTags, setSelectedFeatureTags] = useState<string[]>([]);
+
+  const categories = useMemo(() => {
+    const uniqueCategories = Array.from(
+      new Set(allFeatures.map((f) => f.category)),
+    );
+    return uniqueCategories.sort();
+  }, []);
+
+  const {
+    query,
+    setQuery,
+    results: searchResults,
+  } = useSearchInput({
+    data: allFeatures,
+    searchKeys: ["name", "description"],
+    debounceMs: 300,
+  });
+
+  const filteredFeatures = useMemo(() => {
+    let filtered = searchResults;
+
+    if (selectedCategory !== "ALL") {
+      filtered = filtered.filter((f) => f.category === selectedCategory);
+    }
+
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter((f) => {
+        const featureTags = [
+          f.category.toLowerCase(),
+          ...f.description.toLowerCase().split(" "),
+          ...f.name.toLowerCase().split(" "),
+        ];
+        return selectedTags.some((tag) =>
+          featureTags.some((ft) => ft.includes(tag.toLowerCase())),
+        );
+      });
+    }
+
+    if (selectedFeatureTags.length > 0) {
+      filtered = filtered.filter((f) => {
+        if (!f.statusBadge) return false;
+        return selectedFeatureTags.includes(f.statusBadge);
+      });
+    }
+
+    return filtered;
+  }, [searchResults, selectedCategory, selectedTags, selectedFeatureTags]);
+
+  const availableTags = useMemo(() => {
+    const tags = new Set<string>();
+    allFeatures.forEach((f) => {
+      tags.add(f.category.toLowerCase());
+      f.description
+        .toLowerCase()
+        .split(" ")
+        .forEach((word) => {
+          if (word.length > 3) tags.add(word);
+        });
+    });
+    return Array.from(tags).sort();
+  }, []);
+
+  const availableFeatureTags = useMemo(() => {
+    const tags = new Set<string>();
+    allFeatures.forEach((f) => {
+      if (f.statusBadge) {
+        tags.add(f.statusBadge);
+      }
+    });
+    return Array.from(tags).sort();
+  }, []);
+
+  const filters: Filter[] = [
     {
-      name: "Scroll to Top",
-      path: "/scroll-to-top",
-      icon: ArrowUp,
-      description: "Smooth scroll-to-top button with animations",
-    },
-    {
-      name: "Refresh Button",
-      path: "/refresh-button",
-      icon: ArrowsClockwise,
-      description: "Button that invalidates React Query keys",
-    },
-    {
-      name: "Export Button",
-      path: "/export-button",
-      icon: Download,
-      description: "Export data with loading states",
-    },
-    {
-      name: "Auto Save Form",
-      path: "/auto-save-form",
-      icon: FloppyDisk,
-      description: "Automatically save form data",
-    },
-    {
-      name: "Network Status Listener",
-      path: "/network-status-listener-toast",
-      icon: WifiHigh,
-      description: "Listen to network status changes",
-    },
-    {
-      name: "Optimistic Action Button",
-      path: "/optimistic-action-button",
-      icon: Lightning,
-      description: "Optimistic UI updates for actions",
-    },
-    {
-      name: "Keyboard Shortcuts",
-      path: "/keyboard-shortcuts",
-      icon: Keyboard,
-      description: "Manage and display keyboard shortcuts",
-    },
-    {
-      name: "Empty States",
-      path: "/empty-states",
-      icon: Tray,
-      description: "Contextual empty states for different scenarios",
-    },
-    {
-      name: "Text Truncation",
-      path: "/text-truncation",
-      icon: FileText,
-      description: "Intelligent text truncation with expand/collapse",
-    },
-    {
-      name: "Consequence Confirmation Dialog",
-      path: "/consequence-confirmation-dialog",
-      icon: Warning,
-      description: "Flexible confirmation dialogs with multiple variants",
-    },
-    {
-      name: "Copy to Clipboard",
-      path: "/copy-to-clipboard",
-      icon: Copy,
-      description: "Copy text to clipboard with animations and toast",
-    },
-    {
-      name: "Restore Scroll Position",
-      path: "/restore-scroll-position",
-      icon: Scroll,
-      description: "Remember and restore scroll positions",
-    },
-    {
-      name: "Share Button",
-      path: "/share-button",
-      icon: Share,
-      description:
-        "YouTube-style share button with native API and social media",
-    },
-    {
-      name: "Resizable Panels",
-      path: "/resizable-panels",
-      icon: SquaresFour,
-      description: "LeetCode-style resizable panels with persistent layouts",
-    },
-    {
-      name: "Table of Contents",
-      path: "/table-of-contents",
-      icon: FileText,
-      description:
-        "Auto-generated table of contents from markdown with active highlighting",
-    },
-    {
-      name: "Stateful Button",
-      path: "/stateful-button",
-      icon: Lightning,
-      description:
-        "Button with loading, success, and error states with rate limiting",
-    },
-    {
-      name: "Search Input",
-      path: "/search-input",
-      icon: MagnifyingGlass,
-      description:
-        "Search input with fuzzy search, debouncing, and speech recognition",
-    },
-    {
-      name: "Share QR Code",
-      path: "/share-qr-code",
-      icon: Share,
-      description: "Instagram-style QR code sharing with customizable themes",
-    },
-    {
-      name: "Ask Agent",
-      path: "/ask-agent",
-      icon: ChatCircle,
-      description:
-        "Reddit-style Ask Agent page with animated tags and voice input",
-    },
-    {
-      name: "User Card",
-      path: "/user-card",
-      icon: LinkedinLogo,
-      description:
-        "User card component with LinkedIn and Twitter variants, light and dark mode",
-    },
-    {
-      name: "FAQ Hints",
-      path: "/faq-hints",
-      icon: ChatCircle,
-      description:
-        "FAQ component with short answer hints and expandable details",
-    },
-    {
-      name: "Health Bar",
-      path: "/health-bar",
-      icon: Warning,
-      description: "Visual health indicator with color-coded status and timer",
-    },
-    {
-      name: "Language Switcher",
-      path: "/language-switcher",
-      icon: LinkedinLogo,
-      description:
-        "Flexible language switcher with adapter pattern and country flags",
-    },
-    {
-      name: "Page Loader",
-      path: "/page-loader",
-      icon: ArrowsClockwise,
-      description:
-        "Full-featured page loader with refresh functionality and animations",
-    },
-    {
-      name: "Subscription Identifier",
-      path: "/subscription-identifier",
-      icon: Lightning,
-      description:
-        "Badge component for subscription status with multiple variants",
-    },
-    {
-      name: "Report Button",
-      path: "/report-button",
-      icon: Warning,
-      description:
-        "Comprehensive report dialog with issue selection and TanStack Query",
-    },
-    {
-      name: "Unique Value Proposition",
-      path: "/unique-value-proposition",
-      icon: Target,
-      description:
-        "Scatter plot visualization for comparing products across two dimensions",
-    },
-    {
-      name: "Domain Badge",
-      path: "/domain-badge",
+      type: "select",
+      id: "category",
+      label: "Category",
       icon: Tag,
-      description:
-        "Visual badge component displaying multiple domain indicators with tooltips",
+      value: selectedCategory,
+      options: categories.map((cat) => ({ value: cat, label: cat })),
+      onChange: setSelectedCategory,
     },
     {
-      name: "Upgrade Button",
-      path: "/upgrade-button",
-      icon: ArrowUp,
-      description:
-        "Smart button that adapts based on subscription status with configurable actions",
-    },
-    {
-      name: "Page Header",
-      path: "/page-header",
-      icon: FileText,
-      description:
-        "Full-width page header with glass morphism icon and optional actions",
-    },
-    {
-      name: "Grid Card",
-      path: "/grid-card",
-      icon: SquaresFour,
-      description:
-        "Flexible card component for grid layouts with header, content, and footer",
-    },
-    {
-      name: "Onboarding",
-      path: "/on-boarding",
-      icon: Rocket,
-      description:
-        "Multi-step onboarding layout with stepper navigation and progress tracking",
-    },
-    {
-      name: "Test Case Badge",
-      path: "/test-case-badge",
+      type: "tags",
+      id: "tags",
+      label: "Tags",
       icon: Tag,
-      description:
-        "Test results badge with passed/failed counts and progress indicator",
+      selectedTags,
+      availableTags,
+      onChange: setSelectedTags,
     },
     {
-      name: "Scrollable Breadcrumbs",
-      path: "/scrollable-breadcrumbs",
-      icon: Compass,
-      description:
-        "Horizontally scrollable breadcrumb navigation with auto-scroll",
-    },
-    {
-      name: "Notification Shade",
-      path: "/notification-shade",
-      icon: Bell,
-      description:
-        "Comprehensive notification panel with tabbed filtering and smart icons",
-    },
-    {
-      name: "Compare Alternatives",
-      path: "/compare-alternatives",
-      icon: ChartBar,
-      description:
-        "Flexible comparison table for comparing features across alternatives",
-    },
-    {
-      name: "Filter Sheet",
-      path: "/filter-sheet",
-      icon: SlidersHorizontal,
-      description:
-        "Comprehensive filter sheet with multiple filter types and configurations",
-    },
-    {
-      name: "Persistence TipTap Editor",
-      path: "/persistence-tip-tap-editor",
-      icon: FileText,
-      description:
-        "Rich text editor with localStorage persistence and database sync",
-    },
-    {
-      name: "Variant Select",
-      path: "/variant-select",
-      icon: Stack,
-      description:
-        "Flexible variant selector with dependency visualization and persistent state",
-    },
-    {
-      name: "Active Devices",
-      path: "/active-devices",
-      icon: Monitor,
-      description:
-        "Manage and monitor active sessions across all devices with location tracking",
+      type: "tags",
+      id: "feature-tags",
+      label: "Feature Tags",
+      icon: Tag,
+      selectedTags: selectedFeatureTags,
+      availableTags: availableFeatureTags,
+      onChange: setSelectedFeatureTags,
     },
   ];
 
-  return (
-    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
-      <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-12 p-8">
-        <section className="space-y-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Lightning className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Feature Kit</span>
-          </div>
-          <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Sandbox Variant 1
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Explore and test all available features. Click on any feature card
-            to see it in action.
-          </p>
-          <Badge variant="default" className="gap-1.5 demo-badge">
-            {features.length} Features Available
-          </Badge>
-        </section>
+  const handleClearFilters = () => {
+    setSelectedCategory("ALL");
+    setSelectedTags([]);
+    setSelectedFeatureTags([]);
+    setQuery("");
+  };
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
-            <Link key={feature.path} href={feature.path}>
-              <Card className="group h-full cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
-                      <feature.icon className="h-5 w-5 text-primary" />
-                    </div>
-                  </div>
-                  <CardTitle className="mt-4">{feature.name}</CardTitle>
-                  <CardDescription>{feature.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>View Demo</span>
-                    <ArrowUp className="h-4 w-4 rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </main>
-    </div>
+  return (
+    <RestoreScrollPosition storageKey="home-page-scroll" persist>
+      <NetworkStatusListener />
+      <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
+        <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-12 p-8">
+          <section className="space-y-6 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
+              <Lightning className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">Feature Kit</span>
+            </div>
+            <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              Sandbox React Variant
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Explore and test all available features. Click on any feature card
+              to see it in action.
+            </p>
+            <Badge variant="default" className="gap-1.5 demo-badge">
+              {filteredFeatures.length} of {allFeatures.length} Features
+            </Badge>
+          </section>
+
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex-1 w-full relative">
+              <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search features by Name or Description"
+                className="pl-10"
+              />
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => setFilterSheetOpen(true)}
+              className="gap-2"
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              Filters
+              {(selectedCategory !== "ALL" ||
+                selectedTags.length > 0 ||
+                selectedFeatureTags.length > 0) && (
+                <Badge variant="secondary" className="ml-1 h-5 min-w-5 px-1.5">
+                  {(selectedCategory !== "ALL" ? 1 : 0) +
+                    selectedTags.length +
+                    selectedFeatureTags.length}
+                </Badge>
+              )}
+            </Button>
+          </div>
+
+          {filteredFeatures.length === 0 ? (
+            <EmptyState
+              type="search"
+              title="No features found"
+              description="Try adjusting your search or filter criteria to find what you're looking for."
+              onAction={handleClearFilters}
+              actionLabel="Clear all filters"
+            />
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredFeatures.map((feature) => (
+                <Link key={feature.path} href={feature.path}>
+                  <Card className="group h-full cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg">
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
+                          <feature.icon className="h-5 w-5 text-primary" />
+                        </div>
+                        <Badge variant="secondary" className="text-xs">
+                          {feature.category}
+                        </Badge>
+                      </div>
+                      <div className="mt-4 flex items-center gap-2 flex-wrap">
+                        <CardTitle>{feature.name}</CardTitle>
+                        {feature.statusBadge &&
+                          getStatusFromBadge(feature.statusBadge) && (
+                            <Status
+                              status={getStatusFromBadge(feature.statusBadge)!}
+                            >
+                              <StatusIndicator />
+                              <StatusLabel>
+                                {feature.statusBadge}
+                                {feature.lastUpdatedAt && (
+                                  <span className="ml-1 text-xs opacity-80">
+                                    {(() => {
+                                      try {
+                                        const date = new Date(
+                                          feature.lastUpdatedAt,
+                                        );
+                                        const distance = formatDistanceToNow(
+                                          date,
+                                          { addSuffix: true },
+                                        );
+                                        // Convert to short format: "2d ago", "2w ago", "just now", etc.
+                                        if (
+                                          distance.includes("second") ||
+                                          (distance.includes("minute") &&
+                                            distance.includes("less than"))
+                                        ) {
+                                          return "just now";
+                                        }
+                                        const shortDistance = distance
+                                          .replace(/about /g, "")
+                                          .replace(/less than a /g, "")
+                                          .replace(/over /g, "")
+                                          .replace(/almost /g, "")
+                                          .replace(/ minutes?/g, "m")
+                                          .replace(/ hours?/g, "h")
+                                          .replace(/ days?/g, "d")
+                                          .replace(/ weeks?/g, "w")
+                                          .replace(/ months?/g, "mo")
+                                          .replace(/ years?/g, "y");
+                                        return shortDistance;
+                                      } catch {
+                                        return "";
+                                      }
+                                    })()}
+                                  </span>
+                                )}
+                              </StatusLabel>
+                            </Status>
+                          )}
+                      </div>
+                      <CardDescription>{feature.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>View Demo</span>
+                        <ArrowUp className="h-4 w-4 rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <FilterSheet
+            open={filterSheetOpen}
+            onOpenChange={setFilterSheetOpen}
+            filters={filters}
+            title="Filter Features"
+            description="Filter features by category and tags"
+            onClearAll={handleClearFilters}
+          />
+        </main>
+        <ScrollToTopButton position="center" threshold={300}>
+          <ArrowCircleUp className="h-4 w-4" />
+        </ScrollToTopButton>
+      </div>
+    </RestoreScrollPosition>
   );
 }
 

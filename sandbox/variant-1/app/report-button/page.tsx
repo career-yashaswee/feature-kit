@@ -9,10 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Flag, Warning, Lightning } from "@phosphor-icons/react";
-import {
-  ReportButton,
-  type ReportIssue,
-} from "@/features/report-button";
+import { ReportButton, type ReportIssue } from "@/features/report-button";
 
 const sampleIssues: ReportIssue[] = [
   {

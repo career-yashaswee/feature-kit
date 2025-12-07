@@ -16,10 +16,7 @@ import {
   Lightning,
   ArrowsClockwise,
 } from "@phosphor-icons/react";
-import {
-  PageLoader,
-  type LoadingState,
-} from "@/features/page-loader";
+import { PageLoader, type LoadingState } from "@/features/page-loader";
 import { useQuery } from "@tanstack/react-query";
 
 const features = [

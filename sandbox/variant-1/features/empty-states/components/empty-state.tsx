@@ -91,70 +91,72 @@ export function EmptyState({
   const shouldShowButton = !!displayActionLabel;
 
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center py-12 px-4 text-center",
-        className,
-      )}
-    >
+    <div className="min-h-[400px] rounded-lg border border-dashed bg-muted/20">
       <div
         className={cn(
-          "mb-4 flex h-16 w-16 items-center justify-center rounded-full",
-          type === "error" && "bg-destructive/10 text-destructive",
-          type === "loading" && "bg-primary/10 text-primary",
-          type === "not-found" && "bg-muted text-muted-foreground",
-          type === "search" && "bg-muted text-muted-foreground",
-          type === "no-data" && "bg-muted text-muted-foreground",
-          type === "not-authorized" && "bg-destructive/10 text-destructive",
-          type === "not-authenticated" &&
-            "bg-amber-500/10 text-amber-600 dark:text-amber-400",
-          type === "not-sufficient-data" && "bg-muted text-muted-foreground",
+          "flex flex-col items-center justify-center py-12 px-4 text-center",
+          className,
         )}
       >
-        {icon ? (
-          // Custom icon provided by user (ReactNode)
-          isValidElement(icon) ? (
-            icon
-          ) : typeof icon === "function" ? (
-            // Icon component passed as function (e.g., Lucide icon component)
-            (() => {
-              const IconComponent = icon as React.ComponentType<{
-                className?: string;
-              }>;
-              return (
-                <IconComponent
-                  className={cn(
-                    "h-8 w-8",
-                    type === "loading" && "animate-spin",
-                  )}
-                />
-              );
-            })()
+        <div
+          className={cn(
+            "mb-4 flex h-16 w-16 items-center justify-center rounded-full",
+            type === "error" && "bg-destructive/10 text-destructive",
+            type === "loading" && "bg-primary/10 text-primary",
+            type === "not-found" && "bg-muted text-muted-foreground",
+            type === "search" && "bg-muted text-muted-foreground",
+            type === "no-data" && "bg-muted text-muted-foreground",
+            type === "not-authorized" && "bg-destructive/10 text-destructive",
+            type === "not-authenticated" &&
+              "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+            type === "not-sufficient-data" && "bg-muted text-muted-foreground",
+          )}
+        >
+          {icon ? (
+            // Custom icon provided by user (ReactNode)
+            isValidElement(icon) ? (
+              icon
+            ) : typeof icon === "function" ? (
+              // Icon component passed as function (e.g., Lucide icon component)
+              (() => {
+                const IconComponent = icon as React.ComponentType<{
+                  className?: string;
+                }>;
+                return (
+                  <IconComponent
+                    className={cn(
+                      "h-8 w-8",
+                      type === "loading" && "animate-spin",
+                    )}
+                  />
+                );
+              })()
+            ) : (
+              // Fallback for other types
+              icon
+            )
           ) : (
-            // Fallback for other types
-            icon
-          )
-        ) : (
-          // Default icon from @phosphor-icons/react - always rendered when no custom icon
-          <DefaultIcon
-            className={cn("h-8 w-8", type === "loading" && "animate-spin")}
-          />
+            // Default icon from @phosphor-icons/react - always rendered when no custom icon
+            <DefaultIcon
+              className={cn("h-8 w-8", type === "loading" && "animate-spin")}
+            />
+          )}
+        </div>
+        <h3 className="mb-2 text-lg font-semibold">{displayTitle}</h3>
+        <p className="mb-6 max-w-sm text-sm text-muted-foreground">
+          {displayDescription}
+        </p>
+        {shouldShowButton && displayActionLabel && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onAction || (() => {})}
+            disabled={!onAction}
+          >
+            {displayActionLabel}
+          </Button>
         )}
       </div>
-      <h3 className="mb-2 text-lg font-semibold">{displayTitle}</h3>
-      <p className="mb-6 max-w-sm text-sm text-muted-foreground">
-        {displayDescription}
-      </p>
-      {shouldShowButton && displayActionLabel && (
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onAction || (() => {})}
-          disabled={!onAction}
-        >
-          {displayActionLabel}
-        </Button>
-      )}
     </div>
   );
 }
