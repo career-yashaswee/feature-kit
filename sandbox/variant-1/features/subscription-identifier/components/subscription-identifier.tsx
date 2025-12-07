@@ -2,19 +2,7 @@
 
 import { Crown } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
-
-export type SubscriptionIdentifierSize = "sm" | "md" | "lg";
-export type SubscriptionIdentifierVariant = "outline" | "solid";
-
-export interface SubscriptionIdentifierProps {
-  isUserSubscribed: boolean;
-  isLoading?: boolean;
-  size?: SubscriptionIdentifierSize;
-  variant?: SubscriptionIdentifierVariant;
-  className?: string;
-  label?: string;
-  showIcon?: boolean;
-}
+import type { SubscriptionIdentifierProps } from "../types";
 
 export function SubscriptionIdentifier({
   isUserSubscribed,

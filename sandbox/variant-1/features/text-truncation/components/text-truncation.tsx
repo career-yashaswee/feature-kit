@@ -1,20 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useToggle } from "@uidotdev/usehooks";
+import { CaretDown, CaretUp } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface TextTruncationProps {
-  text: string;
-  maxLines?: number;
-  maxLength?: number;
-  expandLabel?: string;
-  collapseLabel?: string;
-  className?: string;
-  showToggle?: boolean;
-}
+import type { TextTruncationProps } from "../types";
+import { useTextTruncation } from "../hooks/use-text-truncation";
 
 export function TextTruncation({
   text,
@@ -25,32 +15,13 @@ export function TextTruncation({
   className,
   showToggle = true,
 }: TextTruncationProps) {
-  const [isExpanded, toggleExpanded] = useToggle(false);
-  const [needsTruncation, setNeedsTruncation] = useState(false);
-  const textRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (textRef.current) {
-      const element = textRef.current;
-      if (maxLines) {
-        const lineHeight = parseInt(
-          window.getComputedStyle(element).lineHeight || "20",
-          10,
-        );
-        const maxHeight = lineHeight * maxLines;
-        setNeedsTruncation(element.scrollHeight > maxHeight);
-      } else if (maxLength) {
-        setNeedsTruncation(text.length > maxLength);
-      }
-    }
-  }, [text, maxLines, maxLength]);
-
-  const displayText =
-    isExpanded || !needsTruncation
-      ? text
-      : maxLength
-        ? `${text.slice(0, maxLength)}...`
-        : text;
+  const {
+    isExpanded,
+    needsTruncation,
+    displayText,
+    textRef,
+    toggleExpanded,
+  } = useTextTruncation({ text, maxLines, maxLength });
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -78,18 +49,18 @@ export function TextTruncation({
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => toggleExpanded()}
+          onClick={toggleExpanded}
           className="h-auto p-0 text-xs text-primary hover:text-primary/80"
         >
           {isExpanded ? (
             <>
               {collapseLabel}
-              <ChevronUp className="ml-1 h-3 w-3" />
+              <CaretUp className="ml-1 h-3 w-3" />
             </>
           ) : (
             <>
               {expandLabel}
-              <ChevronDown className="ml-1 h-3 w-3" />
+              <CaretDown className="ml-1 h-3 w-3" />
             </>
           )}
         </Button>

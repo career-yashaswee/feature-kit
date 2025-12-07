@@ -1,38 +1,16 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Panel,
   PanelGroup,
   PanelResizeHandle,
   type ImperativePanelHandle,
-  type PanelGroupProps,
 } from "react-resizable-panels";
-import { ChevronLeft, ChevronUp } from "lucide-react";
+import { CaretLeft, CaretUp } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface ResizablePanelsProps extends Omit<
-  PanelGroupProps,
-  "children" | "direction"
-> {
-  panels: Array<{
-    id: string;
-    content: ReactNode;
-    icon?: ReactNode;
-    label?: string;
-    minSize?: number;
-    maxSize?: number;
-    defaultSize?: number;
-    collapsible?: boolean;
-    collapsedSize?: number;
-  }>;
-  direction?: "horizontal" | "vertical";
-  persistLayout?: boolean;
-  storageKey?: string;
-  showIconsWhenCollapsed?: boolean;
-  className?: string;
-}
+import type { ResizablePanelsProps } from "../types";
 
 export function ResizablePanels({
   panels,
@@ -127,7 +105,7 @@ export function ResizablePanels({
     }
   };
 
-  const CollapseIcon = direction === "horizontal" ? ChevronLeft : ChevronUp;
+  const CollapseIcon = direction === "horizontal" ? CaretLeft : CaretUp;
 
   return (
     <PanelGroup

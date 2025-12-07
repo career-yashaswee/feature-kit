@@ -2,25 +2,25 @@
 
 import React from "react";
 import {
-  SlidersHorizontal,
-  CheckCircle2,
-  Music,
-  Music2,
-  Music4,
+  Sliders,
+  CheckCircle,
+  MusicNote,
+  MusicNotes,
+  MusicNotesPlus,
   Clock,
   Circle,
   Star,
   Palette,
-  Layers,
+  Stack,
   Tag,
   Database,
   Code,
-  HardDrive,
+  HardDrives,
   Brain,
-  Layout,
-  Settings,
+  SquaresFour,
+  Gear,
   X,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import {
   Sheet,
   SheetContent,
@@ -93,7 +93,7 @@ export function FilterSheet({
     icon: Filter["icon"],
     defaultIcon: React.ComponentType<{
       className?: string;
-    }> = SlidersHorizontal,
+    }> = Sliders,
   ) => {
     if (icon) {
       const IconComponent = icon;
@@ -268,7 +268,7 @@ export function FilterSheet({
       >
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <SlidersHorizontal className="h-5 w-5" />
+            <Sliders className="h-5 w-5" />
             {title}
           </SheetTitle>
           <SheetDescription>{description}</SheetDescription>

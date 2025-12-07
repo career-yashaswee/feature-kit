@@ -1,14 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { TocItem } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import { cn } from "@/lib/utils";
-import { List } from "lucide-react";
-
-type TableOfContentsProps = {
-  items: TocItem[];
-  className?: string;
-};
+import { List } from "@phosphor-icons/react";
+import type { TableOfContentsProps } from "../types";
 
 export function TableOfContents({ items, className }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>("");

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, X } from "lucide-react";
+import { Check, X } from "@phosphor-icons/react";
 import {
   Tooltip,
   TooltipContent,
@@ -122,9 +122,9 @@ export function DomainBadge({
                 return (
                   <div key={domain.id} className="flex items-center gap-2">
                     {isActive ? (
-                      <Check className="size-3.5 text-green-500 dark:text-green-400 flex-shrink-0" />
+                      <Check className="size-3.5 text-green-500 dark:text-green-400 shrink-0" />
                     ) : (
-                      <X className="size-3.5 text-red-500 dark:text-red-400 flex-shrink-0" />
+                      <X className="size-3.5 text-red-500 dark:text-red-400 shrink-0" />
                     )}
                     <span
                       className={cn(

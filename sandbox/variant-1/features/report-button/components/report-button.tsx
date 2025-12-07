@@ -1,9 +1,7 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { Flag, Spinner, Check, X } from "@phosphor-icons/react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,35 +15,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-
-export interface ReportIssue {
-  id: string;
-  label: string;
-  description: string;
-}
-
-export interface ReportButtonProps {
-  reportId: string;
-  reportTitle: string;
-  issues: ReportIssue[];
-  onSubmit: (payload: ReportPayload) => Promise<void>;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  triggerLabel?: string;
-  className?: string;
-  variant?: "default" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg";
-}
-
-export interface ReportPayload {
-  issues: string[];
-  customIssue?: string;
-  description?: string;
-  context?: {
-    path?: string;
-    url?: string;
-  };
-}
+import type { ReportButtonProps, ReportIssue } from "../types";
+import { useReportButton } from "../hooks/use-report-button";
+import { StatefulButton } from "@/features/stateful-button";
 
 export function ReportButton({
   reportId,
@@ -60,99 +32,28 @@ export function ReportButton({
   size = "sm",
 }: ReportButtonProps) {
   const [internalOpen, setInternalOpen] = useState(false);
-  const [selectedIssues, setSelectedIssues] = useState<string[]>([]);
-  const [customIssue, setCustomIssue] = useState("");
-  const [description, setDescription] = useState("");
-  const [pageContext] = useState<{
-    path?: string;
-    url?: string;
-  }>(() => {
-    if (typeof window !== "undefined") {
-      return {
-        path: window.location.pathname,
-        url: window.location.href,
-      };
-    }
-    return {};
-  });
 
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : internalOpen;
   const setIsOpen = controlledOnOpenChange || setInternalOpen;
 
-  const resetForm = useCallback(() => {
-    setSelectedIssues([]);
-    setCustomIssue("");
-    setDescription("");
-  }, []);
-
-  const mutation = useMutation({
-    mutationFn: async (payload: ReportPayload) => {
-      await onSubmit(payload);
-    },
+  const {
+    selectedIssues,
+    customIssue,
+    description,
+    setCustomIssue,
+    setDescription,
+    handleIssueToggle,
+    handleSubmit,
+    resetForm,
+    isSubmitDisabled,
+    isPending,
+  } = useReportButton({
+    onSubmit,
     onSuccess: () => {
-      toast.success("Report submitted", {
-        description:
-          "Thanks for the feedback. Our team will review this shortly.",
-        duration: 3500,
-      });
-      resetForm();
       setIsOpen(false);
     },
-    onError: (error: Error) => {
-      toast.error("Unable to submit report", {
-        description:
-          error instanceof Error
-            ? error.message
-            : "Please try again in a moment.",
-        duration: 3500,
-      });
-    },
   });
-
-  const handleIssueToggle = useCallback((issueId: string, checked: boolean) => {
-    setSelectedIssues((prev) => {
-      if (checked) {
-        if (prev.includes(issueId)) return prev;
-        return [...prev, issueId];
-      }
-      const newIssues = prev.filter((item) => item !== issueId);
-      if (issueId === "OTHER") {
-        setCustomIssue("");
-      }
-      return newIssues;
-    });
-  }, []);
-
-  const handleSubmit = useCallback(() => {
-    if (mutation.isPending) return;
-
-    const trimmedCustom = customIssue.trim();
-    const trimmedDescription = description.trim();
-    const reportIssues = selectedIssues;
-
-    if (reportIssues.length === 0 && !trimmedCustom && !trimmedDescription) {
-      toast.warning("Add a report", {
-        description:
-          "Select an issue or add a short note so we know what to fix.",
-        duration: 3000,
-      });
-      return;
-    }
-
-    mutation.mutate({
-      issues: reportIssues,
-      customIssue: trimmedCustom || undefined,
-      description: trimmedDescription || undefined,
-      context: pageContext,
-    });
-  }, [customIssue, description, mutation, pageContext, selectedIssues]);
-
-  const isSubmitDisabled =
-    mutation.isPending ||
-    (selectedIssues.length === 0 &&
-      customIssue.trim().length === 0 &&
-      description.trim().length === 0);
 
   const handleOpenChange = (open: boolean): void => {
     if (!open) {
@@ -214,7 +115,7 @@ export function ReportButton({
                       onCheckedChange={(checked) =>
                         handleIssueToggle(issue.id, checked === true)
                       }
-                      className="mt-1 flex-shrink-0"
+                      className="mt-1 shrink-0"
                     />
                     <div className="flex-1 min-w-0">
                       <Label
@@ -280,25 +181,23 @@ export function ReportButton({
                 variant="outline"
                 size="sm"
                 onClick={() => handleOpenChange(false)}
-                disabled={mutation.isPending}
+                disabled={isPending}
                 className="inline-flex items-center gap-2"
               >
                 <X size={16} />
                 Cancel
               </Button>
-              <Button
+              <StatefulButton
                 size="sm"
                 disabled={isSubmitDisabled}
-                onClick={handleSubmit}
+                onAction={async () => {
+                  handleSubmit();
+                }}
                 className="inline-flex items-center gap-2 !text-white"
               >
-                {mutation.isPending ? (
-                  <Spinner size={16} className="animate-spin" />
-                ) : (
-                  <Check size={16} />
-                )}
+                <Check size={16} />
                 Submit report
-              </Button>
+              </StatefulButton>
             </div>
           </div>
         </div>

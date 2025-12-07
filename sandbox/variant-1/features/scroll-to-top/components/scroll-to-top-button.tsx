@@ -3,17 +3,11 @@
 import { type ReactNode, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWindowScroll } from "@uidotdev/usehooks";
-import { ChevronUp } from "lucide-react";
+import { CaretUp } from "@phosphor-icons/react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-export interface ScrollToTopButtonProps {
-  threshold?: number;
-  children?: ReactNode;
-  position?: "left" | "center" | "right";
-  className?: string;
-}
+import type { ScrollToTopButtonProps } from "../types";
 
 export function ScrollToTopButton({
   threshold = 300,
@@ -56,7 +50,7 @@ export function ScrollToTopButton({
               className,
             )}
           >
-            {children ?? <ChevronUp />}
+            {children ?? <CaretUp />}
           </Button>
         </motion.div>
       )}

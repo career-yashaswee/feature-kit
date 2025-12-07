@@ -1,25 +1,12 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, CopySimple as Copy } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { toast } from "sonner";
-import { type VariantProps } from "class-variance-authority";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface CopyToClipboardProps extends VariantProps<typeof buttonVariants> {
-  text: string;
-  html?: string;
-  label?: string;
-  successMessage?: string;
-  errorMessage?: string;
-  showIcon?: boolean;
-  className?: string;
-  onCopy?: (text: string) => void;
-  onError?: (error: Error) => void;
-}
+import type { CopyToClipboardProps } from "../types";
+import { useCopyToClipboard } from "../hooks/use-copy-to-clipboard";
 
 export function CopyToClipboard({
   text,
@@ -34,66 +21,14 @@ export function CopyToClipboard({
   onCopy,
   onError,
 }: CopyToClipboardProps) {
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (copied) {
-      const timer = setTimeout(() => {
-        setCopied(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [copied]);
-
-  const handleCopy = useCallback(async () => {
-    try {
-      // Immediately set copied state for snappy animation
-      setCopied(true);
-
-      if (
-        html &&
-        typeof navigator !== "undefined" &&
-        navigator.clipboard?.write
-      ) {
-        const clipboardItem = new ClipboardItem({
-          "text/plain": new Blob([text], { type: "text/plain" }),
-          "text/html": new Blob([html], { type: "text/html" }),
-        });
-        await navigator.clipboard.write([clipboardItem]);
-        toast.success(successMessage);
-        onCopy?.(text);
-      } else if (
-        typeof navigator !== "undefined" &&
-        navigator.clipboard?.writeText
-      ) {
-        await navigator.clipboard.writeText(text);
-        toast.success(successMessage);
-        onCopy?.(text);
-      } else {
-        // Fallback for older browsers
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.opacity = "0";
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-          document.execCommand("copy");
-          toast.success(successMessage);
-          onCopy?.(text);
-        } catch {
-          throw new Error("Copy failed");
-        } finally {
-          document.body.removeChild(textArea);
-        }
-      }
-    } catch (error) {
-      setCopied(false);
-      const err = error instanceof Error ? error : new Error("Copy failed");
-      toast.error(errorMessage);
-      onError?.(err);
-    }
-  }, [text, html, successMessage, errorMessage, onCopy, onError]);
+  const { copied, handleCopy } = useCopyToClipboard({
+    text,
+    html,
+    successMessage,
+    errorMessage,
+    onCopy,
+    onError,
+  });
 
   return (
     <Button

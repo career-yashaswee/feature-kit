@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useTransition } from "react";
-import { Check } from "lucide-react";
+import { Check } from "@phosphor-icons/react";
 import {
   DropdownMenu,
   DropdownMenuContent,

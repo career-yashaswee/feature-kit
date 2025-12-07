@@ -10,19 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-
-interface Shortcut {
-  keys: string[];
-  description: string;
-  category?: string;
-}
-
-interface KeyboardShortcutsProps {
-  shortcuts: Shortcut[];
-  triggerKey?: string;
-  showHelp?: boolean;
-  className?: string;
-}
+import type { KeyboardShortcutsProps, Shortcut } from "../types";
 
 export function KeyboardShortcuts({
   shortcuts,
@@ -31,12 +19,16 @@ export function KeyboardShortcuts({
 }: KeyboardShortcutsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  useHotkeys(triggerKey, (e) => {
-    e.preventDefault();
-    if (showHelp) {
-      setIsOpen(true);
-    }
-  });
+  useHotkeys(
+    triggerKey,
+    (e) => {
+      e.preventDefault();
+      if (showHelp) {
+        setIsOpen(true);
+      }
+    },
+    { enabled: showHelp },
+  );
 
   const groupedShortcuts = shortcuts.reduce(
     (acc, shortcut) => {
@@ -128,22 +120,5 @@ export function KeyboardShortcuts({
         </Dialog>
       )}
     </>
-  );
-}
-
-export function useKeyboardShortcut(
-  keys: string,
-  callback: () => void,
-  options?: { enabled?: boolean; preventDefault?: boolean },
-) {
-  useHotkeys(
-    keys,
-    (e) => {
-      if (options?.preventDefault !== false) {
-        e.preventDefault();
-      }
-      callback();
-    },
-    { enabled: options?.enabled !== false },
   );
 }

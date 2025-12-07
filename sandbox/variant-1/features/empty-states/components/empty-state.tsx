@@ -1,85 +1,66 @@
 "use client";
 
-import { type ReactNode, isValidElement } from "react";
+import { isValidElement, type ComponentType } from "react";
 import {
-  Inbox,
-  AlertCircle,
-  Loader2,
-  FileQuestion,
-  Search,
-  ShieldX,
-  LogIn,
+  Tray,
+  WarningCircle,
+  Spinner,
+  Question,
+  MagnifyingGlass,
+  ShieldSlash,
+  SignIn,
   Database,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-type EmptyStateType =
-  | "no-data"
-  | "error"
-  | "loading"
-  | "not-found"
-  | "search"
-  | "not-authorized"
-  | "not-authenticated"
-  | "not-sufficient-data";
-
-interface EmptyStateProps {
-  type?: EmptyStateType;
-  title?: string;
-  description?: string;
-  icon?: ReactNode;
-  actionLabel?: string;
-  onAction?: () => void;
-  className?: string;
-}
+import type { EmptyStateProps, EmptyStateType } from "../types";
 
 const defaultConfig: Record<
   EmptyStateType,
   {
-    icon: typeof Inbox;
+    icon: ComponentType<{ className?: string }>;
     title: string;
     description: string;
     defaultActionLabel?: string;
   }
 > = {
   "no-data": {
-    icon: Inbox,
+    icon: Tray,
     title: "No data available",
     description: "There's nothing to display here yet.",
     defaultActionLabel: "Refresh",
   },
   error: {
-    icon: AlertCircle,
+    icon: WarningCircle,
     title: "Something went wrong",
     description: "We encountered an error. Please try again.",
     defaultActionLabel: "Try again",
   },
   loading: {
-    icon: Loader2,
+    icon: Spinner,
     title: "Loading...",
     description: "Please wait while we fetch the data.",
   },
   "not-found": {
-    icon: FileQuestion,
+    icon: Question,
     title: "Not found",
     description: "The item you're looking for doesn't exist.",
     defaultActionLabel: "Go back",
   },
   search: {
-    icon: Search,
+    icon: MagnifyingGlass,
     title: "No results found",
     description: "Try adjusting your search criteria.",
     defaultActionLabel: "Clear search",
   },
   "not-authorized": {
-    icon: ShieldX,
+    icon: ShieldSlash,
     title: "Access denied",
     description: "You don't have permission to view this content.",
     defaultActionLabel: "Request access",
   },
   "not-authenticated": {
-    icon: LogIn,
+    icon: SignIn,
     title: "Authentication required",
     description: "Please sign in to access this content.",
     defaultActionLabel: "Sign in",
@@ -154,7 +135,7 @@ export function EmptyState({
             icon
           )
         ) : (
-          // Default icon from lucide-react - always rendered when no custom icon
+          // Default icon from @phosphor-icons/react - always rendered when no custom icon
           <DefaultIcon
             className={cn("h-8 w-8", type === "loading" && "animate-spin")}
           />

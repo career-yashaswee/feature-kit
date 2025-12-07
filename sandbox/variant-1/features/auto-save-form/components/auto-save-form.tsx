@@ -1,32 +1,15 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useDebounce,
   useLocalStorage,
   useIsFirstRender,
 } from "@uidotdev/usehooks";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Loader2, AlertCircle } from "lucide-react";
+import { Check, Spinner, WarningCircle } from "@phosphor-icons/react";
 import { toast } from "sonner";
-
-interface AutoSaveFormProps<T extends Record<string, unknown>> {
-  children: ReactNode;
-  onSave: (data: T, signal?: AbortSignal) => Promise<void> | void;
-  data: T;
-  debounceMs?: number;
-  storageKey?: string;
-  onSaveStart?: () => void;
-  onSaveSuccess?: () => void;
-  onSaveError?: (error: Error) => void;
-  onLoadFromStorage?: (data: T) => void;
-  showIndicator?: boolean;
-  indicatorPosition?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
-  successMessage?: string;
-  errorMessage?: string;
-}
-
-type SaveStatus = "idle" | "saving" | "saved" | "error";
+import type { AutoSaveFormProps, SaveStatus } from "../types";
 
 function getIndicatorClasses(
   position: AutoSaveFormProps<never>["indicatorPosition"],
@@ -179,7 +162,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
           >
             {status === "saving" && (
               <>
-                <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+                <Spinner className="h-3 w-3 animate-spin text-muted-foreground" />
                 <span className="text-muted-foreground">Saving...</span>
               </>
             )}
@@ -193,7 +176,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
             )}
             {status === "error" && (
               <>
-                <AlertCircle className="h-3 w-3 text-destructive" />
+                <WarningCircle className="h-3 w-3 text-destructive" />
                 <span className="text-destructive">Error</span>
               </>
             )}

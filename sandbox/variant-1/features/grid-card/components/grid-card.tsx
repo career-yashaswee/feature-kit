@@ -100,19 +100,19 @@ export function GridCard({
       )}
 
       {headerContent && (
-        <div className="px-6 py-3 relative z-40 flex-shrink-0">
+        <div className="px-6 py-3 relative z-40 shrink-0">
           {headerContent}
         </div>
       )}
 
-      {headerContent && <div className="h-1 bg-border/30 flex-shrink-0" />}
+      {headerContent && <div className="h-1 bg-border/30 shrink-0" />}
 
       <div className="flex-1 px-6 py-4 min-h-0 overflow-auto">{children}</div>
 
-      {footerContent && <div className="h-1 bg-border/30 flex-shrink-0" />}
+      {footerContent && <div className="h-1 bg-border/30 shrink-0" />}
 
       {footerContent && (
-        <div className="px-6 py-3 flex-shrink-0">{footerContent}</div>
+        <div className="px-6 py-3 shrink-0">{footerContent}</div>
       )}
     </motion.div>
   );

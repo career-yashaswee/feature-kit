@@ -2,11 +2,11 @@
 
 import {
   Check,
-  ExternalLink,
+  ArrowSquareOut,
   Link as LinkIcon,
   Calendar,
-  Edit,
-} from "lucide-react";
+  PencilSimple,
+} from "@phosphor-icons/react";
 import { Img } from "react-image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -153,7 +153,7 @@ export function UserCard({
                   : "border-gray-300 bg-white text-black hover:bg-gray-50",
               )}
             >
-              <Edit className="h-4 w-4 mr-2" />
+              <PencilSimple className="h-4 w-4 mr-2" />
               Edit profile
             </Button>
           )}
@@ -463,7 +463,7 @@ export function UserCard({
             >
               {externalLink.text}
             </a>
-            <ExternalLink
+            <ArrowSquareOut
               className={cn(
                 "h-3 w-3",
                 isDark ? "text-white/60" : "text-gray-500",

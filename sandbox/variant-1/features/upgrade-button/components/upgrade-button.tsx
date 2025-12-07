@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CreditCard, Plus, Loader2 } from "lucide-react";
+import { CreditCard, Plus, Spinner } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { UpgradeButtonProps } from "../types";
@@ -41,10 +41,10 @@ export function UpgradeButton({
         disabled
       >
         {iconOnly ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Spinner className="h-4 w-4 animate-spin" />
         ) : (
           <>
-            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            <Spinner className="h-4 w-4 mr-2 animate-spin" />
             {loadingText}
           </>
         )}

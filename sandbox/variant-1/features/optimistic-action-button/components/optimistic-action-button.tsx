@@ -1,34 +1,15 @@
 "use client";
 
-import { type ReactNode, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { toast } from "sonner";
-import { type VariantProps } from "class-variance-authority";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-interface OptimisticActionButtonProps extends VariantProps<
-  typeof buttonVariants
-> {
-  action: () => Promise<void>;
-  optimisticState: boolean;
-  onOptimisticUpdate: () => void;
-  onRollback: () => void;
-  children: ReactNode;
-  loadingMessage?: string;
-  successMessage?: string;
-  errorMessage?: string;
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
-  className?: string;
-  disabled?: boolean;
-}
+import type { OptimisticActionButtonProps } from "../types";
+import { useOptimisticActionButton } from "../hooks/use-optimistic-action-button";
 
 export function OptimisticActionButton({
   action,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  optimisticState: _optimisticState,
+  optimisticState,
   onOptimisticUpdate,
   onRollback,
   children,
@@ -42,37 +23,9 @@ export function OptimisticActionButton({
   className,
   disabled = false,
 }: OptimisticActionButtonProps) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleClick = useCallback(() => {
-    if (isLoading || disabled) return;
-
-    onOptimisticUpdate();
-    setIsLoading(true);
-
-    const actionPromise = Promise.resolve(action())
-      .then(() => {
-        onSuccess?.();
-      })
-      .catch((error) => {
-        onRollback();
-        const err = error instanceof Error ? error : new Error("Action failed");
-        onError?.(err);
-        throw err;
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-
-    toast.promise(actionPromise, {
-      loading: loadingMessage,
-      success: successMessage,
-      error: errorMessage,
-    });
-  }, [
-    isLoading,
-    disabled,
+  const { isLoading, handleClick } = useOptimisticActionButton({
     action,
+    optimisticState,
     onOptimisticUpdate,
     onRollback,
     loadingMessage,
@@ -80,14 +33,18 @@ export function OptimisticActionButton({
     errorMessage,
     onSuccess,
     onError,
-  ]);
+  });
 
   return (
     <Button
       type="button"
       variant={variant}
       size={size}
-      onClick={handleClick}
+      onClick={() => {
+        if (!disabled) {
+          handleClick();
+        }
+      }}
       disabled={isLoading || disabled}
       className={cn("relative overflow-hidden", className)}
     >

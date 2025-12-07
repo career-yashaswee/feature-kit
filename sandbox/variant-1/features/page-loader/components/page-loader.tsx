@@ -2,29 +2,10 @@
 
 import React, { useEffect, useState, startTransition } from "react";
 import { motion } from "framer-motion";
-import { Loader2, Wand } from "lucide-react";
+import { Spinner, MagicWand } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
-import { RefreshButton } from "@/features/refresh-button/components/refresh-button";
-import type { QueryKey } from "@tanstack/react-query";
-
-export interface LoadingState {
-  title: string;
-  messages: string[];
-  icon?: React.ComponentType<{ className?: string }>;
-}
-
-export interface PageLoaderProps {
-  isVisible: boolean;
-  loadingState?: LoadingState;
-  className?: string;
-  isFullScreen?: boolean;
-  hideBranding?: boolean;
-  brandName?: string;
-  brandIcon?: React.ComponentType<{ className?: string }>;
-  refreshQueryKeys?: QueryKey[];
-  refreshDelay?: number;
-  onRefresh?: () => void;
-}
+import { RefreshButton } from "@/features/refresh-button";
+import type { PageLoaderProps, LoadingState } from "../types";
 
 export function PageLoader({
   isVisible,
@@ -33,7 +14,7 @@ export function PageLoader({
   isFullScreen = false,
   hideBranding = false,
   brandName = "Loading",
-  brandIcon: BrandIcon = Wand,
+  brandIcon: BrandIcon = MagicWand,
   refreshQueryKeys,
   refreshDelay = 10000,
   onRefresh,
@@ -157,7 +138,7 @@ export function PageLoader({
                 </span>
               </span>
             </div>
-            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            <Spinner className="h-5 w-5 animate-spin text-primary" />
           </div>
 
           <div className="flex-1 flex items-center justify-center relative">

@@ -7,22 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-
-export interface FaqItem {
-  id: string;
-  question: string;
-  answer: string;
-  shortAnswer?: string;
-}
-
-export interface FaqHintsProps {
-  heading?: string;
-  description?: string;
-  items: FaqItem[];
-  className?: string;
-  variant?: "default" | "compact";
-  showShortAnswers?: boolean;
-}
+import type { FaqHintsProps } from "../types";
 
 export function FaqHints({
   heading,

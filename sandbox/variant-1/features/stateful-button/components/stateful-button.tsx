@@ -1,27 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { Spinner, CheckCircle, XCircle } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import {
-  useStatefulButton,
-  type UseStatefulButtonOptions,
-} from "@/features/stateful-button/hooks/use-stateful-button";
-
-type StatefulButtonProps = UseStatefulButtonOptions & {
-  children: React.ReactNode;
-  className?: string;
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link";
-  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
-  disabled?: boolean;
-};
+import { useStatefulButton } from "../hooks/use-stateful-button";
+import type { StatefulButtonProps } from "../types";
 
 export function StatefulButton({
   children,
@@ -57,7 +41,7 @@ export function StatefulButton({
             exit={{ opacity: 0, y: 10 }}
             className="flex items-center gap-2"
           >
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Spinner className="h-4 w-4 animate-spin" />
             <span>Loading...</span>
           </motion.div>
         )}
@@ -69,7 +53,7 @@ export function StatefulButton({
             exit={{ opacity: 0, scale: 0.8 }}
             className="flex items-center gap-2"
           >
-            <CheckCircle2 className="h-4 w-4" />
+            <CheckCircle className="h-4 w-4" />
             <span>Success!</span>
           </motion.div>
         )}

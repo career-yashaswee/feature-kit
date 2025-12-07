@@ -1,16 +1,8 @@
 "use client";
 
-import { type ReactNode, useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState } from "react";
 import { useScrollPosition } from "../hooks/use-scroll-position";
-
-interface RestoreScrollPositionProps {
-  children: ReactNode;
-  storageKey: string;
-  persist?: boolean;
-  container?: HTMLElement | null;
-  enabled?: boolean;
-  debounceMs?: number;
-}
+import type { RestoreScrollPositionProps } from "../types";
 
 export function RestoreScrollPosition({
   children,

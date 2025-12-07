@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from "react";
 import {
   Check,
-  Loader2,
+  Spinner,
   ArrowLeft,
   ArrowRight,
   SkipForward,
-  Menu,
+  List,
   X,
-  Wand2,
-} from "lucide-react";
+  MagicWand,
+} from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -53,7 +53,7 @@ export function OnboardingLayout({
 
   const t = { ...defaultTranslations, ...translations };
   const brandName = branding?.name || "App";
-  const brandIcon = branding?.icon || <Wand2 className="w-5 h-5 text-white" />;
+  const brandIcon = branding?.icon || <MagicWand className="w-5 h-5 text-white" />;
   const helpUrl = branding?.helpUrl;
 
   const currentStepData = steps.find((step) => step.order === currentStep);
@@ -100,7 +100,7 @@ export function OnboardingLayout({
                   <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                     <SheetTrigger asChild>
                       <Button variant="outline" size="icon">
-                        <Menu className="h-4 w-4" />
+                        <List className="h-4 w-4" />
                       </Button>
                     </SheetTrigger>
                     <SheetContent side="right" className="w-80">
@@ -361,7 +361,7 @@ export function OnboardingLayout({
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <Spinner className="w-4 h-4 mr-2 animate-spin" />
                     Loading...
                   </>
                 ) : isLastStep ? (

@@ -1,22 +1,17 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Crown, Star, Trophy } from "lucide-react";
+import type { ConsequenceItem } from "../types";
 
-export interface ConsequenceItem {
-  icon: typeof Crown;
-  label: string;
-  value: string;
-}
+import type { ConsequenceVariant } from "../types";
 
 interface ConsequenceConfirmationOptions {
   title: string;
   message?: string;
   confirmLabel?: string;
   cancelLabel?: string;
-  variant?: "default" | "destructive" | "warning" | "info" | "consequence";
+  variant?: ConsequenceVariant;
   onConfirm: () => void | Promise<void>;
-  // Consequence variant props
   subtitle?: string;
   items?: ConsequenceItem[];
   details?: string;

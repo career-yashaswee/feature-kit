@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useQueryClient, type QueryKey } from "@tanstack/react-query";
-import { RefreshCw } from "lucide-react";
+import { ArrowsClockwise } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { type VariantProps } from "class-variance-authority";
@@ -98,7 +98,7 @@ export function RefreshButton({
             ease: "linear",
           }}
         >
-          <RefreshCw className="h-4 w-4 shrink-0" />
+          <ArrowsClockwise className="h-4 w-4 shrink-0" />
         </motion.div>
       )}
       {displayLabel && <span className="hidden sm:inline">{displayLabel}</span>}

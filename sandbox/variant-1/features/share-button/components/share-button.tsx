@@ -1,6 +1,6 @@
 "use client";
 
-import { Share2, Copy, Twitter, Facebook, Linkedin, Check } from "lucide-react";
+import { ShareNetwork as Share, CopySimple as Copy, TwitterLogo, FacebookLogo, LinkedinLogo, Check } from "@phosphor-icons/react";
 import {
   Dialog,
   DialogContent,
@@ -9,31 +9,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CopyToClipboard } from "@/features/copy-to-clipboard/components/copy-to-clipboard";
+import { CopyToClipboard } from "@/features/copy-to-clipboard";
 import { useCopyToClipboard, useToggle } from "@uidotdev/usehooks";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
-
-interface ShareButtonProps {
-  url: string;
-  title?: string;
-  description?: string;
-  withUtmParams?: boolean;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
-  className?: string;
-  variant?: "default" | "outline" | "ghost";
-  size?: "default" | "sm" | "lg" | "icon";
-}
-
-interface ShareOption {
-  id: string;
-  label: string;
-  icon: typeof Share2;
-  action: () => void;
-  color?: string;
-}
+import type { ShareButtonProps, ShareOption } from "../types";
 
 export function ShareButton({
   url,
@@ -126,7 +106,7 @@ export function ShareButton({
           {
             id: "native",
             label: "Share",
-            icon: Share2,
+            icon: Share,
             action: handleNativeShare,
           },
         ]
@@ -140,21 +120,21 @@ export function ShareButton({
     {
       id: "twitter",
       label: "Twitter",
-      icon: Twitter,
+      icon: TwitterLogo,
       action: shareToTwitter,
       color: "text-blue-500",
     },
     {
       id: "facebook",
       label: "Facebook",
-      icon: Facebook,
+      icon: FacebookLogo,
       action: shareToFacebook,
       color: "text-blue-600",
     },
     {
       id: "linkedin",
       label: "LinkedIn",
-      icon: Linkedin,
+      icon: LinkedinLogo,
       action: shareToLinkedIn,
       color: "text-blue-700",
     },
@@ -170,7 +150,7 @@ export function ShareButton({
         className={cn("inline-flex items-center gap-2", className)}
         aria-label="Share"
       >
-        <Share2 className="h-4 w-4 shrink-0" />
+        <Share className="h-4 w-4 shrink-0" />
         <span className="hidden sm:inline">Share</span>
       </Button>
 
@@ -201,7 +181,7 @@ export function ShareButton({
                     {shareUrl}
                   </div>
                 </div>
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <CopyToClipboard
                     text={shareUrl}
                     variant="outline"

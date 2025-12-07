@@ -4,24 +4,24 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import {
-  RefreshCw,
+  ArrowsClockwise,
   Bell,
-  ChevronDown,
-  ChevronUp,
+  CaretDown,
+  CaretUp,
   Check,
   Medal,
-  Settings,
+  Gear,
   User,
-  Music,
+  MusicNote,
   X,
-  CheckCircle2,
+  CheckCircle,
   XCircle,
-  AlertCircle,
+  WarningCircle,
   Brain,
-  TestTube,
-  Sparkles,
+  Flask,
+  Sparkle,
   Crown,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -56,7 +56,7 @@ const getNotificationIcon = (notification: Notification) => {
       content,
     )
   ) {
-    return <Crown className="h-4 w-4 text-yellow-500 fill-current" />;
+    return <Crown className="h-4 w-4 text-yellow-500" weight="fill" />;
   }
 
   // Analysis in progress
@@ -68,26 +68,26 @@ const getNotificationIcon = (notification: Notification) => {
 
   // Commit feedback available
   if (/commit.*feedback.*available|your.*commit.*feedback/i.test(content)) {
-    return <CheckCircle2 className="h-4 w-4 text-green-600 fill-current" />;
+    return <CheckCircle className="h-4 w-4 text-green-600" weight="fill" />;
   }
 
   // Test cases available for review
   if (
     /test.*cases.*available.*review|ai.*analysis.*could.*not/i.test(content)
   ) {
-    return <TestTube className="h-4 w-4 text-blue-500" />;
+    return <Flask className="h-4 w-4 text-blue-500" />;
   }
 
   // AI analysis available but tests failed
   if (
     /ai.*analysis.*available.*tests.*need|tests.*need.*review/i.test(content)
   ) {
-    return <AlertCircle className="h-4 w-4 text-orange-500 fill-current" />;
+    return <WarningCircle className="h-4 w-4 text-orange-500" weight="fill" />;
   }
 
   // Analysis unavailable
   if (/analysis.*unavailable|both.*failed|unfortunately.*both/i.test(content)) {
-    return <XCircle className="h-4 w-4 text-red-500 fill-current" />;
+    return <XCircle className="h-4 w-4 text-red-500" weight="fill" />;
   }
 
   // AI Analysis unavailable/failed
@@ -96,7 +96,7 @@ const getNotificationIcon = (notification: Notification) => {
       content,
     )
   ) {
-    return <AlertCircle className="h-4 w-4 text-orange-500 fill-current" />;
+    return <WarningCircle className="h-4 w-4 text-orange-500" weight="fill" />;
   }
 
   // AI Analysis success or available
@@ -112,7 +112,7 @@ const getNotificationIcon = (notification: Notification) => {
   if (
     /test.*results.*available|test.*complete|execution.*complete/i.test(content)
   ) {
-    return <TestTube className="h-4 w-4 text-blue-500" />;
+    return <Flask className="h-4 w-4 text-blue-500" />;
   }
 
   // Test passed
@@ -120,27 +120,27 @@ const getNotificationIcon = (notification: Notification) => {
     /test.*passed|all.*passed|success/i.test(content) &&
     /test/i.test(content)
   ) {
-    return <CheckCircle2 className="h-4 w-4 text-green-600 fill-current" />;
+    return <CheckCircle className="h-4 w-4 text-green-600" weight="fill" />;
   }
 
   // Test failed
   if (/test.*failed|tests.*failed|failed.*test/i.test(content)) {
-    return <XCircle className="h-4 w-4 text-red-500 fill-current" />;
+    return <XCircle className="h-4 w-4 text-red-500" weight="fill" />;
   }
 
   // Commit related
   if (/commit|judge.*saw/i.test(content)) {
-    return <Sparkles className="h-4 w-4 text-indigo-500" />;
+    return <Sparkle className="h-4 w-4 text-indigo-500" />;
   }
 
   // Category-based fallback
   switch (notification.category) {
     case "system":
-      return <Settings className="h-4 w-4 text-blue-500" />;
+      return <Gear className="h-4 w-4 text-blue-500" />;
     case "user":
       return <User className="h-4 w-4 text-purple-500" />;
     case "composition":
-      return <Music className="h-4 w-4 text-green-600" />;
+      return <MusicNote className="h-4 w-4 text-green-600" />;
     default:
       break;
   }
@@ -148,11 +148,11 @@ const getNotificationIcon = (notification: Notification) => {
   // Type-based fallback
   switch (notification.type) {
     case "success":
-      return <CheckCircle2 className="h-4 w-4 text-green-600 fill-current" />;
+      return <CheckCircle className="h-4 w-4 text-green-600" weight="fill" />;
     case "warning":
-      return <AlertCircle className="h-4 w-4 text-orange-500 fill-current" />;
+      return <WarningCircle className="h-4 w-4 text-orange-500" weight="fill" />;
     case "error":
-      return <XCircle className="h-4 w-4 text-red-500 fill-current" />;
+      return <XCircle className="h-4 w-4 text-red-500" weight="fill" />;
     default:
       return <Bell className="h-4 w-4 text-blue-500" />;
   }
@@ -284,7 +284,7 @@ export function NotificationShade({
               className="h-8 w-8"
               onClick={handleRefresh}
             >
-              <RefreshCw className="h-4 w-4" />
+              <ArrowsClockwise className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -435,9 +435,9 @@ export function NotificationShade({
                       }}
                     >
                       {expandedNotifications.has(notification.id) ? (
-                        <ChevronUp className="h-3 w-3" />
+                        <CaretUp className="h-3 w-3" />
                       ) : (
-                        <ChevronDown className="h-3 w-3" />
+                        <CaretDown className="h-3 w-3" />
                       )}
                     </Button>
                   )}

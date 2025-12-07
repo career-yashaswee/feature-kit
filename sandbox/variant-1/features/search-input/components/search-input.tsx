@@ -2,22 +2,13 @@
 
 import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Search, Mic, Loader2 } from "lucide-react";
+import { MagnifyingGlass, Microphone, Spinner } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  useSearchInput,
-  type UseSearchInputOptions,
-} from "@/features/search-input/hooks/use-search-input";
+import { useSearchInput } from "../hooks/use-search-input";
 import { useSpeechRecognition } from "@/lib/providers/speech-recognition-provider";
 import SpeechRecognition from "react-speech-recognition";
-
-type SearchInputProps<T> = UseSearchInputOptions<T> & {
-  placeholder?: string;
-  className?: string;
-  onResultClick?: (item: T) => void;
-  renderResult?: (item: T) => React.ReactNode;
-};
+import type { SearchInputProps } from "../types";
 
 export function SearchInput<T>({
   placeholder = "Search...",
@@ -56,7 +47,7 @@ export function SearchInput<T>({
   return (
     <div className={cn("space-y-2", className)}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="text"
           value={query}
@@ -66,7 +57,7 @@ export function SearchInput<T>({
         />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
           {isSearching && (
-            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            <Spinner className="h-4 w-4 animate-spin text-muted-foreground" />
           )}
           {browserSupportsSpeechRecognition && (
             <Button
@@ -79,7 +70,7 @@ export function SearchInput<T>({
                 listening && "bg-primary/10 text-primary",
               )}
             >
-              <Mic className={cn("h-4 w-4", listening && "animate-pulse")} />
+              <Microphone className={cn("h-4 w-4", listening && "animate-pulse")} />
             </Button>
           )}
         </div>

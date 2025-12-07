@@ -2,15 +2,13 @@
 
 import { useState, useCallback } from "react";
 import {
-  AlertTriangle,
+  Warning,
   Info,
-  HelpCircle,
+  Question,
   Crown,
-  Star,
-  Trophy,
-  Trash2,
+  Trash,
   X,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import {
   Dialog,
   DialogContent,
@@ -21,50 +19,27 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { StatefulButton } from "@/features/stateful-button/components/stateful-button";
+import { StatefulButton } from "@/features/stateful-button";
 import { cn } from "@/lib/utils";
-
-type Variant = "default" | "destructive" | "warning" | "info" | "consequence";
-
-export interface ConsequenceItem {
-  icon: typeof Crown;
-  label: string;
-  value: string;
-}
-
-interface ConsequenceConfirmationDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirm: () => void | Promise<void>;
-  title: string;
-  message?: string;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  variant?: Variant;
-  isLoading?: boolean;
-  className?: string;
-  // Consequence variant props
-  subtitle?: string;
-  items?: ConsequenceItem[];
-  details?: string;
-  confirmationText?: string;
-  confirmationPlaceholder?: string;
-}
+import type {
+  ConsequenceConfirmationDialogProps,
+  ConsequenceVariant,
+} from "../types";
 
 const variantConfig: Record<
-  Variant,
-  { icon: typeof AlertTriangle; confirmVariant: "default" | "destructive" }
+  ConsequenceVariant,
+  { icon: typeof Warning; confirmVariant: "default" | "destructive" }
 > = {
   default: {
-    icon: HelpCircle,
+    icon: Question,
     confirmVariant: "default",
   },
   destructive: {
-    icon: AlertTriangle,
+    icon: Warning,
     confirmVariant: "destructive",
   },
   warning: {
-    icon: AlertTriangle,
+    icon: Warning,
     confirmVariant: "default",
   },
   info: {
@@ -72,7 +47,7 @@ const variantConfig: Record<
     confirmVariant: "default",
   },
   consequence: {
-    icon: AlertTriangle,
+    icon: Warning,
     confirmVariant: "destructive",
   },
 };
@@ -146,21 +121,13 @@ export function ConsequenceConfirmationDialog({
                 <div className="space-y-2">
                   {items.map((item, index) => {
                     const ItemIcon = item.icon;
-                    const iconColorClass =
-                      item.icon === Crown
-                        ? "text-yellow-400"
-                        : item.icon === Star
-                          ? "text-purple-400"
-                          : item.icon === Trophy
-                            ? "text-green-400"
-                            : "text-yellow-400";
                     return (
                       <div
                         key={index}
                         className="flex items-center justify-between rounded-md bg-white/5 px-3 py-2"
                       >
                         <div className="flex items-center gap-2">
-                          <ItemIcon className={cn("h-4 w-4", iconColorClass)} />
+                          <ItemIcon className="h-4 w-4 text-yellow-400" />
                           <span className="text-white text-sm">
                             {item.label}
                           </span>
@@ -214,7 +181,7 @@ export function ConsequenceConfirmationDialog({
               disabled={!isConfirmed}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              <Trash2 className="h-4 w-4 mr-2" />
+              <Trash className="h-4 w-4 mr-2" />
               {confirmLabel}
             </StatefulButton>
           </DialogFooter>
@@ -259,21 +226,13 @@ export function ConsequenceConfirmationDialog({
           >
             {cancelLabel}
           </Button>
-          <Button
-            type="button"
+          <StatefulButton
+            onAction={handleConfirm}
             variant={confirmVariant}
-            onClick={handleConfirm}
             disabled={isLoading}
           >
-            {isLoading ? (
-              <>
-                <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                Processing...
-              </>
-            ) : (
-              confirmLabel
-            )}
-          </Button>
+            {confirmLabel}
+          </StatefulButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -19,7 +19,7 @@ import {
   Zap,
   MousePointerClick,
 } from "lucide-react";
-import { useKeyboardShortcut } from "@/features/keyboard-shortcuts/components/keyboard-shortcuts";
+import { useKeyboardShortcut } from "@/features/keyboard-shortcuts";
 
 const KeyboardShortcuts = dynamic(
   () =>

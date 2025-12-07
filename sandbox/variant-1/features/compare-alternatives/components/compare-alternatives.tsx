@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, X, Crown } from "lucide-react";
+import { Check, X, Crown } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import type { CompareAlternativesProps, ComparisonFeature } from "../types";
 
@@ -33,7 +33,7 @@ export function CompareAlternatives({
     }
 
     // Check if it's a React component constructor (function)
-    // This handles ComponentType from lucide-react and similar libraries
+    // This handles ComponentType from @phosphor-icons/react and similar libraries
     if (typeof icon === "function") {
       const IconComponent = icon as React.ComponentType<{ className?: string }>;
       return React.createElement(IconComponent, {

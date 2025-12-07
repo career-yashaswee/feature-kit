@@ -1,21 +1,8 @@
 "use client";
 
-import { Heart } from "lucide-react";
+import { Heart } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
-
-export interface HealthBarData {
-  current: number;
-  max: number;
-  secondsToNext?: number;
-}
-
-export interface HealthBarProps {
-  data: HealthBarData;
-  className?: string;
-  showTimer?: boolean;
-  showRemaining?: boolean;
-  isLoading?: boolean;
-}
+import type { HealthBarProps } from "../types";
 
 export function HealthBar({
   data,

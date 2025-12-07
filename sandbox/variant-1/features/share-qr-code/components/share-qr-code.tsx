@@ -2,23 +2,14 @@
 
 import { useRef } from "react";
 import QRCode from "react-qr-code";
-import { X, Download, Share2, Palette } from "lucide-react";
+import { X, DownloadSimple as Download, ShareNetwork as Share, Palette } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useShareQRCode } from "@/features/share-qr-code/hooks/use-share-qr-code";
+import { useShareQRCode } from "../hooks/use-share-qr-code";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { CopyToClipboard } from "@/features/copy-to-clipboard/components/copy-to-clipboard";
-import { StatefulButton } from "@/features/stateful-button/components/stateful-button";
-
-export interface ShareQRCodeProps {
-  url: string;
-  username?: string;
-  title?: string;
-  description?: string;
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  className?: string;
-}
+import { CopyToClipboard } from "@/features/copy-to-clipboard";
+import { StatefulButton } from "@/features/stateful-button";
+import type { ShareQRCodeProps } from "../types";
 
 export function ShareQRCode({
   url,
@@ -150,7 +141,7 @@ export function ShareQRCode({
               className="w-full bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm"
               size="lg"
             >
-              <Share2 className="h-4 w-4 mr-2" />
+              <Share className="h-4 w-4 mr-2" />
               Share profile
             </Button>
             <div className="grid grid-cols-2 gap-3">

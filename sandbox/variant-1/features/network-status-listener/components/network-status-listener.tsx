@@ -3,12 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useNetworkState, useIsFirstRender } from "@uidotdev/usehooks";
 import { toast } from "sonner";
-
-interface NetworkStatusListenerProps {
-  offlineMessage?: string;
-  onlineMessage?: string;
-  showToast?: boolean;
-}
+import type { NetworkStatusListenerProps } from "../types";
 
 /**
  * Monitors network connectivity and shows toast notifications on status changes.

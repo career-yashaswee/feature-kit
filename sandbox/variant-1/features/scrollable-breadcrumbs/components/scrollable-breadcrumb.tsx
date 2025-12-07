@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useRef } from "react";
-import { ChevronRight } from "lucide-react";
+import { CaretRight } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import type { ScrollableBreadcrumbProps } from "../types";
 
@@ -58,7 +58,7 @@ export function ScrollableBreadcrumb({
 
   const linkRenderer = renderLink || defaultRenderLink;
   const separatorElement = separator || (
-    <ChevronRight className="h-3.5 w-3.5" />
+    <CaretRight className="h-3.5 w-3.5" />
   );
 
   return (
