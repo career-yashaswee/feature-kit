@@ -21,4 +21,3 @@ export function useKeyboardShortcut(
     { enabled: options?.enabled !== false },
   );
 }
-

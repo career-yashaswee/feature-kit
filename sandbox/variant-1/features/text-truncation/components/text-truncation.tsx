@@ -15,13 +15,8 @@ export function TextTruncation({
   className,
   showToggle = true,
 }: TextTruncationProps) {
-  const {
-    isExpanded,
-    needsTruncation,
-    displayText,
-    textRef,
-    toggleExpanded,
-  } = useTextTruncation({ text, maxLines, maxLength });
+  const { isExpanded, needsTruncation, displayText, textRef, toggleExpanded } =
+    useTextTruncation({ text, maxLines, maxLength });
 
   return (
     <div className={cn("space-y-2", className)}>

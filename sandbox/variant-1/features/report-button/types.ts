@@ -26,4 +26,3 @@ export interface ReportPayload {
     url?: string;
   };
 }
-

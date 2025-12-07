@@ -89,7 +89,7 @@ export function ConsequenceConfirmationDialog({
         <DialogContent
           className={cn(
             "sm:max-w-md bg-[#1a1a1a] border-red-500/20",
-            className
+            className,
           )}
         >
           <DialogHeader>
@@ -204,7 +204,7 @@ export function ConsequenceConfirmationDialog({
                   "bg-yellow-500/10 text-yellow-600 dark:text-yellow-500",
                 variant === "info" &&
                   "bg-blue-500/10 text-blue-600 dark:text-blue-500",
-                variant === "default" && "bg-primary/10 text-primary"
+                variant === "default" && "bg-primary/10 text-primary",
               )}
             >
               <Icon className="h-5 w-5" />

@@ -11,4 +11,3 @@ export interface HealthBarProps {
   showRemaining?: boolean;
   isLoading?: boolean;
 }
-

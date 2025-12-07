@@ -10,4 +10,3 @@ export interface SubscriptionIdentifierProps {
   label?: string;
   showIcon?: boolean;
 }
-

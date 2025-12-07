@@ -12,7 +12,7 @@ import { Question, CheckCircle, Sparkle } from "@phosphor-icons/react";
 import {
   FaqHints,
   type FaqItem,
-} from "@/features/faq-hints/components/faq-hints";
+} from "@/features/faq-hints";
 
 const sampleFaqItems: FaqItem[] = [
   {
@@ -56,17 +56,17 @@ const features = [
   {
     title: "Short Answer Hints",
     description: "Quick visual hints next to each question for fast scanning",
-    icon: Sparkles,
+    icon: Sparkle,
   },
   {
     title: "Expandable Details",
     description: "Click to expand and read full answers with rich formatting",
-    icon: CheckCircle2,
+    icon: CheckCircle,
   },
   {
     title: "Customizable",
     description: "Fully configurable items, styling, and behavior",
-    icon: HelpCircle,
+    icon: Question,
   },
 ];
 
@@ -76,7 +76,7 @@ export default function FaqHintsPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <HelpCircle className="h-4 w-4 text-primary" />
+            <Question className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">FAQ Hints</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -88,11 +88,11 @@ export default function FaqHintsPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <HelpCircle className="h-3 w-3" />
+              <Question className="h-3 w-3" />
               Accordion
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <CheckCircle2 className="h-3 w-3" />
+              <CheckCircle className="h-3 w-3" />
               Hints
             </Badge>
           </div>
@@ -102,7 +102,7 @@ export default function FaqHintsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <HelpCircle className="h-5 w-5 text-primary" />
+                <Question className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -136,7 +136,7 @@ export default function FaqHintsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <HelpCircle className="h-5 w-5 text-primary" />
+                <Question className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Default Variant</CardTitle>
             </div>
@@ -157,7 +157,7 @@ export default function FaqHintsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <HelpCircle className="h-5 w-5 text-primary" />
+                <Question className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Compact Variant</CardTitle>
             </div>
@@ -174,7 +174,7 @@ export default function FaqHintsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

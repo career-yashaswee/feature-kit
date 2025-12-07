@@ -1,6 +1,13 @@
 "use client";
 
-import { ShareNetwork as Share, CopySimple as Copy, TwitterLogo, FacebookLogo, LinkedinLogo, Check } from "@phosphor-icons/react";
+import {
+  ShareNetwork as Share,
+  CopySimple as Copy,
+  TwitterLogo,
+  FacebookLogo,
+  LinkedinLogo,
+  Check,
+} from "@phosphor-icons/react";
 import {
   Dialog,
   DialogContent,

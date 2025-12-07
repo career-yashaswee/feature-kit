@@ -59,7 +59,7 @@ const sampleBreadcrumbs: BreadcrumbItem[][] = [
   ],
   [
     { href: "/", label: "House", icon: House },
-    { href: "/settings", label: "Settings", icon: Settings },
+    { href: "/settings", label: "Gear", icon: Gear },
     { href: "/settings/account", label: "Account" },
     { href: "/settings/account/profile", label: "Profile" },
   ],

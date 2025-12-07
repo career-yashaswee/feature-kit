@@ -17,4 +17,3 @@ export interface AutoSaveFormProps<T extends Record<string, unknown>> {
   successMessage?: string;
   errorMessage?: string;
 }
-

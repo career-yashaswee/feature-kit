@@ -2,8 +2,9 @@ import type { ReactNode } from "react";
 import type { VariantProps } from "class-variance-authority";
 import type { buttonVariants } from "@/components/ui/button";
 
-export interface OptimisticActionButtonProps
-  extends VariantProps<typeof buttonVariants> {
+export interface OptimisticActionButtonProps extends VariantProps<
+  typeof buttonVariants
+> {
   action: () => Promise<void>;
   optimisticState: boolean;
   onOptimisticUpdate: () => void;
@@ -17,4 +18,3 @@ export interface OptimisticActionButtonProps
   className?: string;
   disabled?: boolean;
 }
-

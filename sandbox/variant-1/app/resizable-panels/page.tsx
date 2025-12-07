@@ -171,7 +171,7 @@ export default function ResizablePanelsPage() {
                   },
                 ]}
                 direction="horizontal"
-                persistSquaresFour={true}
+                persistLayout={true}
                 storageKey="resizable-panels-horizontal-demo"
                 showIconsWhenCollapsed={true}
               />
@@ -231,7 +231,7 @@ export default function ResizablePanelsPage() {
                   },
                 ]}
                 direction="vertical"
-                persistSquaresFour={true}
+                persistLayout={true}
                 storageKey="resizable-panels-vertical-demo"
                 showIconsWhenCollapsed={true}
               />

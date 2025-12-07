@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 
 const PersistenceTipTapEditor = dynamic(
-  () => import("@/features/persistence-tip-tap-editor").then((mod) => ({ default: mod.PersistenceTipTapEditor })),
-  { ssr: false }
+  () =>
+    import("@/features/persistence-tip-tap-editor").then((mod) => ({
+      default: mod.PersistenceTipTapEditor,
+    })),
+  { ssr: false },
 );
 import {
   Card,
@@ -15,7 +18,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, FloppyDisk, Database, Lightning } from "@phosphor-icons/react";
+import {
+  FileText,
+  FloppyDisk,
+  Database,
+  Lightning,
+} from "@phosphor-icons/react";
 
 export default function PersistenceTipTapEditorPage() {
   const [content, setContent] = useState("");

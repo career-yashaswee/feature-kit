@@ -10,4 +10,3 @@ export interface KeyboardShortcutsProps {
   showHelp?: boolean;
   className?: string;
 }
-

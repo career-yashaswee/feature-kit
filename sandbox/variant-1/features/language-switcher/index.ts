@@ -5,4 +5,3 @@ export type {
   LanguageSwitcherAdapter,
   Language,
 } from "./types";
-

@@ -14,4 +14,3 @@ export type StatefulButtonProps = UseStatefulButtonOptions & {
   size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
   disabled?: boolean;
 };
-

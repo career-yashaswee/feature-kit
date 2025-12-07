@@ -7,4 +7,3 @@ export interface TextTruncationProps {
   className?: string;
   showToggle?: boolean;
 }
-

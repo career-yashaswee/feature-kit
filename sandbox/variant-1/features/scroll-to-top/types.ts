@@ -6,4 +6,3 @@ export interface ScrollToTopButtonProps {
   position?: "left" | "center" | "right";
   className?: string;
 }
-

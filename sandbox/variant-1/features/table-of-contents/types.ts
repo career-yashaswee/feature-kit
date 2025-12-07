@@ -4,4 +4,3 @@ export interface TableOfContentsProps {
   items: TocItem[];
   className?: string;
 }
-

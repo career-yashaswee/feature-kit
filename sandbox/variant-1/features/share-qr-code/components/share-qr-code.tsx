@@ -2,7 +2,12 @@
 
 import { useRef } from "react";
 import QRCode from "react-qr-code";
-import { X, DownloadSimple as Download, ShareNetwork as Share, Palette } from "@phosphor-icons/react";
+import {
+  X,
+  DownloadSimple as Download,
+  ShareNetwork as Share,
+  Palette,
+} from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useShareQRCode } from "../hooks/use-share-qr-code";

@@ -11,8 +11,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  LinkedinLogoLogo,
-  TwitterLogoLogo,
+  LinkedinLogo,
+  TwitterLogo,
   CursorClick,
   Sparkle,
   Code,
@@ -21,7 +21,7 @@ import {
   Crown,
   Star,
   Trophy,
-  GithubLogoLogo,
+  GithubLogo,
   Globe,
 } from "@phosphor-icons/react";
 import { UserCard } from "@/features/user-card/components/user-card";
@@ -77,13 +77,17 @@ export default function UserCardPage() {
       "https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=200&fit=crop",
     bannerFallback:
       "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800&h=200&fit=crop",
-    description: "Building Recompose - A better leetcode for full-stack web dev.",
+    description:
+      "Building Recompose - A better leetcode for full-stack web dev.",
     tagline: "would ❤️ to connect...",
     bio: "Building Recompose - A better leetcode for full-stack web dev.",
     websiteUrl: "yashaswee.classing.in",
     socialIcons: [
       { icon: <GithubLogo className="h-4 w-4" />, url: "https://github.com" },
-      { icon: <LinkedinLogo className="h-4 w-4" />, url: "https://linkedin.com" },
+      {
+        icon: <LinkedinLogo className="h-4 w-4" />,
+        url: "https://linkedin.com",
+      },
       { icon: <TwitterLogo className="h-4 w-4" />, url: "https://twitter.com" },
       { icon: <Globe className="h-4 w-4" />, url: "https://example.com" },
       { icon: <Crown className="h-4 w-4" />, url: "https://example.com" },

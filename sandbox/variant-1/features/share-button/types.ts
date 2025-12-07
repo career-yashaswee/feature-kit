@@ -20,4 +20,3 @@ export interface ShareOption {
   action: () => void;
   color?: string;
 }
-

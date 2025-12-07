@@ -12,7 +12,7 @@ import { Flag, Warning, Lightning } from "@phosphor-icons/react";
 import {
   ReportButton,
   type ReportIssue,
-} from "@/features/report-button/components/report-button";
+} from "@/features/report-button";
 
 const sampleIssues: ReportIssue[] = [
   {

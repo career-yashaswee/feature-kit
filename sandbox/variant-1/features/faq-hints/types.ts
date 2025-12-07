@@ -13,4 +13,3 @@ export interface FaqHintsProps {
   variant?: "default" | "compact";
   showShortAnswers?: boolean;
 }
-

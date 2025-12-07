@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import type { PanelGroupProps } from "react-resizable-panels";
 
-export interface ResizablePanelsProps
-  extends Omit<PanelGroupProps, "children" | "direction"> {
+export interface ResizablePanelsProps extends Omit<
+  PanelGroupProps,
+  "children" | "direction"
+> {
   panels: Array<{
     id: string;
     content: ReactNode;
@@ -20,4 +22,3 @@ export interface ResizablePanelsProps
   showIconsWhenCollapsed?: boolean;
   className?: string;
 }
-

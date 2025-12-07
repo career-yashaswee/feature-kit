@@ -73,7 +73,9 @@ export default function SearchInputPage() {
     (typeof sampleData)[0] | null
   >(null);
   const [searchQuery, setMagnifyingGlassQuery] = useState("");
-  const [searchResults, setMagnifyingGlassResults] = useState<typeof sampleData>([]);
+  const [searchResults, setMagnifyingGlassResults] = useState<
+    typeof sampleData
+  >([]);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -161,11 +163,13 @@ export default function SearchInputPage() {
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
                   <MagnifyingGlass className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">MagnifyingGlass Input</CardTitle>
+                <CardTitle className="text-2xl">
+                  MagnifyingGlass Input
+                </CardTitle>
               </div>
               <CardDescription>
-                MagnifyingGlass through sample food items with fuzzy matching and
-                debouncing
+                MagnifyingGlass through sample food items with fuzzy matching
+                and debouncing
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -175,7 +179,7 @@ export default function SearchInputPage() {
                 debounceMs={300}
                 fuzzyThreshold={0.4}
                 placeholder="MagnifyingGlass foods..."
-                onMagnifyingGlass={(query, results) => {
+                onSearch={(query, results) => {
                   setMagnifyingGlassQuery(query);
                   setMagnifyingGlassResults(results);
                 }}

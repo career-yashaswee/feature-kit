@@ -4,4 +4,3 @@ export type {
   ConsequenceConfirmationDialogProps,
   ConsequenceItem,
 } from "./types";
-

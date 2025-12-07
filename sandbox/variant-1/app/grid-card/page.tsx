@@ -58,7 +58,7 @@ export default function GridCardPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Grid className="h-4 w-4 text-primary" />
+            <GridFour className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Grid Card</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -70,11 +70,11 @@ export default function GridCardPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Grid className="h-3 w-3" />
+              <GridFour className="h-3 w-3" />
               Card
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Interactive
             </Badge>
           </div>
@@ -335,7 +335,7 @@ export default function GridCardPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

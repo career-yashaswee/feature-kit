@@ -1,8 +1,9 @@
 import type { VariantProps } from "class-variance-authority";
 import type { buttonVariants } from "@/components/ui/button";
 
-export interface CopyToClipboardProps
-  extends VariantProps<typeof buttonVariants> {
+export interface CopyToClipboardProps extends VariantProps<
+  typeof buttonVariants
+> {
   text: string;
   html?: string;
   label?: string;
@@ -13,4 +14,3 @@ export interface CopyToClipboardProps
   onCopy?: (text: string) => void;
   onError?: (error: Error) => void;
 }
-

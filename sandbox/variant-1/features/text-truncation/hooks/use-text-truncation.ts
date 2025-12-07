@@ -50,4 +50,3 @@ export function useTextTruncation({
     toggleExpanded,
   };
 }
-

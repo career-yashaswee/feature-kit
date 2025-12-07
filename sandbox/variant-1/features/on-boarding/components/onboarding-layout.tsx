@@ -53,7 +53,9 @@ export function OnboardingLayout({
 
   const t = { ...defaultTranslations, ...translations };
   const brandName = branding?.name || "App";
-  const brandIcon = branding?.icon || <MagicWand className="w-5 h-5 text-white" />;
+  const brandIcon = branding?.icon || (
+    <MagicWand className="w-5 h-5 text-white" />
+  );
   const helpUrl = branding?.helpUrl;
 
   const currentStepData = steps.find((step) => step.order === currentStep);

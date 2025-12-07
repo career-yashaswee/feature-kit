@@ -19,4 +19,3 @@ export interface PageLoaderProps {
   refreshDelay?: number;
   onRefresh?: () => void;
 }
-

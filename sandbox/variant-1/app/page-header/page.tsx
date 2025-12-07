@@ -9,7 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Gear, Lightning, Plus, Download, Share } from "@phosphor-icons/react";
+import {
+  FileText,
+  Gear,
+  Lightning,
+  Plus,
+  Download,
+  Share,
+} from "@phosphor-icons/react";
 import { PageHeader } from "@/features/page-header/components/page-header";
 
 const features = [
@@ -52,7 +59,7 @@ export default function PageHeaderPage() {
               Header
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Glass Effect
             </Badge>
           </div>
@@ -232,7 +239,7 @@ export default function PageHeaderPage() {
           </CardHeader>
           <CardContent>
             <PageHeader
-              icon={<Zap className="h-full w-full" />}
+              icon={<Lightning className="h-full w-full" />}
               title="Simple Header"
               actionsSlot={
                 <Button size="sm">
@@ -248,7 +255,7 @@ export default function PageHeaderPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

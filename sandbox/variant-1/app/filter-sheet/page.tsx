@@ -101,7 +101,7 @@ export default function FilterSheetPage() {
     {
       value: "COMPLETED",
       label: "Completed",
-      icon: CheckCircle2,
+      icon: CheckCircle,
       iconColor: "text-emerald-600 dark:text-emerald-400",
     },
   ];
@@ -124,9 +124,9 @@ export default function FilterSheetPage() {
   ];
 
   const availableStacks = [
-    { id: "stack1", label: "Full Stack", icon: Layers },
-    { id: "stack2", label: "Frontend", icon: Layout },
-    { id: "stack3", label: "Backend", icon: HardDrive },
+    { id: "stack1", label: "Full Stack", icon: Stack },
+    { id: "stack2", label: "Frontend", icon: SquaresFour },
+    { id: "stack3", label: "Backend", icon: HardDrives },
   ];
 
   const availableDependencies = [
@@ -148,10 +148,10 @@ export default function FilterSheetPage() {
   ];
 
   const availableDomains = [
-    { id: "FRONTEND", label: "Frontend", icon: Layout },
-    { id: "BACKEND", label: "Backend", icon: HardDrive },
+    { id: "FRONTEND", label: "Frontend", icon: SquaresFour },
+    { id: "BACKEND", label: "Backend", icon: HardDrives },
     { id: "DATABASE", label: "Database", icon: Database },
-    { id: "DEVOPS", label: "DevOps", icon: Settings },
+    { id: "DEVOPS", label: "DevOps", icon: Gear },
     { id: "AI", label: "AI", icon: Brain },
   ];
 
@@ -169,7 +169,7 @@ export default function FilterSheetPage() {
       type: "select",
       id: "status",
       label: "Status",
-      icon: CheckCircle2,
+      icon: CheckCircle,
       value: status,
       options: statusOptions,
       onChange: setStatus,
@@ -208,7 +208,7 @@ export default function FilterSheetPage() {
       type: "multiselect",
       id: "stacks",
       label: "Stacks",
-      icon: Layers,
+      icon: Stack,
       selectedValues: selectedStacks,
       options: availableStacks.map((s) => ({
         id: s.id,
@@ -287,7 +287,7 @@ export default function FilterSheetPage() {
               Filters
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Configurable
             </Badge>
           </div>

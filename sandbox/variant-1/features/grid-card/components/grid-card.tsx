@@ -100,9 +100,7 @@ export function GridCard({
       )}
 
       {headerContent && (
-        <div className="px-6 py-3 relative z-40 shrink-0">
-          {headerContent}
-        </div>
+        <div className="px-6 py-3 relative z-40 shrink-0">{headerContent}</div>
       )}
 
       {headerContent && <div className="h-1 bg-border/30 shrink-0" />}

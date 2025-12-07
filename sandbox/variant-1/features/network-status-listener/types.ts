@@ -3,4 +3,3 @@ export interface NetworkStatusListenerProps {
   onlineMessage?: string;
   showToast?: boolean;
 }
-

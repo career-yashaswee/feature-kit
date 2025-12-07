@@ -22,8 +22,11 @@ import {
 import type { Notification } from "@/features/notification-shade/types";
 
 const NotificationShade = dynamic(
-  () => import("@/features/notification-shade/components/notification-shade").then((mod) => ({ default: mod.NotificationShade })),
-  { ssr: false }
+  () =>
+    import("@/features/notification-shade/components/notification-shade").then(
+      (mod) => ({ default: mod.NotificationShade }),
+    ),
+  { ssr: false },
 );
 
 const features = [
@@ -167,7 +170,7 @@ export default function NotificationShadePage() {
               Notifications
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Smart Icons
             </Badge>
           </div>
@@ -309,9 +312,9 @@ export default function NotificationShadePage() {
           <CardContent>
             <div className="space-y-4">
               {[
-                { type: "success", label: "Success", icon: CheckCircle2 },
+                { type: "success", label: "Success", icon: CheckCircle },
                 { type: "info", label: "Info", icon: Bell },
-                { type: "warning", label: "Warning", icon: AlertCircle },
+                { type: "warning", label: "Warning", icon: WarningCircle },
                 { type: "error", label: "Error", icon: XCircle },
               ].map(({ type, label, icon: Icon }) => (
                 <div

@@ -150,7 +150,9 @@ const getNotificationIcon = (notification: Notification) => {
     case "success":
       return <CheckCircle className="h-4 w-4 text-green-600" weight="fill" />;
     case "warning":
-      return <WarningCircle className="h-4 w-4 text-orange-500" weight="fill" />;
+      return (
+        <WarningCircle className="h-4 w-4 text-orange-500" weight="fill" />
+      );
     case "error":
       return <XCircle className="h-4 w-4 text-red-500" weight="fill" />;
     default:

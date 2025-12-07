@@ -57,7 +57,7 @@ export default function ActiveDevicesPage() {
       prev.map((s) => ({
         ...s,
         isCurrent: s.token === sessionToken,
-      }))
+      })),
     );
   };
 

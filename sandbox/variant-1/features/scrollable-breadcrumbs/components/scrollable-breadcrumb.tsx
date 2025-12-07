@@ -57,9 +57,7 @@ export function ScrollableBreadcrumb({
   };
 
   const linkRenderer = renderLink || defaultRenderLink;
-  const separatorElement = separator || (
-    <CaretRight className="h-3.5 w-3.5" />
-  );
+  const separatorElement = separator || <CaretRight className="h-3.5 w-3.5" />;
 
   return (
     <div className="relative w-full h-10">

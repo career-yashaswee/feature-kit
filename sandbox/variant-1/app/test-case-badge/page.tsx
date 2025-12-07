@@ -10,7 +10,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, CircleNotch, Flask } from "@phosphor-icons/react";
+import {
+  CheckCircle,
+  XCircle,
+  CircleNotch,
+  Flask,
+} from "@phosphor-icons/react";
 import { TestCaseBadge } from "@/features/test-case-badge/components/test-case-badge";
 import type {
   TestResults,
@@ -91,7 +96,7 @@ export default function TestCaseBadgePage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <TestTube className="h-5 w-5 text-primary" />
+                <Flask className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -127,7 +132,7 @@ export default function TestCaseBadgePage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <TestTube className="h-5 w-5 text-primary" />
+                <Flask className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Interactive Demo</CardTitle>
             </div>
@@ -209,8 +214,8 @@ export default function TestCaseBadgePage() {
               {currentStatus === "ANALYSING" && (
                 <div className="p-4 border rounded-lg bg-yellow-50 dark:bg-yellow-950/20">
                   <p className="text-sm text-muted-foreground">
-                    When status is &quot;ANALYSING&quot;, the badge shows a loading
-                    skeleton.
+                    When status is &quot;ANALYSING&quot;, the badge shows a
+                    loading skeleton.
                   </p>
                 </div>
               )}
@@ -233,7 +238,7 @@ export default function TestCaseBadgePage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <TestTube className="h-5 w-5 text-primary" />
+                <Flask className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Example Scenarios</CardTitle>
             </div>
@@ -273,7 +278,7 @@ export default function TestCaseBadgePage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <TestTube className="h-5 w-5 text-primary" />
+                <Flask className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Empty State</CardTitle>
             </div>
@@ -292,7 +297,7 @@ export default function TestCaseBadgePage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <TestTube className="h-5 w-5 text-primary" />
+                <Flask className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

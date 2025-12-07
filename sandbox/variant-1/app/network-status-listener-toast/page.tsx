@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  WifiHighHigh,
-  WifiHighSlash,
+  WifiHigh,
+  WifiSlash,
   Lightning,
   CheckCircle,
   Code,
@@ -72,7 +72,7 @@ export default function HomePage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <WifiHighOff className="h-5 w-5 text-primary" />
+                <WifiSlash className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -141,7 +141,7 @@ export default function HomePage() {
                     "Elegant toast notifications that appear when connectivity changes",
                 },
                 {
-                  icon: WifiHighOff,
+                  icon: WifiSlash,
                   title: "Visual Indicators",
                   description:
                     "Clear visual feedback for offline and online states",

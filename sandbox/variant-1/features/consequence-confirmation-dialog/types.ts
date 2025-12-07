@@ -1,6 +1,11 @@
 import type { ComponentType } from "react";
 
-export type ConsequenceVariant = "default" | "destructive" | "warning" | "info" | "consequence";
+export type ConsequenceVariant =
+  | "default"
+  | "destructive"
+  | "warning"
+  | "info"
+  | "consequence";
 
 export interface ConsequenceItem {
   icon: ComponentType<{ className?: string }>;
@@ -25,4 +30,3 @@ export interface ConsequenceConfirmationDialogProps {
   confirmationText?: string;
   confirmationPlaceholder?: string;
 }
-

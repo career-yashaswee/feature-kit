@@ -7,4 +7,3 @@ export interface SearchInputProps<T> extends UseSearchInputOptions<T> {
   onResultClick?: (item: T) => void;
   renderResult?: (item: T) => ReactNode;
 }
-

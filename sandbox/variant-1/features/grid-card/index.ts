@@ -7,4 +7,3 @@ export type {
   GridCardContentProps,
   GridCardFooterProps,
 } from "./types";
-

@@ -10,11 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CircleNotch, FileText, Lightning, ArrowsClockwise } from "@phosphor-icons/react";
+import {
+  CircleNotch,
+  FileText,
+  Lightning,
+  ArrowsClockwise,
+} from "@phosphor-icons/react";
 import {
   PageLoader,
   type LoadingState,
-} from "@/features/page-loader/components/page-loader";
+} from "@/features/page-loader";
 import { useQuery } from "@tanstack/react-query";
 
 const features = [
@@ -31,7 +36,7 @@ const features = [
   {
     title: "Smooth Animations",
     description: "Elegant fade and scale transitions for better UX",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -91,7 +96,7 @@ export default function PageLoaderPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Loader2 className="h-5 w-5 text-primary" />
+                <CircleNotch className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -125,7 +130,7 @@ export default function PageLoaderPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Loader2 className="h-5 w-5 text-primary" />
+                <CircleNotch className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Standard Loader</CardTitle>
             </div>
@@ -161,7 +166,7 @@ export default function PageLoaderPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Loader2 className="h-5 w-5 text-primary" />
+                <CircleNotch className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Full Screen Loader</CardTitle>
             </div>

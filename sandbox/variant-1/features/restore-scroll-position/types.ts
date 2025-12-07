@@ -8,4 +8,3 @@ export interface RestoreScrollPositionProps {
   enabled?: boolean;
   debounceMs?: number;
 }
-

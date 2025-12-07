@@ -14,7 +14,7 @@ import { LanguageSwitcher } from "@/features/language-switcher/components/langua
 import type { Language } from "@/features/language-switcher/types";
 import { GB, US, IN, FR, DE, ES } from "country-flag-icons/react/3x2";
 
-const sampleLanguages: Language[] = [
+const sampleTranslate: Language[] = [
   { code: "en", label: "English", flag: GB },
   { code: "en-US", label: "English (US)", flag: US },
   { code: "hi", label: "हिंदी", flag: IN },
@@ -64,7 +64,6 @@ export default function LanguageSwitcherPage() {
     }
   };
 
-
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
@@ -96,7 +95,7 @@ export default function LanguageSwitcherPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Languages className="h-5 w-5 text-primary" />
+                <Translate className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -130,7 +129,7 @@ export default function LanguageSwitcherPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Languages className="h-5 w-5 text-primary" />
+                <Translate className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Basic Usage</CardTitle>
             </div>
@@ -141,7 +140,7 @@ export default function LanguageSwitcherPage() {
           <CardContent className="space-y-4">
             <div className="flex items-center gap-4">
               <LanguageSwitcher
-                languages={sampleLanguages}
+                languages={sampleTranslate}
                 currentLanguage={currentLang}
                 onLanguageChange={handleLanguageChange}
                 persistLanguage={(code) => {
@@ -164,7 +163,7 @@ export default function LanguageSwitcherPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Languages className="h-5 w-5 text-primary" />
+                <Translate className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Different Sizes</CardTitle>
             </div>
@@ -175,19 +174,19 @@ export default function LanguageSwitcherPage() {
           <CardContent>
             <div className="flex items-center gap-4">
               <LanguageSwitcher
-                languages={sampleLanguages.slice(0, 3)}
+                languages={sampleTranslate.slice(0, 3)}
                 currentLanguage={currentLang}
                 onLanguageChange={handleLanguageChange}
                 size="sm"
               />
               <LanguageSwitcher
-                languages={sampleLanguages.slice(0, 3)}
+                languages={sampleTranslate.slice(0, 3)}
                 currentLanguage={currentLang}
                 onLanguageChange={handleLanguageChange}
                 size="md"
               />
               <LanguageSwitcher
-                languages={sampleLanguages.slice(0, 3)}
+                languages={sampleTranslate.slice(0, 3)}
                 currentLanguage={currentLang}
                 onLanguageChange={handleLanguageChange}
                 size="lg"

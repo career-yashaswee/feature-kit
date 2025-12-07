@@ -1,8 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
 import type { buttonVariants } from "@/components/ui/button";
 
-export interface ExportButtonProps
-  extends VariantProps<typeof buttonVariants> {
+export interface ExportButtonProps extends VariantProps<typeof buttonVariants> {
   fetchData: () => Promise<unknown[]>;
   filename?: string;
   resource?: string;
@@ -13,4 +12,3 @@ export interface ExportButtonProps
   showIcon?: boolean;
   format?: "csv" | "json";
 }
-

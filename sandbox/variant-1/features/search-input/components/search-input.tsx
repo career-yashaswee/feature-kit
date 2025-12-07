@@ -70,7 +70,9 @@ export function SearchInput<T>({
                 listening && "bg-primary/10 text-primary",
               )}
             >
-              <Microphone className={cn("h-4 w-4", listening && "animate-pulse")} />
+              <Microphone
+                className={cn("h-4 w-4", listening && "animate-pulse")}
+              />
             </Button>
           )}
         </div>

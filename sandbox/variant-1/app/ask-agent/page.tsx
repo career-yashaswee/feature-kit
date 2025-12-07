@@ -169,7 +169,7 @@ export default function AskAgentPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <MessageSquare className="h-5 w-5 text-primary" />
+                <ChatCircle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Ask Agent Interface</CardTitle>
             </div>

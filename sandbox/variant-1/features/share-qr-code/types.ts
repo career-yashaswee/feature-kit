@@ -7,4 +7,3 @@ export interface ShareQRCodeProps {
   onOpenChange: (open: boolean) => void;
   className?: string;
 }
-
