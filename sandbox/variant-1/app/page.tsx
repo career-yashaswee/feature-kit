@@ -30,9 +30,16 @@ import {
   Target,
   Tag,
   Rocket,
+  Navigation,
+  Bell,
+  BarChart3,
+  SlidersHorizontal,
+  Layers,
+  Monitor,
 } from "lucide-react";
 
-const features = [
+function HomePage() {
+  const features = [
   {
     name: "Scroll to Top",
     path: "/scroll-to-top",
@@ -225,9 +232,56 @@ const features = [
     icon: Rocket,
     description: "Multi-step onboarding layout with stepper navigation and progress tracking",
   },
-];
+  {
+    name: "Test Case Badge",
+    path: "/test-case-badge",
+    icon: Tag,
+    description: "Test results badge with passed/failed counts and progress indicator",
+  },
+  {
+    name: "Scrollable Breadcrumbs",
+    path: "/scrollable-breadcrumbs",
+    icon: Navigation,
+    description: "Horizontally scrollable breadcrumb navigation with auto-scroll",
+  },
+  {
+    name: "Notification Shade",
+    path: "/notification-shade",
+    icon: Bell,
+    description: "Comprehensive notification panel with tabbed filtering and smart icons",
+  },
+  {
+    name: "Compare Alternatives",
+    path: "/compare-alternatives",
+    icon: BarChart3,
+    description: "Flexible comparison table for comparing features across alternatives",
+  },
+        {
+          name: "Filter Sheet",
+          path: "/filter-sheet",
+          icon: SlidersHorizontal,
+          description: "Comprehensive filter sheet with multiple filter types and configurations",
+        },
+        {
+          name: "Persistence TipTap Editor",
+          path: "/persistence-tip-tap-editor",
+          icon: FileText,
+          description: "Rich text editor with localStorage persistence and database sync",
+        },
+        {
+          name: "Variant Select",
+          path: "/variant-select",
+          icon: Layers,
+          description: "Flexible variant selector with dependency visualization and persistent state",
+        },
+        {
+          name: "Active Devices",
+          path: "/active-devices",
+          icon: Monitor,
+          description: "Manage and monitor active sessions across all devices with location tracking",
+        },
+      ];
 
-export default function HomePage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-12 p-8">
@@ -275,3 +329,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+export default HomePage;

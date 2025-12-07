@@ -1,0 +1,190 @@
+"use client";
+
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { FileText, Save, Database, Zap } from "lucide-react";
+import { PersistenceTipTapEditor } from "@/features/persistence-tip-tap-editor";
+
+export default function PersistenceTipTapEditorPage() {
+  const [content, setContent] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+
+  const handleSave = async (newContent: string) => {
+    setIsSaving(true);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setContent(newContent);
+    setLastSaved(new Date());
+    setIsSaving(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
+      <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        <section className="space-y-6 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
+            <FileText className="h-4 w-4 text-primary" />
+            <span className="text-sm font-medium">Persistence TipTap Editor</span>
+          </div>
+          <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            TipTap Editor with Persistence
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            Rich text editor with automatic localStorage persistence and optional
+            database synchronization. Supports auto-save, manual save, and
+            multiple persistence strategies.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <Badge variant="default" className="gap-1.5 bg-secondary/80">
+              <Save className="h-3 w-3" />
+              Auto-Save
+            </Badge>
+            <Badge variant="default" className="gap-1.5 bg-secondary/80">
+              <Database className="h-3 w-3" />
+              DB Sync
+            </Badge>
+            <Badge variant="default" className="gap-1.5 bg-secondary/80">
+              <Zap className="h-3 w-3" />
+              Debounced
+            </Badge>
+          </div>
+        </section>
+
+        <Card className="border-2 shadow-lg">
+          <CardHeader className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
+                <FileText className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">How to Test</CardTitle>
+            </div>
+            <CardDescription>
+              Test the editor's persistence and save functionality
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ol className="space-y-3">
+              {[
+                "Type some content in the editor below",
+                "Content is automatically saved to localStorage (check DevTools)",
+                "Click the 'Save' button to sync to database (simulated)",
+                "Refresh the page - your content should persist",
+                "Try editing and watch the 'Unsaved changes' indicator",
+              ].map((step, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
+                >
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+                    {index + 1}
+                  </span>
+                  <span className="text-muted-foreground">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 shadow-lg">
+          <CardHeader className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
+                <FileText className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Editor Example</CardTitle>
+            </div>
+            <CardDescription>
+              Rich text editor with localStorage persistence and database sync
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <PersistenceTipTapEditor
+              content={content}
+              onContentChange={setContent}
+              onSave={handleSave}
+              placeholder="Start writing your notes here... Use the toolbar above to format your text."
+              storageKey="demo-tiptap-editor"
+              persistenceType="localStorage"
+              debounceMs={1000}
+              autoSave={true}
+              showToolbar={true}
+              saveStatus={{
+                hasUnsavedChanges: content !== "",
+                lastSaved,
+                isSaving,
+              }}
+            />
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 shadow-lg">
+          <CardHeader className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
+                <Zap className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Features</CardTitle>
+            </div>
+            <CardDescription>
+              Key capabilities of the persistence TipTap editor
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2">
+              {[
+                {
+                  icon: Save,
+                  title: "Auto-Save",
+                  description:
+                    "Automatically saves content to localStorage with debouncing",
+                },
+                {
+                  icon: Database,
+                  title: "DB Sync",
+                  description:
+                    "Optional database synchronization via onSave callback",
+                },
+                {
+                  icon: Zap,
+                  title: "Debounced",
+                  description:
+                    "Configurable debounce delay to prevent excessive saves",
+                },
+                {
+                  icon: FileText,
+                  title: "Rich Text",
+                  description:
+                    "Full-featured rich text editing with TipTap (when installed)",
+                },
+              ].map((feature, index) => (
+                <div
+                  key={index}
+                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
+                >
+                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
+                    <feature.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <h4 className="font-semibold">{feature.title}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}
+

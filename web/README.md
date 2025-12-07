@@ -10,13 +10,13 @@ A collection of reusable web features and components.
 - **Optimistic Action Button** - Perform actions with optimistic UI updates
 - **Refresh Button** - Invalidate React Query cache with loading states
 - **Scroll to Top** - Smooth animated scroll-to-top button
-- Stateful Button
-- Table of Contents
+- Stateful Button [DONE]
+- Table of Contents [DONE]
 - In Game Currency Details
 - Leaderboard
 - Healthbar [DONE]
 - Notification Shade
-- Language Switcher 
+- Language Switcher [DONE]
 - Circular Progress Score
 - File Explorer
 - Card with Markdown Points
@@ -34,3 +34,5 @@ A collection of reusable web features and components.
 - User Preference Sync
 - Report Button [DONE]
 - Editor with Local Storage Sync and Save to DB
+- GitHub Contributions
+
