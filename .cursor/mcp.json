@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "feature-kit": {
+      "command": "node",
+      "args": [
+        "/Users/yashaswee/code/feature-kit/feature-kit/mcp-server/dist/index.js"
+      ]
+    }
+  }
+}

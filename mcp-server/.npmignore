@@ -1,0 +1,11 @@
+src/
+tsconfig.json
+node_modules/
+*.log
+.DS_Store
+*.md
+!README.md
+.gitignore
+dist/*.map
+dist/*.d.ts.map
+

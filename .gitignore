@@ -140,4 +140,4 @@ vite.config.ts.timestamp-*
 .specstory/
 .cursorindexingignore
 .cursorrules
-.DS_Store
+*/.DS_Store/*

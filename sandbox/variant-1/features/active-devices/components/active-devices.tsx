@@ -180,9 +180,9 @@ export function ActiveDevices({
           .map((s) => s.ipAddress)
           .filter(
             (ip) =>
-              ip && ip !== "Unknown" && ip !== "127.0.0.1" && ip !== "Local",
-          ),
-      ),
+              ip && ip !== "Unknown" && ip !== "127.0.0.1" && ip !== "Local"
+          )
+      )
     );
   }, [sessions]);
 
@@ -200,7 +200,7 @@ export function ActiveDevices({
           } catch {
             // Ignore errors
           }
-        }),
+        })
       );
       return locations;
     },
