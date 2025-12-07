@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Flag, Loader2, Check, X } from "lucide-react";
+import { Flag, Spinner, Check, X } from "@phosphor-icons/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -178,7 +178,7 @@ export function ReportButton({
             size={size}
             className={className}
           >
-            <Flag className="size-4" />
+            <Flag size={16} />
             {triggerLabel}
           </Button>
         </DialogTrigger>
@@ -293,7 +293,7 @@ export function ReportButton({
                 disabled={mutation.isPending}
                 className="inline-flex items-center gap-2"
               >
-                <X className="size-4" />
+                <X size={16} />
                 Cancel
               </Button>
               <Button
@@ -303,9 +303,9 @@ export function ReportButton({
                 className="inline-flex items-center gap-2 !text-white"
               >
                 {mutation.isPending ? (
-                  <Loader2 className="size-4 animate-spin" />
+                  <Spinner size={16} className="animate-spin" />
                 ) : (
-                  <Check className="size-4" />
+                  <Check size={16} />
                 )}
                 Submit report
               </Button>

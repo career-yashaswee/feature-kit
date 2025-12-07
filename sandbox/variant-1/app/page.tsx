@@ -184,12 +184,12 @@ function HomePage() {
     icon: RefreshCw,
     description: "Full-featured page loader with refresh functionality and animations",
   },
-  {
-    name: "Premium Identifier",
-    path: "/premium-identifier",
-    icon: Zap,
-    description: "Badge component for premium/subscription status with multiple variants",
-  },
+        {
+          name: "Subscription Identifier",
+          path: "/subscription-identifier",
+          icon: Zap,
+          description: "Badge component for subscription status with multiple variants",
+        },
   {
     name: "Report Button",
     path: "/report-button",

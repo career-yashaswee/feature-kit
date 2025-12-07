@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Pin } from "lucide-react";
+import { PushPin } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import type {
@@ -94,7 +94,7 @@ export function GridCard({
 
       {isPinned && (
         <Badge className="absolute -top-3 -right-3 h-4 w-4 rounded-full p-0 flex items-center justify-center text-xs bg-blue-500 text-white border-blue-500 z-10">
-          <Pin className="h-2.5 w-2.5" />
+          <PushPin size={10} weight="fill" />
         </Badge>
       )}
 

@@ -1,20 +1,19 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { createPortal } from "react-dom";
 import { formatDistanceToNow } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import {
-  RefreshCw,
+  ArrowsClockwise,
   Monitor,
-  LogOut,
-  Trash2,
+  SignOut,
+  Trash,
   XCircle,
-  Ban,
-  Smartphone,
-  Tablet,
+  Prohibit,
+  DeviceMobile,
+  DeviceTablet,
   Laptop,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,15 +25,14 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
-import type { ActiveDevicesProps, Session } from "../types";
+import type { ActiveDevicesProps } from "../types";
 
 function getDeviceIcon(device: string) {
   const deviceLower = device.toLowerCase();
   if (deviceLower.includes("mobile") || deviceLower.includes("phone")) {
-    return Smartphone;
+    return DeviceMobile;
   } else if (deviceLower.includes("tablet")) {
-    return Tablet;
+    return DeviceTablet;
   } else if (
     deviceLower.includes("macintosh") ||
     deviceLower.includes("laptop")
@@ -107,14 +105,7 @@ function DeleteConfirmDialog({
   sessionInfo,
   isCurrentSession,
 }: DeleteConfirmDialogProps) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-
-  if (!isOpen || !mounted) return null;
+  if (!isOpen) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -136,11 +127,11 @@ function DeleteConfirmDialog({
         </div>
         <div className="flex gap-3 justify-end">
           <Button variant="outline" onClick={onClose}>
-            <XCircle className="h-4 w-4 mr-2" />
+            <XCircle size={16} className="mr-2" />
             Cancel
           </Button>
           <Button variant="destructive" onClick={onConfirm}>
-            <Ban className="h-4 w-4 mr-2" />
+            <Prohibit size={16} className="mr-2" />
             Revoke Session
           </Button>
         </div>
@@ -364,7 +355,7 @@ export function ActiveDevices({
                             disabled={isSettingActive}
                             className="text-xs px-2 sm:px-3 h-8 sm:h-9"
                           >
-                            <RefreshCw className="h-3 w-3 mr-1" />
+                            <ArrowsClockwise size={12} className="mr-1" />
                             <span className="hidden sm:inline">Switch</span>
                             <span className="sm:hidden">Switch</span>
                           </Button>
@@ -383,11 +374,11 @@ export function ActiveDevices({
                           >
                             {session.isCurrent ? (
                               <>
-                                <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                                <SignOut size={16} className="mr-1" />
                                 <span className="text-xs sm:text-sm">Log Out</span>
                               </>
                             ) : (
-                              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground hover:text-destructive" />
+                              <Trash size={16} className="text-muted-foreground hover:text-destructive" />
                             )}
                           </Button>
                         )}

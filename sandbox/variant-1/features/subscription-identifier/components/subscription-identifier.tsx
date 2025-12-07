@@ -1,22 +1,22 @@
 "use client";
 
-import { Crown } from "lucide-react";
+import { Crown } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
-export type PremiumIdentifierSize = "sm" | "md" | "lg";
-export type PremiumIdentifierVariant = "outline" | "solid";
+export type SubscriptionIdentifierSize = "sm" | "md" | "lg";
+export type SubscriptionIdentifierVariant = "outline" | "solid";
 
-export interface PremiumIdentifierProps {
+export interface SubscriptionIdentifierProps {
   isUserSubscribed: boolean;
   isLoading?: boolean;
-  size?: PremiumIdentifierSize;
-  variant?: PremiumIdentifierVariant;
+  size?: SubscriptionIdentifierSize;
+  variant?: SubscriptionIdentifierVariant;
   className?: string;
   label?: string;
   showIcon?: boolean;
 }
 
-export function PremiumIdentifier({
+export function SubscriptionIdentifier({
   isUserSubscribed,
   isLoading = false,
   size = "md",
@@ -24,7 +24,7 @@ export function PremiumIdentifier({
   className,
   label = "Plus",
   showIcon = true,
-}: PremiumIdentifierProps) {
+}: SubscriptionIdentifierProps) {
   const wrapperClasses = "inline-block isolate";
   const baseClasses =
     "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium relative";
@@ -97,9 +97,9 @@ export function PremiumIdentifier({
   };
 
   const iconSizeClasses = {
-    sm: "h-3 w-3",
-    md: "h-3.5 w-3.5",
-    lg: "h-4 w-4",
+    sm: 12,
+    md: 14,
+    lg: 16,
   };
 
   const iconColor = isUserSubscribed
@@ -121,7 +121,7 @@ export function PremiumIdentifier({
         style={shadowStyle}
       >
         {showIcon && (
-          <Crown className={cn(iconSizeClasses[size], iconColor)} />
+          <Crown size={iconSizeClasses[size]} className={iconColor} />
         )}
         <span className={iconColor}>{label}</span>
       </span>

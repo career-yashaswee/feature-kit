@@ -9,18 +9,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Crown, Sparkles, Zap } from "lucide-react";
-import { PremiumIdentifier } from "@/features/premium-identifier/components/premium-identifier";
+import { Crown, Sparkles, Zap } from "@phosphor-icons/react";
+import { SubscriptionIdentifier } from "@/features/subscription-identifier/components/subscription-identifier";
 
 const features = [
   {
     title: "Subscription Status",
-    description: "Visual indicator for premium/subscription status",
+    description: "Visual indicator for subscription status with elegant styling",
     icon: Crown,
   },
   {
     title: "Multiple Variants",
-    description: "Outline and solid variants with different styling",
+    description: "Outline and solid variants with different styling options",
     icon: Sparkles,
   },
   {
@@ -30,7 +30,7 @@ const features = [
   },
 ];
 
-export default function PremiumIdentifierPage() {
+export default function SubscriptionIdentifierPage() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,23 +47,23 @@ export default function PremiumIdentifierPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Crown className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Premium Identifier</span>
+            <Crown size={16} className="text-primary" />
+            <span className="text-sm font-medium">Subscription Identifier</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Premium Identifier
+            Subscription Identifier
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            A badge component that displays premium/subscription status with
-            elegant styling and multiple variants.
+            A badge component that displays subscription status with elegant
+            styling and multiple variants.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Crown className="h-3 w-3" />
-              Premium
+              <Crown size={12} />
+              Subscription
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Sparkles className="h-3 w-3" />
+              <Sparkles size={12} />
               Badge
             </Badge>
           </div>
@@ -73,12 +73,12 @@ export default function PremiumIdentifierPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Crown className="h-5 w-5 text-primary" />
+                <Crown size={20} className="text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
             <CardDescription>
-              Follow these steps to test the Premium Identifier component
+              Follow these steps to test the Subscription Identifier component
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -107,7 +107,7 @@ export default function PremiumIdentifierPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Crown className="h-5 w-5 text-primary" />
+                <Crown size={20} className="text-primary" />
               </div>
               <CardTitle className="text-2xl">Interactive Demo</CardTitle>
             </div>
@@ -132,35 +132,35 @@ export default function PremiumIdentifierPage() {
             <div className="space-y-4">
               <div>
                 <p className="text-sm font-medium mb-2">Loading State:</p>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={isSubscribed}
                   isLoading={true}
                 />
               </div>
               <div>
                 <p className="text-sm font-medium mb-2">Outline - Not Subscribed:</p>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={false}
                   variant="outline"
                 />
               </div>
               <div>
                 <p className="text-sm font-medium mb-2">Outline - Subscribed:</p>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={true}
                   variant="outline"
                 />
               </div>
               <div>
                 <p className="text-sm font-medium mb-2">Solid - Not Subscribed:</p>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={false}
                   variant="solid"
                 />
               </div>
               <div>
                 <p className="text-sm font-medium mb-2">Solid - Subscribed:</p>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={true}
                   variant="solid"
                 />
@@ -173,33 +173,33 @@ export default function PremiumIdentifierPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Crown className="h-5 w-5 text-primary" />
+                <Crown size={20} className="text-primary" />
               </div>
               <CardTitle className="text-2xl">Size Variants</CardTitle>
             </div>
             <CardDescription>
-              Premium identifier available in different sizes
+              Subscription identifier available in different sizes
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <span className="text-sm w-20">Small:</span>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={isSubscribed}
                   size="sm"
                 />
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-sm w-20">Medium:</span>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={isSubscribed}
                   size="md"
                 />
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-sm w-20">Large:</span>
-                <PremiumIdentifier
+                <SubscriptionIdentifier
                   isUserSubscribed={isSubscribed}
                   size="lg"
                 />
@@ -212,7 +212,7 @@ export default function PremiumIdentifierPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Zap size={20} className="text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -225,7 +225,7 @@ export default function PremiumIdentifierPage() {
                   className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
                 >
                   <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
+                    <feature.icon size={20} className="text-primary" />
                   </div>
                   <div className="flex-1 space-y-1">
                     <h4 className="font-semibold">{feature.title}</h4>

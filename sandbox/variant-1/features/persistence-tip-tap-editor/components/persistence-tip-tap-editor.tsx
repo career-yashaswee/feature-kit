@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { toast } from "sonner";
-import { Save, Loader2 } from "lucide-react";
+import { FloppyDisk, Spinner } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { PersistenceTipTapEditorProps } from "../types";
@@ -128,7 +128,7 @@ export function PersistenceTipTapEditor({
           <div className="flex items-center gap-2">
             {saveStatus.isSaving && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Spinner size={16} className="animate-spin" />
                 <span>Saving...</span>
               </div>
             )}
@@ -147,7 +147,7 @@ export function PersistenceTipTapEditor({
               onClick={handleManualSave}
               disabled={saveStatus.isSaving || !saveStatus.hasUnsavedChanges}
             >
-              <Save className="h-4 w-4 mr-2" />
+              <FloppyDisk size={16} className="mr-2" />
               Save
             </Button>
           )}

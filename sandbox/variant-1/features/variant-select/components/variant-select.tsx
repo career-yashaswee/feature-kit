@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Circle, Layers } from "lucide-react";
+import { CaretDown, Circle, Stack } from "@phosphor-icons/react";
 import { Img } from "react-image";
 import type { VariantSelectProps } from "../types";
 import { useVariantSelectStore, createVariantSelectAdapter } from "../store/use-variant-select-store";
@@ -91,7 +91,7 @@ export function VariantSelect({
           <Badge variant="default" className="h-5 min-w-5 px-1.5 text-xs">
             {variantCount}
           </Badge>
-          <ChevronDown className="size-4" />
+          <CaretDown size={16} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -147,7 +147,7 @@ export function VariantSelect({
                         <div className="size-2 rounded-full bg-primary-foreground" />
                       </div>
                     ) : (
-                      <Circle className="size-4 text-muted-foreground" />
+                      <Circle size={16} className="text-muted-foreground" />
                     )}
                   </div>
                 )}
@@ -222,7 +222,7 @@ export function VariantSelect({
                     variant="outline"
                     className="shrink-0 text-xs px-2 py-0.5 inline-flex items-center gap-1"
                   >
-                    <Layers className="size-3" />
+                    <Stack size={12} />
                     {variant.stack.name}
                   </Badge>
                 )}
