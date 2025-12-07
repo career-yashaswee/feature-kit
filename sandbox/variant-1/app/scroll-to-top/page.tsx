@@ -21,13 +21,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   ArrowUp,
-  MousePointerClick,
+  CursorClick,
   Scroll,
-  Sparkles,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-} from "lucide-react";
+  Gear,
+  Lightning,
+} from "@phosphor-icons/react";
 
 export default function ScrollToTopPage() {
   return (
@@ -49,11 +49,11 @@ export default function ScrollToTopPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Smooth Animation
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Customizable
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
@@ -61,7 +61,7 @@ export default function ScrollToTopPage() {
               TypeScript
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Zero Config
             </Badge>
           </div>
@@ -72,7 +72,7 @@ export default function ScrollToTopPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -120,7 +120,7 @@ export default function ScrollToTopPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -135,13 +135,13 @@ export default function ScrollToTopPage() {
                     "Butter-smooth scroll animation that provides a delightful user experience",
                 },
                 {
-                  icon: Sparkles,
+                  icon: Sparkle,
                   title: "Elegant Animation",
                   description:
                     "Beautiful fade-in/fade-out animations with framer-motion",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Customizable",
                   description:
                     "Adjust threshold, position, and styling to match your design",

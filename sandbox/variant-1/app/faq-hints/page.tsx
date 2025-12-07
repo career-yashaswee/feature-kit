@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { HelpCircle, CheckCircle2, Sparkles } from "lucide-react";
+import { Question, CheckCircle, Sparkle } from "@phosphor-icons/react";
 import {
   FaqHints,
   type FaqItem,

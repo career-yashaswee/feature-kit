@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Settings, Zap, Plus, Download, Share2 } from "lucide-react";
+import { FileText, Gear, Lightning, Plus, Download, Share } from "@phosphor-icons/react";
 import { PageHeader } from "@/features/page-header/components/page-header";
 
 const features = [
@@ -21,12 +21,12 @@ const features = [
   {
     title: "Decorative Elements",
     description: "Optional corner decorations and dashed borders",
-    icon: Settings,
+    icon: Gear,
   },
   {
     title: "Flexible Layout",
     description: "Responsive design with optional action slots",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -113,7 +113,7 @@ export default function PageHeaderPage() {
               actionsSlot={
                 <>
                   <Button variant="outline" size="sm">
-                    <Share2 className="h-4 w-4 mr-2" />
+                    <Share className="h-4 w-4 mr-2" />
                     Share
                   </Button>
                   <Button size="sm">
@@ -140,7 +140,7 @@ export default function PageHeaderPage() {
           </CardHeader>
           <CardContent>
             <PageHeader
-              icon={<Settings className="h-full w-full" />}
+              icon={<Gear className="h-full w-full" />}
               title="Settings"
               subtitle="Manage your application settings"
               variant="minimal"

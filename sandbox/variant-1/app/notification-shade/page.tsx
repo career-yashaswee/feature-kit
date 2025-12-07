@@ -13,12 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Bell,
-  CheckCircle2,
-  AlertCircle,
+  CheckCircle,
+  WarningCircle,
   XCircle,
-  Settings,
-  Zap,
-} from "lucide-react";
+  Gear,
+  Lightning,
+} from "@phosphor-icons/react";
 import type { Notification } from "@/features/notification-shade/types";
 
 const NotificationShade = dynamic(
@@ -35,12 +35,12 @@ const features = [
   {
     title: "Smart Icons",
     description: "Content-aware icons based on notification type and content",
-    icon: Settings,
+    icon: Gear,
   },
   {
     title: "Responsive Design",
     description: "Dropdown on desktop, dialog on mobile",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 

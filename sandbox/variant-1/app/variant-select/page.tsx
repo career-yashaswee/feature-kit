@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Layers, Zap, Settings } from "lucide-react";
+import { Stack, Lightning, Gear } from "@phosphor-icons/react";
 import { VariantSelect } from "@/features/variant-select";
 import type { Variant } from "@/features/variant-select/types";
 
@@ -53,7 +53,7 @@ export default function VariantSelectPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Layers className="h-4 w-4 text-primary" />
+            <Stack className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Variant Select</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -66,15 +66,15 @@ export default function VariantSelectPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Layers className="h-3 w-3" />
+              <Stack className="h-3 w-3" />
               Variants
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Persistent
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Configurable
             </Badge>
           </div>
@@ -84,7 +84,7 @@ export default function VariantSelectPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Layers className="h-5 w-5 text-primary" />
+                <Stack className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -119,7 +119,7 @@ export default function VariantSelectPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Layers className="h-5 w-5 text-primary" />
+                <Stack className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Selector Mode</CardTitle>
             </div>
@@ -154,7 +154,7 @@ export default function VariantSelectPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Layers className="h-5 w-5 text-primary" />
+                <Stack className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Display Mode</CardTitle>
             </div>
@@ -175,7 +175,7 @@ export default function VariantSelectPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -187,25 +187,25 @@ export default function VariantSelectPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Layers,
+                  icon: Stack,
                   title: "Dependency Icons",
                   description:
                     "Visual representation of variant dependencies with icons",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Persistent State",
                   description:
                     "Selection state persists across page reloads using Zustand",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Adapter Pattern",
                   description:
                     "Configurable adapter for custom state management",
                 },
                 {
-                  icon: Layers,
+                  icon: Stack,
                   title: "Stack Badges",
                   description: "Display stack information with visual badges",
                 },

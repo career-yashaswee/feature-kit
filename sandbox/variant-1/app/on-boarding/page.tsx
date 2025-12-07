@@ -14,13 +14,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
   Rocket,
-  Zap,
-  Settings,
-  CheckCircle2,
+  Lightning,
+  Gear,
+  CheckCircle,
   User,
-  Mail,
+  Envelope,
   ArrowRight,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { OnboardingLayout } from "@/features/on-boarding/components/onboarding-layout";
 import type { OnboardingStep } from "@/features/on-boarding/types";
 
@@ -60,12 +60,12 @@ const features = [
   {
     title: "Responsive Design",
     description: "Adapts to mobile and desktop with sidebar stepper",
-    icon: Settings,
+    icon: Gear,
   },
   {
     title: "Configurable",
     description: "Customizable steps, translations, and branding",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -180,7 +180,7 @@ export default function OnBoardingPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-green-500" />
+                <CheckCircle className="h-5 w-5 text-green-500" />
                 You&apos;re All Set!
               </CardTitle>
               <CardDescription>Your onboarding is complete</CardDescription>
@@ -243,7 +243,7 @@ export default function OnBoardingPage() {
               Multi-step
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Stepper
             </Badge>
           </div>
@@ -305,19 +305,19 @@ export default function OnBoardingPage() {
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground mb-6">
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  <CheckCircle className="h-4 w-4 text-green-500" />
                   Sidebar with step progress
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  <CheckCircle className="h-4 w-4 text-green-500" />
                   Content area with step-specific content
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  <CheckCircle className="h-4 w-4 text-green-500" />
                   Navigation buttons at the bottom
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  <CheckCircle className="h-4 w-4 text-green-500" />
                   Responsive mobile layout
                 </li>
               </ul>
@@ -373,7 +373,7 @@ export default function OnBoardingPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

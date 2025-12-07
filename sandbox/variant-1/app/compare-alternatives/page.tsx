@@ -12,13 +12,13 @@ import {
   Star,
   Code,
   GitBranch,
-  BarChart3,
+  ChartBar,
   Crown,
-  Layers,
-  Bot,
-  Zap,
-  Settings,
-} from "lucide-react";
+  Stack,
+  Robot,
+  Lightning,
+  Gear,
+} from "@phosphor-icons/react";
 import { CompareAlternatives } from "@/features/compare-alternatives/components/compare-alternatives";
 import type {
   ComparisonFeature,
@@ -29,17 +29,17 @@ const features = [
   {
     title: "Comparison Table",
     description: "Compare features across multiple alternatives",
-    icon: BarChart3,
+    icon: ChartBar,
   },
   {
     title: "Responsive Design",
     description: "Adapts to mobile and desktop layouts",
-    icon: Settings,
+    icon: Gear,
   },
   {
     title: "Flexible Values",
     description: "Support for true, false, partial, or custom text values",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -56,14 +56,14 @@ const alternatives: Alternative[] = [
   {
     id: "chatgpt",
     name: "ChatGPT",
-    icon: Bot,
+    icon: Robot,
   },
 ];
 
 const sampleFeatures: ComparisonFeature[] = [
   {
     id: "fullStack",
-    icon: Layers,
+    icon: Stack,
     label: "Full Stack Problems",
     description: "Comprehensive full-stack development challenges",
     values: {
@@ -85,7 +85,7 @@ const sampleFeatures: ComparisonFeature[] = [
   },
   {
     id: "aiFeedback",
-    icon: Bot,
+    icon: Robot,
     label: "Contextual AI Feedback",
     description: "AI-powered feedback based on your code context",
     values: {
@@ -107,7 +107,7 @@ const sampleFeatures: ComparisonFeature[] = [
   },
   {
     id: "analysis",
-    icon: BarChart3,
+    icon: ChartBar,
     label: "Comprehensive Analysis",
     description: "Detailed analysis of your attempts and solutions",
     values: {
@@ -141,7 +141,7 @@ export default function CompareAlternativesPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <BarChart3 className="h-4 w-4 text-primary" />
+            <ChartBar className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Compare Alternatives</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -154,11 +154,11 @@ export default function CompareAlternativesPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <BarChart3 className="h-3 w-3" />
+              <ChartBar className="h-3 w-3" />
               Comparison
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Responsive
             </Badge>
           </div>
@@ -168,7 +168,7 @@ export default function CompareAlternativesPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <BarChart3 className="h-5 w-5 text-primary" />
+                <ChartBar className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -213,7 +213,7 @@ export default function CompareAlternativesPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <BarChart3 className="h-5 w-5 text-primary" />
+                <ChartBar className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Value Types</CardTitle>
             </div>
@@ -279,7 +279,7 @@ export default function CompareAlternativesPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <BarChart3 className="h-5 w-5 text-primary" />
+                <ChartBar className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

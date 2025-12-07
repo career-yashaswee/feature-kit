@@ -12,14 +12,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Home,
+  House,
   Folder,
   FileText,
-  Settings,
-  ChevronRight,
-  Navigation,
+  Gear,
+  CaretRight,
+  Compass,
   ArrowRight,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { ScrollableBreadcrumb } from "@/features/scrollable-breadcrumbs/components/scrollable-breadcrumb";
 import type { BreadcrumbItem } from "@/features/scrollable-breadcrumbs/types";
 
@@ -27,12 +27,12 @@ const features = [
   {
     title: "Auto-scroll",
     description: "Automatically scrolls to show the current page",
-    icon: Navigation,
+    icon: Compass,
   },
   {
     title: "Custom Icons",
     description: "Support for custom icons per breadcrumb item",
-    icon: Home,
+    icon: House,
   },
   {
     title: "Configurable Links",
@@ -43,12 +43,12 @@ const features = [
 
 const sampleBreadcrumbs: BreadcrumbItem[][] = [
   [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/", label: "House", icon: House },
     { href: "/docs", label: "Documentation" },
     { href: "/docs/getting-started", label: "Getting Started" },
   ],
   [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/", label: "House", icon: House },
     { href: "/projects", label: "Projects", icon: Folder },
     { href: "/projects/feature-kit", label: "Feature Kit", icon: Folder },
     {
@@ -58,13 +58,13 @@ const sampleBreadcrumbs: BreadcrumbItem[][] = [
     },
   ],
   [
-    { href: "/", label: "Home", icon: Home },
+    { href: "/", label: "House", icon: House },
     { href: "/settings", label: "Settings", icon: Settings },
     { href: "/settings/account", label: "Account" },
     { href: "/settings/account/profile", label: "Profile" },
   ],
   [
-    { href: "/", label: "Home" },
+    { href: "/", label: "House" },
     { href: "/category", label: "Category" },
     { href: "/category/subcategory", label: "Subcategory" },
     { href: "/category/subcategory/item", label: "Item" },
@@ -98,7 +98,7 @@ export default function ScrollableBreadcrumbsPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Navigation className="h-4 w-4 text-primary" />
+            <Compass className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Scrollable Breadcrumbs</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -111,11 +111,11 @@ export default function ScrollableBreadcrumbsPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Navigation className="h-3 w-3" />
+              <Compass className="h-3 w-3" />
               Auto-scroll
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Home className="h-3 w-3" />
+              <House className="h-3 w-3" />
               Icons
             </Badge>
           </div>
@@ -125,7 +125,7 @@ export default function ScrollableBreadcrumbsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Navigation className="h-5 w-5 text-primary" />
+                <Compass className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -161,7 +161,7 @@ export default function ScrollableBreadcrumbsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Navigation className="h-5 w-5 text-primary" />
+                <Compass className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Interactive Demo</CardTitle>
             </div>
@@ -224,7 +224,7 @@ export default function ScrollableBreadcrumbsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Navigation className="h-5 w-5 text-primary" />
+                <Compass className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Example Scenarios</CardTitle>
             </div>
@@ -252,7 +252,7 @@ export default function ScrollableBreadcrumbsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Navigation className="h-5 w-5 text-primary" />
+                <Compass className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Custom Separator</CardTitle>
             </div>
@@ -270,7 +270,7 @@ export default function ScrollableBreadcrumbsPage() {
                 <div className="text-sm font-medium mb-2">Custom Separator</div>
                 <ScrollableBreadcrumb
                   items={currentBreadcrumbs}
-                  separator={<ChevronRight className="h-4 w-4 text-primary" />}
+                  separator={<CaretRight className="h-4 w-4 text-primary" />}
                 />
               </div>
             </div>
@@ -281,7 +281,7 @@ export default function ScrollableBreadcrumbsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Navigation className="h-5 w-5 text-primary" />
+                <Compass className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

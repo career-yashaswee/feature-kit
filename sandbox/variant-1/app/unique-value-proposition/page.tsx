@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Target, TrendingUp, Zap, BarChart3 } from "lucide-react";
+import { Target, TrendUp, Lightning, ChartBar } from "@phosphor-icons/react";
 import { UniqueValueProposition } from "@/features/unique-value-proposition/components/unique-value-proposition";
 import type { DataPoint } from "@/features/unique-value-proposition/types";
 
@@ -115,7 +115,7 @@ const features = [
   {
     title: "Scatter Plot Visualization",
     description: "Interactive scatter plot with tooltips and hover effects",
-    icon: BarChart3,
+    icon: ChartBar,
   },
   {
     title: "Quadrant Analysis",
@@ -126,7 +126,7 @@ const features = [
   {
     title: "Customizable Data",
     description: "Accept data points as props with full control over styling",
-    icon: TrendingUp,
+    icon: TrendUp,
   },
 ];
 
@@ -151,7 +151,7 @@ export default function UniqueValuePropositionPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <BarChart3 className="h-3 w-3" />
+              <ChartBar className="h-3 w-3" />
               Scatter Plot
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -275,7 +275,7 @@ export default function UniqueValuePropositionPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

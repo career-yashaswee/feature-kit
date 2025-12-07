@@ -12,16 +12,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   QrCode,
-  MousePointerClick,
-  Sparkles,
+  CursorClick,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
+  Gear,
+  Lightning,
   Download,
-  Share2,
+  Share,
   Copy,
   Palette,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { ShareQRCode } from "@/features/share-qr-code/components/share-qr-code";
 import { useToggle } from "@uidotdev/usehooks";
 
@@ -79,7 +79,7 @@ export default function ShareQRCodePage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -167,7 +167,7 @@ export default function ShareQRCodePage() {
           <CardHeader>
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -188,7 +188,7 @@ export default function ShareQRCodePage() {
                     "Cycle through multiple gradient themes with matching QR code colors",
                 },
                 {
-                  icon: Share2,
+                  icon: Share,
                   title: "Share Profile",
                   description:
                     "Integrated share button using native Share API with fallback",

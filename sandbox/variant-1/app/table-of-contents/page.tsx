@@ -11,13 +11,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   List,
-  MousePointerClick,
+  CursorClick,
   FileText,
-  Sparkles,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-} from "lucide-react";
+  Gear,
+  Lightning,
+} from "@phosphor-icons/react";
 import { TableOfContents } from "@/features/table-of-contents/components/table-of-contents";
 import { useTableOfContents } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import ReactMarkdown from "react-markdown";
@@ -101,7 +101,7 @@ export default function TableOfContentsPage() {
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Auto-Generated
             </Badge>
             <Badge
@@ -119,7 +119,7 @@ export default function TableOfContentsPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -232,7 +232,7 @@ export default function TableOfContentsPage() {
           <CardHeader>
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -247,13 +247,13 @@ export default function TableOfContentsPage() {
                     "Automatically generates table of contents from markdown headings using markdown-toc",
                 },
                 {
-                  icon: Sparkles,
+                  icon: Sparkle,
                   title: "Active Highlighting",
                   description:
                     "Highlights the currently active section as you scroll through the content",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Smooth Scrolling",
                   description:
                     "Smooth scroll animation when clicking TOC items with proper offset",

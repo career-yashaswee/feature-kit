@@ -11,14 +11,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Grid,
-  Zap,
+  GridFour,
+  Lightning,
   FileText,
-  Settings,
+  Gear,
   Plus,
-  MoreVertical,
+  DotsThreeVertical,
   Star,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import {
   GridCard,
   GridCardHeader,
@@ -32,12 +32,12 @@ const features = [
   {
     title: "Flexible Layout",
     description: "Header, content, and footer sections with separators",
-    icon: Grid,
+    icon: GridFour,
   },
   {
     title: "Interactive States",
     description: "Hover effects, click handlers, and keyboard navigation",
-    icon: Zap,
+    icon: Lightning,
   },
   {
     title: "Multiple Variants",
@@ -84,7 +84,7 @@ export default function GridCardPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Grid className="h-5 w-5 text-primary" />
+                <GridFour className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -119,7 +119,7 @@ export default function GridCardPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Grid className="h-5 w-5 text-primary" />
+                <GridFour className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Default Variant</CardTitle>
             </div>
@@ -135,7 +135,7 @@ export default function GridCardPage() {
                   <GridCardHeader
                     action={
                       <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreVertical className="h-4 w-4" />
+                        <DotsThreeVertical className="h-4 w-4" />
                       </Button>
                     }
                   >
@@ -199,7 +199,7 @@ export default function GridCardPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Grid className="h-5 w-5 text-primary" />
+                <GridFour className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Different Variants</CardTitle>
             </div>
@@ -252,7 +252,7 @@ export default function GridCardPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Grid className="h-5 w-5 text-primary" />
+                <GridFour className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">With Navigation</CardTitle>
             </div>
@@ -303,7 +303,7 @@ export default function GridCardPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Grid className="h-5 w-5 text-primary" />
+                <GridFour className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Disabled State</CardTitle>
             </div>

@@ -19,7 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Heart } from "lucide-react";
+import { Heart } from "@phosphor-icons/react";
 
 async function toggleFavorite(id: string, currentState: boolean) {
   await new Promise((resolve) => setTimeout(resolve, 1000));

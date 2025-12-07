@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Wifi,
-  WifiOff,
-  Zap,
-  CheckCircle2,
+  WifiHighHigh,
+  WifiHighSlash,
+  Lightning,
+  CheckCircle,
   Code,
-  Settings,
+  Gear,
   Bell,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 
 const NetworkStatusListener = dynamic(
   () =>
@@ -36,7 +36,7 @@ export default function HomePage() {
         {/* Hero Section */}
         <div className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Wifi className="h-4 w-4 text-primary" />
+            <WifiHigh className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Network Status</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -49,7 +49,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Real-time Detection
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
@@ -61,7 +61,7 @@ export default function HomePage() {
               TypeScript
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Zero Config
             </Badge>
           </div>
@@ -72,7 +72,7 @@ export default function HomePage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <WifiOff className="h-5 w-5 text-primary" />
+                <WifiHighOff className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -120,7 +120,7 @@ export default function HomePage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <CheckCircle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -129,7 +129,7 @@ export default function HomePage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Automatic Detection",
                   description:
                     "Monitors network state changes in real-time without any manual intervention",
@@ -141,13 +141,13 @@ export default function HomePage() {
                     "Elegant toast notifications that appear when connectivity changes",
                 },
                 {
-                  icon: WifiOff,
+                  icon: WifiHighOff,
                   title: "Visual Indicators",
                   description:
                     "Clear visual feedback for offline and online states",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Customizable Messages",
                   description:
                     "Fully customizable offline and online messages to match your brand",
@@ -159,7 +159,7 @@ export default function HomePage() {
                     "Built with TypeScript for type safety and better DX",
                 },
                 {
-                  icon: CheckCircle2,
+                  icon: CheckCircle,
                   title: "Zero Configuration",
                   description:
                     "Works out of the box with sensible defaults, no setup required",

@@ -12,14 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  Mic,
-  Send,
-  MousePointerClick,
-  Sparkles,
-  MessageSquare,
-  Zap,
+  Microphone,
+  PaperPlaneTilt,
+  CursorClick,
+  Sparkle,
+  ChatCircle,
+  Lightning,
   Code,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import { useSpeechRecognition } from "@/lib/providers/speech-recognition-provider";
 import SpeechRecognition from "react-speech-recognition";
@@ -91,7 +91,7 @@ export default function AskAgentPage() {
         {/* Hero Section */}
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <MessageSquare className="h-4 w-4 text-primary" />
+            <ChatCircle className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">AI Assistant</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -106,21 +106,21 @@ export default function AskAgentPage() {
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Mic className="h-3 w-3" />
+              <Microphone className="h-3 w-3" />
               Voice Input
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Real-time
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <MessageSquare className="h-3 w-3" />
+              <ChatCircle className="h-3 w-3" />
               Chat Interface
             </Badge>
           </div>
@@ -131,7 +131,7 @@ export default function AskAgentPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -220,7 +220,7 @@ export default function AskAgentPage() {
                   onClick={handleMicClick}
                   className={listening ? "bg-primary/10 text-primary" : ""}
                 >
-                  <Mic
+                  <Microphone
                     className={cn("h-4 w-4", listening && "animate-pulse")}
                   />
                 </Button>
@@ -242,7 +242,7 @@ export default function AskAgentPage() {
                 disabled={!message.trim()}
                 size="icon"
               >
-                <Send className="h-4 w-4" />
+                <PaperPlaneTilt className="h-4 w-4" />
               </Button>
             </div>
 
@@ -270,7 +270,7 @@ export default function AskAgentPage() {
           <CardHeader>
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -279,25 +279,25 @@ export default function AskAgentPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Mic,
+                  icon: Microphone,
                   title: "Voice Input",
                   description:
                     "Speech recognition support using react-speech-recognition and Web Speech API",
                 },
                 {
-                  icon: MessageSquare,
+                  icon: ChatCircle,
                   title: "Chat Interface",
                   description:
                     "Clean and intuitive chat interface with message history",
                 },
                 {
-                  icon: Sparkles,
+                  icon: Sparkle,
                   title: "Animated Tags",
                   description:
                     "Smooth scrolling tags animation using Framer Motion",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Real-time",
                   description:
                     "Instant message submission with keyboard shortcuts support",
@@ -309,7 +309,7 @@ export default function AskAgentPage() {
                     "Fully typed with TypeScript for better developer experience",
                 },
                 {
-                  icon: Sparkles,
+                  icon: Sparkle,
                   title: "Accessible",
                   description:
                     "Keyboard navigation and ARIA labels for better accessibility",

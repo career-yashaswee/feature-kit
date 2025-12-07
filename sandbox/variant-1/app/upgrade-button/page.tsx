@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, Zap, CreditCard } from "lucide-react";
+import { ArrowUp, Lightning, CreditCard } from "@phosphor-icons/react";
 import { UpgradeButton } from "@/features/upgrade-button/components/upgrade-button";
 import type { UpgradeAction } from "@/features/upgrade-button/types";
 
@@ -28,7 +28,7 @@ const features = [
   {
     title: "Flexible Styling",
     description: "Multiple variants, sizes, and icon-only mode",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -74,7 +74,7 @@ export default function UpgradeButtonPage() {
               Subscription
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Smart
             </Badge>
           </div>
@@ -247,7 +247,7 @@ export default function UpgradeButtonPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Flag, AlertTriangle, Zap } from "lucide-react";
+import { Flag, Warning, Lightning } from "@phosphor-icons/react";
 import {
   ReportButton,
   type ReportIssue,
@@ -51,12 +51,12 @@ const features = [
   {
     title: "Toast Notifications",
     description: "Built-in success and error notifications with Sonner",
-    icon: AlertTriangle,
+    icon: Warning,
   },
   {
     title: "Flexible Issues",
     description: "Configurable issue types and custom issue support",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -92,7 +92,7 @@ export default function ReportButtonPage() {
               Report
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <AlertTriangle className="h-3 w-3" />
+              <Warning className="h-3 w-3" />
               Dialog
             </Badge>
           </div>
@@ -205,7 +205,7 @@ export default function ReportButtonPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

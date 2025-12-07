@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  MousePointerClick,
-  Zap,
-  Sparkles,
+  CursorClick,
+  Lightning,
+  Sparkle,
   Code,
-  Settings,
-  Loader2,
-  CheckCircle2,
+  Gear,
+  CircleNotch,
+  CheckCircle,
   XCircle,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { StatefulButton } from "@/features/stateful-button/components/stateful-button";
 import { toast } from "sonner";
 
@@ -49,7 +49,7 @@ export default function StatefulButtonPage() {
         {/* Hero Section */}
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Zap className="h-4 w-4 text-primary" />
+            <Lightning className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Button States</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -64,14 +64,14 @@ export default function StatefulButtonPage() {
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Loader2 className="h-3 w-3" />
+              <CircleNotch className="h-3 w-3" />
               Loading States
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Animations
             </Badge>
             <Badge
@@ -89,7 +89,7 @@ export default function StatefulButtonPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -126,7 +126,7 @@ export default function StatefulButtonPage() {
             <CardHeader>
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
+                  <CheckCircle className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-2xl">Success State</CardTitle>
               </div>
@@ -185,7 +185,7 @@ export default function StatefulButtonPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Rate Limiting</CardTitle>
             </div>
@@ -214,7 +214,7 @@ export default function StatefulButtonPage() {
           <CardHeader>
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -223,13 +223,13 @@ export default function StatefulButtonPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Loader2,
+                  icon: CircleNotch,
                   title: "Loading State",
                   description:
                     "Shows spinner and loading text while action is in progress",
                 },
                 {
-                  icon: CheckCircle2,
+                  icon: CheckCircle,
                   title: "Success State",
                   description:
                     "Displays success icon and message, auto-resets after 2 seconds",
@@ -241,19 +241,19 @@ export default function StatefulButtonPage() {
                     "Shows error icon and message, auto-recovers after 2 seconds",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Rate Limiting",
                   description:
                     "Uses TanStack Pacer to prevent rapid consecutive clicks",
                 },
                 {
-                  icon: Sparkles,
+                  icon: Sparkle,
                   title: "Smooth Animations",
                   description:
                     "Framer Motion animations for smooth state transitions",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Customizable",
                   description:
                     "Configurable rate limits, callbacks, and styling options",

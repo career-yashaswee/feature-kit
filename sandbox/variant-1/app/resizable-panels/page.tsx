@@ -11,16 +11,16 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Layout,
-  Sparkles,
+  SquaresFour,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-  MousePointerClick,
-  FileCode,
+  Gear,
+  Lightning,
+  CursorClick,
+  CodeBlock,
   Folder,
-  Search,
-} from "lucide-react";
+  MagnifyingGlass,
+} from "@phosphor-icons/react";
 import { ResizablePanels } from "@/features/resizable-panels/components/resizable-panels";
 
 export default function ResizablePanelsPage() {
@@ -29,7 +29,7 @@ export default function ResizablePanelsPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Layout className="h-4 w-4 text-primary" />
+            <SquaresFour className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Resizable Panels</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -41,19 +41,19 @@ export default function ResizablePanelsPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Horizontal & Vertical
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Settings className="h-3 w-3" />
-              Persistent Layout
+              <Gear className="h-3 w-3" />
+              Persistent SquaresFour
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
               <Code className="h-3 w-3" />
               Collapsible
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Custom Cursor
             </Badge>
           </div>
@@ -63,7 +63,7 @@ export default function ResizablePanelsPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -105,9 +105,9 @@ export default function ResizablePanelsPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Layout className="h-5 w-5 text-primary" />
+                <SquaresFour className="h-5 w-5 text-primary" />
               </div>
-              <CardTitle className="text-2xl">Horizontal Layout</CardTitle>
+              <CardTitle className="text-2xl">Horizontal SquaresFour</CardTitle>
               <CardDescription>
                 Three-panel horizontal layout with collapsible panels
               </CardDescription>
@@ -140,12 +140,12 @@ export default function ResizablePanelsPage() {
                     content: (
                       <div className="flex h-full items-center justify-center text-muted-foreground">
                         <div className="text-center">
-                          <FileCode className="mx-auto h-12 w-12 mb-2" />
+                          <CodeBlock className="mx-auto h-12 w-12 mb-2" />
                           <p className="text-sm">Code Editor</p>
                         </div>
                       </div>
                     ),
-                    icon: <FileCode className="h-5 w-5" />,
+                    icon: <CodeBlock className="h-5 w-5" />,
                     label: "Editor",
                     defaultSize: 50,
                     minSize: 30,
@@ -171,7 +171,7 @@ export default function ResizablePanelsPage() {
                   },
                 ]}
                 direction="horizontal"
-                persistLayout={true}
+                persistSquaresFour={true}
                 storageKey="resizable-panels-horizontal-demo"
                 showIconsWhenCollapsed={true}
               />
@@ -183,9 +183,9 @@ export default function ResizablePanelsPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Layout className="h-5 w-5 text-primary" />
+                <SquaresFour className="h-5 w-5 text-primary" />
               </div>
-              <CardTitle className="text-2xl">Vertical Layout</CardTitle>
+              <CardTitle className="text-2xl">Vertical SquaresFour</CardTitle>
               <CardDescription>
                 Two-panel vertical layout example
               </CardDescription>
@@ -200,12 +200,12 @@ export default function ResizablePanelsPage() {
                     content: (
                       <div className="flex h-full items-center justify-center text-muted-foreground">
                         <div className="text-center">
-                          <FileCode className="mx-auto h-12 w-12 mb-2" />
+                          <CodeBlock className="mx-auto h-12 w-12 mb-2" />
                           <p className="text-sm">Content Area</p>
                         </div>
                       </div>
                     ),
-                    icon: <FileCode className="h-5 w-5" />,
+                    icon: <CodeBlock className="h-5 w-5" />,
                     label: "Content",
                     defaultSize: 60,
                     minSize: 40,
@@ -216,12 +216,12 @@ export default function ResizablePanelsPage() {
                     content: (
                       <div className="flex h-full items-center justify-center text-muted-foreground">
                         <div className="text-center">
-                          <Search className="mx-auto h-12 w-12 mb-2" />
+                          <MagnifyingGlass className="mx-auto h-12 w-12 mb-2" />
                           <p className="text-sm">Preview</p>
                         </div>
                       </div>
                     ),
-                    icon: <Search className="h-5 w-5" />,
+                    icon: <MagnifyingGlass className="h-5 w-5" />,
                     label: "Preview",
                     defaultSize: 40,
                     minSize: 20,
@@ -231,7 +231,7 @@ export default function ResizablePanelsPage() {
                   },
                 ]}
                 direction="vertical"
-                persistLayout={true}
+                persistSquaresFour={true}
                 storageKey="resizable-panels-vertical-demo"
                 showIconsWhenCollapsed={true}
               />
@@ -243,7 +243,7 @@ export default function ResizablePanelsPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -252,19 +252,19 @@ export default function ResizablePanelsPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Layout,
+                  icon: SquaresFour,
                   title: "Horizontal & Vertical",
                   description:
                     "Support for both horizontal and vertical panel layouts",
                 },
                 {
-                  icon: Settings,
-                  title: "Persistent Layout",
+                  icon: Gear,
+                  title: "Persistent SquaresFour",
                   description:
                     "Panel sizes are saved to localStorage and restored on page load",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Collapsible Panels",
                   description:
                     "Panels can be collapsed to show only icons and labels",

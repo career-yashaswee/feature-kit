@@ -11,19 +11,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Linkedin,
-  Twitter,
-  MousePointerClick,
-  Sparkles,
+  LinkedinLogoLogo,
+  TwitterLogoLogo,
+  CursorClick,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
+  Gear,
+  Lightning,
   Crown,
   Star,
   Trophy,
-  Github,
+  GithubLogoLogo,
   Globe,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { UserCard } from "@/features/user-card/components/user-card";
 import type { UserCardVariant, ThemeVariant } from "@/features/user-card/types";
 
@@ -82,9 +82,9 @@ export default function UserCardPage() {
     bio: "Building Recompose - A better leetcode for full-stack web dev.",
     websiteUrl: "yashaswee.classing.in",
     socialIcons: [
-      { icon: <Github className="h-4 w-4" />, url: "https://github.com" },
-      { icon: <Linkedin className="h-4 w-4" />, url: "https://linkedin.com" },
-      { icon: <Twitter className="h-4 w-4" />, url: "https://twitter.com" },
+      { icon: <GithubLogo className="h-4 w-4" />, url: "https://github.com" },
+      { icon: <LinkedinLogo className="h-4 w-4" />, url: "https://linkedin.com" },
+      { icon: <TwitterLogo className="h-4 w-4" />, url: "https://twitter.com" },
       { icon: <Globe className="h-4 w-4" />, url: "https://example.com" },
       { icon: <Crown className="h-4 w-4" />, url: "https://example.com" },
     ],
@@ -106,7 +106,7 @@ export default function UserCardPage() {
         {/* Hero Section */}
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Linkedin className="h-4 w-4 text-primary" />
+            <LinkedinLogo className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">User Card</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -114,21 +114,21 @@ export default function UserCardPage() {
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Beautiful user card components with multiple variants (LinkedIn,
-            Twitter) and full light/dark mode support.
+            TwitterLogo) and full light/dark mode support.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Multiple Variants
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Customizable
             </Badge>
             <Badge
@@ -142,7 +142,7 @@ export default function UserCardPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Responsive
             </Badge>
           </div>
@@ -152,12 +152,12 @@ export default function UserCardPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
                 <CardDescription className="text-base">
-                  Toggle between card variants (LinkedIn/Twitter) and themes
+                  Toggle between card variants (LinkedIn/TwitterLogo) and themes
                   (light/dark) to see different styles
                 </CardDescription>
               </div>
@@ -168,7 +168,7 @@ export default function UserCardPage() {
               <h3 className="font-semibold text-lg">Testing Steps:</h3>
               <ol className="space-y-3">
                 {[
-                  "Toggle between LinkedIn and Twitter card variants",
+                  "Toggle between LinkedIn and TwitterLogo card variants",
                   "Switch between light and dark mode themes",
                   "View the card with all features: banner, avatar, description, items, and links",
                   "Customize the props to match your use case",
@@ -193,7 +193,7 @@ export default function UserCardPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="rounded-lg bg-primary/10 p-2">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                  <Sparkle className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-2xl">
                   Variant & Theme Toggle
@@ -206,7 +206,7 @@ export default function UserCardPage() {
                     onClick={() => setCardVariant("linkedin")}
                     size="sm"
                   >
-                    <Linkedin className="h-4 w-4 mr-2" />
+                    <LinkedinLogo className="h-4 w-4 mr-2" />
                     LinkedIn
                   </Button>
                   <Button
@@ -214,8 +214,8 @@ export default function UserCardPage() {
                     onClick={() => setCardVariant("twitter")}
                     size="sm"
                   >
-                    <Twitter className="h-4 w-4 mr-2" />
-                    Twitter
+                    <TwitterLogo className="h-4 w-4 mr-2" />
+                    TwitterLogo
                   </Button>
                 </div>
                 <div className="flex gap-2">
@@ -257,25 +257,25 @@ export default function UserCardPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Linkedin,
+                  icon: LinkedinLogo,
                   title: "LinkedIn Variant",
                   description:
                     "Professional LinkedIn-style card with items, badges, and external links",
                 },
                 {
-                  icon: Twitter,
-                  title: "Twitter Variant",
+                  icon: TwitterLogo,
+                  title: "TwitterLogo Variant",
                   description:
-                    "Twitter-style card with username, bio, following/followers, and join date",
+                    "TwitterLogo-style card with username, bio, following/followers, and join date",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Banner Images",
                   description:
                     "Customizable banner with react-image fallback support",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Light & Dark Mode",
                   description:
                     "Full support for both light and dark themes with appropriate styling",

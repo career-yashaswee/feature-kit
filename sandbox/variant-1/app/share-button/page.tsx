@@ -9,14 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Share2,
-  Sparkles,
+  Share,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-  MousePointerClick,
+  Gear,
+  Lightning,
+  CursorClick,
   Globe,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { ShareButton } from "@/features/share-button/components/share-button";
 
 export default function ShareButtonPage() {
@@ -30,7 +30,7 @@ export default function ShareButtonPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Share2 className="h-4 w-4 text-primary" />
+            <Share className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Share Button</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -42,11 +42,11 @@ export default function ShareButtonPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Native Share API
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Social Media
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
@@ -54,7 +54,7 @@ export default function ShareButtonPage() {
               UTM Params
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Copy Link
             </Badge>
           </div>
@@ -64,7 +64,7 @@ export default function ShareButtonPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -106,7 +106,7 @@ export default function ShareButtonPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Share2 className="h-5 w-5 text-primary" />
+                <Share className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Basic Examples</CardTitle>
               <CardDescription>
@@ -188,7 +188,7 @@ export default function ShareButtonPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -197,7 +197,7 @@ export default function ShareButtonPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Share2,
+                  icon: Share,
                   title: "Native Share API",
                   description:
                     "Uses native Share API when available, with fallback to custom modal",
@@ -215,7 +215,7 @@ export default function ShareButtonPage() {
                     "Optional UTM parameter support for tracking share sources",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Copy Link",
                   description:
                     "Built-in copy-to-clipboard functionality with visual feedback",

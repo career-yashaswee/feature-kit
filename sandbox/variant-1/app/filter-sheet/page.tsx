@@ -12,24 +12,24 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   SlidersHorizontal,
-  Music,
-  Music2,
-  Music4,
-  CheckCircle2,
+  MusicNote,
+  MusicNotes,
+  MusicNotesPlus,
+  CheckCircle,
   Clock,
   Circle,
   Star,
   Palette,
-  Layers,
+  Stack,
   Tag,
   Database,
   Code,
-  HardDrive,
+  HardDrives,
   Brain,
-  Layout,
-  Settings,
-  Zap,
-} from "lucide-react";
+  SquaresFour,
+  Gear,
+  Lightning,
+} from "@phosphor-icons/react";
 import { FilterSheet } from "@/features/filter-sheet/components/filter-sheet";
 import type { Filter, FilterOption } from "@/features/filter-sheet/types";
 
@@ -42,12 +42,12 @@ const features = [
   {
     title: "Configurable",
     description: "Fully configurable filters with custom options and icons",
-    icon: Settings,
+    icon: Gear,
   },
   {
     title: "Responsive",
     description: "Sheet-based filter panel that works on all screen sizes",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -68,19 +68,19 @@ export default function FilterSheetPage() {
     {
       value: "EASY",
       label: "Easy",
-      icon: Music,
+      icon: MusicNote,
       iconColor: "text-emerald-600 dark:text-emerald-400",
     },
     {
       value: "MEDIUM",
       label: "Medium",
-      icon: Music2,
+      icon: MusicNotes,
       iconColor: "text-amber-600 dark:text-amber-400",
     },
     {
       value: "HARD",
       label: "Hard",
-      icon: Music4,
+      icon: MusicNotesPlus,
       iconColor: "text-rose-600 dark:text-rose-400",
     },
   ];

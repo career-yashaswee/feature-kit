@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Activity, Zap } from "lucide-react";
+import { Heart, Pulse, Lightning } from "@phosphor-icons/react";
 import { HealthBar } from "@/features/health-bar/components/health-bar";
 import { useQuery } from "@tanstack/react-query";
 
@@ -22,12 +22,12 @@ const features = [
   {
     title: "Timer Display",
     description: "Shows time until next health regeneration",
-    icon: Activity,
+    icon: Pulse,
   },
   {
     title: "Customizable",
     description: "Configurable data sources and display options",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -74,7 +74,7 @@ export default function HealthBarPage() {
               Health
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Activity className="h-3 w-3" />
+              <Pulse className="h-3 w-3" />
               Timer
             </Badge>
           </div>

@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Layout,
-  Server,
-  Settings,
+  SquaresFour,
+  ComputerTower,
+  Gear,
   Database,
   Brain,
   Tag,
-  Zap,
-} from "lucide-react";
+  Lightning,
+} from "@phosphor-icons/react";
 import { DomainBadge } from "@/features/domain-badge/components/domain-badge";
 import type { DomainConfig } from "@/features/domain-badge/types";
 
@@ -26,7 +26,7 @@ const defaultDomainConfigs: DomainConfig[] = [
   {
     id: "FRONTEND",
     label: "Frontend",
-    icon: Layout,
+    icon: SquaresFour,
     color: {
       light: "text-blue-600",
       dark: "dark:text-blue-400",
@@ -35,7 +35,7 @@ const defaultDomainConfigs: DomainConfig[] = [
   {
     id: "BACKEND",
     label: "Backend",
-    icon: Server,
+    icon: ComputerTower,
     color: {
       light: "text-purple-600",
       dark: "dark:text-purple-400",
@@ -44,7 +44,7 @@ const defaultDomainConfigs: DomainConfig[] = [
   {
     id: "DEVOPS",
     label: "DevOps",
-    icon: Settings,
+    icon: Gear,
     color: {
       light: "text-orange-600",
       dark: "dark:text-orange-400",
@@ -79,12 +79,12 @@ const features = [
   {
     title: "Interactive Tooltips",
     description: "Hover to see detailed domain status with checkmarks",
-    icon: Zap,
+    icon: Lightning,
   },
   {
     title: "Customizable",
     description: "Fully configurable domains, icons, and colors",
-    icon: Settings,
+    icon: Gear,
   },
 ];
 

@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Monitor, Shield, MapPin, Zap } from "lucide-react";
+import { Monitor, Shield, MapPin, Lightning } from "@phosphor-icons/react";
 import { ActiveDevices } from "@/features/active-devices";
 import type { Session } from "@/features/active-devices/types";
 
@@ -86,7 +86,7 @@ export default function ActiveDevicesPage() {
               Location
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Real-time
             </Badge>
           </div>
@@ -154,7 +154,7 @@ export default function ActiveDevicesPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -184,7 +184,7 @@ export default function ActiveDevicesPage() {
                     "Revoke sessions securely with confirmation dialogs",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Real-time Updates",
                   description:
                     "Live session status with last activity timestamps",

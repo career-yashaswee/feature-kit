@@ -11,16 +11,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  AlertTriangle,
-  Sparkles,
+  Warning,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-  MousePointerClick,
+  Gear,
+  Lightning,
+  CursorClick,
   Crown,
   Star,
   Trophy,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { ConsequenceConfirmationDialog } from "@/features/consequence-confirmation-dialog/components/consequence-confirmation-dialog";
 import { useConsequenceConfirmationDialog } from "@/features/consequence-confirmation-dialog/hooks/use-consequence-confirmation-dialog";
 import { toast } from "sonner";
@@ -61,7 +61,7 @@ export default function ConsequenceConfirmationDialogPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <AlertTriangle className="h-4 w-4 text-primary" />
+            <Warning className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Confirmation Dialogs</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -77,14 +77,14 @@ export default function ConsequenceConfirmationDialogPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Multiple Variants
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Customizable
             </Badge>
             <Badge
@@ -98,7 +98,7 @@ export default function ConsequenceConfirmationDialogPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Hook Support
             </Badge>
           </div>
@@ -108,7 +108,7 @@ export default function ConsequenceConfirmationDialogPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -148,7 +148,7 @@ export default function ConsequenceConfirmationDialogPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <AlertTriangle className="h-5 w-5 text-primary" />
+                <Warning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Dialog Variants</CardTitle>
               <CardDescription>
@@ -300,7 +300,7 @@ export default function ConsequenceConfirmationDialogPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -309,13 +309,13 @@ export default function ConsequenceConfirmationDialogPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: AlertTriangle,
+                  icon: Warning,
                   title: "Multiple Variants",
                   description:
                     "Default, destructive, warning, and info variants with appropriate styling",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Loading States",
                   description:
                     "Built-in loading state support for async confirmation actions",
@@ -327,7 +327,7 @@ export default function ConsequenceConfirmationDialogPage() {
                     "Convenient hook for programmatic dialog control",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Customizable",
                   description: "Custom labels, messages, and styling options",
                 },

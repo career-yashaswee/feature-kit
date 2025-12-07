@@ -11,13 +11,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Inbox,
-  Sparkles,
+  Tray,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-  MousePointerClick,
-} from "lucide-react";
+  Gear,
+  Lightning,
+  CursorClick,
+} from "@phosphor-icons/react";
 import { EmptyState } from "@/features/empty-states/components/empty-state";
 
 export default function EmptyStatesPage() {
@@ -37,7 +37,7 @@ export default function EmptyStatesPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Inbox className="h-4 w-4 text-primary" />
+            <Tray className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Empty States</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -53,14 +53,14 @@ export default function EmptyStatesPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Multiple Types
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Customizable
             </Badge>
             <Badge
@@ -74,7 +74,7 @@ export default function EmptyStatesPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Easy to Use
             </Badge>
           </div>
@@ -84,7 +84,7 @@ export default function EmptyStatesPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -126,7 +126,7 @@ export default function EmptyStatesPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Inbox className="h-5 w-5 text-primary" />
+                <Tray className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Empty State Preview</CardTitle>
               <CardDescription>
@@ -155,7 +155,7 @@ export default function EmptyStatesPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">All Empty State Types</CardTitle>
             </div>
@@ -200,7 +200,7 @@ export default function EmptyStatesPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Settings className="h-5 w-5 text-primary" />
+                <Gear className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Custom Example</CardTitle>
             </div>

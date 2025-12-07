@@ -13,12 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Keyboard,
-  Sparkles,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-  MousePointerClick,
-} from "lucide-react";
+  Gear,
+  Lightning,
+  CursorClick,
+} from "@phosphor-icons/react";
 import { useKeyboardShortcut } from "@/features/keyboard-shortcuts";
 
 const KeyboardShortcuts = dynamic(
@@ -112,14 +112,14 @@ export default function KeyboardShortcutsPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Smart Grouping
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Customizable
             </Badge>
             <Badge
@@ -133,7 +133,7 @@ export default function KeyboardShortcutsPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Easy Integration
             </Badge>
           </div>
@@ -143,7 +143,7 @@ export default function KeyboardShortcutsPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -190,7 +190,7 @@ export default function KeyboardShortcutsPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Active Shortcuts</CardTitle>
             </div>
@@ -253,7 +253,7 @@ export default function KeyboardShortcutsPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -268,7 +268,7 @@ export default function KeyboardShortcutsPage() {
                     "Beautiful dialog showing all available shortcuts grouped by category",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Customizable Trigger",
                   description:
                     "Set your own trigger key combination (default: Cmd+K)",
@@ -280,7 +280,7 @@ export default function KeyboardShortcutsPage() {
                     "Easy-to-use hook for adding custom keyboard shortcuts",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Platform Aware",
                   description:
                     "Automatically displays correct modifier keys for Mac/Windows",

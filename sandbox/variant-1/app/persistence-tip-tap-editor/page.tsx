@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Save, Database, Zap } from "lucide-react";
+import { FileText, FloppyDisk, Database, Lightning } from "@phosphor-icons/react";
 
 export default function PersistenceTipTapEditorPage() {
   const [content, setContent] = useState("");
@@ -51,7 +51,7 @@ export default function PersistenceTipTapEditorPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Save className="h-3 w-3" />
+              <FloppyDisk className="h-3 w-3" />
               Auto-Save
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -59,7 +59,7 @@ export default function PersistenceTipTapEditorPage() {
               DB Sync
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Debounced
             </Badge>
           </div>
@@ -136,7 +136,7 @@ export default function PersistenceTipTapEditorPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -148,7 +148,7 @@ export default function PersistenceTipTapEditorPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Save,
+                  icon: FloppyDisk,
                   title: "Auto-Save",
                   description:
                     "Automatically saves content to localStorage with debouncing",
@@ -160,7 +160,7 @@ export default function PersistenceTipTapEditorPage() {
                     "Optional database synchronization via onSave callback",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Debounced",
                   description:
                     "Configurable debounce delay to prevent excessive saves",

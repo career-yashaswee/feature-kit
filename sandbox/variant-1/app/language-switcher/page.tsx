@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Languages, Globe, Zap } from "lucide-react";
+import { Translate, Globe, Lightning } from "@phosphor-icons/react";
 import { LanguageSwitcher } from "@/features/language-switcher/components/language-switcher";
 import type { Language } from "@/features/language-switcher/types";
 import { GB, US, IN, FR, DE, ES } from "country-flag-icons/react/3x2";
@@ -32,12 +32,12 @@ const features = [
   {
     title: "Country Flags",
     description: "Visual flag indicators using country-flag-icons",
-    icon: Languages,
+    icon: Translate,
   },
   {
     title: "Configurable",
     description: "Customizable persistence, sizes, and behavior",
-    icon: Zap,
+    icon: Lightning,
   },
 ];
 
@@ -70,7 +70,7 @@ export default function LanguageSwitcherPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Languages className="h-4 w-4 text-primary" />
+            <Translate className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Language Switcher</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -86,7 +86,7 @@ export default function LanguageSwitcherPage() {
               i18n
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Languages className="h-3 w-3" />
+              <Translate className="h-3 w-3" />
               Flags
             </Badge>
           </div>
@@ -200,7 +200,7 @@ export default function LanguageSwitcherPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Zap className="h-5 w-5 text-primary" />
+                <Lightning className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>

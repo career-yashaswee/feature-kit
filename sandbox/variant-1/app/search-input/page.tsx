@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Search,
-  MousePointerClick,
-  Mic,
-  Sparkles,
+  MagnifyingGlass,
+  CursorClick,
+  Microphone,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-} from "lucide-react";
+  Gear,
+  Lightning,
+} from "@phosphor-icons/react";
 import { SearchInput } from "@/features/search-input/components/search-input";
 
 const sampleData = [
@@ -72,8 +72,8 @@ export default function SearchInputPage() {
   const [selectedItem, setSelectedItem] = useState<
     (typeof sampleData)[0] | null
   >(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<typeof sampleData>([]);
+  const [searchQuery, setMagnifyingGlassQuery] = useState("");
+  const [searchResults, setMagnifyingGlassResults] = useState<typeof sampleData>([]);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -81,11 +81,11 @@ export default function SearchInputPage() {
         {/* Hero Section */}
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Search className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Search & Voice</span>
+            <MagnifyingGlass className="h-4 w-4 text-primary" />
+            <span className="text-sm font-medium">MagnifyingGlass & Voice</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Search Input Box
+            MagnifyingGlass Input Box
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             A powerful search input with fuzzy search, debouncing, and speech
@@ -96,21 +96,21 @@ export default function SearchInputPage() {
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Search className="h-3 w-3" />
-              Fuzzy Search
+              <MagnifyingGlass className="h-3 w-3" />
+              Fuzzy MagnifyingGlass
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Mic className="h-3 w-3" />
+              <Microphone className="h-3 w-3" />
               Voice Input
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 bg-secondary/80 dark:bg-secondary/60"
             >
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Debounced
             </Badge>
           </div>
@@ -121,7 +121,7 @@ export default function SearchInputPage() {
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
@@ -159,12 +159,12 @@ export default function SearchInputPage() {
             <CardHeader className="space-y-3">
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                  <Search className="h-5 w-5 text-primary" />
+                  <MagnifyingGlass className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Search Input</CardTitle>
+                <CardTitle className="text-2xl">MagnifyingGlass Input</CardTitle>
               </div>
               <CardDescription>
-                Search through sample food items with fuzzy matching and
+                MagnifyingGlass through sample food items with fuzzy matching and
                 debouncing
               </CardDescription>
             </CardHeader>
@@ -174,10 +174,10 @@ export default function SearchInputPage() {
                 searchKeys={["name", "category", "description"]}
                 debounceMs={300}
                 fuzzyThreshold={0.4}
-                placeholder="Search foods..."
-                onSearch={(query, results) => {
-                  setSearchQuery(query);
-                  setSearchResults(results);
+                placeholder="MagnifyingGlass foods..."
+                onMagnifyingGlass={(query, results) => {
+                  setMagnifyingGlassQuery(query);
+                  setMagnifyingGlassResults(results);
                 }}
                 onResultClick={(item) => {
                   setSelectedItem(item);
@@ -205,7 +205,7 @@ export default function SearchInputPage() {
             <CardHeader>
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                  <Sparkle className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-2xl">Selected Item</CardTitle>
               </div>
@@ -237,7 +237,7 @@ export default function SearchInputPage() {
           <CardHeader>
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -246,31 +246,31 @@ export default function SearchInputPage() {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
-                  icon: Search,
-                  title: "Fuzzy Search",
+                  icon: MagnifyingGlass,
+                  title: "Fuzzy MagnifyingGlass",
                   description:
                     "Uses Fuse.js for intelligent fuzzy matching with configurable threshold",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Debouncing",
                   description:
                     "Debounced search queries to reduce API calls and improve performance",
                 },
                 {
-                  icon: Mic,
+                  icon: Microphone,
                   title: "Speech Recognition",
                   description:
                     "Voice input support using react-speech-recognition and Web Speech API",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Customizable",
                   description:
                     "Configurable search keys, debounce delay, and fuzzy threshold",
                 },
                 {
-                  icon: Sparkles,
+                  icon: Sparkle,
                   title: "Real-time Results",
                   description:
                     "Instant search results with loading indicators and empty states",

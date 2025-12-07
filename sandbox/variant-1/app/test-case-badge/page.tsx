@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, XCircle, Loader2, TestTube } from "lucide-react";
+import { CheckCircle, XCircle, CircleNotch, Flask } from "@phosphor-icons/react";
 import { TestCaseBadge } from "@/features/test-case-badge/components/test-case-badge";
 import type {
   TestResults,
@@ -21,17 +21,17 @@ const features = [
   {
     title: "Test Results Display",
     description: "Shows passed and failed test counts with visual indicators",
-    icon: CheckCircle2,
+    icon: CheckCircle,
   },
   {
     title: "Progress Indicator",
     description: "Circular progress showing test success percentage",
-    icon: Loader2,
+    icon: CircleNotch,
   },
   {
     title: "Multiple Sizes",
     description: "Support for sm, md, and lg size variants",
-    icon: TestTube,
+    icon: Flask,
   },
 ];
 
@@ -65,7 +65,7 @@ export default function TestCaseBadgePage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <TestTube className="h-4 w-4 text-primary" />
+            <Flask className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Test Case Badge</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -77,11 +77,11 @@ export default function TestCaseBadgePage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <CheckCircle2 className="h-3 w-3" />
+              <CheckCircle className="h-3 w-3" />
               Test Results
             </Badge>
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Loader2 className="h-3 w-3" />
+              <CircleNotch className="h-3 w-3" />
               Progress
             </Badge>
           </div>

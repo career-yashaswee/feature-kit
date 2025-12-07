@@ -11,32 +11,32 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   ArrowUp,
-  RefreshCw,
+  ArrowsClockwise,
   Download,
-  Save,
-  Wifi,
+  FloppyDisk,
+  WifiHigh,
   Keyboard,
-  Inbox,
+  Tray,
   FileText,
-  AlertTriangle,
+  Warning,
   Copy,
   Scroll,
-  Zap,
-  Share2,
-  Layout,
-  Search,
-  MessageSquare,
-  Linkedin,
+  Lightning,
+  Share,
+  SquaresFour,
+  MagnifyingGlass,
+  ChatCircle,
+  LinkedinLogo,
   Target,
   Tag,
   Rocket,
-  Navigation,
+  Compass,
   Bell,
-  BarChart3,
+  ChartBar,
   SlidersHorizontal,
-  Layers,
+  Stack,
   Monitor,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 
 function HomePage() {
   const features = [
@@ -49,7 +49,7 @@ function HomePage() {
     {
       name: "Refresh Button",
       path: "/refresh-button",
-      icon: RefreshCw,
+      icon: ArrowsClockwise,
       description: "Button that invalidates React Query keys",
     },
     {
@@ -61,19 +61,19 @@ function HomePage() {
     {
       name: "Auto Save Form",
       path: "/auto-save-form",
-      icon: Save,
+      icon: FloppyDisk,
       description: "Automatically save form data",
     },
     {
       name: "Network Status Listener",
       path: "/network-status-listener-toast",
-      icon: Wifi,
+      icon: WifiHigh,
       description: "Listen to network status changes",
     },
     {
       name: "Optimistic Action Button",
       path: "/optimistic-action-button",
-      icon: Zap,
+      icon: Lightning,
       description: "Optimistic UI updates for actions",
     },
     {
@@ -85,7 +85,7 @@ function HomePage() {
     {
       name: "Empty States",
       path: "/empty-states",
-      icon: Inbox,
+      icon: Tray,
       description: "Contextual empty states for different scenarios",
     },
     {
@@ -97,7 +97,7 @@ function HomePage() {
     {
       name: "Consequence Confirmation Dialog",
       path: "/consequence-confirmation-dialog",
-      icon: AlertTriangle,
+      icon: Warning,
       description: "Flexible confirmation dialogs with multiple variants",
     },
     {
@@ -115,14 +115,14 @@ function HomePage() {
     {
       name: "Share Button",
       path: "/share-button",
-      icon: Share2,
+      icon: Share,
       description:
         "YouTube-style share button with native API and social media",
     },
     {
       name: "Resizable Panels",
       path: "/resizable-panels",
-      icon: Layout,
+      icon: SquaresFour,
       description: "LeetCode-style resizable panels with persistent layouts",
     },
     {
@@ -135,75 +135,75 @@ function HomePage() {
     {
       name: "Stateful Button",
       path: "/stateful-button",
-      icon: Zap,
+      icon: Lightning,
       description:
         "Button with loading, success, and error states with rate limiting",
     },
     {
       name: "Search Input",
       path: "/search-input",
-      icon: Search,
+      icon: MagnifyingGlass,
       description:
         "Search input with fuzzy search, debouncing, and speech recognition",
     },
     {
       name: "Share QR Code",
       path: "/share-qr-code",
-      icon: Share2,
+      icon: Share,
       description: "Instagram-style QR code sharing with customizable themes",
     },
     {
       name: "Ask Agent",
       path: "/ask-agent",
-      icon: MessageSquare,
+      icon: ChatCircle,
       description:
         "Reddit-style Ask Agent page with animated tags and voice input",
     },
     {
       name: "User Card",
       path: "/user-card",
-      icon: Linkedin,
+      icon: LinkedinLogo,
       description:
         "User card component with LinkedIn and Twitter variants, light and dark mode",
     },
     {
       name: "FAQ Hints",
       path: "/faq-hints",
-      icon: MessageSquare,
+      icon: ChatCircle,
       description:
         "FAQ component with short answer hints and expandable details",
     },
     {
       name: "Health Bar",
       path: "/health-bar",
-      icon: AlertTriangle,
+      icon: Warning,
       description: "Visual health indicator with color-coded status and timer",
     },
     {
       name: "Language Switcher",
       path: "/language-switcher",
-      icon: Linkedin,
+      icon: LinkedinLogo,
       description:
         "Flexible language switcher with adapter pattern and country flags",
     },
     {
       name: "Page Loader",
       path: "/page-loader",
-      icon: RefreshCw,
+      icon: ArrowsClockwise,
       description:
         "Full-featured page loader with refresh functionality and animations",
     },
     {
       name: "Subscription Identifier",
       path: "/subscription-identifier",
-      icon: Zap,
+      icon: Lightning,
       description:
         "Badge component for subscription status with multiple variants",
     },
     {
       name: "Report Button",
       path: "/report-button",
-      icon: AlertTriangle,
+      icon: Warning,
       description:
         "Comprehensive report dialog with issue selection and TanStack Query",
     },
@@ -238,7 +238,7 @@ function HomePage() {
     {
       name: "Grid Card",
       path: "/grid-card",
-      icon: Layout,
+      icon: SquaresFour,
       description:
         "Flexible card component for grid layouts with header, content, and footer",
     },
@@ -259,7 +259,7 @@ function HomePage() {
     {
       name: "Scrollable Breadcrumbs",
       path: "/scrollable-breadcrumbs",
-      icon: Navigation,
+      icon: Compass,
       description:
         "Horizontally scrollable breadcrumb navigation with auto-scroll",
     },
@@ -273,7 +273,7 @@ function HomePage() {
     {
       name: "Compare Alternatives",
       path: "/compare-alternatives",
-      icon: BarChart3,
+      icon: ChartBar,
       description:
         "Flexible comparison table for comparing features across alternatives",
     },
@@ -294,7 +294,7 @@ function HomePage() {
     {
       name: "Variant Select",
       path: "/variant-select",
-      icon: Layers,
+      icon: Stack,
       description:
         "Flexible variant selector with dependency visualization and persistent state",
     },
@@ -312,7 +312,7 @@ function HomePage() {
       <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Zap className="h-4 w-4 text-primary" />
+            <Lightning className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">Feature Kit</span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">

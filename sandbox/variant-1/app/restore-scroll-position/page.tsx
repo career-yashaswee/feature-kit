@@ -11,12 +11,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   Scroll,
-  Sparkles,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-  MousePointerClick,
-} from "lucide-react";
+  Gear,
+  Lightning,
+  CursorClick,
+} from "@phosphor-icons/react";
 
 const RestoreScrollPosition = dynamic(
   () =>
@@ -47,11 +47,11 @@ export default function RestoreScrollPositionPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Auto Restore
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Configurable
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
@@ -59,7 +59,7 @@ export default function RestoreScrollPositionPage() {
               TypeScript
             </Badge>
             <Badge variant="default" className="gap-1.5 demo-badge">
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Debounced
             </Badge>
           </div>
@@ -69,7 +69,7 @@ export default function RestoreScrollPositionPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -162,7 +162,7 @@ export default function RestoreScrollPositionPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -177,13 +177,13 @@ export default function RestoreScrollPositionPage() {
                     "Automatically restores scroll position when component mounts or page loads",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Storage Options",
                   description:
                     "Choose between session storage (temporary) or local storage (persistent)",
                 },
                 {
-                  icon: Zap,
+                  icon: Lightning,
                   title: "Debounced Saving",
                   description:
                     "Scroll position is saved with debouncing to avoid excessive storage writes",
@@ -218,7 +218,7 @@ export default function RestoreScrollPositionPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Settings className="h-5 w-5 text-primary" />
+                <Gear className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Configuration Options</CardTitle>
             </div>

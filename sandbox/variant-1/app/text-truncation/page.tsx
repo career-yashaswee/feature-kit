@@ -10,12 +10,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   FileText,
-  Sparkles,
+  Sparkle,
   Code,
-  Settings,
-  Zap,
-  MousePointerClick,
-} from "lucide-react";
+  Gear,
+  Lightning,
+  CursorClick,
+} from "@phosphor-icons/react";
 import { TextTruncation } from "@/features/text-truncation/components/text-truncation";
 
 const longText =
@@ -46,14 +46,14 @@ export default function TextTruncationPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkle className="h-3 w-3" />
               Auto Detection
             </Badge>
             <Badge
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Settings className="h-3 w-3" />
+              <Gear className="h-3 w-3" />
               Customizable
             </Badge>
             <Badge
@@ -67,7 +67,7 @@ export default function TextTruncationPage() {
               variant="default"
               className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
             >
-              <Zap className="h-3 w-3" />
+              <Lightning className="h-3 w-3" />
               Zero Config
             </Badge>
           </div>
@@ -77,7 +77,7 @@ export default function TextTruncationPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <MousePointerClick className="h-5 w-5 text-primary" />
+                <CursorClick className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CardTitle className="text-2xl">How to Test</CardTitle>
@@ -192,7 +192,7 @@ export default function TextTruncationPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Settings className="h-5 w-5 text-primary" />
+                <Gear className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Custom Labels</CardTitle>
               <CardDescription>
@@ -216,7 +216,7 @@ export default function TextTruncationPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkles className="h-5 w-5 text-primary" />
+                <Sparkle className="h-5 w-5 text-primary" />
               </div>
               <CardTitle className="text-2xl">Features</CardTitle>
             </div>
@@ -237,13 +237,13 @@ export default function TextTruncationPage() {
                     "Truncate text to a specific character length with ellipsis",
                 },
                 {
-                  icon: Sparkles,
+                  icon: Sparkle,
                   title: "Auto Detection",
                   description:
                     "Automatically detects if truncation is needed and only shows toggle when necessary",
                 },
                 {
-                  icon: Settings,
+                  icon: Gear,
                   title: "Customizable",
                   description:
                     "Customize labels, styling, and toggle button visibility",
