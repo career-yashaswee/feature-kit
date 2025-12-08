@@ -3,7 +3,8 @@
     "name": "Scroll to Top",
     "path": "/scroll-to-top",
     "icon": "ArrowUp",
-    "description": "Smooth scroll-to-top button with animations",
+    "summary": "Smooth scroll-to-top button with animations",
+    "description": "A beautiful, smooth scroll-to-top button that elegantly appears after you scroll down and takes you back to the top with a delightful animation.",
     "category": "Navigation",
     "statusBadge": "New",
     "lastUpdatedAt": "2024-01-15T10:30:00Z"
@@ -12,7 +13,8 @@
     "name": "Refresh Button",
     "path": "/refresh-button",
     "icon": "ArrowsClockwise",
-    "description": "Button that invalidates React Query keys",
+    "summary": "Button that invalidates React Query keys",
+    "description": "A button that invalidates React Query keys and shows toast notifications when refreshing data.",
     "category": "Button",
     "statusBadge": "Updated",
     "lastUpdatedAt": "2024-01-10T14:20:00Z"
@@ -21,14 +23,16 @@
     "name": "Export Button",
     "path": "/export-button",
     "icon": "Download",
-    "description": "Export data with loading states",
+    "summary": "Export data with loading states",
+    "description": "A button that exports data to CSV with timestamp and loading states during the export process.",
     "category": "Button"
   },
   {
     "name": "Auto Save Form",
     "path": "/auto-save-form",
     "icon": "FloppyDisk",
-    "description": "Automatically save form data",
+    "summary": "Automatically save form data",
+    "description": "A form that auto-saves with debounce and localStorage backup to prevent data loss.",
     "category": "Form",
     "statusBadge": "Fixed",
     "lastUpdatedAt": "2024-01-08T09:15:00Z"
@@ -37,7 +41,8 @@
     "name": "Network Status Listener",
     "path": "/network-status-listener-toast",
     "icon": "WifiHigh",
-    "description": "Listen to network status changes",
+    "summary": "Listen to network status changes",
+    "description": "A powerful React component that automatically monitors network connectivity and provides elegant toast notifications when you go offline or come back online.",
     "category": "Utility",
     "statusBadge": "New",
     "lastUpdatedAt": "2024-01-20T11:00:00Z"
@@ -46,7 +51,8 @@
     "name": "Optimistic Action Button",
     "path": "/optimistic-action-button",
     "icon": "Lightning",
-    "description": "Optimistic UI updates for actions",
+    "summary": "Optimistic UI updates for actions",
+    "description": "A button that updates UI immediately and rolls back on error, providing instant feedback to users.",
     "category": "Button",
     "statusBadge": "Updated",
     "lastUpdatedAt": "2024-01-12T16:45:00Z"
@@ -55,7 +61,8 @@
     "name": "Keyboard Shortcuts",
     "path": "/keyboard-shortcuts",
     "icon": "Keyboard",
-    "description": "Manage and display keyboard shortcuts",
+    "summary": "Manage and display keyboard shortcuts",
+    "description": "A powerful keyboard shortcuts manager that helps users discover and use keyboard shortcuts efficiently. Press Cmd+K (or Ctrl+K) to open the shortcuts dialog.",
     "category": "Utility",
     "statusBadge": "Maintenance",
     "lastUpdatedAt": "2024-01-05T08:30:00Z"
@@ -64,7 +71,8 @@
     "name": "Empty States",
     "path": "/empty-states",
     "icon": "Tray",
-    "description": "Contextual empty states for different scenarios",
+    "summary": "Contextual empty states for different scenarios",
+    "description": "Beautiful, contextual empty states that provide clear feedback and guidance to users. Choose from multiple pre-configured types or customize your own.",
     "category": "UI Component",
     "statusBadge": "New",
     "lastUpdatedAt": "2024-01-18T13:20:00Z"
@@ -73,28 +81,32 @@
     "name": "Text Truncation",
     "path": "/text-truncation",
     "icon": "FileText",
-    "description": "Intelligent text truncation with expand/collapse",
+    "summary": "Intelligent text truncation with expand/collapse",
+    "description": "Intelligently truncate long text with expand/collapse functionality. Supports both line-based and character-based truncation with automatic detection.",
     "category": "UI Component"
   },
   {
     "name": "Consequence Confirmation Dialog",
     "path": "/consequence-confirmation-dialog",
     "icon": "Warning",
-    "description": "Flexible confirmation dialogs with multiple variants",
+    "summary": "Flexible confirmation dialogs with multiple variants",
+    "description": "A flexible confirmation dialog component with multiple variants and a convenient hook for programmatic usage. Perfect for confirming destructive actions or important operations.",
     "category": "Dialog"
   },
   {
     "name": "Copy to Clipboard",
     "path": "/copy-to-clipboard",
     "icon": "Copy",
-    "description": "Copy text to clipboard with animations and toast",
+    "summary": "Copy text to clipboard with animations and toast",
+    "description": "A beautiful copy-to-clipboard button with smooth animations, toast notifications, and support for both plain text and HTML content.",
     "category": "Utility"
   },
   {
     "name": "Restore Scroll Position",
     "path": "/restore-scroll-position",
     "icon": "Scroll",
-    "description": "Remember and restore scroll positions",
+    "summary": "Remember and restore scroll positions",
+    "description": "Automatically remember and restore scroll positions when users navigate away and come back. Supports both session storage and persistent local storage.",
     "category": "Navigation",
     "statusBadge": "Fixed",
     "lastUpdatedAt": "2024-01-07T10:00:00Z"
@@ -103,7 +115,8 @@
     "name": "Share Button",
     "path": "/share-button",
     "icon": "Share",
-    "description": "YouTube-style share button with native API and social media",
+    "summary": "YouTube-style share button with native API and social media",
+    "description": "A YouTube-style share button with native Share API fallback, copy link functionality, and social media integration.",
     "category": "Button",
     "statusBadge": "Degraded",
     "lastUpdatedAt": "2024-01-03T12:00:00Z"
@@ -112,189 +125,216 @@
     "name": "Resizable Panels",
     "path": "/resizable-panels",
     "icon": "SquaresFour",
-    "description": "LeetCode-style resizable panels with persistent layouts",
+    "summary": "LeetCode-style resizable panels with persistent layouts",
+    "description": "LeetCode-style resizable panels with horizontal and vertical layouts, collapsible panels, persistent layouts, and custom cursors.",
     "category": "Layout"
   },
   {
     "name": "Table of Contents",
     "path": "/table-of-contents",
     "icon": "FileText",
-    "description": "Auto-generated table of contents from markdown with active highlighting",
+    "summary": "Auto-generated table of contents from markdown with active highlighting",
+    "description": "Automatically generate a table of contents from markdown content with active section highlighting and smooth scrolling navigation.",
     "category": "Navigation"
   },
   {
     "name": "Stateful Button",
     "path": "/stateful-button",
     "icon": "Lightning",
-    "description": "Button with loading, success, and error states with rate limiting",
+    "summary": "Button with loading, success, and error states with rate limiting",
+    "description": "A button component that manages loading, success, and error states with animations, rate limiting, and automatic state transitions.",
     "category": "Button"
   },
   {
     "name": "Search Input",
     "path": "/search-input",
     "icon": "MagnifyingGlass",
-    "description": "Search input with fuzzy search, debouncing, and speech recognition",
+    "summary": "Search input with fuzzy search, debouncing, and speech recognition",
+    "description": "A powerful search input with fuzzy search, debouncing, and speech recognition capabilities for enhanced user experience.",
     "category": "Input"
   },
   {
     "name": "Share QR Code",
     "path": "/share-qr-code",
     "icon": "Share",
-    "description": "Instagram-style QR code sharing with customizable themes",
+    "summary": "Instagram-style QR code sharing with customizable themes",
+    "description": "Instagram-style QR code sharing with customizable themes, download functionality, and integrated share actions.",
     "category": "Share"
   },
   {
     "name": "Ask Agent",
     "path": "/ask-agent",
     "icon": "ChatCircle",
-    "description": "Reddit-style Ask Agent page with animated tags and voice input",
+    "summary": "Reddit-style Ask Agent page with animated tags and voice input",
+    "description": "Ask questions and get instant answers. Use voice input or type your message.",
     "category": "Interactive"
   },
   {
     "name": "User Card",
     "path": "/user-card",
     "icon": "LinkedinLogo",
-    "description": "User card component with LinkedIn and Twitter variants, light and dark mode",
+    "summary": "User card component with LinkedIn and Twitter variants, light and dark mode",
+    "description": "Beautiful user card components with multiple variants (LinkedIn, TwitterLogo) and full light/dark mode support.",
     "category": "Card"
   },
   {
     "name": "FAQ Hints",
     "path": "/faq-hints",
     "icon": "ChatCircle",
-    "description": "FAQ component with short answer hints and expandable details",
+    "summary": "FAQ component with short answer hints and expandable details",
+    "description": "An elegant FAQ component with short answer hints and expandable details for better user experience.",
     "category": "UI Component"
   },
   {
     "name": "Health Bar",
     "path": "/health-bar",
     "icon": "Warning",
-    "description": "Visual health indicator with color-coded status and timer",
+    "summary": "Visual health indicator with color-coded status and timer",
+    "description": "A visual health indicator with color-coded status, timer, and customizable data sources.",
     "category": "UI Component"
   },
   {
     "name": "Language Switcher",
     "path": "/language-switcher",
     "icon": "LinkedinLogo",
-    "description": "Flexible language switcher with adapter pattern and country flags",
+    "summary": "Flexible language switcher with adapter pattern and country flags",
+    "description": "A flexible language switcher with adapter pattern support for various i18n libraries and configurable persistence.",
     "category": "Utility"
   },
   {
     "name": "Page Loader",
     "path": "/page-loader",
     "icon": "ArrowsClockwise",
-    "description": "Full-featured page loader with refresh functionality and animations",
+    "summary": "Full-featured page loader with refresh functionality and animations",
+    "description": "A full-featured page loader with refresh functionality, customizable branding, and smooth animations.",
     "category": "UI Component"
   },
   {
     "name": "Subscription Identifier",
     "path": "/subscription-identifier",
     "icon": "Lightning",
-    "description": "Badge component for subscription status with multiple variants",
+    "summary": "Badge component for subscription status with multiple variants",
+    "description": "A badge component that displays subscription status with elegant styling and multiple variants.",
     "category": "Badge"
   },
   {
     "name": "Report Button",
     "path": "/report-button",
     "icon": "Warning",
-    "description": "Comprehensive report dialog with issue selection and TanStack Query",
+    "summary": "Comprehensive report dialog with issue selection and TanStack Query",
+    "description": "A comprehensive report dialog with issue selection, custom descriptions, and TanStack Query integration.",
     "category": "Button"
   },
   {
     "name": "Unique Value Proposition",
     "path": "/unique-value-proposition",
     "icon": "Target",
-    "description": "Scatter plot visualization for comparing products across two dimensions",
+    "summary": "Scatter plot visualization for comparing products across two dimensions",
+    "description": "A scatter plot visualization component for comparing products or services across two dimensions with interactive tooltips and customizable styling.",
     "category": "Data Visualization"
   },
   {
     "name": "Domain Badge",
     "path": "/domain-badge",
     "icon": "Tag",
-    "description": "Visual badge component displaying multiple domain indicators with tooltips",
+    "summary": "Visual badge component displaying multiple domain indicators with tooltips",
+    "description": "A visual badge component that displays multiple domain indicators with interactive tooltips and customizable styling.",
     "category": "Badge"
   },
   {
     "name": "Upgrade Button",
     "path": "/upgrade-button",
     "icon": "ArrowUp",
-    "description": "Smart button that adapts based on subscription status with configurable actions",
+    "summary": "Smart button that adapts based on subscription status with configurable actions",
+    "description": "A smart button component that adapts its appearance and behavior based on subscription status with configurable actions.",
     "category": "Button"
   },
   {
     "name": "Page Header",
     "path": "/page-header",
     "icon": "FileText",
-    "description": "Full-width page header with glass morphism icon and optional actions",
+    "summary": "Full-width page header with glass morphism icon and optional actions",
+    "description": "A full-width page header component with glass morphism icon, title, subtitle, and optional action buttons.",
     "category": "Layout"
   },
   {
     "name": "Grid Card",
     "path": "/grid-card",
     "icon": "SquaresFour",
-    "description": "Flexible card component for grid layouts with header, content, and footer",
+    "summary": "Flexible card component for grid layouts with header, content, and footer",
+    "description": "A flexible card component designed for grid layouts with header, content, footer sections, and interactive states.",
     "category": "Card"
   },
   {
     "name": "Onboarding",
     "path": "/on-boarding",
     "icon": "Rocket",
-    "description": "Multi-step onboarding layout with stepper navigation and progress tracking",
+    "summary": "Multi-step onboarding layout with stepper navigation and progress tracking",
+    "description": "A comprehensive multi-step onboarding layout with stepper navigation, progress tracking, and responsive design.",
     "category": "Layout"
   },
   {
     "name": "Test Case Badge",
     "path": "/test-case-badge",
     "icon": "Tag",
-    "description": "Test results badge with passed/failed counts and progress indicator",
+    "summary": "Test results badge with passed/failed counts and progress indicator",
+    "description": "A badge component that displays test results with passed/failed counts and a circular progress indicator showing success percentage.",
     "category": "Badge"
   },
   {
     "name": "Scrollable Breadcrumbs",
     "path": "/scrollable-breadcrumbs",
     "icon": "Compass",
-    "description": "Horizontally scrollable breadcrumb navigation with auto-scroll",
+    "summary": "Horizontally scrollable breadcrumb navigation with auto-scroll",
+    "description": "A horizontally scrollable breadcrumb component that automatically scrolls to show the current page with fade indicators and custom icons.",
     "category": "Navigation"
   },
   {
     "name": "Notification Shade",
     "path": "/notification-shade",
     "icon": "Bell",
-    "description": "Comprehensive notification panel with tabbed filtering and smart icons",
+    "summary": "Comprehensive notification panel with tabbed filtering and smart icons",
+    "description": "A comprehensive notification panel with tabbed filtering, smart icons, and responsive design for desktop and mobile.",
     "category": "UI Component"
   },
   {
     "name": "Compare Alternatives",
     "path": "/compare-alternatives",
     "icon": "ChartBar",
-    "description": "Flexible comparison table for comparing features across alternatives",
+    "summary": "Flexible comparison table for comparing features across alternatives",
+    "description": "A flexible comparison table component for comparing features across multiple alternatives with responsive design and customizable values.",
     "category": "Data Visualization"
   },
   {
     "name": "Filter Sheet",
     "path": "/filter-sheet",
     "icon": "SlidersHorizontal",
-    "description": "Comprehensive filter sheet with multiple filter types and configurations",
+    "summary": "Comprehensive filter sheet with multiple filter types and configurations",
+    "description": "A comprehensive filter sheet component with support for multiple filter types including selects, checkboxes, multiselects, and tags.",
     "category": "Input"
   },
   {
     "name": "Persistence TipTap Editor",
     "path": "/persistence-tip-tap-editor",
     "icon": "FileText",
-    "description": "Rich text editor with localStorage persistence and database sync",
+    "summary": "Rich text editor with localStorage persistence and database sync",
+    "description": "Rich text editor with automatic localStorage persistence and optional database synchronization. Supports auto-save, manual save, and multiple persistence strategies.",
     "category": "Editor"
   },
   {
     "name": "Variant Select",
     "path": "/variant-select",
     "icon": "Stack",
-    "description": "Flexible variant selector with dependency visualization and persistent state",
+    "summary": "Flexible variant selector with dependency visualization and persistent state",
+    "description": "Flexible variant selector with dependency visualization, stack badges, and persistent selection state. Supports both display and selector modes.",
     "category": "Input"
   },
   {
     "name": "Active Devices",
     "path": "/active-devices",
     "icon": "Monitor",
-    "description": "Manage and monitor active sessions across all devices with location tracking",
+    "summary": "Manage and monitor active sessions across all devices with location tracking",
+    "description": "Manage and monitor active sessions across all your devices. View device information, locations, and revoke sessions securely.",
     "category": "Data Visualization"
   }
 ]

@@ -55,7 +55,7 @@ const RestoreScrollPosition = dynamic(
     import("@/features/restore-scroll-position").then((mod) => ({
       default: mod.RestoreScrollPosition,
     })),
-  { ssr: false },
+  { ssr: false }
 );
 
 const NetworkStatusListener = dynamic(
@@ -63,7 +63,7 @@ const NetworkStatusListener = dynamic(
     import("@/features/network-status-listener").then((mod) => ({
       default: mod.NetworkStatusListener,
     })),
-  { ssr: false },
+  { ssr: false }
 );
 
 import featuresData from "@/data/features.json";
@@ -89,7 +89,7 @@ type Feature = {
 };
 
 const getStatusFromBadge = (
-  statusBadge?: string,
+  statusBadge?: string
 ): "online" | "offline" | "maintenance" | "degraded" | null => {
   if (!statusBadge) return null;
   const badgeLower = statusBadge.toLowerCase();
@@ -145,7 +145,7 @@ const allFeatures: Feature[] = (featuresData as FeatureData[]).map(
   (feature) => ({
     ...feature,
     icon: iconMap[feature.icon] || ArrowUp,
-  }),
+  })
 );
 
 function HomePage() {
@@ -156,7 +156,7 @@ function HomePage() {
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
-      new Set(allFeatures.map((f) => f.category)),
+      new Set(allFeatures.map((f) => f.category))
     );
     return uniqueCategories.sort();
   }, []);
@@ -186,7 +186,7 @@ function HomePage() {
           ...f.name.toLowerCase().split(" "),
         ];
         return selectedTags.some((tag) =>
-          featureTags.some((ft) => ft.includes(tag.toLowerCase())),
+          featureTags.some((ft) => ft.includes(tag.toLowerCase()))
         );
       });
     }
@@ -351,11 +351,11 @@ function HomePage() {
                                     {(() => {
                                       try {
                                         const date = new Date(
-                                          feature.lastUpdatedAt,
+                                          feature.lastUpdatedAt
                                         );
                                         const distance = formatDistanceToNow(
                                           date,
-                                          { addSuffix: true },
+                                          { addSuffix: true }
                                         );
                                         // Convert to short format: "2d ago", "2w ago", "just now", etc.
                                         if (
