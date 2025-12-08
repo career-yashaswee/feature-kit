@@ -8,9 +8,35 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Crown, Sparkle, Lightning } from "@phosphor-icons/react";
+import { Crown, Sparkle, Lightning, Code } from "@phosphor-icons/react";
 import { SubscriptionIdentifier } from "@/features/subscription-identifier/components/subscription-identifier";
+
+interface PropConfig {
+  property: string;
+  type: string;
+  description: string;
+  defaultValue: string | number | boolean;
+  value: string | number | boolean;
+  inputType: "number" | "select" | "text" | "boolean";
+  options?: string[];
+}
 
 const features = [
   {
@@ -34,6 +60,112 @@ const features = [
 export default function SubscriptionIdentifierPage() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [props, setProps] = useState<PropConfig[]>([
+    {
+      property: "isUserSubscribed",
+      type: "boolean",
+      description: "Whether the user is subscribed",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "isLoading",
+      type: "boolean",
+      description: "Whether the component is in loading state",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "size",
+      type: '"sm" | "md" | "lg"',
+      description: "Size of the subscription identifier",
+      defaultValue: "md",
+      value: "md",
+      inputType: "select",
+      options: ["sm", "md", "lg"],
+    },
+    {
+      property: "variant",
+      type: '"outline" | "solid"',
+      description: "Visual variant of the identifier",
+      defaultValue: "outline",
+      value: "outline",
+      inputType: "select",
+      options: ["outline", "solid"],
+    },
+    {
+      property: "label",
+      type: "string",
+      description: "Custom label text",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+    {
+      property: "showIcon",
+      type: "boolean",
+      description: "Whether to show the icon",
+      defaultValue: true,
+      value: true,
+      inputType: "boolean",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+  ]);
+
+  const handleValueChange = (
+    index: number,
+    newValue: string | number | boolean,
+  ) => {
+    setProps((prev) => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        value: newValue,
+      };
+      return updated;
+    });
+  };
+
+  const getComponentProps = () => {
+    const componentProps: {
+      isUserSubscribed?: boolean;
+      isLoading?: boolean;
+      size?: "sm" | "md" | "lg";
+      variant?: "outline" | "solid";
+      label?: string;
+      showIcon?: boolean;
+      className?: string;
+    } = {};
+
+    props.forEach((prop) => {
+      if (prop.property === "isUserSubscribed") {
+        componentProps.isUserSubscribed = Boolean(prop.value);
+      } else if (prop.property === "isLoading") {
+        componentProps.isLoading = Boolean(prop.value);
+      } else if (prop.property === "size") {
+        componentProps.size = prop.value as "sm" | "md" | "lg";
+      } else if (prop.property === "variant") {
+        componentProps.variant = prop.value as "outline" | "solid";
+      } else if (prop.property === "label" && prop.value) {
+        componentProps.label = String(prop.value);
+      } else if (prop.property === "showIcon") {
+        componentProps.showIcon = Boolean(prop.value);
+      } else if (prop.property === "className" && prop.value) {
+        componentProps.className = String(prop.value);
+      }
+    });
+
+    return componentProps;
+  };
 
   const toggleSubscription = () => {
     setIsLoading(true);
@@ -46,6 +178,130 @@ export default function SubscriptionIdentifierPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SubscriptionIdentifier
+              isUserSubscribed={getComponentProps().isUserSubscribed ?? false}
+              {...getComponentProps()}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Code className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Props API</CardTitle>
+            </div>
+            <CardDescription>
+              Interact with the table below to customize the component in
+              real-time
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Property</TableHead>
+                  <TableHead className="w-[200px]">Type</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead className="w-[200px]">Value</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {props.map((prop, index) => (
+                  <TableRow key={prop.property}>
+                    <TableCell className="font-medium font-mono text-sm">
+                      {prop.property}
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">
+                      {prop.type}
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {prop.description}
+                    </TableCell>
+                    <TableCell>
+                      {prop.inputType === "select" ? (
+                        <Select
+                          value={String(prop.value)}
+                          onValueChange={(value) =>
+                            handleValueChange(index, value)
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {prop.options?.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : prop.inputType === "boolean" ? (
+                        <Select
+                          value={String(prop.value)}
+                          onValueChange={(value) =>
+                            handleValueChange(index, value === "true")
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="true">true</SelectItem>
+                            <SelectItem value="false">false</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      ) : prop.inputType === "number" ? (
+                        <Input
+                          type="number"
+                          value={prop.value}
+                          onChange={(e) =>
+                            handleValueChange(
+                              index,
+                              e.target.value === ""
+                                ? prop.defaultValue
+                                : Number(e.target.value),
+                            )
+                          }
+                          className="h-8"
+                        />
+                      ) : (
+                        <Input
+                          type="text"
+                          value={String(prop.value)}
+                          onChange={(e) =>
+                            handleValueChange(index, e.target.value)
+                          }
+                          placeholder={`Enter ${prop.property}`}
+                          className="h-8"
+                        />
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">

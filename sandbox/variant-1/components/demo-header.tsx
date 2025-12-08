@@ -3,9 +3,11 @@
 import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { House, Lightning } from "@phosphor-icons/react";
+import { House, Lightning, Book, GithubLogo } from "@phosphor-icons/react";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/features/language-switcher";
 import { ScrollableBreadcrumb } from "@/features/scrollable-breadcrumbs";
 import type { BreadcrumbItem } from "@/features/scrollable-breadcrumbs/types";
@@ -107,6 +109,37 @@ export function DemoHeader() {
           />
         </div>
         <div className="flex items-center gap-2 shrink-0">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9"
+            asChild
+          >
+            <Link
+              href="https://docs.featurekit.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Documentation"
+            >
+              <Book className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9"
+            asChild
+          >
+            <Link
+              href="https://github.com/featurekit/featurekit"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+            >
+              <GithubLogo className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Separator orientation="vertical" className="h-6" />
           <LanguageSwitcher
             languages={languages}
             currentLanguage={currentLang}

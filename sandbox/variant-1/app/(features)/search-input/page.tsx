@@ -8,6 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
   MagnifyingGlass,
@@ -19,6 +28,16 @@ import {
   Lightning,
 } from "@phosphor-icons/react";
 import { SearchInput } from "@/features/search-input/components/search-input";
+
+interface PropConfig {
+  property: string;
+  type: string;
+  description: string;
+  defaultValue: string | number;
+  value: string | number;
+  inputType: "number" | "select" | "text";
+  options?: string[];
+}
 
 const sampleData = [
   {
@@ -77,9 +96,199 @@ export default function SearchInputPage() {
     typeof sampleData
   >([]);
 
+  const [props, setProps] = useState<PropConfig[]>([
+    {
+      property: "placeholder",
+      type: "string",
+      description: "Placeholder text for the search input",
+      defaultValue: "Search...",
+      value: "Search...",
+      inputType: "text",
+    },
+    {
+      property: "debounceMs",
+      type: "number",
+      description: "Debounce delay in milliseconds",
+      defaultValue: 300,
+      value: 300,
+      inputType: "number",
+    },
+    {
+      property: "fuzzyThreshold",
+      type: "number",
+      description: "Fuzzy search threshold (0-1, lower is more strict)",
+      defaultValue: 0.4,
+      value: 0.4,
+      inputType: "number",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+  ]);
+
+  const handleValueChange = (index: number, newValue: string | number) => {
+    setProps((prev) => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        value: newValue,
+      };
+      return updated;
+    });
+  };
+
+  const getComponentProps = () => {
+    const componentProps: {
+      placeholder?: string;
+      debounceMs?: number;
+      fuzzyThreshold?: number;
+      className?: string;
+    } = {};
+
+    props.forEach((prop) => {
+      if (prop.property === "placeholder" && prop.value) {
+        componentProps.placeholder = String(prop.value);
+      } else if (prop.property === "debounceMs") {
+        const numValue = Number(prop.value);
+        if (!isNaN(numValue)) {
+          componentProps.debounceMs = numValue;
+        }
+      } else if (prop.property === "fuzzyThreshold") {
+        const numValue = Number(prop.value);
+        if (!isNaN(numValue)) {
+          componentProps.fuzzyThreshold = numValue;
+        }
+      } else if (prop.property === "className" && prop.value) {
+        componentProps.className = String(prop.value);
+      }
+    });
+
+    return componentProps;
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props like `data`, `searchKeys`, `onSearch`, `onResultClick`, and `renderResult` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SearchInput
+              data={sampleData}
+              searchKeys={["name", "category", "description"]}
+              onSearch={(query, results) => {
+                setMagnifyingGlassQuery(query);
+                setMagnifyingGlassResults(results);
+              }}
+              onResultClick={(item) => {
+                setSelectedItem(item);
+              }}
+              renderResult={(item) => (
+                <div className="space-y-1">
+                  <div className="font-medium">{item.name}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {item.category} • {item.description}
+                  </div>
+                </div>
+              )}
+              {...getComponentProps()}
+            />
+            {searchQuery && (
+              <div className="mt-2 text-sm text-muted-foreground">
+                Found {searchResults.length} result
+                {searchResults.length !== 1 ? "s" : ""} for &quot;
+                {searchQuery}&quot;
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Code className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Props API</CardTitle>
+            </div>
+            <CardDescription>
+              Interact with the table below to customize the component in
+              real-time. Note: Complex props like `data`, `searchKeys`, `onSearch`, `onResultClick`, and `renderResult` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Property</TableHead>
+                  <TableHead className="w-[200px]">Type</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead className="w-[200px]">Value</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {props.map((prop, index) => (
+                  <TableRow key={prop.property}>
+                    <TableCell className="font-medium font-mono text-sm">
+                      {prop.property}
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">
+                      {prop.type}
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {prop.description}
+                    </TableCell>
+                    <TableCell>
+                      {prop.inputType === "number" ? (
+                        <Input
+                          type="number"
+                          value={prop.value}
+                          onChange={(e) =>
+                            handleValueChange(
+                              index,
+                              e.target.value === ""
+                                ? prop.defaultValue
+                                : Number(e.target.value)
+                            )
+                          }
+                          className="h-8"
+                        />
+                      ) : (
+                        <Input
+                          type="text"
+                          value={String(prop.value)}
+                          onChange={(e) =>
+                            handleValueChange(index, e.target.value)
+                          }
+                          placeholder={`Enter ${prop.property}`}
+                          className="h-8"
+                        />
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
         {/* How to Test Card */}
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -126,11 +335,11 @@ export default function SearchInputPage() {
                   <MagnifyingGlass className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-2xl">
-                  MagnifyingGlass Input
+                  Search Input Example
                 </CardTitle>
               </div>
               <CardDescription>
-                MagnifyingGlass through sample food items with fuzzy matching
+                Search through sample food items with fuzzy matching
                 and debouncing
               </CardDescription>
             </CardHeader>
@@ -140,7 +349,7 @@ export default function SearchInputPage() {
                 searchKeys={["name", "category", "description"]}
                 debounceMs={300}
                 fuzzyThreshold={0.4}
-                placeholder="MagnifyingGlass foods..."
+                placeholder="Search foods..."
                 onSearch={(query, results) => {
                   setMagnifyingGlassQuery(query);
                   setMagnifyingGlassResults(results);

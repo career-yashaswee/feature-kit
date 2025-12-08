@@ -8,6 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +34,16 @@ import {
 import { ShareQRCode } from "@/features/share-qr-code/components/share-qr-code";
 import { useToggle } from "@uidotdev/usehooks";
 
+interface PropConfig {
+  property: string;
+  type: string;
+  description: string;
+  defaultValue: string | number | boolean;
+  value: string | number | boolean;
+  inputType: "number" | "select" | "text" | "boolean";
+  options?: string[];
+}
+
 export default function ShareQRCodePage() {
   const [isOpen, toggleOpen] = useToggle(false);
   const shareUrl =
@@ -33,9 +52,170 @@ export default function ShareQRCodePage() {
       : "https://example.com";
   const username = "ISTUDIO2001";
 
+  const [props, setProps] = useState<PropConfig[]>([
+    {
+      property: "url",
+      type: "string",
+      description: "URL to encode in the QR code",
+      defaultValue: shareUrl,
+      value: shareUrl,
+      inputType: "text",
+    },
+    {
+      property: "username",
+      type: "string",
+      description: "Username to display on the QR code",
+      defaultValue: "ISTUDIO2001",
+      value: "ISTUDIO2001",
+      inputType: "text",
+    },
+    {
+      property: "title",
+      type: "string",
+      description: "Title text for the share modal",
+      defaultValue: "Feature Kit - Share QR Code",
+      value: "Feature Kit - Share QR Code",
+      inputType: "text",
+    },
+    {
+      property: "description",
+      type: "string",
+      description: "Description text for the share modal",
+      defaultValue: "Share this profile via QR code",
+      value: "Share this profile via QR code",
+      inputType: "text",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+  ]);
+
+  const handleValueChange = (
+    index: number,
+    newValue: string | number | boolean,
+  ) => {
+    setProps((prev) => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        value: newValue,
+      };
+      return updated;
+    });
+  };
+
+  const getComponentProps = () => {
+    const componentProps: {
+      url?: string;
+      username?: string;
+      title?: string;
+      description?: string;
+      className?: string;
+    } = {};
+
+    props.forEach((prop) => {
+      if (prop.property === "url" && prop.value) {
+        componentProps.url = String(prop.value);
+      } else if (prop.property === "username" && prop.value) {
+        componentProps.username = String(prop.value);
+      } else if (prop.property === "title" && prop.value) {
+        componentProps.title = String(prop.value);
+      } else if (prop.property === "description" && prop.value) {
+        componentProps.description = String(prop.value);
+      } else if (prop.property === "className" && prop.value) {
+        componentProps.className = String(prop.value);
+      }
+    });
+
+    return componentProps;
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props like `isOpen` and `onOpenChange` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center rounded-lg border bg-card p-8">
+              <Button onClick={() => toggleOpen()} size="lg">
+                <QrCode className="h-4 w-4 mr-2" />
+                Open QR Code
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Code className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Props API</CardTitle>
+            </div>
+            <CardDescription>
+              Interact with the table below to customize the component in
+              real-time. Note: Complex props like `isOpen` and `onOpenChange` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Property</TableHead>
+                  <TableHead className="w-[200px]">Type</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead className="w-[200px]">Value</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {props.map((prop, index) => (
+                  <TableRow key={prop.property}>
+                    <TableCell className="font-medium font-mono text-sm">
+                      {prop.property}
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">
+                      {prop.type}
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {prop.description}
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="text"
+                        value={String(prop.value)}
+                        onChange={(e) =>
+                          handleValueChange(index, e.target.value)
+                        }
+                        placeholder={`Enter ${prop.property}`}
+                        className="h-8"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
         <div className="flex flex-wrap items-center justify-center gap-2">
           <Badge
             variant="default"
@@ -219,10 +399,7 @@ export default function ShareQRCodePage() {
 
         {/* QR Code Modal */}
         <ShareQRCode
-          url={shareUrl}
-          username={username}
-          title="Feature Kit - Share QR Code"
-          description="Share this profile via QR code"
+          {...getComponentProps()}
           isOpen={isOpen}
           onOpenChange={toggleOpen}
         />

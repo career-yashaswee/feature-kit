@@ -9,6 +9,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,8 +34,19 @@ import {
   XCircle,
   Gear,
   Lightning,
+  Code,
 } from "@phosphor-icons/react";
 import type { Notification } from "@/features/notification-shade/types";
+
+interface PropConfig {
+  property: string;
+  type: string;
+  description: string;
+  defaultValue: string | number | boolean;
+  value: string | number | boolean;
+  inputType: "number" | "select" | "text" | "boolean";
+  options?: string[];
+}
 
 const NotificationShade = dynamic(
   () =>
@@ -121,6 +148,92 @@ export default function NotificationShadePage() {
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
+  const [props, setProps] = useState<PropConfig[]>([
+    {
+      property: "unreadCount",
+      type: "number",
+      description: "Number of unread notifications (auto-calculated if not provided)",
+      defaultValue: unreadCount,
+      value: unreadCount,
+      inputType: "number",
+    },
+    {
+      property: "isMobile",
+      type: "boolean",
+      description: "Force mobile layout (dialog instead of dropdown)",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "emptyMessage",
+      type: "string",
+      description: "Message to show when there are no notifications",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+    {
+      property: "viewAllLabel",
+      type: "string",
+      description: "Label text for the 'View All' button",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+  ]);
+
+  const handleValueChange = (
+    index: number,
+    newValue: string | number | boolean,
+  ) => {
+    setProps((prev) => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        value: newValue,
+      };
+      return updated;
+    });
+  };
+
+  const getComponentProps = () => {
+    const componentProps: {
+      unreadCount?: number;
+      isMobile?: boolean;
+      emptyMessage?: string;
+      viewAllLabel?: string;
+      className?: string;
+    } = {};
+
+    props.forEach((prop) => {
+      if (prop.property === "unreadCount") {
+        const numValue = Number(prop.value);
+        if (!isNaN(numValue)) {
+          componentProps.unreadCount = numValue;
+        }
+      } else if (prop.property === "isMobile") {
+        componentProps.isMobile = Boolean(prop.value);
+      } else if (prop.property === "emptyMessage" && prop.value) {
+        componentProps.emptyMessage = String(prop.value);
+      } else if (prop.property === "viewAllLabel" && prop.value) {
+        componentProps.viewAllLabel = String(prop.value);
+      } else if (prop.property === "className" && prop.value) {
+        componentProps.className = String(prop.value);
+      }
+    });
+
+    return componentProps;
+  };
+
   const handleMarkAllAsRead = () => {
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
@@ -152,6 +265,120 @@ export default function NotificationShadePage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props like `notifications`, `onMarkAllAsRead`, `onNotificationClick`, `onNotificationDismiss`, `onRefresh`, and `onViewAll` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center rounded-lg border bg-card p-8">
+              <NotificationShade
+                notifications={notifications}
+                onMarkAllAsRead={handleMarkAllAsRead}
+                onNotificationClick={handleNotificationClick}
+                onNotificationDismiss={handleNotificationDismiss}
+                onRefresh={handleRefresh}
+                onViewAll={handleViewAll}
+                {...getComponentProps()}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Code className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Props API</CardTitle>
+            </div>
+            <CardDescription>
+              Interact with the table below to customize the component in
+              real-time. Note: Complex props like `notifications`, `onMarkAllAsRead`, `onNotificationClick`, `onNotificationDismiss`, `onRefresh`, and `onViewAll` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Property</TableHead>
+                  <TableHead className="w-[200px]">Type</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead className="w-[200px]">Value</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {props.map((prop, index) => (
+                  <TableRow key={prop.property}>
+                    <TableCell className="font-medium font-mono text-sm">
+                      {prop.property}
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">
+                      {prop.type}
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {prop.description}
+                    </TableCell>
+                    <TableCell>
+                      {prop.inputType === "number" ? (
+                        <Input
+                          type="number"
+                          value={prop.value}
+                          onChange={(e) =>
+                            handleValueChange(
+                              index,
+                              e.target.value === ""
+                                ? prop.defaultValue
+                                : Number(e.target.value)
+                            )
+                          }
+                          className="h-8"
+                        />
+                      ) : prop.inputType === "boolean" ? (
+                        <Select
+                          value={String(prop.value)}
+                          onValueChange={(value) =>
+                            handleValueChange(index, value === "true")
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="true">true</SelectItem>
+                            <SelectItem value="false">false</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Input
+                          type="text"
+                          value={String(prop.value)}
+                          onChange={(e) =>
+                            handleValueChange(index, e.target.value)
+                          }
+                          placeholder={`Enter ${prop.property}`}
+                          className="h-8"
+                        />
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
@@ -214,12 +441,12 @@ export default function NotificationShadePage() {
                 <div className="flex items-center gap-2">
                   <NotificationShade
                     notifications={notifications}
-                    unreadCount={unreadCount}
                     onMarkAllAsRead={handleMarkAllAsRead}
                     onNotificationClick={handleNotificationClick}
                     onNotificationDismiss={handleNotificationDismiss}
                     onRefresh={handleRefresh}
                     onViewAll={handleViewAll}
+                    {...getComponentProps()}
                   />
                 </div>
               </div>

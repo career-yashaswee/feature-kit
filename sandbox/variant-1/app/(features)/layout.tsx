@@ -2,7 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
+import { formatDistanceToNow } from "date-fns";
 import {
   ArrowUp,
   ArrowsClockwise,
@@ -44,6 +45,59 @@ type FeatureData = {
   category: string;
   statusBadge?: string;
   lastUpdatedAt?: string;
+};
+
+const getStatusFromBadge = (
+  statusBadge?: string,
+): "online" | "offline" | "maintenance" | "degraded" | null => {
+  if (!statusBadge) return null;
+  const badgeLower = statusBadge.toLowerCase();
+  if (
+    badgeLower === "new" ||
+    badgeLower === "updated" ||
+    badgeLower === "fixed"
+  ) {
+    return "online";
+  }
+  if (badgeLower === "maintenance") {
+    return "maintenance";
+  }
+  if (badgeLower === "degraded" || badgeLower === "deprecated") {
+    return "degraded";
+  }
+  if (badgeLower === "offline") {
+    return "offline";
+  }
+  return "online";
+};
+
+const formatTimestamp = (lastUpdatedAt?: string): string | null => {
+  if (!lastUpdatedAt) return null;
+  try {
+    const date = new Date(lastUpdatedAt);
+    const distance = formatDistanceToNow(date, { addSuffix: true });
+    // Convert to short format: "2d ago", "2w ago", "just now", etc.
+    if (
+      distance.includes("second") ||
+      (distance.includes("minute") && distance.includes("less than"))
+    ) {
+      return "just now";
+    }
+    const shortDistance = distance
+      .replace(/about /g, "")
+      .replace(/less than a /g, "")
+      .replace(/over /g, "")
+      .replace(/almost /g, "")
+      .replace(/ minutes?/g, "m")
+      .replace(/ hours?/g, "h")
+      .replace(/ days?/g, "d")
+      .replace(/ weeks?/g, "w")
+      .replace(/ months?/g, "mo")
+      .replace(/ years?/g, "y");
+    return shortDistance;
+  } catch {
+    return null;
+  }
 };
 
 const iconMap: Record<string, typeof ArrowUp> = {
@@ -145,10 +199,29 @@ export default function FeaturesLayout({
             <span className="text-sm font-medium">{feature.category}</span>
           </div>
           <div className="flex flex-col items-center gap-4">
-            <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              {feature.name}
-            </h1>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                {feature.name}
+              </h1>
+              {feature.statusBadge &&
+                getStatusFromBadge(feature.statusBadge) && (
+                  <Status
+                    status={getStatusFromBadge(feature.statusBadge)!}
+                    className="gap-1.5"
+                  >
+                    <StatusIndicator />
+                    <StatusLabel>
+                      {feature.statusBadge}
+                      {feature.lastUpdatedAt && formatTimestamp(feature.lastUpdatedAt) && (
+                        <span className="ml-1 text-xs opacity-80">
+                          {formatTimestamp(feature.lastUpdatedAt)}
+                        </span>
+                      )}
+                    </StatusLabel>
+                  </Status>
+                )}
+            </div>
+            <div className="flex items-center gap-2 flex-wrap justify-center">
               <ShareButton
                 url={shareUrl}
                 title={feature.name}
@@ -178,14 +251,6 @@ export default function FeaturesLayout({
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             {feature.description}
           </p>
-          {feature.statusBadge && (
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              <Badge variant="default" className="gap-1.5 bg-secondary/80">
-                <Lightning className="h-3 w-3" />
-                {feature.statusBadge}
-              </Badge>
-            </div>
-          )}
         </section>
         {children}
       </main>

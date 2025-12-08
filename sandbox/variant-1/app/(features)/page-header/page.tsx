@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -7,6 +8,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,8 +33,19 @@ import {
   Plus,
   Download,
   Share,
+  Code,
 } from "@phosphor-icons/react";
 import { PageHeader } from "@/features/page-header/components/page-header";
+
+interface PropConfig {
+  property: string;
+  type: string;
+  description: string;
+  defaultValue: string | number | boolean;
+  value: string | number | boolean;
+  inputType: "number" | "select" | "text" | "boolean";
+  options?: string[];
+}
 
 const features = [
   {
@@ -38,9 +66,227 @@ const features = [
 ];
 
 export default function PageHeaderPage() {
+  const [props, setProps] = useState<PropConfig[]>([
+    {
+      property: "title",
+      type: "string",
+      description: "Title text for the header",
+      defaultValue: "Page Title",
+      value: "Page Title",
+      inputType: "text",
+    },
+    {
+      property: "subtitle",
+      type: "string",
+      description: "Subtitle text below the title",
+      defaultValue: "This is a descriptive subtitle",
+      value: "This is a descriptive subtitle",
+      inputType: "text",
+    },
+    {
+      property: "variant",
+      type: '"default" | "minimal" | "bordered"',
+      description: "Visual variant of the header",
+      defaultValue: "default",
+      value: "default",
+      inputType: "select",
+      options: ["default", "minimal", "bordered"],
+    },
+    {
+      property: "iconSize",
+      type: '"sm" | "md" | "lg"',
+      description: "Size of the icon",
+      defaultValue: "md",
+      value: "md",
+      inputType: "select",
+      options: ["sm", "md", "lg"],
+    },
+    {
+      property: "showCornerDecorations",
+      type: "boolean",
+      description: "Whether to show corner decorations",
+      defaultValue: true,
+      value: true,
+      inputType: "boolean",
+    },
+    {
+      property: "showDashedBorder",
+      type: "boolean",
+      description: "Whether to show dashed border",
+      defaultValue: true,
+      value: true,
+      inputType: "boolean",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+    },
+  ]);
+
+  const handleValueChange = (
+    index: number,
+    newValue: string | number | boolean,
+  ) => {
+    setProps((prev) => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        value: newValue,
+      };
+      return updated;
+    });
+  };
+
+  const getComponentProps = () => {
+    const componentProps: {
+      title?: string;
+      subtitle?: string;
+      variant?: "default" | "minimal" | "bordered";
+      iconSize?: "sm" | "md" | "lg";
+      showCornerDecorations?: boolean;
+      showDashedBorder?: boolean;
+      className?: string;
+    } = {};
+
+    props.forEach((prop) => {
+      if (prop.property === "title" && prop.value) {
+        componentProps.title = String(prop.value);
+      } else if (prop.property === "subtitle" && prop.value) {
+        componentProps.subtitle = String(prop.value);
+      } else if (prop.property === "variant") {
+        componentProps.variant = prop.value as typeof componentProps.variant;
+      } else if (prop.property === "iconSize") {
+        componentProps.iconSize = prop.value as typeof componentProps.iconSize;
+      } else if (prop.property === "showCornerDecorations") {
+        componentProps.showCornerDecorations = Boolean(prop.value);
+      } else if (prop.property === "showDashedBorder") {
+        componentProps.showDashedBorder = Boolean(prop.value);
+      } else if (prop.property === "className" && prop.value) {
+        componentProps.className = String(prop.value);
+      }
+    });
+
+    return componentProps;
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: The `icon` and `actionsSlot` props (ReactNode) are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <PageHeader
+              icon={<FileText className="h-full w-full" />}
+              {...getComponentProps()}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Code className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Props API</CardTitle>
+            </div>
+            <CardDescription>
+              Interact with the table below to customize the component in
+              real-time. Note: Complex props like `icon` and `actionsSlot` (ReactNode) are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Property</TableHead>
+                  <TableHead className="w-[200px]">Type</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead className="w-[200px]">Value</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {props.map((prop, index) => (
+                  <TableRow key={prop.property}>
+                    <TableCell className="font-medium font-mono text-sm">
+                      {prop.property}
+                    </TableCell>
+                    <TableCell className="font-mono text-xs text-muted-foreground">
+                      {prop.type}
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {prop.description}
+                    </TableCell>
+                    <TableCell>
+                      {prop.inputType === "select" ? (
+                        <Select
+                          value={String(prop.value)}
+                          onValueChange={(value) =>
+                            handleValueChange(index, value)
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {prop.options?.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : prop.inputType === "boolean" ? (
+                        <Select
+                          value={String(prop.value)}
+                          onValueChange={(value) =>
+                            handleValueChange(index, value === "true")
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="true">true</SelectItem>
+                            <SelectItem value="false">false</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Input
+                          type="text"
+                          value={String(prop.value)}
+                          onChange={(e) =>
+                            handleValueChange(index, e.target.value)
+                          }
+                          placeholder={`Enter ${prop.property}`}
+                          className="h-8"
+                        />
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
