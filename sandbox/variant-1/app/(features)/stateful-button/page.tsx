@@ -222,6 +222,30 @@ export default function StatefulButtonPage() {
       value: "",
       inputType: "text",
     },
+    {
+      property: "doubleTapToConfirm",
+      type: "boolean",
+      description: "Require double tap to confirm action (useful for destructive actions)",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "doubleTapTimeoutMs",
+      type: "number",
+      description: "Timeout in milliseconds before double tap confirmation resets",
+      defaultValue: 3000,
+      value: 3000,
+      inputType: "number",
+    },
+    {
+      property: "doubleTapConfirmMessage",
+      type: "string",
+      description: "Message to show when waiting for confirmation tap",
+      defaultValue: "Press again to confirm",
+      value: "Press again to confirm",
+      inputType: "text",
+    },
   ]);
 
   const handleValueChange = (
@@ -245,6 +269,9 @@ export default function StatefulButtonPage() {
       disabled?: boolean;
       rateLimitMs?: number;
       className?: string;
+      doubleTapToConfirm?: boolean;
+      doubleTapTimeoutMs?: number;
+      doubleTapConfirmMessage?: string;
     } = {};
 
     props.forEach((prop) => {
@@ -261,6 +288,15 @@ export default function StatefulButtonPage() {
         }
       } else if (prop.property === "className" && prop.value) {
         componentProps.className = String(prop.value);
+      } else if (prop.property === "doubleTapToConfirm") {
+        componentProps.doubleTapToConfirm = Boolean(prop.value);
+      } else if (prop.property === "doubleTapTimeoutMs") {
+        const numValue = Number(prop.value);
+        if (!isNaN(numValue)) {
+          componentProps.doubleTapTimeoutMs = numValue;
+        }
+      } else if (prop.property === "doubleTapConfirmMessage" && prop.value) {
+        componentProps.doubleTapConfirmMessage = String(prop.value);
       }
     });
 
@@ -484,6 +520,7 @@ export default function StatefulButtonPage() {
                 "Click the 'Success Action' button to see loading → success transition",
                 "Click the 'Error Action' button to see loading → error transition",
                 "Try clicking rapidly to test rate limiting (1 second interval)",
+                "Test double tap confirmation on the 'Delete Item' button below",
                 "Watch the smooth animations between states",
               ].map((step, index) => (
                 <li
@@ -589,6 +626,41 @@ export default function StatefulButtonPage() {
           </CardContent>
         </Card>
 
+        <Card className="border-2 shadow-lg">
+          <CardHeader className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="rounded-lg bg-destructive/10 p-2 shrink-0">
+                <Trash className="h-5 w-5 text-destructive" />
+              </div>
+              <CardTitle className="text-2xl">Double Tap to Confirm</CardTitle>
+            </div>
+            <CardDescription>
+              For destructive actions, require two taps to confirm. First tap
+              shows confirmation message, second tap executes the action. If
+              you wait too long, it resets automatically.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <StatefulButton
+              onAction={async () => {
+                await new Promise((resolve) => setTimeout(resolve, 1500));
+                toast.success("Item deleted successfully");
+              }}
+              variant="destructive"
+              doubleTapToConfirm={true}
+              doubleTapTimeoutMs={3000}
+              doubleTapConfirmMessage="Press again to delete"
+            >
+              <Trash className="h-4 w-4 mr-2" />
+              Delete Item
+            </StatefulButton>
+            <p className="text-sm text-muted-foreground">
+              Click once to see confirmation message, click again to delete.
+              Wait 3 seconds to see it reset automatically.
+            </p>
+          </CardContent>
+        </Card>
+
         {/* Features Card */}
         <Card className="border-2 shadow-lg">
           <CardHeader>
@@ -637,6 +709,12 @@ export default function StatefulButtonPage() {
                   title: "Customizable",
                   description:
                     "Configurable rate limits, callbacks, and styling options",
+                },
+                {
+                  icon: CursorClick,
+                  title: "Double Tap to Confirm",
+                  description:
+                    "Require two taps for destructive actions with automatic timeout reset",
                 },
               ].map((feature, index) => (
                 <div

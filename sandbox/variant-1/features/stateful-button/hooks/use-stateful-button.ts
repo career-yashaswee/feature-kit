@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 export type ButtonState = "default" | "loading" | "success" | "error";
 
@@ -7,6 +7,9 @@ export interface UseStatefulButtonOptions {
   rateLimitMs?: number;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
+  doubleTapToConfirm?: boolean;
+  doubleTapTimeoutMs?: number;
+  doubleTapConfirmMessage?: string;
 }
 
 export function useStatefulButton({
@@ -14,11 +17,24 @@ export function useStatefulButton({
   rateLimitMs = 1000,
   onSuccess,
   onError,
+  doubleTapToConfirm = false,
+  doubleTapTimeoutMs = 3000,
+  doubleTapConfirmMessage = "Press again to confirm",
 }: UseStatefulButtonOptions) {
   const [state, setState] = useState<ButtonState>("default");
+  const [isWaitingForConfirm, setIsWaitingForConfirm] = useState(false);
   const lastCallRef = useRef<number>(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleClick = useCallback(async () => {
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const executeAction = useCallback(async () => {
     if (state === "loading") return;
 
     const now = Date.now();
@@ -49,11 +65,42 @@ export function useStatefulButton({
     }
   }, [state, onAction, onSuccess, onError, rateLimitMs]);
 
+  const handleClick = useCallback(async () => {
+    if (state === "loading") return;
+
+    if (!doubleTapToConfirm) {
+      await executeAction();
+      return;
+    }
+
+    if (isWaitingForConfirm) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      setIsWaitingForConfirm(false);
+      await executeAction();
+    } else {
+      setIsWaitingForConfirm(true);
+      timeoutRef.current = setTimeout(() => {
+        setIsWaitingForConfirm(false);
+        timeoutRef.current = null;
+      }, doubleTapTimeoutMs);
+    }
+  }, [
+    state,
+    doubleTapToConfirm,
+    isWaitingForConfirm,
+    doubleTapTimeoutMs,
+    executeAction,
+  ]);
+
   return {
     state,
     handleClick,
     isLoading: state === "loading",
     isSuccess: state === "success",
     isError: state === "error",
+    isWaitingForConfirm,
   };
 }

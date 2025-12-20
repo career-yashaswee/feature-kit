@@ -17,4 +17,7 @@ export interface OptimisticActionButtonProps extends VariantProps<
   onError?: (error: Error) => void;
   className?: string;
   disabled?: boolean;
+  doubleTapToConfirm?: boolean;
+  doubleTapTimeoutMs?: number;
+  doubleTapConfirmMessage?: string;
 }

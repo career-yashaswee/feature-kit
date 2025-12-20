@@ -41,7 +41,9 @@ import {
   Code,
   Star,
   Bookmark,
+  Trash,
 } from "@phosphor-icons/react";
+import { toast } from "sonner";
 import type { ReactNode } from "react";
 
 type ChildrenOption = {
@@ -228,6 +230,30 @@ export default function OptimisticActionButtonPage() {
       value: "",
       inputType: "text",
     },
+    {
+      property: "doubleTapToConfirm",
+      type: "boolean",
+      description: "Require double tap to confirm action (useful for destructive actions)",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "doubleTapTimeoutMs",
+      type: "number",
+      description: "Timeout in milliseconds before double tap confirmation resets",
+      defaultValue: 3000,
+      value: 3000,
+      inputType: "number",
+    },
+    {
+      property: "doubleTapConfirmMessage",
+      type: "string",
+      description: "Message to show when waiting for confirmation tap",
+      defaultValue: "Press again to confirm",
+      value: "Press again to confirm",
+      inputType: "text",
+    },
   ]);
 
   const handleValueChange = (
@@ -253,6 +279,9 @@ export default function OptimisticActionButtonPage() {
       successMessage?: string;
       errorMessage?: string;
       className?: string;
+      doubleTapToConfirm?: boolean;
+      doubleTapTimeoutMs?: number;
+      doubleTapConfirmMessage?: string;
     } = {};
 
     props.forEach((prop) => {
@@ -270,6 +299,15 @@ export default function OptimisticActionButtonPage() {
         componentProps.errorMessage = String(prop.value);
       } else if (prop.property === "className" && prop.value) {
         componentProps.className = String(prop.value);
+      } else if (prop.property === "doubleTapToConfirm") {
+        componentProps.doubleTapToConfirm = Boolean(prop.value);
+      } else if (prop.property === "doubleTapTimeoutMs") {
+        const numValue = Number(prop.value);
+        if (!isNaN(numValue)) {
+          componentProps.doubleTapTimeoutMs = numValue;
+        }
+      } else if (prop.property === "doubleTapConfirmMessage" && prop.value) {
+        componentProps.doubleTapConfirmMessage = String(prop.value);
       }
     });
 
@@ -481,6 +519,46 @@ export default function OptimisticActionButtonPage() {
             </OptimisticActionButton>
             <p className="text-sm text-muted-foreground">
               Current state: {isFavorite ? "Favorited" : "Not favorited"}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-2 shadow-lg">
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div className="rounded-lg bg-destructive/10 p-2">
+              <Trash className="h-5 w-5 text-destructive" />
+            </div>
+            <CardTitle className="text-2xl">Double Tap to Confirm</CardTitle>
+          </div>
+          <CardDescription>
+            For destructive actions, require two taps to confirm. First tap shows
+            confirmation message, second tap executes the action. If you wait too
+            long, it resets automatically.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-4">
+            <OptimisticActionButton
+              action={async () => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                toast.success("Item deleted successfully");
+              }}
+              optimisticState={false}
+              onOptimisticUpdate={() => {}}
+              onRollback={() => {}}
+              variant="destructive"
+              doubleTapToConfirm={true}
+              doubleTapTimeoutMs={3000}
+              doubleTapConfirmMessage="Press again to delete"
+            >
+              <Trash className="h-4 w-4 mr-2" />
+              Delete Item
+            </OptimisticActionButton>
+            <p className="text-sm text-muted-foreground">
+              Click once to see confirmation, click again to delete. Wait 3
+              seconds to see it reset.
             </p>
           </div>
         </CardContent>

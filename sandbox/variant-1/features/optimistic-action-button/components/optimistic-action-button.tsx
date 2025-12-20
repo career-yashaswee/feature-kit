@@ -13,7 +13,7 @@ export function OptimisticActionButton({
   onOptimisticUpdate,
   onRollback,
   children,
-  loadingMessage = "Processing...",
+  loadingMessage = "Processing",
   successMessage = "Action completed successfully.",
   errorMessage = "Action failed. Please try again.",
   onSuccess,
@@ -22,18 +22,25 @@ export function OptimisticActionButton({
   size,
   className,
   disabled = false,
+  doubleTapToConfirm = false,
+  doubleTapTimeoutMs = 3000,
+  doubleTapConfirmMessage = "Press again to confirm",
 }: OptimisticActionButtonProps) {
-  const { isLoading, handleClick } = useOptimisticActionButton({
-    action,
-    optimisticState,
-    onOptimisticUpdate,
-    onRollback,
-    loadingMessage,
-    successMessage,
-    errorMessage,
-    onSuccess,
-    onError,
-  });
+  const { isLoading, isWaitingForConfirm, handleClick } =
+    useOptimisticActionButton({
+      action,
+      optimisticState,
+      onOptimisticUpdate,
+      onRollback,
+      loadingMessage,
+      successMessage,
+      errorMessage,
+      onSuccess,
+      onError,
+      doubleTapToConfirm,
+      doubleTapTimeoutMs,
+      doubleTapConfirmMessage,
+    });
 
   return (
     <Button
@@ -64,6 +71,17 @@ export function OptimisticActionButton({
               className="h-4 w-4 rounded-full border-2 border-current border-t-transparent"
             />
             <span className="hidden sm:inline">{loadingMessage}</span>
+          </motion.div>
+        ) : isWaitingForConfirm ? (
+          <motion.div
+            key="confirm"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.15 }}
+            className="flex items-center gap-2"
+          >
+            <span>{doubleTapConfirmMessage}</span>
           </motion.div>
         ) : (
           <motion.div

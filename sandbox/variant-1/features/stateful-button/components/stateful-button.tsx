@@ -13,10 +13,24 @@ export function StatefulButton({
   variant = "default",
   size = "default",
   disabled = false,
+  doubleTapToConfirm = false,
+  doubleTapTimeoutMs = 3000,
+  doubleTapConfirmMessage = "Press again to confirm",
   ...options
 }: StatefulButtonProps) {
-  const { state, handleClick, isLoading, isSuccess, isError } =
-    useStatefulButton(options);
+  const {
+    state,
+    handleClick,
+    isLoading,
+    isSuccess,
+    isError,
+    isWaitingForConfirm,
+  } = useStatefulButton({
+    ...options,
+    doubleTapToConfirm,
+    doubleTapTimeoutMs,
+    doubleTapConfirmMessage,
+  });
 
   const getButtonVariant = () => {
     if (isSuccess) return "default";
@@ -42,7 +56,7 @@ export function StatefulButton({
             className="flex items-center gap-2"
           >
             <Spinner className="h-4 w-4 animate-spin" />
-            <span>Loading...</span>
+            <span>Loading</span>
           </motion.div>
         )}
         {isSuccess && (
@@ -54,7 +68,7 @@ export function StatefulButton({
             className="flex items-center gap-2"
           >
             <CheckCircle className="h-4 w-4" />
-            <span>Success!</span>
+            <span>Success</span>
           </motion.div>
         )}
         {isError && (
@@ -69,7 +83,19 @@ export function StatefulButton({
             <span>Error</span>
           </motion.div>
         )}
-        {state === "default" && (
+        {isWaitingForConfirm && (
+          <motion.div
+            key="confirm"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.15 }}
+            className="flex items-center gap-2"
+          >
+            <span>{doubleTapConfirmMessage}</span>
+          </motion.div>
+        )}
+        {state === "default" && !isWaitingForConfirm && (
           <motion.div
             key="default"
             initial={{ opacity: 0 }}

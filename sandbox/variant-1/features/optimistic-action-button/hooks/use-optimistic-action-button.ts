@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 
 export interface UseOptimisticActionButtonOptions {
@@ -11,6 +11,9 @@ export interface UseOptimisticActionButtonOptions {
   errorMessage?: string;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
+  doubleTapToConfirm?: boolean;
+  doubleTapTimeoutMs?: number;
+  doubleTapConfirmMessage?: string;
 }
 
 export function useOptimisticActionButton({
@@ -18,15 +21,28 @@ export function useOptimisticActionButton({
   optimisticState: _optimisticState,
   onOptimisticUpdate,
   onRollback,
-  loadingMessage = "Processing...",
+  loadingMessage = "Processing",
   successMessage = "Action completed successfully.",
   errorMessage = "Action failed. Please try again.",
   onSuccess,
   onError,
+  doubleTapToConfirm = false,
+  doubleTapTimeoutMs = 3000,
+  doubleTapConfirmMessage = "Press again to confirm",
 }: UseOptimisticActionButtonOptions) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isWaitingForConfirm, setIsWaitingForConfirm] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleClick = useCallback(() => {
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const executeAction = useCallback(() => {
     if (isLoading) return;
 
     onOptimisticUpdate();
@@ -63,8 +79,39 @@ export function useOptimisticActionButton({
     onError,
   ]);
 
+  const handleClick = useCallback(() => {
+    if (isLoading) return;
+
+    if (!doubleTapToConfirm) {
+      executeAction();
+      return;
+    }
+
+    if (isWaitingForConfirm) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      setIsWaitingForConfirm(false);
+      executeAction();
+    } else {
+      setIsWaitingForConfirm(true);
+      timeoutRef.current = setTimeout(() => {
+        setIsWaitingForConfirm(false);
+        timeoutRef.current = null;
+      }, doubleTapTimeoutMs);
+    }
+  }, [
+    isLoading,
+    doubleTapToConfirm,
+    isWaitingForConfirm,
+    doubleTapTimeoutMs,
+    executeAction,
+  ]);
+
   return {
     isLoading,
+    isWaitingForConfirm,
     handleClick,
   };
 }
