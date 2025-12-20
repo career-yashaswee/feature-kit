@@ -274,7 +274,11 @@ export default function FaqHintsPage() {
                       ) : prop.inputType === "number" ? (
                         <Input
                           type="number"
-                          value={prop.value}
+                          value={
+                            typeof prop.value === "number"
+                              ? prop.value
+                              : Number(prop.value) || 0
+                          }
                           onChange={(e) =>
                             handleValueChange(
                               index,

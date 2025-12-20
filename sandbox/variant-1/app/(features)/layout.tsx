@@ -48,7 +48,7 @@ type FeatureData = {
 };
 
 const getStatusFromBadge = (
-  statusBadge?: string,
+  statusBadge?: string
 ): "online" | "offline" | "maintenance" | "degraded" | null => {
   if (!statusBadge) return null;
   const badgeLower = statusBadge.toLowerCase();
@@ -173,22 +173,23 @@ export default function FeaturesLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  
+
   const feature = (featuresData as FeatureData[]).find(
     (f) => f.path === pathname
   );
+
+  const shareUrl = useMemo(() => {
+    if (typeof window !== "undefined") {
+      return `${window.location.origin}${pathname}`;
+    }
+    return `https://featurekit.dev${pathname}`;
+  }, [pathname]);
 
   if (!feature) {
     return <>{children}</>;
   }
 
   const IconComponent = iconMap[feature.icon] || FileText;
-  const shareUrl = useMemo(() => {
-    if (typeof window !== "undefined") {
-      return window.location.href;
-    }
-    return `https://featurekit.dev${pathname}`;
-  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -212,11 +213,12 @@ export default function FeaturesLayout({
                     <StatusIndicator />
                     <StatusLabel>
                       {feature.statusBadge}
-                      {feature.lastUpdatedAt && formatTimestamp(feature.lastUpdatedAt) && (
-                        <span className="ml-1 text-xs opacity-80">
-                          {formatTimestamp(feature.lastUpdatedAt)}
-                        </span>
-                      )}
+                      {feature.lastUpdatedAt &&
+                        formatTimestamp(feature.lastUpdatedAt) && (
+                          <span className="ml-1 text-xs opacity-80">
+                            {formatTimestamp(feature.lastUpdatedAt)}
+                          </span>
+                        )}
                     </StatusLabel>
                   </Status>
                 )}
@@ -257,4 +259,3 @@ export default function FeaturesLayout({
     </div>
   );
 }
-

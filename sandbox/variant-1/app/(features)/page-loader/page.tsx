@@ -188,7 +188,7 @@ export default function PageLoaderPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Click "Show Loader" to see it in action. Note: The `isVisible`, `loadingState`, `brandIcon`, `refreshQueryKeys`, and `onRefresh` props are complex and not editable here.
+              Click &quot;Show Loader&quot; to see it in action. Note: The `isVisible`, `loadingState`, `brandIcon`, `refreshQueryKeys`, and `onRefresh` props are complex and not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

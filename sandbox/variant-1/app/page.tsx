@@ -2,15 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { FeatureCard } from "@/components/feature-card";
 import { EmptyState } from "@/features/empty-states";
 import { FilterSheet } from "@/features/filter-sheet";
 import type { Filter } from "@/features/filter-sheet/types";
@@ -46,9 +39,7 @@ import {
   WifiHigh,
 } from "@phosphor-icons/react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useMemo, useState } from "react";
-import { formatDistanceToNow } from "date-fns";
 
 const RestoreScrollPosition = dynamic(
   () =>
@@ -88,29 +79,6 @@ type Feature = {
   lastUpdatedAt?: string;
 };
 
-const getStatusFromBadge = (
-  statusBadge?: string
-): "online" | "offline" | "maintenance" | "degraded" | null => {
-  if (!statusBadge) return null;
-  const badgeLower = statusBadge.toLowerCase();
-  if (
-    badgeLower === "new" ||
-    badgeLower === "updated" ||
-    badgeLower === "fixed"
-  ) {
-    return "online";
-  }
-  if (badgeLower === "maintenance") {
-    return "maintenance";
-  }
-  if (badgeLower === "degraded" || badgeLower === "deprecated") {
-    return "degraded";
-  }
-  if (badgeLower === "offline") {
-    return "offline";
-  }
-  return "online";
-};
 
 const iconMap: Record<string, typeof ArrowUp> = {
   ArrowUp,
@@ -325,78 +293,16 @@ function HomePage() {
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredFeatures.map((feature) => (
-                <Link key={feature.path} href={feature.path}>
-                  <Card className="group h-full cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
-                          <feature.icon className="h-5 w-5 text-primary" />
-                        </div>
-                        <Badge variant="secondary" className="text-xs">
-                          {feature.category}
-                        </Badge>
-                      </div>
-                      <div className="mt-4 flex items-center gap-2 flex-wrap">
-                        <CardTitle>{feature.name}</CardTitle>
-                        {feature.statusBadge &&
-                          getStatusFromBadge(feature.statusBadge) && (
-                            <Status
-                              status={getStatusFromBadge(feature.statusBadge)!}
-                            >
-                              <StatusIndicator />
-                              <StatusLabel>
-                                {feature.statusBadge}
-                                {feature.lastUpdatedAt && (
-                                  <span className="ml-1 text-xs opacity-80">
-                                    {(() => {
-                                      try {
-                                        const date = new Date(
-                                          feature.lastUpdatedAt
-                                        );
-                                        const distance = formatDistanceToNow(
-                                          date,
-                                          { addSuffix: true }
-                                        );
-                                        // Convert to short format: "2d ago", "2w ago", "just now", etc.
-                                        if (
-                                          distance.includes("second") ||
-                                          (distance.includes("minute") &&
-                                            distance.includes("less than"))
-                                        ) {
-                                          return "just now";
-                                        }
-                                        const shortDistance = distance
-                                          .replace(/about /g, "")
-                                          .replace(/less than a /g, "")
-                                          .replace(/over /g, "")
-                                          .replace(/almost /g, "")
-                                          .replace(/ minutes?/g, "m")
-                                          .replace(/ hours?/g, "h")
-                                          .replace(/ days?/g, "d")
-                                          .replace(/ weeks?/g, "w")
-                                          .replace(/ months?/g, "mo")
-                                          .replace(/ years?/g, "y");
-                                        return shortDistance;
-                                      } catch {
-                                        return "";
-                                      }
-                                    })()}
-                                  </span>
-                                )}
-                              </StatusLabel>
-                            </Status>
-                          )}
-                      </div>
-                      <CardDescription>{feature.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>View Demo</span>
-                        <ArrowUp className="h-4 w-4 rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                <FeatureCard
+                  key={feature.path}
+                  name={feature.name}
+                  path={feature.path}
+                  icon={feature.icon}
+                  description={feature.description}
+                  category={feature.category}
+                  statusBadge={feature.statusBadge}
+                  lastUpdatedAt={feature.lastUpdatedAt}
+                />
               ))}
             </div>
           )}

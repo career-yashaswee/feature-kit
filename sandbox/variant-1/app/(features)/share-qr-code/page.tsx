@@ -111,12 +111,14 @@ export default function ShareQRCodePage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      url?: string;
+      url: string;
       username?: string;
       title?: string;
       description?: string;
       className?: string;
-    } = {};
+    } = {
+      url: shareUrl,
+    };
 
     props.forEach((prop) => {
       if (prop.property === "url" && prop.value) {

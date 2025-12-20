@@ -35,7 +35,108 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Heart, Lightning, Code } from "@phosphor-icons/react";
+import {
+  Heart,
+  Lightning,
+  Code,
+  Star,
+  Bookmark,
+} from "@phosphor-icons/react";
+import type { ReactNode } from "react";
+
+type ChildrenOption = {
+  key: string;
+  label: string;
+  render: () => ReactNode;
+};
+
+const childrenOptions: ChildrenOption[] = [
+  {
+    key: "Favorite",
+    label: "Favorite",
+    render: () => "Favorite",
+  },
+  {
+    key: "Like",
+    label: "Like",
+    render: () => "Like",
+  },
+  {
+    key: "Save",
+    label: "Save",
+    render: () => "Save",
+  },
+  {
+    key: "Subscribe",
+    label: "Subscribe",
+    render: () => "Subscribe",
+  },
+  {
+    key: "Follow",
+    label: "Follow",
+    render: () => "Follow",
+  },
+  {
+    key: "icon-heart",
+    label: "Heart Icon",
+    render: () => <Heart className="h-4 w-4" />,
+  },
+  {
+    key: "icon-star",
+    label: "Star Icon",
+    render: () => <Star className="h-4 w-4" />,
+  },
+  {
+    key: "icon-bookmark",
+    label: "Bookmark Icon",
+    render: () => <Bookmark className="h-4 w-4" />,
+  },
+  {
+    key: "heart-text",
+    label: "Heart + Text",
+    render: () => (
+      <>
+        <Heart className="h-4 w-4 mr-2" />
+        Favorite
+      </>
+    ),
+  },
+  {
+    key: "heart-filled-text",
+    label: "Heart Filled + Text",
+    render: () => (
+      <>
+        <Heart className="h-4 w-4 mr-2 fill-current" />
+        Favorited
+      </>
+    ),
+  },
+  {
+    key: "star-text",
+    label: "Star + Text",
+    render: () => (
+      <>
+        <Star className="h-4 w-4 mr-2" />
+        Star
+      </>
+    ),
+  },
+  {
+    key: "bookmark-text",
+    label: "Bookmark + Text",
+    render: () => (
+      <>
+        <Bookmark className="h-4 w-4 mr-2" />
+        Save
+      </>
+    ),
+  },
+];
+
+const childrenMap: Record<string, ChildrenOption> = {};
+childrenOptions.forEach((option) => {
+  childrenMap[option.key] = option;
+});
 
 interface PropConfig {
   property: string;
@@ -43,7 +144,7 @@ interface PropConfig {
   description: string;
   defaultValue: string | number | boolean;
   value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
+  inputType: "number" | "select" | "text" | "boolean" | "reactnode";
   options?: string[];
 }
 
@@ -111,6 +212,15 @@ export default function OptimisticActionButtonPage() {
       inputType: "text",
     },
     {
+      property: "children",
+      type: "ReactNode",
+      description: "Content to display inside the button",
+      defaultValue: "heart-text",
+      value: "heart-text",
+      inputType: "reactnode",
+      options: childrenOptions.map((opt) => opt.key),
+    },
+    {
       property: "className",
       type: "string",
       description: "Additional CSS classes for custom styling",
@@ -166,6 +276,22 @@ export default function OptimisticActionButtonPage() {
     return componentProps;
   };
 
+  const getSelectedChildren = () => {
+    const childrenProp = props.find((p) => p.property === "children");
+    if (childrenProp && typeof childrenProp.value === "string") {
+      const option = childrenMap[childrenProp.value];
+      if (option) {
+        return option.render();
+      }
+    }
+    return (
+      <>
+        <Heart className="h-4 w-4 mr-2" />
+        Favorite
+      </>
+    );
+  };
+
   return (
     <>
       {/* Live Demo */}
@@ -179,7 +305,7 @@ export default function OptimisticActionButtonPage() {
           </div>
           <CardDescription>
             See the component update in real-time as you change props below.
-            Note: Complex props like `action`, `optimisticState`, `onOptimisticUpdate`, `onRollback`, `onSuccess`, `onError`, and `children` are not editable here.
+            Note: Complex props like `action`, `optimisticState`, `onOptimisticUpdate`, `onRollback`, `onSuccess`, and `onError` are not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -198,10 +324,7 @@ export default function OptimisticActionButtonPage() {
               variant={isFavorite ? "default" : (getComponentProps().variant || "outline")}
               {...getComponentProps()}
             >
-              <Heart
-                className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`}
-              />
-              {isFavorite ? "Favorited" : "Favorite"}
+              {getSelectedChildren()}
             </OptimisticActionButton>
             <p className="text-sm text-muted-foreground">
               Current state: {isFavorite ? "Favorited" : "Not favorited"}
@@ -221,7 +344,7 @@ export default function OptimisticActionButtonPage() {
           </div>
           <CardDescription>
             Interact with the table below to customize the component in
-            real-time. Note: Complex props like `action`, `optimisticState`, `onOptimisticUpdate`, `onRollback`, `onSuccess`, `onError`, and `children` are not editable here.
+            real-time. Note: Complex props like `action`, `optimisticState`, `onOptimisticUpdate`, `onRollback`, `onSuccess`, and `onError` are not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -278,6 +401,36 @@ export default function OptimisticActionButtonPage() {
                         <SelectContent>
                           <SelectItem value="true">true</SelectItem>
                           <SelectItem value="false">false</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    ) : prop.inputType === "reactnode" ? (
+                      <Select
+                        value={String(prop.value)}
+                        onValueChange={(value) =>
+                          handleValueChange(index, value)
+                        }
+                      >
+                        <SelectTrigger className="h-8 w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {prop.options?.map((optionKey) => {
+                            const option = childrenMap[optionKey];
+                            return (
+                              <SelectItem key={optionKey} value={optionKey}>
+                                <div className="flex items-center gap-2">
+                                  {typeof option?.render() === "string" ? (
+                                    <span>{option.label}</span>
+                                  ) : (
+                                    <>
+                                      {option?.render()}
+                                      <span>{option?.label}</span>
+                                    </>
+                                  )}
+                                </div>
+                              </SelectItem>
+                            );
+                          })}
                         </SelectContent>
                       </Select>
                     ) : (

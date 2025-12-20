@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import {
   Card,
   CardContent,
@@ -35,6 +36,12 @@ import {
 } from "@phosphor-icons/react";
 import { CopyToClipboard } from "@/features/copy-to-clipboard/components/copy-to-clipboard";
 
+const PersistenceTipTapEditor = dynamic(
+  () => import("@/features/persistence-tip-tap-editor").then((mod) => mod.PersistenceTipTapEditor),
+  { ssr: false }
+);
+import { Textarea } from "@/components/ui/textarea";
+
 interface PropConfig {
   property: string;
   type: string;
@@ -56,6 +63,8 @@ const htmlContent = `<div>
 </div>`;
 
 export default function CopyToClipboardPage() {
+  const [htmlText, setHtmlText] = useState(htmlContent);
+  const [htmlFromEditor, setHtmlFromEditor] = useState("");
   const [props, setProps] = useState<PropConfig[]>([
     {
       property: "text",
@@ -141,7 +150,7 @@ export default function CopyToClipboardPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      text?: string;
+      text: string;
       variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
       size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
       label?: string;
@@ -149,7 +158,9 @@ export default function CopyToClipboardPage() {
       successMessage?: string;
       errorMessage?: string;
       className?: string;
-    } = {};
+    } = {
+      text: "Hello, World!",
+    };
 
     props.forEach((prop) => {
       if (prop.property === "text" && prop.value) {
@@ -191,8 +202,42 @@ export default function CopyToClipboardPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center rounded-lg border bg-card p-8">
-            <CopyToClipboard {...getComponentProps()} />
+          <div className="space-y-4">
+            <div className="flex items-center justify-center rounded-lg border bg-card p-8">
+              <CopyToClipboard {...getComponentProps()} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">HTML Content (Textarea):</label>
+              <Textarea
+                value={htmlText}
+                onChange={(e) => setHtmlText(e.target.value)}
+                placeholder="Enter HTML content..."
+                className="min-h-[100px] font-mono text-sm"
+              />
+              <div className="flex items-center gap-2">
+                <CopyToClipboard text={htmlText} html={htmlText} label="Copy HTML" />
+                <span className="text-xs text-muted-foreground">
+                  {htmlText.length} characters
+                </span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">HTML Content (TipTap Editor):</label>
+              <PersistenceTipTapEditor
+                content={htmlFromEditor}
+                onContentChange={(content) => setHtmlFromEditor(content)}
+                placeholder="Enter HTML content using the rich text editor..."
+                storageKey="copy-to-clipboard-html-editor"
+                autoSave={false}
+                showToolbar={true}
+              />
+              <div className="flex items-center gap-2">
+                <CopyToClipboard text={htmlFromEditor} html={htmlFromEditor} label="Copy HTML from Editor" />
+                <span className="text-xs text-muted-foreground">
+                  {htmlFromEditor.length} characters
+                </span>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -107,51 +107,6 @@ export default function UserCardPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
-        {/* Hero Section */}
-        <section className="space-y-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <LinkedinLogo className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">User Card</span>
-          </div>
-          <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            User Card
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Beautiful user card components with multiple variants (LinkedIn,
-            TwitterLogo) and full light/dark mode support.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge
-              variant="default"
-              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
-            >
-              <Sparkle className="h-3 w-3" />
-              Multiple Variants
-            </Badge>
-            <Badge
-              variant="default"
-              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
-            >
-              <Gear className="h-3 w-3" />
-              Customizable
-            </Badge>
-            <Badge
-              variant="default"
-              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
-            >
-              <Code className="h-3 w-3" />
-              TypeScript
-            </Badge>
-            <Badge
-              variant="default"
-              className="gap-1.5 text-secondary bg-foreground dark:bg-secondary/60 dark:text-secondary-foreground"
-            >
-              <Lightning className="h-3 w-3" />
-              Responsive
-            </Badge>
-          </div>
-        </section>
-
         <Card className="border-2 shadow-lg">
           <CardHeader>
             <div className="flex items-center gap-2">

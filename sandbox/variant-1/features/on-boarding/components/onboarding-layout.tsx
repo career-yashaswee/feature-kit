@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Check,
   Spinner,
@@ -20,6 +20,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Stepper,
+  StepperItem,
+  StepperTrigger,
+  StepperIndicator,
+  StepperSeparator,
+  StepperTitle,
+  StepperDescription,
+  StepperNav,
+} from "@/components/ui/stepper";
 import type { OnboardingLayoutProps } from "../types";
 
 const defaultTranslations = {
@@ -121,60 +131,77 @@ export function OnboardingLayout({
                           <h3 className="text-sm font-medium text-muted-foreground px-2">
                             {t.onboardingSteps}
                           </h3>
-                          <div className="px-2 space-y-4">
-                            {sortedSteps.map((step, index) => {
-                              const isCompleted = step.order < currentStep;
-                              const isActive = step.order === currentStep;
-                              const isUpcoming = step.order > currentStep;
+                          <div className="px-2">
+                            <Stepper
+                              value={currentStep}
+                              orientation="vertical"
+                              indicators={{
+                                completed: <Check className="h-4 w-4" />,
+                                active: undefined,
+                                inactive: undefined,
+                                loading: <Spinner className="h-4 w-4 animate-spin" />,
+                              }}
+                            >
+                              <StepperNav>
+                                {sortedSteps.map((step, index) => {
+                                  const isCompleted = step.order < currentStep;
+                                  const isActive = step.order === currentStep;
+                                  const isUpcoming = step.order > currentStep;
 
-                              return (
-                                <div key={step.id} className="relative">
-                                  <div className="flex items-start gap-3">
-                                    <div
-                                      className={cn(
-                                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0 transition-colors",
-                                        isCompleted &&
-                                          "bg-green-500 text-white",
-                                        isActive && "bg-blue-600 text-white",
-                                        isUpcoming &&
-                                          "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400",
-                                      )}
+                                  return (
+                                    <StepperItem
+                                      key={step.id}
+                                      step={step.order}
+                                      completed={isCompleted}
+                                      disabled={isUpcoming}
+                                      loading={isActive && isLoading}
+                                      className="relative"
                                     >
-                                      {isCompleted ? (
-                                        <Check className="h-4 w-4" />
-                                      ) : (
-                                        step.order
-                                      )}
-                                    </div>
-                                    <div className="flex-1 pt-1">
-                                      <div
-                                        className={cn(
-                                          "text-sm font-medium",
-                                          isCompleted &&
-                                            "text-green-700 dark:text-green-400",
-                                          isActive &&
-                                            "text-blue-600 dark:text-blue-400",
-                                          isUpcoming &&
-                                            "text-slate-500 dark:text-slate-400",
-                                        )}
-                                      >
-                                        {step.title}
+                                      <div className="flex items-start gap-3 w-full">
+                                        <StepperTrigger
+                                          onClick={() => {
+                                            setSheetOpen(false);
+                                            if (step.order < currentStep) {
+                                              onPrevious();
+                                            } else if (step.order > currentStep) {
+                                              onNext();
+                                            }
+                                          }}
+                                          className="flex items-start gap-3 w-full justify-start"
+                                        >
+                                          <StepperIndicator>
+                                            {step.order}
+                                          </StepperIndicator>
+                                          <div className="flex-1 text-left pt-0.5">
+                                            <StepperTitle
+                                              className={cn(
+                                                "text-sm font-medium",
+                                                isCompleted &&
+                                                  "text-green-700 dark:text-green-400",
+                                                isActive &&
+                                                  "text-blue-600 dark:text-blue-400",
+                                                isUpcoming &&
+                                                  "text-slate-500 dark:text-slate-400",
+                                              )}
+                                            >
+                                              {step.title}
+                                            </StepperTitle>
+                                            {step.description && (
+                                              <StepperDescription className="text-xs mt-0.5">
+                                                {step.description}
+                                              </StepperDescription>
+                                            )}
+                                          </div>
+                                        </StepperTrigger>
                                       </div>
-                                    </div>
-                                  </div>
-                                  {index < sortedSteps.length - 1 && (
-                                    <div
-                                      className={cn(
-                                        "absolute left-4 top-10 w-0.5 h-8",
-                                        isCompleted
-                                          ? "bg-green-500"
-                                          : "bg-slate-200 dark:bg-slate-700",
+                                      {index < sortedSteps.length - 1 && (
+                                        <StepperSeparator className="absolute left-3 top-10 w-0.5" />
                                       )}
-                                    />
-                                  )}
-                                </div>
-                              );
-                            })}
+                                    </StepperItem>
+                                  );
+                                })}
+                              </StepperNav>
+                            </Stepper>
                           </div>
                         </div>
                       </div>
@@ -189,73 +216,114 @@ export function OnboardingLayout({
           <div className="lg:flex-1 p-6 flex flex-col">
             {/* Desktop: Show all steps */}
             <div className="hidden lg:block">
-              <div className="space-y-4">
-                {sortedSteps.map((step, index) => {
-                  const isCompleted = step.order < currentStep;
-                  const isActive = step.order === currentStep;
-                  const isUpcoming = step.order > currentStep;
+              <Stepper
+                value={currentStep}
+                onValueChange={(step) => {
+                  if (step < currentStep) {
+                    onPrevious();
+                  } else if (step > currentStep) {
+                    onNext();
+                  }
+                }}
+                orientation="vertical"
+                indicators={{
+                  completed: <Check className="h-4 w-4" />,
+                  active: undefined,
+                  inactive: undefined,
+                  loading: <Spinner className="h-4 w-4 animate-spin" />,
+                }}
+              >
+                <StepperNav>
+                  {sortedSteps.map((step, index) => {
+                    const isCompleted = step.order < currentStep;
+                    const isActive = step.order === currentStep;
+                    const isUpcoming = step.order > currentStep;
 
-                  return (
-                    <div key={step.id} className="relative">
-                      <div className="flex items-start gap-3">
-                        <div
-                          className={cn(
-                            "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium shrink-0 transition-colors",
-                            isCompleted && "bg-green-500 text-white",
-                            isActive && "bg-blue-600 text-white",
-                            isUpcoming &&
-                              "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400",
-                          )}
-                        >
-                          {isCompleted ? (
-                            <Check className="h-4 w-4" />
-                          ) : (
-                            step.order
-                          )}
-                        </div>
-                        <div className="flex-1 pt-1">
-                          <div
-                            className={cn(
-                              "text-sm font-medium",
-                              isCompleted &&
-                                "text-green-700 dark:text-green-400",
-                              isActive && "text-blue-600 dark:text-blue-400",
-                              isUpcoming &&
-                                "text-slate-500 dark:text-slate-400",
-                            )}
+                    return (
+                      <StepperItem
+                        key={step.id}
+                        step={step.order}
+                        completed={isCompleted}
+                        disabled={isUpcoming}
+                        loading={isActive && isLoading}
+                        className="relative"
+                      >
+                        <div className="flex items-start gap-3 w-full">
+                          <StepperTrigger
+                            onClick={() => {
+                              if (step.order < currentStep) {
+                                onPrevious();
+                              } else if (step.order > currentStep) {
+                                onNext();
+                              }
+                            }}
+                            className="flex items-start gap-3 w-full justify-start"
                           >
-                            {step.title}
-                          </div>
+                            <StepperIndicator>
+                              {step.order}
+                            </StepperIndicator>
+                            <div className="flex-1 text-left pt-0.5">
+                              <StepperTitle
+                                className={cn(
+                                  "text-sm font-medium",
+                                  isCompleted &&
+                                    "text-green-700 dark:text-green-400",
+                                  isActive &&
+                                    "text-blue-600 dark:text-blue-400",
+                                  isUpcoming &&
+                                    "text-slate-500 dark:text-slate-400",
+                                )}
+                              >
+                                {step.title}
+                              </StepperTitle>
+                              {step.description && (
+                                <StepperDescription className="text-xs mt-0.5">
+                                  {step.description}
+                                </StepperDescription>
+                              )}
+                            </div>
+                          </StepperTrigger>
                         </div>
-                      </div>
-                      {index < sortedSteps.length - 1 && (
-                        <div
-                          className={cn(
-                            "absolute left-4 top-10 w-0.5 h-12",
-                            isCompleted
-                              ? "bg-green-500"
-                              : "bg-slate-200 dark:bg-slate-700",
-                          )}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                        {index < sortedSteps.length - 1 && (
+                          <StepperSeparator className="absolute left-3 top-10 w-0.5" />
+                        )}
+                      </StepperItem>
+                    );
+                  })}
+                </StepperNav>
+              </Stepper>
             </div>
 
             {/* Mobile: Show only current step */}
             <div className="lg:hidden">
               {currentStepData && (
                 <div className="flex items-center justify-between gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-medium shrink-0">
-                    {currentStep}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                      {currentStepData.title}
-                    </div>
-                  </div>
+                  <Stepper
+                    value={currentStep}
+                    orientation="horizontal"
+                    indicators={{
+                      completed: <Check className="h-4 w-4" />,
+                      active: undefined,
+                      inactive: undefined,
+                      loading: <Spinner className="h-4 w-4 animate-spin" />,
+                    }}
+                  >
+                    <StepperNav>
+                      <StepperItem
+                        step={currentStep}
+                        loading={isLoading}
+                      >
+                        <StepperTrigger className="gap-2">
+                          <StepperIndicator>
+                            {currentStep}
+                          </StepperIndicator>
+                          <StepperTitle className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                            {currentStepData.title}
+                          </StepperTitle>
+                        </StepperTrigger>
+                      </StepperItem>
+                    </StepperNav>
+                  </Stepper>
                   {onSkipEntire && (
                     <Button
                       variant="outline"

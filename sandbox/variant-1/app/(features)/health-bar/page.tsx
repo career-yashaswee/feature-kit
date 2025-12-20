@@ -23,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Heart, Pulse, Lightning, Code } from "@phosphor-icons/react";
 import { HealthBar } from "@/features/health-bar/components/health-bar";
@@ -168,7 +170,65 @@ export default function HealthBarPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <HealthBar data={manualData} {...getComponentProps()} />
+            <div className="space-y-4">
+              <HealthBar data={manualData} {...getComponentProps()} />
+              <div className="space-y-3 rounded-lg border bg-muted/30 p-4">
+                <h3 className="text-sm font-semibold">Edit Health Bar Data:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="current" className="text-xs">Current</Label>
+                    <Input
+                      id="current"
+                      type="number"
+                      min="0"
+                      max={manualData.max}
+                      value={manualData.current}
+                      onChange={(e) =>
+                        setManualData((prev) => ({
+                          ...prev,
+                          current: Math.max(0, Math.min(prev.max, parseInt(e.target.value) || 0)),
+                        }))
+                      }
+                      className="h-8"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="max" className="text-xs">Max</Label>
+                    <Input
+                      id="max"
+                      type="number"
+                      min="1"
+                      value={manualData.max}
+                      onChange={(e) => {
+                        const newMax = Math.max(1, parseInt(e.target.value) || 100);
+                        setManualData((prev) => ({
+                          ...prev,
+                          max: newMax,
+                          current: Math.min(prev.current, newMax),
+                        }));
+                      }}
+                      className="h-8"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="secondsToNext" className="text-xs">Seconds to Next</Label>
+                    <Input
+                      id="secondsToNext"
+                      type="number"
+                      min="0"
+                      value={manualData.secondsToNext}
+                      onChange={(e) =>
+                        setManualData((prev) => ({
+                          ...prev,
+                          secondsToNext: Math.max(0, parseInt(e.target.value) || 0),
+                        }))
+                      }
+                      className="h-8"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
 

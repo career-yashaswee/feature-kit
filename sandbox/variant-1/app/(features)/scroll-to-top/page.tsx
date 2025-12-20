@@ -47,6 +47,10 @@ import {
   Lightning,
 } from "@phosphor-icons/react";
 import type { Icon } from "@phosphor-icons/react";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 type Position = "left" | "center" | "right";
 
@@ -261,7 +265,11 @@ export default function ScrollToTopPage() {
                     ) : prop.inputType === "number" ? (
                       <Input
                         type="number"
-                        value={prop.value}
+                        value={
+                          typeof prop.value === "number"
+                            ? prop.value
+                            : Number(prop.value) || 0
+                        }
                         onChange={(e) =>
                           handleValueChange(
                             index,
@@ -291,109 +299,38 @@ export default function ScrollToTopPage() {
         </CardContent>
       </Card>
       {/* How to Test Card */}
-      <Card className="border-2 shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <CursorClick className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <CardTitle className="text-2xl">How to Test</CardTitle>
-              <CardDescription className="text-base">
-                Try scrolling down to see the button appear and click it to
-                smoothly return to the top
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <h3 className="font-semibold text-lg">Testing Steps:</h3>
-            <ol className="space-y-3">
-              {[
-                "Scroll down the page until you see the button appear",
-                "Watch the smooth fade-in animation as it appears",
-                "Click the button to smoothly scroll back to the top",
-                "Try scrolling from different positions to see it in action",
-              ].map((step, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                    {index + 1}
-                  </span>
-                  <span className="text-muted-foreground">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="rounded-lg border-l-4 border-primary bg-primary/5 p-4">
-            <p className="text-sm font-medium text-foreground">
-              The scroll-to-top button will appear in the center-bottom of the
-              screen after you scroll down 100px. Keep scrolling to see more
-              demo content!
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/scroll-to-top"
+        );
+        if (featureData?.howToTest) {
+          return (
+            <HowToTestCard
+              steps={featureData.howToTest.steps}
+              conclusion={featureData.howToTest.conclusion}
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        }
+        return null;
+      })()}
 
       {/* Features Card */}
-      <Card className="border-2 shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <Sparkle className="h-5 w-5 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">Features</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
-            {[
-              {
-                icon: Scroll,
-                title: "Smooth Scrolling",
-                description:
-                  "Butter-smooth scroll animation that provides a delightful user experience",
-              },
-              {
-                icon: Sparkle,
-                title: "Elegant Animation",
-                description:
-                  "Beautiful fade-in/fade-out animations with framer-motion",
-              },
-              {
-                icon: Gear,
-                title: "Customizable",
-                description:
-                  "Adjust threshold, position, and styling to match your design",
-              },
-              {
-                icon: Code,
-                title: "TypeScript Support",
-                description:
-                  "Fully typed with TypeScript for better developer experience",
-              },
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-              >
-                <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                  <feature.icon className="h-5 w-5 text-primary" />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <h4 className="font-semibold">{feature.title}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/scroll-to-top"
+        );
+        if (featureData?.features) {
+          const featuresWithIcons = featureData.features.map((feature) => ({
+            icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+            title: feature.title,
+            description: feature.description,
+          }));
+
+          return <FeaturesGlossary features={featuresWithIcons} />;
+        }
+        return null;
+      })()}
 
       {/* Demo Content Section */}
       <section className="space-y-6">

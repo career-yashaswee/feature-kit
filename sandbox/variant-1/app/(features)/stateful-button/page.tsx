@@ -34,9 +34,127 @@ import {
   CircleNotch,
   CheckCircle,
   XCircle,
+  Plus,
+  Trash,
+  Download,
+  Upload,
+  FloppyDisk,
+  Share,
+  Heart,
+  Star,
 } from "@phosphor-icons/react";
+import type { ReactNode } from "react";
 import { StatefulButton } from "@/features/stateful-button/components/stateful-button";
 import { toast } from "sonner";
+
+type ChildrenOption = {
+  key: string;
+  label: string;
+  render: () => ReactNode;
+};
+
+const childrenOptions: ChildrenOption[] = [
+  {
+    key: "Click Me",
+    label: "Click Me",
+    render: () => "Click Me",
+  },
+  {
+    key: "Submit",
+    label: "Submit",
+    render: () => "Submit",
+  },
+  {
+    key: "Save",
+    label: "Save",
+    render: () => "Save",
+  },
+  {
+    key: "Delete",
+    label: "Delete",
+    render: () => "Delete",
+  },
+  {
+    key: "Download",
+    label: "Download",
+    render: () => "Download",
+  },
+  {
+    key: "Upload",
+    label: "Upload",
+    render: () => "Upload",
+  },
+  {
+    key: "icon-plus",
+    label: "Plus Icon",
+    render: () => <Plus className="h-4 w-4" />,
+  },
+  {
+    key: "icon-trash",
+    label: "Trash Icon",
+    render: () => <Trash className="h-4 w-4" />,
+  },
+  {
+    key: "icon-download",
+    label: "Download Icon",
+    render: () => <Download className="h-4 w-4" />,
+  },
+  {
+    key: "icon-heart",
+    label: "Heart Icon",
+    render: () => <Heart className="h-4 w-4" />,
+  },
+  {
+    key: "icon-star",
+    label: "Star Icon",
+    render: () => <Star className="h-4 w-4" />,
+  },
+  {
+    key: "plus-text",
+    label: "Plus + Text",
+    render: () => (
+      <>
+        <Plus className="h-4 w-4 mr-2" />
+        Add Item
+      </>
+    ),
+  },
+  {
+    key: "save-text",
+    label: "Save + Text",
+    render: () => (
+      <>
+        <FloppyDisk className="h-4 w-4 mr-2" />
+        Save Changes
+      </>
+    ),
+  },
+  {
+    key: "download-text",
+    label: "Download + Text",
+    render: () => (
+      <>
+        <Download className="h-4 w-4 mr-2" />
+        Download File
+      </>
+    ),
+  },
+  {
+    key: "share-text",
+    label: "Share + Text",
+    render: () => (
+      <>
+        <Share className="h-4 w-4 mr-2" />
+        Share
+      </>
+    ),
+  },
+];
+
+const childrenMap: Record<string, ChildrenOption> = {};
+childrenOptions.forEach((option) => {
+  childrenMap[option.key] = option;
+});
 
 interface PropConfig {
   property: string;
@@ -44,7 +162,7 @@ interface PropConfig {
   description: string;
   defaultValue: string | number | boolean;
   value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
+  inputType: "number" | "select" | "text" | "boolean" | "reactnode";
   options?: string[];
 }
 
@@ -86,6 +204,15 @@ export default function StatefulButtonPage() {
       defaultValue: 1000,
       value: 1000,
       inputType: "number",
+    },
+    {
+      property: "children",
+      type: "ReactNode",
+      description: "Content to display inside the button",
+      defaultValue: "Click Me",
+      value: "Click Me",
+      inputType: "reactnode",
+      options: childrenOptions.map((opt) => opt.key),
     },
     {
       property: "className",
@@ -140,6 +267,17 @@ export default function StatefulButtonPage() {
     return componentProps;
   };
 
+  const getSelectedChildren = () => {
+    const childrenProp = props.find((p) => p.property === "children");
+    if (childrenProp && typeof childrenProp.value === "string") {
+      const option = childrenMap[childrenProp.value];
+      if (option) {
+        return option.render();
+      }
+    }
+    return "Click Me";
+  };
+
   const handleSuccess = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setSuccessCount((prev) => prev + 1);
@@ -171,7 +309,7 @@ export default function StatefulButtonPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `onAction`, `onSuccess`, `onError`, and `children` are not editable here.
+              Note: Complex props like `onAction`, `onSuccess`, and `onError` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -183,7 +321,7 @@ export default function StatefulButtonPage() {
                 }}
                 {...getComponentProps()}
               >
-                Click Me
+                {getSelectedChildren()}
               </StatefulButton>
             </div>
           </CardContent>
@@ -200,7 +338,7 @@ export default function StatefulButtonPage() {
             </div>
             <CardDescription>
               Interact with the table below to customize the component in
-              real-time. Note: Complex props like `onAction`, `onSuccess`, `onError`, and `children` are not editable here.
+              real-time. Note: Complex props like `onAction`, `onSuccess`, and `onError` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -262,7 +400,11 @@ export default function StatefulButtonPage() {
                       ) : prop.inputType === "number" ? (
                         <Input
                           type="number"
-                          value={prop.value}
+                          value={
+                            typeof prop.value === "number"
+                              ? prop.value
+                              : Number(prop.value) || 0
+                          }
                           onChange={(e) =>
                             handleValueChange(
                               index,
@@ -273,6 +415,36 @@ export default function StatefulButtonPage() {
                           }
                           className="h-8"
                         />
+                      ) : prop.inputType === "reactnode" ? (
+                        <Select
+                          value={String(prop.value)}
+                          onValueChange={(value) =>
+                            handleValueChange(index, value)
+                          }
+                        >
+                          <SelectTrigger className="h-8 w-full">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {prop.options?.map((optionKey) => {
+                              const option = childrenMap[optionKey];
+                              return (
+                                <SelectItem key={optionKey} value={optionKey}>
+                                  <div className="flex items-center gap-2">
+                                    {typeof option?.render() === "string" ? (
+                                      <span>{option.label}</span>
+                                    ) : (
+                                      <>
+                                        {option?.render()}
+                                        <span>{option?.label}</span>
+                                      </>
+                                    )}
+                                  </div>
+                                </SelectItem>
+                              );
+                            })}
+                          </SelectContent>
+                        </Select>
                       ) : (
                         <Input
                           type="text"

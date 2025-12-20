@@ -107,11 +107,13 @@ export default function RestoreScrollPositionPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      storageKey?: string;
+      storageKey: string;
       persist?: boolean;
       debounceMs?: number;
       enabled?: boolean;
-    } = {};
+    } = {
+      storageKey: "restore-scroll-position-demo",
+    };
 
     props.forEach((prop) => {
       if (prop.property === "storageKey" && prop.value) {

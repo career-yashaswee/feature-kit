@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import {
   Card,
   CardContent,
@@ -29,7 +30,12 @@ import {
 } from "@phosphor-icons/react";
 import { TableOfContents } from "@/features/table-of-contents/components/table-of-contents";
 import { useTableOfContents } from "@/features/table-of-contents/hooks/use-table-of-contents";
-import ReactMarkdown from "react-markdown";
+import type { TocItem } from "@/features/table-of-contents/hooks/use-table-of-contents";
+
+const PersistenceTipTapEditor = dynamic(
+  () => import("@/features/persistence-tip-tap-editor").then((mod) => mod.PersistenceTipTapEditor),
+  { ssr: false }
+);
 
 interface PropConfig {
   property: string;
@@ -89,8 +95,120 @@ You can filter which headings appear in the TOC.
 
 This feature makes it easy to navigate long markdown documents.`;
 
+// Helper function to parse HTML and extract headings
+function parseHtmlToTocItems(html: string): TocItem[] {
+  if (!html || typeof window === "undefined") return [];
+
+  try {
+    // Create a temporary DOM element to parse HTML
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    const tocItems: TocItem[] = [];
+    const seenCounts: Record<string, number> = {};
+
+    headings.forEach((heading, index) => {
+      const level = parseInt(heading.tagName.charAt(1));
+      const content = heading.textContent?.trim() || "";
+      if (!content) return;
+
+      // Generate slug
+      const baseSlug = content
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .trim();
+
+      // Handle duplicate slugs
+      const count = seenCounts[baseSlug] || 0;
+      seenCounts[baseSlug] = count + 1;
+      const slug = count > 0 ? `${baseSlug}-${count}` : baseSlug;
+
+      // Set ID on the heading element for scrolling
+      heading.id = slug;
+
+      tocItems.push({
+        content,
+        slug,
+        lvl: level,
+        i: tocItems.length,
+        seen: count,
+      });
+    });
+
+    return tocItems;
+  } catch (error) {
+    console.error("Error parsing HTML to TOC:", error);
+    return [];
+  }
+}
+
+// Helper function to convert markdown to HTML with heading IDs
+function markdownToHtml(markdown: string): string {
+  if (!markdown) return "";
+
+  const lines = markdown.split("\n");
+  const htmlLines: string[] = [];
+  const seenCounts: Record<string, number> = {};
+
+  lines.forEach((line) => {
+    const match = line.match(/^(#{1,6})\s+(.+)$/);
+    if (match) {
+      const level = match[1].length;
+      const content = match[2].trim();
+      const baseSlug = content
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .trim();
+
+      const count = seenCounts[baseSlug] || 0;
+      seenCounts[baseSlug] = count + 1;
+      const slug = count > 0 ? `${baseSlug}-${count}` : baseSlug;
+
+      htmlLines.push(`<h${level} id="${slug}" class="scroll-mt-24">${content}</h${level}>`);
+    } else {
+      htmlLines.push(line);
+    }
+  });
+
+  return htmlLines.join("\n");
+}
+
 export default function TableOfContentsPage() {
-  const tocItems = useTableOfContents(sampleMarkdown);
+  const [editorContent, setEditorContent] = useState(sampleMarkdown);
+  
+  // Convert markdown to HTML for display
+  const htmlContent = useMemo(() => markdownToHtml(editorContent), [editorContent]);
+  
+  // Parse content to get TOC items - try HTML first, then markdown
+  const tocItemsFromHtml = useMemo(() => parseHtmlToTocItems(editorContent), [editorContent]);
+  const tocItemsFromMarkdown = useTableOfContents(editorContent);
+  
+  // Use HTML TOC if available, otherwise use markdown TOC
+  const tocItems = tocItemsFromHtml.length > 0 ? tocItemsFromHtml : tocItemsFromMarkdown;
+  
+  // Ensure rendered HTML has proper heading IDs for scrolling
+  const renderedHtmlWithIds = useMemo(() => {
+    if (!htmlContent || typeof window === "undefined") return "";
+    
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, "text/html");
+    const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    
+    headings.forEach((heading) => {
+      const content = heading.textContent?.trim() || "";
+      const tocItem = tocItems.find((item) => item.content === content);
+      if (tocItem) {
+        heading.id = tocItem.slug;
+        heading.className = "scroll-mt-24";
+      }
+    });
+    
+    return doc.body.innerHTML;
+  }, [htmlContent, tocItems]);
   const [props, setProps] = useState<PropConfig[]>([
     {
       property: "className",
@@ -143,8 +261,7 @@ export default function TableOfContentsPage() {
               <CardTitle className="text-2xl">Live Demo</CardTitle>
             </div>
             <CardDescription>
-              See the component update in real-time as you change props below.
-              Note: The `items` prop (TocItem[]) is complex and not editable here.
+              Edit the markdown content in the editor below to see the table of contents update dynamically.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -168,8 +285,8 @@ export default function TableOfContentsPage() {
               <CardTitle className="text-2xl">Props API</CardTitle>
             </div>
             <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: The `items` prop (TocItem[]) is complex and not editable here.
+              Interact with the table below to customize the component styling.
+              The TOC items are automatically generated from the editor content above.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -222,15 +339,17 @@ export default function TableOfContentsPage() {
               <CardTitle className="text-2xl">How to Test</CardTitle>
             </div>
             <CardDescription>
-              Scroll through the markdown content and watch the table of
-              contents highlight the active section. Click on any TOC item to
-              smoothly scroll to that section.
+              Edit the markdown content in the editor and watch the table of
+              contents update dynamically. Scroll through the preview to see active section highlighting.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <ol className="space-y-3">
               {[
-                "Scroll down through the markdown content below",
+                "Edit the markdown content in the TipTap editor above",
+                "Add headings using # for H1, ## for H2, ### for H3, etc.",
+                "Watch the table of contents update automatically as you type",
+                "Scroll through the preview content below",
                 "Watch the table of contents highlight the active section",
                 "Click on any item in the table of contents to scroll to that section",
                 "Notice the smooth scrolling animation when clicking TOC items",
@@ -257,51 +376,32 @@ export default function TableOfContentsPage() {
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
                   <FileText className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Markdown Content</CardTitle>
+                <CardTitle className="text-2xl">Editable Content</CardTitle>
               </div>
               <CardDescription>
-                Sample markdown content with headings that generate the table of
-                contents
+                Edit the markdown content below. The table of contents will update automatically as you add or modify headings.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown
-                  components={{
-                    h1: ({ node, ...props }) => {
-                      const text = props.children?.toString() || "";
-                      const id = text
-                        .toLowerCase()
-                        .replace(/[^\w\s-]/g, "")
-                        .replace(/\s+/g, "-")
-                        .replace(/-+/g, "-")
-                        .trim();
-                      return <h1 id={id} className="scroll-mt-24" {...props} />;
-                    },
-                    h2: ({ node, ...props }) => {
-                      const text = props.children?.toString() || "";
-                      const id = text
-                        .toLowerCase()
-                        .replace(/[^\w\s-]/g, "")
-                        .replace(/\s+/g, "-")
-                        .replace(/-+/g, "-")
-                        .trim();
-                      return <h2 id={id} className="scroll-mt-24" {...props} />;
-                    },
-                    h3: ({ node, ...props }) => {
-                      const text = props.children?.toString() || "";
-                      const id = text
-                        .toLowerCase()
-                        .replace(/[^\w\s-]/g, "")
-                        .replace(/\s+/g, "-")
-                        .replace(/-+/g, "-")
-                        .trim();
-                      return <h3 id={id} className="scroll-mt-24" {...props} />;
-                    },
-                  }}
-                >
-                  {sampleMarkdown}
-                </ReactMarkdown>
+            <CardContent className="space-y-4">
+              <PersistenceTipTapEditor
+                content={editorContent}
+                onContentChange={(content) => {
+                  setEditorContent(content);
+                }}
+                placeholder="Start writing markdown with headings (e.g., # Heading 1, ## Heading 2)..."
+                storageKey="table-of-contents-editor"
+                autoSave={true}
+                showToolbar={true}
+                editable={true}
+              />
+              
+              {/* Rendered Preview */}
+              <div className="mt-6 pt-6 border-t">
+                <h3 className="text-sm font-semibold mb-4">Preview:</h3>
+                <div 
+                  className="prose prose-sm dark:prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{ __html: renderedHtmlWithIds }}
+                />
               </div>
             </CardContent>
           </Card>
@@ -317,7 +417,7 @@ export default function TableOfContentsPage() {
               <Card className="border-2">
                 <CardContent className="p-6">
                   <p className="text-sm text-muted-foreground">
-                    No headings found in markdown content.
+                    No headings found. Add headings (e.g., # Heading) to generate the table of contents.
                   </p>
                 </CardContent>
               </Card>

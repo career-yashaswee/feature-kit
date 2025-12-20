@@ -95,7 +95,25 @@ async function submitReport(payload: {
 }
 
 export default function ReportButtonPage() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [props, setProps] = useState<PropConfig[]>([
+    {
+      property: "reportId",
+      type: "string",
+      description: "Unique identifier for the report",
+      defaultValue: "live-demo",
+      value: "live-demo",
+      inputType: "text",
+    },
+    {
+      property: "reportTitle",
+      type: "string",
+      description: "Title of the content being reported",
+      defaultValue: "Live Demo Content",
+      value: "Live Demo Content",
+      inputType: "text",
+    },
     {
       property: "variant",
       type: '"default" | "outline" | "ghost"',
@@ -148,6 +166,8 @@ export default function ReportButtonPage() {
 
   const getComponentProps = () => {
     const componentProps: {
+      reportId?: string;
+      reportTitle?: string;
       variant?: "default" | "outline" | "ghost";
       size?: "sm" | "md" | "lg";
       triggerLabel?: string;
@@ -155,7 +175,11 @@ export default function ReportButtonPage() {
     } = {};
 
     props.forEach((prop) => {
-      if (prop.property === "variant") {
+      if (prop.property === "reportId" && prop.value) {
+        componentProps.reportId = String(prop.value);
+      } else if (prop.property === "reportTitle" && prop.value) {
+        componentProps.reportTitle = String(prop.value);
+      } else if (prop.property === "variant") {
         componentProps.variant = prop.value as typeof componentProps.variant;
       } else if (prop.property === "size") {
         componentProps.size = prop.value as typeof componentProps.size;
@@ -183,18 +207,34 @@ export default function ReportButtonPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `reportId`, `reportTitle`, `issues`, `onSubmit`, `open`, and `onOpenChange` are not editable here.
+              Note: Complex props like `issues`, `onSubmit`, `open`, and `onOpenChange` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-center rounded-lg border bg-card p-8">
-              <ReportButton
-                reportId="live-demo"
-                reportTitle="Live Demo Content"
-                issues={sampleIssues}
-                onSubmit={submitReport}
-                {...getComponentProps()}
-              />
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium">Controlled State:</label>
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="px-3 py-1 text-sm border rounded-md hover:bg-muted"
+                >
+                  {isOpen ? "Close Dialog" : "Open Dialog"}
+                </button>
+                <span className="text-sm text-muted-foreground">
+                  isOpen: {String(isOpen)}
+                </span>
+              </div>
+              <div className="flex items-center justify-center rounded-lg border bg-card p-8">
+                <ReportButton
+                  reportId={getComponentProps().reportId || "live-demo"}
+                  reportTitle={getComponentProps().reportTitle || "Live Demo Content"}
+                  issues={sampleIssues}
+                  onSubmit={submitReport}
+                  open={isOpen}
+                  onOpenChange={setIsOpen}
+                  {...getComponentProps()}
+                />
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -210,7 +250,7 @@ export default function ReportButtonPage() {
             </div>
             <CardDescription>
               Interact with the table below to customize the component in
-              real-time. Note: Complex props like `reportId`, `reportTitle`, `issues`, `onSubmit`, `open`, and `onOpenChange` are not editable here.
+              real-time. Note: Complex props like `issues`, `onSubmit`, `open`, and `onOpenChange` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>

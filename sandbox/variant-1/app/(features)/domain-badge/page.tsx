@@ -38,6 +38,10 @@ import {
 } from "@phosphor-icons/react";
 import { DomainBadge } from "@/features/domain-badge/components/domain-badge";
 import type { DomainConfig } from "@/features/domain-badge/types";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -94,24 +98,6 @@ const defaultDomainConfigs: DomainConfig[] = [
       light: "text-pink-600",
       dark: "dark:text-pink-400",
     },
-  },
-];
-
-const features = [
-  {
-    title: "Visual Domain Indicators",
-    description: "Icon-based badges showing active domains with color coding",
-    icon: Tag,
-  },
-  {
-    title: "Interactive Tooltips",
-    description: "Hover to see detailed domain status with checkmarks",
-    icon: Lightning,
-  },
-  {
-    title: "Customizable",
-    description: "Fully configurable domains, icons, and colors",
-    icon: Gear,
   },
 ];
 
@@ -317,40 +303,19 @@ export default function DomainBadgePage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Tag className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">How to Test</CardTitle>
-            </div>
-            <CardDescription>
-              Follow these steps to test the Domain Badge component
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ol className="space-y-3">
-              {[
-                "Hover over the badge to see the tooltip with domain status",
-                "Notice active domains are highlighted with color, inactive ones are dimmed",
-                "Try different size variants (sm, md, lg) in the examples below",
-                "Toggle domains using the buttons to see dynamic updates",
-                "Check the list layout tooltip variant",
-              ].map((step, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                    {index + 1}
-                  </span>
-                  <span className="text-muted-foreground">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find((f) => f.path === "/domain-badge");
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<Tag className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -450,36 +415,19 @@ export default function DomainBadgePage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Lightning className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find((f) => f.path === "/domain-badge");
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          return null;
+        })()}
       </main>
     </div>
   );

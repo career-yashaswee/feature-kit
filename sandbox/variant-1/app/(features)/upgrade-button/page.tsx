@@ -169,7 +169,7 @@ export default function UpgradeButtonPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      isSubscribed?: boolean;
+      isSubscribed: boolean;
       isLoading?: boolean;
       variant?: "default" | "outline" | "secondary" | "ghost" | "link" | "destructive";
       size?: "default" | "sm" | "lg" | "icon";
@@ -179,7 +179,9 @@ export default function UpgradeButtonPage() {
       loadingText?: string;
       subscribedText?: string;
       className?: string;
-    } = {};
+    } = {
+      isSubscribed: false,
+    };
 
     props.forEach((prop) => {
       if (prop.property === "isSubscribed") {

@@ -8,7 +8,7 @@ const PersistenceTipTapEditor = dynamic(
     import("@/features/persistence-tip-tap-editor").then((mod) => ({
       default: mod.PersistenceTipTapEditor,
     })),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   Card,
@@ -42,37 +42,6 @@ export default function PersistenceTipTapEditorPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
-        <section className="space-y-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <FileText className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">
-              Persistence TipTap Editor
-            </span>
-          </div>
-          <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            TipTap Editor with Persistence
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Rich text editor with automatic localStorage persistence and
-            optional database synchronization. Supports auto-save, manual save,
-            and multiple persistence strategies.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <FloppyDisk className="h-3 w-3" />
-              Auto-Save
-            </Badge>
-            <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Database className="h-3 w-3" />
-              DB Sync
-            </Badge>
-            <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Lightning className="h-3 w-3" />
-              Debounced
-            </Badge>
-          </div>
-        </section>
-
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">

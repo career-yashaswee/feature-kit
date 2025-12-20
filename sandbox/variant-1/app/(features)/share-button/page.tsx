@@ -48,6 +48,8 @@ interface PropConfig {
 
 export default function ShareButtonPage() {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareTitle = "Feature Kit - Share Button";
+  const shareDescription = "A beautiful share button with native Share API fallback";
   const [props, setProps] = useState<PropConfig[]>([
     {
       property: "url",
@@ -149,7 +151,7 @@ export default function ShareButtonPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      url?: string;
+      url: string;
       title?: string;
       description?: string;
       variant?: "default" | "outline" | "ghost";
@@ -159,7 +161,9 @@ export default function ShareButtonPage() {
       utmMedium?: string;
       utmCampaign?: string;
       className?: string;
-    } = {};
+    } = {
+      url: shareUrl || "https://example.com",
+    };
 
     props.forEach((prop) => {
       if (prop.property === "url" && prop.value) {

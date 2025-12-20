@@ -35,6 +35,7 @@ import {
   CursorClick,
 } from "@phosphor-icons/react";
 import { EmptyState } from "@/features/empty-states/components/empty-state";
+import type { EmptyStateType } from "@/features/empty-states/types";
 
 interface PropConfig {
   property: string;
@@ -126,7 +127,7 @@ export default function EmptyStatesPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      type?: string;
+      type?: EmptyStateType;
       title?: string;
       description?: string;
       actionLabel?: string;
@@ -135,7 +136,7 @@ export default function EmptyStatesPage() {
 
     props.forEach((prop) => {
       if (prop.property === "type" && prop.value) {
-        componentProps.type = String(prop.value);
+        componentProps.type = prop.value as EmptyStateType;
       } else if (prop.property === "title" && prop.value) {
         componentProps.title = String(prop.value);
       } else if (prop.property === "description" && prop.value) {

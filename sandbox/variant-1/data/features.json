@@ -7,7 +7,38 @@
     "description": "A beautiful, smooth scroll-to-top button that elegantly appears after you scroll down and takes you back to the top with a delightful animation.",
     "category": "Navigation",
     "statusBadge": "New",
-    "lastUpdatedAt": "2024-01-15T10:30:00Z"
+    "lastUpdatedAt": "2024-01-15T10:30:00Z",
+    "howToTest": {
+      "steps": [
+        "Scroll down the page until you see the button appear",
+        "Watch the smooth fade-in animation as it appears",
+        "Click the button to smoothly scroll back to the top",
+        "Try scrolling from different positions to see it in action"
+      ],
+      "conclusion": "The scroll-to-top button will appear in the center-bottom of the screen after you scroll down 100px. Keep scrolling to see more demo content!"
+    },
+    "features": [
+      {
+        "icon": "Scroll",
+        "title": "Smooth Scrolling",
+        "description": "Butter-smooth scroll animation that provides a delightful user experience"
+      },
+      {
+        "icon": "Sparkle",
+        "title": "Elegant Animation",
+        "description": "Beautiful fade-in/fade-out animations with framer-motion"
+      },
+      {
+        "icon": "Gear",
+        "title": "Customizable",
+        "description": "Adjust threshold, position, and styling to match your design"
+      },
+      {
+        "icon": "Code",
+        "title": "TypeScript Support",
+        "description": "Fully typed with TypeScript for better developer experience"
+      }
+    ]
   },
   {
     "name": "Refresh Button",
@@ -17,7 +48,26 @@
     "description": "A button that invalidates React Query keys and shows toast notifications when refreshing data.",
     "category": "Button",
     "statusBadge": "Updated",
-    "lastUpdatedAt": "2024-01-10T14:20:00Z"
+    "lastUpdatedAt": "2024-01-10T14:20:00Z",
+    "howToTest": {
+      "steps": [
+        "Click the refresh button to invalidate React Query keys",
+        "Watch for toast notifications confirming the refresh action",
+        "Observe the data being refetched automatically"
+      ]
+    },
+    "features": [
+      {
+        "icon": "ArrowsClockwise",
+        "title": "React Query Integration",
+        "description": "Seamlessly integrates with TanStack Query for data invalidation"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Toast Notifications",
+        "description": "Built-in toast notifications for user feedback"
+      }
+    ]
   },
   {
     "name": "Export Button",
@@ -99,7 +149,38 @@
     "icon": "Copy",
     "summary": "Copy text to clipboard with animations and toast",
     "description": "A beautiful copy-to-clipboard button with smooth animations, toast notifications, and support for both plain text and HTML content.",
-    "category": "Utility"
+    "category": "Utility",
+    "howToTest": {
+      "steps": [
+        "Click any copy button to copy text to clipboard",
+        "Watch the icon animate from copy to checkmark",
+        "See the toast notification confirming the copy",
+        "Paste the copied text somewhere to verify it worked",
+        "Try the HTML textarea and TipTap editor examples to copy HTML content"
+      ]
+    },
+    "features": [
+      {
+        "icon": "Copy",
+        "title": "Smooth Animations",
+        "description": "Beautiful icon transition from copy to checkmark using framer-motion"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Toast Notifications",
+        "description": "Built-in toast notifications for success and error states"
+      },
+      {
+        "icon": "Code",
+        "title": "HTML Support",
+        "description": "Support for copying both plain text and HTML content"
+      },
+      {
+        "icon": "Gear",
+        "title": "Customizable",
+        "description": "Custom labels, messages, feedback duration, and styling"
+      }
+    ]
   },
   {
     "name": "Restore Scroll Position",
@@ -191,7 +272,33 @@
     "icon": "Warning",
     "summary": "Visual health indicator with color-coded status and timer",
     "description": "A visual health indicator with color-coded status, timer, and customizable data sources.",
-    "category": "UI Component"
+    "category": "UI Component",
+    "howToTest": {
+      "steps": [
+        "Observe the health bar color changes based on percentage (red < 20%, yellow < 40%, amber < 80%, green > 80%)",
+        "Watch the timer countdown for health regeneration",
+        "See the remaining health points displayed",
+        "Try the manual data example below to test different values",
+        "Use the multi-input form to edit current, max, and seconds to next values"
+      ]
+    },
+    "features": [
+      {
+        "icon": "Warning",
+        "title": "Visual Health Indicator",
+        "description": "Color-coded bar that changes based on health percentage"
+      },
+      {
+        "icon": "Gear",
+        "title": "Timer Display",
+        "description": "Shows time until next health regeneration"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Customizable",
+        "description": "Configurable data sources and display options"
+      }
+    ]
   },
   {
     "name": "Language Switcher",
@@ -223,7 +330,34 @@
     "icon": "Warning",
     "summary": "Comprehensive report dialog with issue selection and TanStack Query",
     "description": "A comprehensive report dialog with issue selection, custom descriptions, and TanStack Query integration.",
-    "category": "Button"
+    "category": "Button",
+    "howToTest": {
+      "steps": [
+        "Click the 'Report' button to open the report dialog",
+        "Select one or more issues from the list",
+        "Optionally add a custom issue if 'Other Issue' is selected",
+        "Add additional details in the textarea",
+        "Submit the report and see the success toast notification",
+        "Use the toggle button to control the dialog's open state"
+      ]
+    },
+    "features": [
+      {
+        "icon": "Warning",
+        "title": "TanStack Query",
+        "description": "Uses TanStack Query mutations for reliable submission"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Toast Notifications",
+        "description": "Built-in success and error notifications with Sonner"
+      },
+      {
+        "icon": "Gear",
+        "title": "Flexible Issues",
+        "description": "Configurable issue types and custom issue support"
+      }
+    ]
   },
   {
     "name": "Unique Value Proposition",
@@ -239,7 +373,33 @@
     "icon": "Tag",
     "summary": "Visual badge component displaying multiple domain indicators with tooltips",
     "description": "A visual badge component that displays multiple domain indicators with interactive tooltips and customizable styling.",
-    "category": "Badge"
+    "category": "Badge",
+    "howToTest": {
+      "steps": [
+        "Use the toggle buttons to add or remove domains from the badge",
+        "Hover over the badge to see the interactive tooltip with domain details",
+        "Try different size variants (small, medium, large) to see the responsive design",
+        "Test the tooltip layout options (grid and list) to see different presentations"
+      ],
+      "conclusion": "The domain badge dynamically updates based on selected domains and provides rich tooltip information on hover."
+    },
+    "features": [
+      {
+        "icon": "Tag",
+        "title": "Multiple Domains",
+        "description": "Display multiple domain indicators in a single compact badge"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Interactive Tooltips",
+        "description": "Rich tooltip information with grid or list layouts on hover"
+      },
+      {
+        "icon": "Gear",
+        "title": "Customizable Styling",
+        "description": "Multiple size variants and customizable color schemes"
+      }
+    ]
   },
   {
     "name": "Upgrade Button",
@@ -271,7 +431,34 @@
     "icon": "Rocket",
     "summary": "Multi-step onboarding layout with stepper navigation and progress tracking",
     "description": "A comprehensive multi-step onboarding layout with stepper navigation, progress tracking, and responsive design.",
-    "category": "Layout"
+    "category": "Layout",
+    "howToTest": {
+      "steps": [
+        "Click the 'Launch Demo' button below to see the full onboarding experience",
+        "Navigate through steps using Previous/Next buttons",
+        "Try the Skip button on steps that allow it",
+        "Notice the stepper on the left showing progress",
+        "Resize the window to see responsive behavior",
+        "Check the mobile menu button for step navigation"
+      ]
+    },
+    "features": [
+      {
+        "icon": "Rocket",
+        "title": "Step Navigation",
+        "description": "Visual stepper with completed, active, and upcoming states"
+      },
+      {
+        "icon": "Gear",
+        "title": "Responsive Design",
+        "description": "Adapts to mobile and desktop with sidebar stepper"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Configurable",
+        "description": "Customizable steps, translations, and branding"
+      }
+    ]
   },
   {
     "name": "Test Case Badge",
@@ -335,6 +522,38 @@
     "icon": "Monitor",
     "summary": "Manage and monitor active sessions across all devices with location tracking",
     "description": "Manage and monitor active sessions across all your devices. View device information, locations, and revoke sessions securely.",
-    "category": "Data Visualization"
+    "category": "Data Visualization",
+    "howToTest": {
+      "steps": [
+        "View the list of active sessions with device information",
+        "Click 'Switch' on a non-current session to set it as active",
+        "Click the trash icon to revoke a session",
+        "Try revoking the current session - see the confirmation dialog",
+        "Observe location data loading for IP addresses",
+        "Use the Props API table above to toggle isLoading, maxSessions, showLocation, and className"
+      ]
+    },
+    "features": [
+      {
+        "icon": "Monitor",
+        "title": "Device Detection",
+        "description": "Automatically detects and displays device type with icons"
+      },
+      {
+        "icon": "Compass",
+        "title": "Location Tracking",
+        "description": "Fetches and displays location data from IP addresses"
+      },
+      {
+        "icon": "Warning",
+        "title": "Session Management",
+        "description": "Revoke sessions securely with confirmation dialogs"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Real-time Updates",
+        "description": "Live session status with last activity timestamps"
+      }
+    ]
   }
 ]

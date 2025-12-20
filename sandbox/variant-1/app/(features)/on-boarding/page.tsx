@@ -225,30 +225,6 @@ export default function OnBoardingPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
-        <section className="space-y-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <Rocket className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Onboarding</span>
-          </div>
-          <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            Onboarding Layout
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            A comprehensive multi-step onboarding layout with stepper
-            navigation, progress tracking, and responsive design.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Rocket className="h-3 w-3" />
-              Multi-step
-            </Badge>
-            <Badge variant="default" className="gap-1.5 bg-secondary/80">
-              <Gear className="h-3 w-3" />
-              Stepper
-            </Badge>
-          </div>
-        </section>
-
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
