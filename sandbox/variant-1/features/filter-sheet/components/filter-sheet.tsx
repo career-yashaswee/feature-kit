@@ -42,7 +42,6 @@ export function FilterSheet({
 
   // Show deprecation warning if useNuqs is used
   if (process.env.NODE_ENV !== "production" && useNuqs !== undefined) {
-    // eslint-disable-next-line no-console
     console.warn(
       "[FilterSheet] The `useNuqs` prop is deprecated. Please use `enableUrlSync` instead. " +
         "The `useNuqs` prop will be removed in a future version."

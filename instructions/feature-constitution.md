@@ -24,6 +24,87 @@ This document defines the standards and guidelines for creating standalone, exte
 - Prefer well-maintained, popular libraries
 - Document all dependencies clearly
 
+#### Required Standard Libraries
+
+**Always use these libraries instead of custom implementations:**
+
+1. **Deep Equality**: Use `fast-deep-equal` instead of `JSON.stringify()` for object comparison
+   ```typescript
+   // [✓] Good
+   import isEqual from "fast-deep-equal";
+   const hasChanged = !isEqual(previousData, currentData);
+   
+   // [X] Bad - JSON.stringify is unreliable
+   const hasChanged = JSON.stringify(previousData) !== JSON.stringify(currentData);
+   ```
+
+2. **Slug Generation**: Use `slugify` library instead of custom regex
+   ```typescript
+   // [✓] Good
+   import slugify from "slugify";
+   const slug = slugify(text, { lower: true, strict: true, trim: true });
+   
+   // [X] Bad - Custom regex doesn't handle edge cases
+   const slug = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
+   ```
+
+3. **IntersectionObserver**: Use `react-intersection-observer` for scroll-based visibility
+   ```typescript
+   // [✓] Good
+   import { useInView } from "react-intersection-observer";
+   const { ref, inView } = useInView({ threshold: 0 });
+   
+   // [X] Bad - Manual observer management is error-prone
+   const observer = new IntersectionObserver(...);
+   ```
+
+4. **Scroll to Element**: Use `scroll-into-view-if-needed` for scroll-to-element with offsets
+   ```typescript
+   // [✓] Good
+   import scrollIntoView from "scroll-into-view-if-needed";
+   scrollIntoView(element, { behavior: "smooth", block: "start" });
+   
+   // [X] Bad - Manual calculations are error-prone
+   const position = element.getBoundingClientRect().top + window.pageYOffset;
+   window.scrollTo({ top: position });
+   ```
+
+5. **Table of Contents**: Use `unified` with `remark-parse` for parsing markdown headings
+   ```typescript
+   // [✓] Good - ES module compatible, handles all markdown features
+   import { unified } from "unified";
+   import remarkParse from "remark-parse";
+   const processor = unified().use(remarkParse);
+   const tree = processor.parse(markdown);
+   // Walk AST to extract headings
+   
+   // [X] Bad - Custom regex parsing is fragile
+   const headings = markdown.split("\n").filter(line => line.match(/^#+\s/));
+   ```
+
+6. **Array Operations**: Use `Set` for O(1) lookups when checking membership frequently
+   ```typescript
+   // [✓] Good - O(1) lookup
+   const favorites = new Set<string>();
+   favorites.has(id); // O(1)
+   
+   // [X] Bad - O(n) lookup
+   const favorites: string[] = [];
+   favorites.includes(id); // O(n)
+   ```
+
+7. **Callback Management**: Use `useCallback` instead of manual ref + useEffect pattern
+   ```typescript
+   // [✓] Good
+   const handleSearch = useCallback((query: string, results: T[]) => {
+     onSearch?.(query, results);
+   }, [onSearch]);
+   
+   // [X] Bad - Verbose and error-prone
+   const onSearchRef = useRef(onSearch);
+   useEffect(() => { onSearchRef.current = onSearch; }, [onSearch]);
+   ```
+
 ### 4. Delightful User Experience
 
 - Prioritize micro-animations and smooth transitions for better UX
@@ -854,6 +935,8 @@ interface SearchProps<T> {
 - **Queuing**: Process tasks sequentially (e.g., file uploads, batch operations)
 - **Batching**: Group multiple operations together (e.g., database inserts, analytics events)
 
+**Important:** Always use `@tanstack/react-pacer` instead of `@uidotdev/usehooks` for debouncing, throttling, and rate limiting. The constitution requires `@tanstack/react-pacer` for these operations.
+
 ### TanStack Pacer Usage Examples
 
 #### Debouncing (Search Input, Auto-Save)
@@ -898,24 +981,24 @@ const [scrollY, setScrollY] = useState(0);
 const throttledScrollY = useThrottledValue(scrollY, { wait: 200 });
 ```
 
-#### Rate Limiting (API Calls)
+#### Rate Limiting (Button Actions, API Calls)
 
 ```typescript
-import { useRateLimiter } from "@tanstack/react-pacer";
+import { useRateLimitedCallback } from "@tanstack/react-pacer";
 
-const apiRateLimiter = useRateLimiter(
-  async (endpoint: string) => {
-    return fetch(endpoint);
+// Rate-limited button action
+const executeAction = useRateLimitedCallback(
+  async () => {
+    await onAction();
   },
   {
-    limit: 10, // Max 10 calls
-    window: 60000, // Per 60 seconds
-    windowType: "sliding",
+    limit: 1, // Max 1 call
+    window: 1000, // Per 1000ms (1 second)
   }
 );
 
-// Usage
-apiRateLimiter.maybeExecute("/api/data");
+// Usage in button
+<button onClick={executeAction}>Submit</button>
 ```
 
 #### Queuing (Sequential Task Processing)

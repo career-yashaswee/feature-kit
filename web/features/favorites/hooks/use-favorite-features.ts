@@ -11,7 +11,7 @@ export function useFavoriteFeatures() {
 
   const favoriteFeatures = useMemo(() => {
     return features.filter((feature: Feature) =>
-      favorites.includes(feature.id),
+      favorites.has(feature.id),
     );
   }, [features, favorites]);
 

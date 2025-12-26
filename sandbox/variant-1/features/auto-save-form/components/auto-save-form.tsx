@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useDebouncedValue } from "@tanstack/react-pacer";
+import isEqual from "fast-deep-equal";
 import {
-  useDebounce,
   useLocalStorage,
   useIsFirstRender,
 } from "@uidotdev/usehooks";
@@ -46,7 +47,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
   errorMessage = "Failed to save changes",
 }: AutoSaveFormProps<T>) {
   const [status, setStatus] = useState<SaveStatus>("idle");
-  const debouncedData = useDebounce(data, debounceMs);
+  const [debouncedData] = useDebouncedValue(data, { wait: debounceMs });
   const previousDataRef = useRef<T | null>(null);
   const isFirstRender = useIsFirstRender();
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -79,8 +80,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
       return;
     }
 
-    const hasChanged =
-      JSON.stringify(previousDataRef.current) !== JSON.stringify(debouncedData);
+    const hasChanged = !isEqual(previousDataRef.current, debouncedData);
 
     if (!hasChanged) return;
 

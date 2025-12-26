@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
+import slugify from "slugify";
 import {
   Card,
   CardContent,
@@ -18,7 +19,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   List,
   CursorClick,
@@ -33,7 +33,10 @@ import { useTableOfContents } from "@/features/table-of-contents/hooks/use-table
 import type { TocItem } from "@/features/table-of-contents/hooks/use-table-of-contents";
 
 const PersistenceTipTapEditor = dynamic(
-  () => import("@/features/persistence-tip-tap-editor").then((mod) => mod.PersistenceTipTapEditor),
+  () =>
+    import("@/features/persistence-tip-tap-editor").then(
+      (mod) => mod.PersistenceTipTapEditor
+    ),
   { ssr: false }
 );
 
@@ -113,12 +116,11 @@ function parseHtmlToTocItems(html: string): TocItem[] {
       if (!content) return;
 
       // Generate slug
-      const baseSlug = content
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .trim();
+      const baseSlug = slugify(content, {
+        lower: true,
+        strict: true,
+        trim: true,
+      });
 
       // Handle duplicate slugs
       const count = seenCounts[baseSlug] || 0;
@@ -157,18 +159,19 @@ function markdownToHtml(markdown: string): string {
     if (match) {
       const level = match[1].length;
       const content = match[2].trim();
-      const baseSlug = content
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .trim();
+      const baseSlug = slugify(content, {
+        lower: true,
+        strict: true,
+        trim: true,
+      });
 
       const count = seenCounts[baseSlug] || 0;
       seenCounts[baseSlug] = count + 1;
       const slug = count > 0 ? `${baseSlug}-${count}` : baseSlug;
 
-      htmlLines.push(`<h${level} id="${slug}" class="scroll-mt-24">${content}</h${level}>`);
+      htmlLines.push(
+        `<h${level} id="${slug}" class="scroll-mt-24">${content}</h${level}>`
+      );
     } else {
       htmlLines.push(line);
     }
@@ -179,25 +182,32 @@ function markdownToHtml(markdown: string): string {
 
 export default function TableOfContentsPage() {
   const [editorContent, setEditorContent] = useState(sampleMarkdown);
-  
+
   // Convert markdown to HTML for display
-  const htmlContent = useMemo(() => markdownToHtml(editorContent), [editorContent]);
-  
+  const htmlContent = useMemo(
+    () => markdownToHtml(editorContent),
+    [editorContent]
+  );
+
   // Parse content to get TOC items - try HTML first, then markdown
-  const tocItemsFromHtml = useMemo(() => parseHtmlToTocItems(editorContent), [editorContent]);
+  const tocItemsFromHtml = useMemo(
+    () => parseHtmlToTocItems(editorContent),
+    [editorContent]
+  );
   const tocItemsFromMarkdown = useTableOfContents(editorContent);
-  
+
   // Use HTML TOC if available, otherwise use markdown TOC
-  const tocItems = tocItemsFromHtml.length > 0 ? tocItemsFromHtml : tocItemsFromMarkdown;
-  
+  const tocItems =
+    tocItemsFromHtml.length > 0 ? tocItemsFromHtml : tocItemsFromMarkdown;
+
   // Ensure rendered HTML has proper heading IDs for scrolling
   const renderedHtmlWithIds = useMemo(() => {
     if (!htmlContent || typeof window === "undefined") return "";
-    
+
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
     const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
-    
+
     headings.forEach((heading) => {
       const content = heading.textContent?.trim() || "";
       const tocItem = tocItems.find((item) => item.content === content);
@@ -206,7 +216,7 @@ export default function TableOfContentsPage() {
         heading.className = "scroll-mt-24";
       }
     });
-    
+
     return doc.body.innerHTML;
   }, [htmlContent, tocItems]);
   const [props, setProps] = useState<PropConfig[]>([
@@ -222,7 +232,7 @@ export default function TableOfContentsPage() {
 
   const handleValueChange = (
     index: number,
-    newValue: string | number | boolean,
+    newValue: string | number | boolean
   ) => {
     setProps((prev) => {
       const updated = [...prev];
@@ -261,7 +271,8 @@ export default function TableOfContentsPage() {
               <CardTitle className="text-2xl">Live Demo</CardTitle>
             </div>
             <CardDescription>
-              Edit the markdown content in the editor below to see the table of contents update dynamically.
+              Edit the markdown content in the editor below to see the table of
+              contents update dynamically.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -286,7 +297,8 @@ export default function TableOfContentsPage() {
             </div>
             <CardDescription>
               Interact with the table below to customize the component styling.
-              The TOC items are automatically generated from the editor content above.
+              The TOC items are automatically generated from the editor content
+              above.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -340,7 +352,8 @@ export default function TableOfContentsPage() {
             </div>
             <CardDescription>
               Edit the markdown content in the editor and watch the table of
-              contents update dynamically. Scroll through the preview to see active section highlighting.
+              contents update dynamically. Scroll through the preview to see
+              active section highlighting.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -379,7 +392,8 @@ export default function TableOfContentsPage() {
                 <CardTitle className="text-2xl">Editable Content</CardTitle>
               </div>
               <CardDescription>
-                Edit the markdown content below. The table of contents will update automatically as you add or modify headings.
+                Edit the markdown content below. The table of contents will
+                update automatically as you add or modify headings.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -394,11 +408,11 @@ export default function TableOfContentsPage() {
                 showToolbar={true}
                 editable={true}
               />
-              
+
               {/* Rendered Preview */}
               <div className="mt-6 pt-6 border-t">
                 <h3 className="text-sm font-semibold mb-4">Preview:</h3>
-                <div 
+                <div
                   className="prose prose-sm dark:prose-invert max-w-none"
                   dangerouslySetInnerHTML={{ __html: renderedHtmlWithIds }}
                 />
@@ -417,7 +431,8 @@ export default function TableOfContentsPage() {
               <Card className="border-2">
                 <CardContent className="p-6">
                   <p className="text-sm text-muted-foreground">
-                    No headings found. Add headings (e.g., # Heading) to generate the table of contents.
+                    No headings found. Add headings (e.g., # Heading) to
+                    generate the table of contents.
                   </p>
                 </CardContent>
               </Card>

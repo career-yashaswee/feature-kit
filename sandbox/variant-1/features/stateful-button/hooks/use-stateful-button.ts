@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useRateLimitedCallback } from "@tanstack/react-pacer";
 
 export type ButtonState = "default" | "loading" | "success" | "error";
 
@@ -23,7 +24,6 @@ export function useStatefulButton({
 }: UseStatefulButtonOptions) {
   const [state, setState] = useState<ButtonState>("default");
   const [isWaitingForConfirm, setIsWaitingForConfirm] = useState(false);
-  const lastCallRef = useRef<number>(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -34,36 +34,33 @@ export function useStatefulButton({
     };
   }, []);
 
-  const executeAction = useCallback(async () => {
-    if (state === "loading") return;
+  const executeAction = useRateLimitedCallback(
+    async () => {
+      if (state === "loading") return;
+      setState("loading");
 
-    const now = Date.now();
-    const timeSinceLastCall = now - lastCallRef.current;
+      try {
+        await onAction();
+        setState("success");
+        onSuccess?.();
 
-    if (timeSinceLastCall < rateLimitMs) {
-      return;
-    }
+        setTimeout(() => {
+          setState("default");
+        }, 2000);
+      } catch (error) {
+        setState("error");
+        onError?.(error instanceof Error ? error : new Error("Unknown error"));
 
-    lastCallRef.current = now;
-    setState("loading");
-
-    try {
-      await onAction();
-      setState("success");
-      onSuccess?.();
-
-      setTimeout(() => {
-        setState("default");
-      }, 2000);
-    } catch (error) {
-      setState("error");
-      onError?.(error instanceof Error ? error : new Error("Unknown error"));
-
-      setTimeout(() => {
-        setState("default");
-      }, 2000);
-    }
-  }, [state, onAction, onSuccess, onError, rateLimitMs]);
+        setTimeout(() => {
+          setState("default");
+        }, 2000);
+      }
+    },
+    {
+      limit: 1,
+      window: rateLimitMs,
+    },
+  );
 
   const handleClick = useCallback(async () => {
     if (state === "loading") return;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useDebouncedValue } from "@tanstack/react-pacer";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { toast } from "sonner";
 import { FloppyDisk, Spinner } from "@phosphor-icons/react";
@@ -36,7 +36,7 @@ export function PersistenceTipTapEditor({
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const debouncedContent = useDebounce(content, debounceMs);
+  const [debouncedContent] = useDebouncedValue(content, { wait: debounceMs });
   const previousContentRef = useRef<string>(content);
 
   // Initialize content from prop or storage

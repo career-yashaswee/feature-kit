@@ -72,13 +72,13 @@ export interface UseFilterSheetReturn<
  *   },
  * });
  *
- * // Get filter value (type-safe - only accepts keys from defaults)
+ * Get filter value (type-safe - only accepts keys from defaults)
  * const difficulty = getFilter("difficulty");
  *
- * // Set filter value (type-safe - only accepts keys from defaults)
+ * Set filter value (type-safe - only accepts keys from defaults)
  * await setFilter("difficulty", "EASY");
  *
- * // Clear all filters
+ *  Clear all filters
  * await clearAllFilters();
  * ```
  */

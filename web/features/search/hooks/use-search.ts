@@ -2,14 +2,14 @@
 
 import { useMemo } from "react";
 import Fuse from "fuse.js";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useDebouncedValue } from "@tanstack/react-pacer";
 import { useSearchStore } from "../store/use-search-store";
 import type { Feature } from "@/lib/supabase/types";
 
 export function useSearch(features: Feature[] = []) {
   const searchQuery = useSearchStore((state) => state.searchQuery);
   const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
-  const debouncedSearch = useDebounce(searchQuery, 300);
+  const [debouncedSearch] = useDebouncedValue(searchQuery, { wait: 300 });
 
   const fuse = useMemo(
     () =>

@@ -98,7 +98,7 @@ export function Header() {
                     variant="secondary"
                     className="h-5 min-w-5 px-1.5 text-xs"
                   >
-                    {favorites.length}
+                    {favorites.size}
                   </Badge>
                 </Link>
               </Button>

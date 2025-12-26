@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useThrottledValue } from "@tanstack/react-pacer";
 import {
-  useDebounce,
   useIsClient,
   useLocalStorage,
   useSessionStorage,
@@ -94,7 +94,7 @@ export function useScrollPosition(options: UseScrollPositionOptions = {}) {
     }
   }, [scrollContainer, setWindowTargetRef, setRootRef, setOverflowTargetRef]);
 
-  const debouncedScrollY = useDebounce(scrollY, debounceMs);
+  const [debouncedScrollY] = useThrottledValue(scrollY, { wait: debounceMs });
 
   useEffect(() => {
     if (scrollContainer && scrollContainer !== window) {

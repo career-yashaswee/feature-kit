@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo, useRef } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { useDebouncedValue } from "@tanstack/react-pacer";
 import Fuse from "fuse.js";
 
 export interface UseSearchInputOptions<T> {
@@ -18,13 +18,14 @@ export function useSearchInput<T>({
   onSearch,
 }: UseSearchInputOptions<T>) {
   const [query, setQuery] = useState("");
-  const debouncedQuery = useDebounce(query, debounceMs);
-  const onSearchRef = useRef(onSearch);
+  const [debouncedQuery] = useDebouncedValue(query, { wait: debounceMs });
 
-  // Update ref when callback changes
-  useEffect(() => {
-    onSearchRef.current = onSearch;
-  }, [onSearch]);
+  const handleSearch = useCallback(
+    (searchQuery: string, searchResults: T[]) => {
+      onSearch?.(searchQuery, searchResults);
+    },
+    [onSearch],
+  );
 
   const fuse = useMemo(
     () =>
@@ -46,8 +47,8 @@ export function useSearchInput<T>({
   }, [debouncedQuery, fuse, data]);
 
   useEffect(() => {
-    onSearchRef.current?.(debouncedQuery, results);
-  }, [debouncedQuery, results]);
+    handleSearch(debouncedQuery, results);
+  }, [debouncedQuery, results, handleSearch]);
 
   return {
     query,

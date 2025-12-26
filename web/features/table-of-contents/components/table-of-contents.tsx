@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import scrollIntoView from "scroll-into-view-if-needed";
 import type { TocItem } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import { cn } from "@/lib/utils";
 
@@ -51,15 +53,17 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      const headerOffset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
+      scrollIntoView(element, {
         behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+        scrollMode: "if-needed",
       });
+
+      // Apply header offset after scroll
+      setTimeout(() => {
+        window.scrollBy(0, -100);
+      }, 100);
     }
   };
 
