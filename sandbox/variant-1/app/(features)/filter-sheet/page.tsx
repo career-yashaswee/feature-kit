@@ -58,14 +58,14 @@ export default function FilterSheetPage() {
   // Use nuqs for filter state management
   const { getFilter, setFilter, clearAllFilters } = useFilterSheet({
     defaults: {
-      difficulty: "ALL",
-      status: "ALL",
-      favoriteOnly: false,
-      tags: [],
-      variants: [],
-      stacks: [],
-      dependencies: [],
-      domains: [],
+      difficulty: "ALL" as string,
+      status: "ALL" as string,
+      favoriteOnly: false as boolean,
+      tags: [] as string[],
+      variants: [] as string[],
+      stacks: [] as string[],
+      dependencies: [] as string[],
+      domains: [] as string[],
     },
     history: "push",
   });
@@ -80,30 +80,61 @@ export default function FilterSheetPage() {
   const selectedDependencies = (getFilter("dependencies") as string[]) || [];
   const selectedDomains = (getFilter("domains") as string[]) || [];
 
-  // Wrapper functions for setting filters (synchronous for FilterSheet component)
-  const setDifficulty = (value: string) => {
-    void setFilter("difficulty", value);
+  const setDifficulty = async (value: string) => {
+    try {
+      await setFilter("difficulty", value);
+    } catch (error) {
+      console.error("Failed to set difficulty filter:", error);
+    }
   };
-  const setStatus = (value: string) => {
-    void setFilter("status", value);
+  const setStatus = async (value: string) => {
+    try {
+      await setFilter("status", value);
+    } catch (error) {
+      console.error("Failed to set status filter:", error);
+    }
   };
-  const setFavoriteOnly = (value: boolean) => {
-    void setFilter("favoriteOnly", value);
+  const setFavoriteOnly = async (value: boolean) => {
+    try {
+      await setFilter("favoriteOnly", value);
+    } catch (error) {
+      console.error("Failed to set favoriteOnly filter:", error);
+    }
   };
-  const setSelectedTags = (value: string[]) => {
-    void setFilter("tags", value);
+  const setSelectedTags = async (value: string[]) => {
+    try {
+      await setFilter("tags", value);
+    } catch (error) {
+      console.error("Failed to set tags filter:", error);
+    }
   };
-  const setSelectedVariants = (value: string[]) => {
-    void setFilter("variants", value);
+  const setSelectedVariants = async (value: string[]) => {
+    try {
+      await setFilter("variants", value);
+    } catch (error) {
+      console.error("Failed to set variants filter:", error);
+    }
   };
-  const setSelectedStacks = (value: string[]) => {
-    void setFilter("stacks", value);
+  const setSelectedStacks = async (value: string[]) => {
+    try {
+      await setFilter("stacks", value);
+    } catch (error) {
+      console.error("Failed to set stacks filter:", error);
+    }
   };
-  const setSelectedDependencies = (value: string[]) => {
-    void setFilter("dependencies", value);
+  const setSelectedDependencies = async (value: string[]) => {
+    try {
+      await setFilter("dependencies", value);
+    } catch (error) {
+      console.error("Failed to set dependencies filter:", error);
+    }
   };
-  const setSelectedDomains = (value: string[]) => {
-    void setFilter("domains", value);
+  const setSelectedDomains = async (value: string[]) => {
+    try {
+      await setFilter("domains", value);
+    } catch (error) {
+      console.error("Failed to set domains filter:", error);
+    }
   };
 
   const difficultyOptions: FilterOption[] = [
@@ -287,8 +318,12 @@ export default function FilterSheetPage() {
     },
   ];
 
-  const handleClearAll = () => {
-    void clearAllFilters();
+  const handleClearAll = async () => {
+    try {
+      await clearAllFilters();
+    } catch (error) {
+      console.error("Failed to clear all filters:", error);
+    }
   };
 
   const activeFiltersCount =

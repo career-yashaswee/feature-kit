@@ -29,11 +29,7 @@ describe("FilterSheet", () => {
 
   it("renders sheet when open", () => {
     render(
-      <FilterSheet
-        open={true}
-        onOpenChange={jest.fn()}
-        filters={mockFilters}
-      />,
+      <FilterSheet open={true} onOpenChange={jest.fn()} filters={mockFilters} />
     );
 
     expect(screen.getByText("Filters")).toBeInTheDocument();
@@ -41,11 +37,7 @@ describe("FilterSheet", () => {
 
   it("renders filter labels", () => {
     render(
-      <FilterSheet
-        open={true}
-        onOpenChange={jest.fn()}
-        filters={mockFilters}
-      />,
+      <FilterSheet open={true} onOpenChange={jest.fn()} filters={mockFilters} />
     );
 
     expect(screen.getByText("Category")).toBeInTheDocument();
@@ -62,11 +54,7 @@ describe("FilterSheet", () => {
     ];
 
     render(
-      <FilterSheet
-        open={true}
-        onOpenChange={jest.fn()}
-        filters={filters}
-      />,
+      <FilterSheet open={true} onOpenChange={jest.fn()} filters={filters} />
     );
 
     const select = screen.getByRole("combobox");
@@ -88,11 +76,7 @@ describe("FilterSheet", () => {
     ];
 
     render(
-      <FilterSheet
-        open={true}
-        onOpenChange={jest.fn()}
-        filters={filters}
-      />,
+      <FilterSheet open={true} onOpenChange={jest.fn()} filters={filters} />
     );
 
     const checkbox = screen.getByRole("checkbox");
@@ -110,7 +94,7 @@ describe("FilterSheet", () => {
         onOpenChange={jest.fn()}
         filters={mockFilters}
         onClearAll={onClearAll}
-      />,
+      />
     );
 
     const clearButton = screen.getByText("Clear All Filters");
@@ -119,6 +103,3 @@ describe("FilterSheet", () => {
     expect(onClearAll).toHaveBeenCalled();
   });
 });
-
-
-

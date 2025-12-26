@@ -1,4 +1,4 @@
-import { Sparkle } from "@phosphor-icons/react";
+import { Sparkle } from "@phosphor-icons/react/ssr";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export interface FeatureItem {

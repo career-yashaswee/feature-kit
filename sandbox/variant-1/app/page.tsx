@@ -121,9 +121,9 @@ function HomePage() {
   // Use nuqs for filter state management
   const { getAllFilters, setFilter, clearAllFilters } = useFilterSheet({
     defaults: {
-      category: "ALL",
-      tags: [],
-      "feature-tags": [],
+      category: "ALL" as string,
+      tags: [] as string[],
+      "feature-tags": [] as string[],
     },
     history: "push",
   });

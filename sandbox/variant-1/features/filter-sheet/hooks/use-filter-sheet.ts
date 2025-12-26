@@ -8,12 +8,14 @@ import {
 } from "nuqs";
 import type { FilterValue } from "../types";
 
-export interface UseFilterSheetOptions {
+export interface UseFilterSheetOptions<
+  T extends Record<string, FilterValue> = Record<string, FilterValue>,
+> {
   /**
    * Configuration for individual filter parameters
    * Key is the filter ID, value is the default value
    */
-  defaults?: Record<string, FilterValue>;
+  defaults?: T;
   /**
    * History mode for URL updates
    * 'push' - adds new history entry (default)
@@ -26,19 +28,24 @@ export interface UseFilterSheetOptions {
   shallow?: boolean;
 }
 
-export interface UseFilterSheetReturn {
+export interface UseFilterSheetReturn<
+  T extends Record<string, FilterValue> = Record<string, FilterValue>,
+> {
   /**
    * Get the current value of a filter
+   * @throws {Error} If the filter ID is not defined in defaults
    */
-  getFilter: (id: string) => FilterValue | null;
+  getFilter: <K extends keyof T>(id: K) => T[K] | null;
   /**
    * Set the value of a filter
+   * @throws {Error} If the filter ID is not defined in defaults
    */
-  setFilter: (id: string, value: FilterValue | null) => Promise<void>;
+  setFilter: <K extends keyof T>(id: K, value: T[K] | null) => Promise<void>;
   /**
    * Clear a specific filter
+   * @throws {Error} If the filter ID is not defined in defaults
    */
-  clearFilter: (id: string) => Promise<void>;
+  clearFilter: <K extends keyof T>(id: K) => Promise<void>;
   /**
    * Clear all filters
    */
@@ -46,7 +53,7 @@ export interface UseFilterSheetReturn {
   /**
    * Get all filter values as an object
    */
-  getAllFilters: () => Record<string, FilterValue | null>;
+  getAllFilters: () => Partial<Record<keyof T, FilterValue | null>>;
 }
 
 /**
@@ -62,25 +69,26 @@ export interface UseFilterSheetReturn {
  *   },
  * });
  *
- * // Get filter value
+ * // Get filter value (type-safe - only accepts keys from defaults)
  * const difficulty = getFilter("difficulty");
  *
- * // Set filter value
+ * // Set filter value (type-safe - only accepts keys from defaults)
  * await setFilter("difficulty", "EASY");
  *
  * // Clear all filters
  * await clearAllFilters();
  * ```
  */
-export function useFilterSheet(
-  options: UseFilterSheetOptions = {}
-): UseFilterSheetReturn {
-  const { defaults = {}, history = "push", shallow = false } = options;
+export function useFilterSheet<
+  T extends Record<string, FilterValue> = Record<string, FilterValue>,
+>(options: UseFilterSheetOptions<T> = {}): UseFilterSheetReturn<T> {
+  const { defaults = {} as T, history = "push", shallow = false } = options;
 
   // Create parsers for all filter keys
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filterParsers: Record<string, any> = {};
   const filterDefaults: Record<string, FilterValue> = {};
+  const validFilterKeys = new Set<string>(Object.keys(defaults));
 
   // Build parsers and defaults
   Object.entries(defaults).forEach(([key, defaultValue]) => {
@@ -112,18 +120,44 @@ export function useFilterSheet(
     shallow,
   });
 
-  const getFilter = (id: string): FilterValue | null => {
-    const value = filterStates[id];
-    if (value === undefined || value === null) {
-      return defaults[id] ?? null;
+  const getFilter = <K extends keyof T>(id: K): T[K] | null => {
+    // Runtime validation for invalid IDs (TypeScript should catch these, but this provides runtime safety)
+    if (!validFilterKeys.has(id as string)) {
+      const error = new Error(
+        `Invalid filter ID: "${String(id)}". Valid filter IDs are: ${Array.from(
+          validFilterKeys
+        )
+          .map((k) => `"${k}"`)
+          .join(", ")}`
+      );
+      console.error(error.message);
+      throw error;
     }
-    return value as FilterValue;
+
+    const value = filterStates[id as string];
+    if (value === undefined || value === null) {
+      return (defaults[id] ?? null) as T[K] | null;
+    }
+    return value as T[K];
   };
 
-  const setFilter = async (
-    id: string,
-    value: FilterValue | null
+  const setFilter = async <K extends keyof T>(
+    id: K,
+    value: T[K] | null
   ): Promise<void> => {
+    // Runtime validation for invalid IDs (TypeScript should catch these, but this provides runtime safety)
+    if (!validFilterKeys.has(id as string)) {
+      const error = new Error(
+        `Invalid filter ID: "${String(id)}". Valid filter IDs are: ${Array.from(
+          validFilterKeys
+        )
+          .map((k) => `"${k}"`)
+          .join(", ")}`
+      );
+      console.error(error.message);
+      throw error;
+    }
+
     if (value === null) {
       // Remove from URL by setting to null (will trigger clearOnDefault)
       await setFilterStates({
@@ -135,7 +169,7 @@ export function useFilterSheet(
     }
   };
 
-  const clearFilter = async (id: string): Promise<void> => {
+  const clearFilter = async <K extends keyof T>(id: K): Promise<void> => {
     await setFilter(id, null);
   };
 
@@ -150,10 +184,10 @@ export function useFilterSheet(
     );
   };
 
-  const getAllFilters = (): Record<string, FilterValue | null> => {
-    const all: Record<string, FilterValue | null> = {};
+  const getAllFilters = (): Partial<Record<keyof T, FilterValue | null>> => {
+    const all: Partial<Record<keyof T, FilterValue | null>> = {};
     Object.keys(filterParsers).forEach((key) => {
-      all[key] = getFilter(key);
+      all[key as keyof T] = getFilter(key as keyof T);
     });
     return all;
   };
