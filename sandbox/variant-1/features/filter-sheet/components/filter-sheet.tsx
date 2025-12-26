@@ -1,26 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Sliders,
-  CheckCircle,
-  MusicNote,
-  MusicNotes,
-  MusicNotesPlus,
-  Clock,
-  Circle,
-  Star,
-  Palette,
-  Stack,
-  Tag,
-  Database,
-  Code,
-  HardDrives,
-  Brain,
-  SquaresFour,
-  Gear,
-  X,
-} from "@phosphor-icons/react";
+import { Sliders, Star, Tag } from "@phosphor-icons/react";
 import {
   Sheet,
   SheetContent,
@@ -93,7 +74,7 @@ export function FilterSheet({
     icon: Filter["icon"],
     defaultIcon: React.ComponentType<{
       className?: string;
-    }> = Sliders,
+    }> = Sliders
   ) => {
     if (icon) {
       const IconComponent = icon;
@@ -127,7 +108,7 @@ export function FilterSheet({
                       <OptionIcon
                         className={cn(
                           "h-4 w-4",
-                          option.iconColor || "text-current",
+                          option.iconColor || "text-current"
                         )}
                       />
                       {option.label}
@@ -145,7 +126,7 @@ export function FilterSheet({
   };
 
   const renderCheckboxFilter = (
-    filter: Extract<Filter, { type: "checkbox" }>,
+    filter: Extract<Filter, { type: "checkbox" }>
   ) => {
     return (
       <div key={filter.id} className="space-y-3">
@@ -171,7 +152,7 @@ export function FilterSheet({
   };
 
   const renderMultiSelectFilter = (
-    filter: Extract<Filter, { type: "multiselect" }>,
+    filter: Extract<Filter, { type: "multiselect" }>
   ) => {
     const handleToggle = (optionId: string) => {
       if (filter.selectedValues.includes(optionId)) {

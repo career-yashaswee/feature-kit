@@ -153,6 +153,7 @@ ASCII symbols ensure:
 - **TanStack Query** (`@tanstack/react-query`) - For data fetching and server state
 - **TanStack Store** (`@tanstack/store`) OR **Zustand** (`zustand`) - For client-side state management
 - **TanStack Pacer** (`@tanstack/react-pacer`) - For debouncing, throttling, rate limiting, queuing, and batching utilities
+- **nuqs** (`nuqs`) - For managing filter and search state in URL query parameters (type-safe, framework-agnostic)
 - Both options should be configurable via adapters
 
 ### UI Components
@@ -173,8 +174,20 @@ ASCII symbols ensure:
 
 - **@uidotdev/usehooks** - For common React hooks (check before creating custom hooks and never re-invent the wheel)
 - **TanStack Pacer** (`@tanstack/react-pacer`) - For performance optimization utilities (debouncing, throttling, rate limiting, queuing, batching)
+- **nuqs** (`nuqs`) - For URL query parameter state management (use for filters, search, and any state that should be shareable via URL)
 
 **Important:** Before creating custom hooks, refer to `instructions/hooks/` for React hooks rules and naming conventions.
+
+### URL State Management
+
+- **nuqs** (`nuqs`) - Use for managing filter and search state in URL query parameters
+  - Provides type-safe query parameter management
+  - Supports Next.js, Remix, React Router, and React SPA
+  - Use `useQueryState` for single parameters
+  - Use `useQueryStates` for multiple related parameters
+  - Use `parseAsString`, `parseAsBoolean`, `parseAsArrayOf`, etc. for type-safe parsing
+  - Always wrap your app with `NuqsAdapter` (framework-specific adapter)
+  - Example: Filter sheets, search inputs, pagination, sorting - any state that should be shareable via URL
 
 ## Component Architecture Patterns
 
@@ -823,6 +836,17 @@ interface SearchProps<T> {
 - Persistence (localStorage, sessionStorage)
 - Global application state
 
+### When to Use nuqs
+
+- **Filter State**: Filter sheets, filter panels, multi-select filters
+- **Search State**: Search queries, search parameters
+- **Pagination**: Page numbers, page size
+- **Sorting**: Sort order, sort direction
+- **Shareable State**: Any state that should be shareable via URL
+- **Browser Navigation**: State that should persist on page refresh or browser back/forward
+
+**Important:** Always wrap your application with the appropriate `NuqsAdapter` for your framework (Next.js, Remix, React Router, etc.)
+
 ### When to Use TanStack Pacer
 
 - **Debouncing**: Delay function execution until after a wait period (e.g., search input, auto-save)
@@ -989,7 +1013,8 @@ Follow `instructions/demo.md` for all demo pages:
 - [ ] Component is fully standalone (no app-specific dependencies)
 - [ ] All external data accepted as props or via adapters
 - [ ] TypeScript types are complete and exported
-- [ ] Uses standard libraries (TanStack Query, Zustand/TanStack Store, TanStack Pacer, Phosphor Icons React)
+- [ ] Uses standard libraries (TanStack Query, Zustand/TanStack Store, TanStack Pacer, nuqs, Phosphor Icons React)
+- [ ] Uses nuqs for filter and search state management (when applicable)
 - [ ] Reuses existing FeatureKit components where applicable
 - [ ] Follows adapter pattern for external integrations
 - [ ] Provides headless hook for custom implementations

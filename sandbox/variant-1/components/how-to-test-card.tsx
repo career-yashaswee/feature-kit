@@ -1,5 +1,3 @@
-"use client";
-
 import { CursorClick } from "@phosphor-icons/react";
 import {
   Card,
@@ -34,7 +32,9 @@ export function HowToTestCard({
           <div>
             <CardTitle className="text-2xl">{title}</CardTitle>
             {conclusion && (
-              <CardDescription className="text-base">{conclusion}</CardDescription>
+              <CardDescription className="text-base">
+                {conclusion}
+              </CardDescription>
             )}
           </div>
         </div>
@@ -65,4 +65,3 @@ export function HowToTestCard({
     </Card>
   );
 }
-

@@ -1,4 +1,5 @@
 export { FilterSheet } from "./components/filter-sheet";
+export { useFilterSheet } from "./hooks/use-filter-sheet";
 export type {
   Filter,
   FilterValue,
@@ -9,3 +10,7 @@ export type {
   TagFilter,
   FilterSheetProps,
 } from "./types";
+export type {
+  UseFilterSheetOptions,
+  UseFilterSheetReturn,
+} from "./hooks/use-filter-sheet";

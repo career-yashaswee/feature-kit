@@ -31,6 +31,7 @@ import {
   Lightning,
 } from "@phosphor-icons/react";
 import { FilterSheet } from "@/features/filter-sheet/components/filter-sheet";
+import { useFilterSheet } from "@/features/filter-sheet";
 import type { Filter, FilterOption } from "@/features/filter-sheet/types";
 
 const features = [
@@ -53,16 +54,57 @@ const features = [
 
 export default function FilterSheetPage() {
   const [open, setOpen] = useState(false);
-  const [difficulty, setDifficulty] = useState("ALL");
-  const [status, setStatus] = useState("ALL");
-  const [favoriteOnly, setFavoriteOnly] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
-  const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
-  const [selectedDependencies, setSelectedDependencies] = useState<string[]>(
-    []
-  );
-  const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
+
+  // Use nuqs for filter state management
+  const { getFilter, setFilter, clearAllFilters } = useFilterSheet({
+    defaults: {
+      difficulty: "ALL",
+      status: "ALL",
+      favoriteOnly: false,
+      tags: [],
+      variants: [],
+      stacks: [],
+      dependencies: [],
+      domains: [],
+    },
+    history: "push",
+  });
+
+  // Get filter values from URL
+  const difficulty = (getFilter("difficulty") as string) || "ALL";
+  const status = (getFilter("status") as string) || "ALL";
+  const favoriteOnly = (getFilter("favoriteOnly") as boolean) || false;
+  const selectedTags = (getFilter("tags") as string[]) || [];
+  const selectedVariants = (getFilter("variants") as string[]) || [];
+  const selectedStacks = (getFilter("stacks") as string[]) || [];
+  const selectedDependencies = (getFilter("dependencies") as string[]) || [];
+  const selectedDomains = (getFilter("domains") as string[]) || [];
+
+  // Wrapper functions for setting filters (synchronous for FilterSheet component)
+  const setDifficulty = (value: string) => {
+    void setFilter("difficulty", value);
+  };
+  const setStatus = (value: string) => {
+    void setFilter("status", value);
+  };
+  const setFavoriteOnly = (value: boolean) => {
+    void setFilter("favoriteOnly", value);
+  };
+  const setSelectedTags = (value: string[]) => {
+    void setFilter("tags", value);
+  };
+  const setSelectedVariants = (value: string[]) => {
+    void setFilter("variants", value);
+  };
+  const setSelectedStacks = (value: string[]) => {
+    void setFilter("stacks", value);
+  };
+  const setSelectedDependencies = (value: string[]) => {
+    void setFilter("dependencies", value);
+  };
+  const setSelectedDomains = (value: string[]) => {
+    void setFilter("domains", value);
+  };
 
   const difficultyOptions: FilterOption[] = [
     {
@@ -246,14 +288,7 @@ export default function FilterSheetPage() {
   ];
 
   const handleClearAll = () => {
-    setDifficulty("ALL");
-    setStatus("ALL");
-    setFavoriteOnly(false);
-    setSelectedTags([]);
-    setSelectedVariants([]);
-    setSelectedStacks([]);
-    setSelectedDependencies([]);
-    setSelectedDomains([]);
+    void clearAllFilters();
   };
 
   const activeFiltersCount =

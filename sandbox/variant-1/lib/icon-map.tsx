@@ -73,8 +73,10 @@ export function getIconComponent(iconName: string): Icon {
   return iconMap[iconName] || ArrowUp;
 }
 
-export function renderIcon(iconName: string, className?: string): React.ReactNode {
+export function renderIcon(
+  iconName: string,
+  className?: string
+): React.ReactNode {
   const IconComponent = getIconComponent(iconName);
   return <IconComponent className={className} />;
 }
-

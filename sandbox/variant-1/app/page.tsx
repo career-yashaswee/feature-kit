@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FeatureCard } from "@/components/feature-card";
 import { EmptyState } from "@/features/empty-states";
-import { FilterSheet } from "@/features/filter-sheet";
+import { FilterSheet, useFilterSheet } from "@/features/filter-sheet";
 import type { Filter } from "@/features/filter-sheet/types";
 import { ScrollToTopButton } from "@/features/scroll-to-top";
 import { useSearchInput } from "@/features/search-input";
@@ -79,7 +79,6 @@ type Feature = {
   lastUpdatedAt?: string;
 };
 
-
 const iconMap: Record<string, typeof ArrowUp> = {
   ArrowUp,
   ArrowsClockwise,
@@ -118,9 +117,32 @@ const allFeatures: Feature[] = (featuresData as FeatureData[]).map(
 
 function HomePage() {
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedFeatureTags, setSelectedFeatureTags] = useState<string[]>([]);
+
+  // Use nuqs for filter state management
+  const { getAllFilters, setFilter, clearAllFilters } = useFilterSheet({
+    defaults: {
+      category: "ALL",
+      tags: [],
+      "feature-tags": [],
+    },
+    history: "push",
+  });
+
+  // Get all filter values from URL at once
+  const allFilters = getAllFilters();
+  const categoryValue = allFilters.category;
+  const tagsValue = allFilters.tags;
+  const featureTagsValue = allFilters["feature-tags"];
+
+  const selectedCategory = (categoryValue as string) || "ALL";
+  const selectedTags = useMemo(
+    () => (tagsValue as string[]) || [],
+    [tagsValue]
+  );
+  const selectedFeatureTags = useMemo(
+    () => (featureTagsValue as string[]) || [],
+    [featureTagsValue]
+  );
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
@@ -193,6 +215,17 @@ function HomePage() {
     return Array.from(tags).sort();
   }, []);
 
+  // Wrapper functions for setting filters (synchronous for FilterSheet component)
+  const setSelectedCategory = (value: string) => {
+    void setFilter("category", value);
+  };
+  const setSelectedTags = (value: string[]) => {
+    void setFilter("tags", value);
+  };
+  const setSelectedFeatureTags = (value: string[]) => {
+    void setFilter("feature-tags", value);
+  };
+
   const filters: Filter[] = [
     {
       type: "select",
@@ -224,9 +257,7 @@ function HomePage() {
   ];
 
   const handleClearFilters = () => {
-    setSelectedCategory("ALL");
-    setSelectedTags([]);
-    setSelectedFeatureTags([]);
+    void clearAllFilters();
     setQuery("");
   };
 

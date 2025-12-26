@@ -1,12 +1,5 @@
-"use client";
-
 import { Sparkle } from "@phosphor-icons/react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export interface FeatureItem {
   icon: React.ReactNode;
@@ -60,4 +53,3 @@ export function FeaturesGlossary({
     </Card>
   );
 }
-

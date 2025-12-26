@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -24,8 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { Monitor, Shield, MapPin, Lightning, Code } from "@phosphor-icons/react";
+import {
+  Monitor,
+  Shield,
+  MapPin,
+  Lightning,
+  Code,
+} from "@phosphor-icons/react";
 import { ActiveDevices } from "@/features/active-devices";
 import type { Session } from "@/features/active-devices/types";
 
@@ -77,7 +82,7 @@ export default function ActiveDevicesPage() {
 
   const handleValueChange = (
     index: number,
-    newValue: string | number | boolean,
+    newValue: string | number | boolean
   ) => {
     setProps((prev) => {
       const updated = [...prev];
@@ -173,7 +178,8 @@ export default function ActiveDevicesPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `sessions`, `onDeleteSession`, and `onSetActiveSession` are not editable here.
+              Note: Complex props like `sessions`, `onDeleteSession`, and
+              `onSetActiveSession` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -197,7 +203,8 @@ export default function ActiveDevicesPage() {
             </div>
             <CardDescription>
               Interact with the table below to customize the component in
-              real-time. Note: Complex props like `sessions`, `onDeleteSession`, and `onSetActiveSession` are not editable here.
+              real-time. Note: Complex props like `sessions`, `onDeleteSession`,
+              and `onSetActiveSession` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -245,7 +252,7 @@ export default function ActiveDevicesPage() {
                           onChange={(e) =>
                             handleValueChange(
                               index,
-                              parseInt(e.target.value) || 0,
+                              parseInt(e.target.value) || 0
                             )
                           }
                           placeholder={`Enter ${prop.property}`}

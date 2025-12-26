@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { QueryProvider } from "@/lib/providers/query-provider";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { SpeechRecognitionProvider } from "@/lib/providers/speech-recognition-provider";
@@ -39,15 +40,17 @@ export default function RootLayout({
         />
       </head>
       <body className={`${ibmPlexSans.variable} antialiased`}>
-        <ThemeProvider>
-          <QueryProvider>
-            <SpeechRecognitionProvider>
-              <DemoHeader />
-              {children}
-              <Toaster richColors position="top-right" />
-            </SpeechRecognitionProvider>
-          </QueryProvider>
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider>
+            <QueryProvider>
+              <SpeechRecognitionProvider>
+                <DemoHeader />
+                {children}
+                <Toaster richColors position="top-right" />
+              </SpeechRecognitionProvider>
+            </QueryProvider>
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

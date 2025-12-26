@@ -72,4 +72,10 @@ export interface FilterSheetProps {
   className?: string;
   side?: "left" | "right" | "top" | "bottom";
   width?: string;
+  /**
+   * Whether to use nuqs for URL state management
+   * When enabled, filter values will be synced with URL query parameters
+   * @default false
+   */
+  useNuqs?: boolean;
 }

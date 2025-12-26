@@ -16,7 +16,6 @@ import type { Language } from "@/features/language-switcher/types";
 
 const languages: Language[] = [
   { code: "en", label: "English", flag: GB },
-  { code: "en-US", label: "English (US)", flag: US },
   { code: "fr", label: "Français", flag: FR },
   { code: "de", label: "Deutsch", flag: DE },
   { code: "es", label: "Español", flag: ES },
@@ -70,7 +69,7 @@ export function DemoHeader() {
 
   const renderBreadcrumbLink = (
     item: BreadcrumbItem,
-    children: React.ReactNode,
+    children: React.ReactNode
   ) => {
     return (
       <Link
@@ -109,12 +108,7 @@ export function DemoHeader() {
           />
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9"
-            asChild
-          >
+          <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link
               href="https://docs.featurekit.dev"
               target="_blank"
@@ -124,12 +118,7 @@ export function DemoHeader() {
               <Book className="h-4 w-4" />
             </Link>
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9"
-            asChild
-          >
+          <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link
               href="https://github.com/featurekit/featurekit"
               target="_blank"
