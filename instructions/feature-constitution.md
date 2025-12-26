@@ -38,21 +38,22 @@ This document defines the standards and guidelines for creating standalone, exte
 
 ```typescript
 // [✓] Good: Clean, direct text
-"Loading"
-"Processing"
-"Saving"
-"Submitting"
-"Refreshing"
+"Loading";
+"Processing";
+"Saving";
+"Submitting";
+"Refreshing";
 
 // [X] Bad: Ellipses create visual clutter
-"Loading..."
-"Processing..."
-"Saving..."
-"Submitting..."
-"Refreshing..."
+"Loading...";
+"Processing...";
+"Saving...";
+"Submitting...";
+"Refreshing...";
 ```
 
 This applies to:
+
 - Loading states and messages
 - Button labels during async operations
 - Toast notifications
@@ -67,29 +68,30 @@ Visual indicators (spinners, progress bars) already communicate that an action i
 
 ```typescript
 // [✓] Good: ASCII symbols
-"[✓] Success"
-"[✗] Error"
-"[!] Warning"
-"[?] Question"
-"[*] Info"
-"[+] Add"
-"[-] Remove"
-"[>] Next"
-"[<] Previous"
+"[✓] Success";
+"[✗] Error";
+"[!] Warning";
+"[?] Question";
+"[*] Info";
+"[+] Add";
+"[-] Remove";
+"[>] Next";
+"[<] Previous";
 
 // [X] Bad: Emojis create compatibility and rendering issues
-"[✓] Success"
-"[X] Error"
-"[!] Warning"
-"[?] Question"
-"[*] Info"
-"[+] Add"
-"[-] Remove"
-"[>] Next"
-"[<] Previous"
+"[✓] Success";
+"[X] Error";
+"[!] Warning";
+"[?] Question";
+"[*] Info";
+"[+] Add";
+"[-] Remove";
+"[>] Next";
+"[<] Previous";
 ```
 
 This applies to:
+
 - Code comments and documentation
 - User-facing messages and labels
 - Status indicators
@@ -98,6 +100,7 @@ This applies to:
 - Any text content in components or documentation
 
 **Common ASCII Symbol Replacements:**
+
 - Checkmark: `[✓]` or `[OK]`
 - Cross/Error: `[✗]` or `[X]` or `[ERROR]`
 - Warning: `[!]` or `[WARN]`
@@ -111,6 +114,7 @@ This applies to:
 - Arrow Down: `[v]` or `[\/]`
 
 ASCII symbols ensure:
+
 - Consistent rendering across all platforms and terminals
 - Better compatibility with code editors and documentation tools
 - Professional appearance in technical documentation
@@ -254,6 +258,7 @@ Every feature must have an `index.ts` file that serves as the public API for the
 #### Index.ts Structure
 
 The `index.ts` file should:
+
 - Export all public components from their component files
 - Export all public hooks from their hook files
 - **Export all types from `./types`** (not from component files)
@@ -274,6 +279,7 @@ export type { FeatureProps } from "./components/feature-component"; // Wrong!
 #### Types.ts Structure
 
 The `types.ts` file should:
+
 - Contain all TypeScript interfaces and types for the feature
 - Export component props interfaces (e.g., `FeatureProps`)
 - Export configuration types (e.g., `FeatureConfig`, `FeatureOptions`)
@@ -340,7 +346,10 @@ export interface UseSearchInputReturn<T> {
 export { SearchInput } from "./components/search-input";
 export { useSearchInput } from "./hooks/use-search-input";
 export type { SearchInputProps, SearchConfig } from "./types";
-export type { UseSearchInputOptions, UseSearchInputReturn } from "./hooks/use-search-input";
+export type {
+  UseSearchInputOptions,
+  UseSearchInputReturn,
+} from "./hooks/use-search-input";
 ```
 
 ### Headless Hooks Pattern
