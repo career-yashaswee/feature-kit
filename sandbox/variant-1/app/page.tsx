@@ -39,7 +39,7 @@ import {
   WifiHigh,
 } from "@phosphor-icons/react";
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useMemo, useState, Suspense } from "react";
 
 const RestoreScrollPosition = dynamic(
   () =>
@@ -115,7 +115,7 @@ const allFeatures: Feature[] = (featuresData as FeatureData[]).map(
   })
 );
 
-function HomePage() {
+function HomePageContent() {
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
 
   // Use nuqs for filter state management
@@ -135,8 +135,8 @@ function HomePage() {
   const featureTagsValue = allFilters["feature-tags"];
 
   const selectedCategory = (categoryValue as string) || "ALL";
-  const selectedTags = (tagsValue as string[]) || [];
-  const selectedFeatureTags = (featureTagsValue as string[]) || [];
+  const selectedTags = useMemo(() => (tagsValue as string[]) || [], [tagsValue]);
+  const selectedFeatureTags = useMemo(() => (featureTagsValue as string[]) || [], [featureTagsValue]);
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
@@ -346,6 +346,18 @@ function HomePage() {
         </ScrollToTopButton>
       </div>
     </RestoreScrollPosition>
+  );
+}
+
+function HomePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20 flex items-center justify-center">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    }>
+      <HomePageContent />
+    </Suspense>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import {
   Card,
   CardContent,
@@ -52,7 +52,7 @@ const features = [
   },
 ];
 
-export default function FilterSheetPage() {
+function FilterSheetContent() {
   const [open, setOpen] = useState(false);
 
   // Use nuqs for filter state management
@@ -553,5 +553,19 @@ export default function FilterSheetPage() {
         />
       </main>
     </div>
+  );
+}
+
+export default function FilterSheetPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20 flex items-center justify-center">
+          <div className="text-muted-foreground">Loading...</div>
+        </div>
+      }
+    >
+      <FilterSheetContent />
+    </Suspense>
   );
 }
