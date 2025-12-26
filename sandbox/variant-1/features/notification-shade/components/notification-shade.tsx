@@ -53,7 +53,7 @@ const getNotificationIcon = (notification: Notification) => {
   // Compose Plus required
   if (
     /compose.*plus.*required|upgrade.*required|comprehensive.*analysis.*available/i.test(
-      content,
+      content
     )
   ) {
     return <Crown className="h-4 w-4 text-yellow-500" weight="fill" />;
@@ -93,7 +93,7 @@ const getNotificationIcon = (notification: Notification) => {
   // AI Analysis unavailable/failed
   if (
     /ai.*unavailable|ai.*failed|analysis.*unavailable|analysis.*failed/i.test(
-      content,
+      content
     )
   ) {
     return <WarningCircle className="h-4 w-4 text-orange-500" weight="fill" />;
@@ -102,7 +102,7 @@ const getNotificationIcon = (notification: Notification) => {
   // AI Analysis success or available
   if (
     /ai.*available|ai.*complete|analysis.*complete|analysis.*ready/i.test(
-      content,
+      content
     )
   ) {
     return <Brain className="h-4 w-4 text-purple-500" />;
@@ -193,7 +193,7 @@ export function NotificationShade({
     propUnreadCount ?? notifications.filter((n) => !n.isRead).length;
 
   const [activeTab, setActiveTab] = useState<"all" | "unread" | "system">(
-    "unread",
+    "unread"
   );
   const [expandedNotifications, setExpandedNotifications] = useState<
     Set<string>
@@ -202,12 +202,12 @@ export function NotificationShade({
   // Deduplicate notifications by ID
   const uniqueNotifications = notifications.filter(
     (notification, index, self) =>
-      index === self.findIndex((n) => n.id === notification.id),
+      index === self.findIndex((n) => n.id === notification.id)
   );
 
   const allCount = uniqueNotifications.length;
   const systemCount = uniqueNotifications.filter(
-    (n) => n.category === "system",
+    (n) => n.category === "system"
   ).length;
 
   const filteredNotifications = uniqueNotifications.filter((notification) => {
@@ -255,7 +255,7 @@ export function NotificationShade({
           `Notifications Refreshed Successfully! Found ${result.newCount} new notification${result.newCount === 1 ? "" : "s"}.`,
           {
             duration: 3000,
-          },
+          }
         );
       } else {
         toast.success("No New Notification Found!", {
@@ -300,7 +300,7 @@ export function NotificationShade({
             "flex-1 px-4 py-3 text-sm font-medium transition-colors relative",
             activeTab === "unread"
               ? "text-foreground border-b-2 border-primary"
-              : "text-muted-foreground hover:text-foreground",
+              : "text-muted-foreground hover:text-foreground"
           )}
         >
           Unread
@@ -316,7 +316,7 @@ export function NotificationShade({
             "flex-1 px-4 py-3 text-sm font-medium transition-colors relative",
             activeTab === "all"
               ? "text-foreground border-b-2 border-primary"
-              : "text-muted-foreground hover:text-foreground",
+              : "text-muted-foreground hover:text-foreground"
           )}
         >
           All
@@ -332,7 +332,7 @@ export function NotificationShade({
             "flex-1 px-4 py-3 text-sm font-medium transition-colors relative",
             activeTab === "system"
               ? "text-foreground border-b-2 border-primary"
-              : "text-muted-foreground hover:text-foreground",
+              : "text-muted-foreground hover:text-foreground"
           )}
         >
           System
@@ -357,13 +357,13 @@ export function NotificationShade({
               key={notification.id}
               className={cn(
                 "border-b last:border-b-0 transition-colors",
-                !notification.isRead && "bg-muted/30 dark:bg-muted/10",
+                !notification.isRead && "bg-muted/30 dark:bg-muted/10"
               )}
             >
               <div
                 className={cn(
                   "p-4 transition-all",
-                  getNotificationBgColor(notification.type),
+                  getNotificationBgColor(notification.type)
                 )}
               >
                 <div className="flex items-start gap-3">
@@ -418,7 +418,7 @@ export function NotificationShade({
                           className={cn(
                             "text-sm text-muted-foreground",
                             !expandedNotifications.has(notification.id) &&
-                              "line-clamp-2",
+                              "line-clamp-2"
                           )}
                         >
                           {notification.message}
@@ -510,7 +510,7 @@ export function NotificationShade({
                 "p-0 flex items-center justify-center text-xs bg-red-500 text-white border-red-500",
                 unreadCount > 9
                   ? "h-5 px-2 rounded-full absolute -top-3 -right-3"
-                  : "h-5 w-5 rounded-full absolute -top-2 -right-2",
+                  : "h-5 w-5 rounded-full absolute -top-2 -right-2"
               )}
             >
               {unreadCount > 9 ? "9+" : unreadCount}

@@ -21,7 +21,7 @@ export function useTextTruncation({
       if (maxLines) {
         const lineHeight = parseInt(
           window.getComputedStyle(element).lineHeight || "20",
-          10,
+          10
         );
         const maxHeight = lineHeight * maxLines;
         setNeedsTruncation(element.scrollHeight > maxHeight);

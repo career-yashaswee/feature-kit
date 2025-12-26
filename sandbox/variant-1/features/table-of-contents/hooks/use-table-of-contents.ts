@@ -27,7 +27,7 @@ export function useTableOfContents(markdown: string): TocItem[] {
         if (node.type === "heading") {
           const heading = node as Heading;
           const level = heading.depth;
-          
+
           // Extract text content from heading
           const content = heading.children
             .map((child: any) => {

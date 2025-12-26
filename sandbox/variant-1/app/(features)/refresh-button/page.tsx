@@ -9,9 +9,9 @@ const RefreshButton = dynamic(
     import("@/features/refresh-button/components/refresh-button").then(
       (mod) => ({
         default: mod.RefreshButton,
-      }),
+      })
     ),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   Card,
@@ -70,7 +70,14 @@ export default function RefreshButtonPage() {
       defaultValue: "outline",
       value: "outline",
       inputType: "select",
-      options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      options: [
+        "default",
+        "destructive",
+        "outline",
+        "secondary",
+        "ghost",
+        "link",
+      ],
     },
     {
       property: "size",
@@ -117,7 +124,7 @@ export default function RefreshButtonPage() {
 
   const handleValueChange = (
     index: number,
-    newValue: string | number | boolean,
+    newValue: string | number | boolean
   ) => {
     setProps((prev) => {
       const updated = [...prev];
@@ -131,7 +138,13 @@ export default function RefreshButtonPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+      variant?:
+        | "default"
+        | "destructive"
+        | "outline"
+        | "secondary"
+        | "ghost"
+        | "link";
       size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
       resource?: string;
       label?: string;
@@ -171,7 +184,8 @@ export default function RefreshButtonPage() {
           </div>
           <CardDescription>
             See the component update in real-time as you change props below.
-            Note: Complex props like `queryKeys`, `onSuccess`, and `onError` are not editable here.
+            Note: Complex props like `queryKeys`, `onSuccess`, and `onError` are
+            not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -196,7 +210,8 @@ export default function RefreshButtonPage() {
           </div>
           <CardDescription>
             Interact with the table below to customize the component in
-            real-time. Note: Complex props like `queryKeys`, `onSuccess`, and `onError` are not editable here.
+            real-time. Note: Complex props like `queryKeys`, `onSuccess`, and
+            `onError` are not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>

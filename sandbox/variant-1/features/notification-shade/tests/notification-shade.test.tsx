@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { toast } from "sonner";
 import { NotificationShade } from "../components/notification-shade";
 
 jest.mock("sonner", () => ({
@@ -37,7 +36,7 @@ describe("NotificationShade", () => {
       <NotificationShade
         notifications={mockNotifications}
         onNotificationClick={jest.fn()}
-      />,
+      />
     );
 
     const button = screen.getByRole("button");
@@ -46,10 +45,7 @@ describe("NotificationShade", () => {
 
   it("shows unread count badge", () => {
     render(
-      <NotificationShade
-        notifications={mockNotifications}
-        unreadCount={5}
-      />,
+      <NotificationShade notifications={mockNotifications} unreadCount={5} />
     );
 
     expect(screen.getByText("5")).toBeInTheDocument();
@@ -60,7 +56,7 @@ describe("NotificationShade", () => {
       <NotificationShade
         notifications={mockNotifications}
         onNotificationClick={jest.fn()}
-      />,
+      />
     );
 
     const button = screen.getByRole("button");
@@ -76,7 +72,7 @@ describe("NotificationShade", () => {
       <NotificationShade
         notifications={mockNotifications}
         onNotificationClick={jest.fn()}
-      />,
+      />
     );
 
     const button = screen.getByRole("button");
@@ -94,7 +90,7 @@ describe("NotificationShade", () => {
       <NotificationShade
         notifications={mockNotifications}
         onNotificationClick={onNotificationClick}
-      />,
+      />
     );
 
     const button = screen.getByRole("button");
@@ -112,7 +108,7 @@ describe("NotificationShade", () => {
       <NotificationShade
         notifications={mockNotifications}
         onNotificationClick={jest.fn()}
-      />,
+      />
     );
 
     const button = screen.getByRole("button");
@@ -125,6 +121,3 @@ describe("NotificationShade", () => {
     });
   });
 });
-
-
-

@@ -1,4 +1,4 @@
-import { CursorClick } from "@phosphor-icons/react";
+import { CursorClick } from "@phosphor-icons/react/ssr";
 import {
   Card,
   CardContent,
