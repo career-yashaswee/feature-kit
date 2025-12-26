@@ -47,17 +47,20 @@ export interface UseFilterSheetReturn<
    */
   clearFilter: <K extends keyof T>(id: K) => Promise<void>;
   /**
-   * Clear all filters
+   * Clear all filters defined in the defaults (i.e., keys present in filterParsers).
+   * Sets those filters to null, which triggers clearOnDefault behavior.
    */
   clearAllFilters: () => Promise<void>;
   /**
-   * Get all filter values as an object
+   * Get all filter values as an object.
+   * Returns values only for filters defined in the defaults (i.e., keys present in filterParsers).
    */
   getAllFilters: () => Partial<Record<keyof T, FilterValue | null>>;
 }
 
 /**
- * Hook for managing filter state in URL query parameters using nuqs
+ * Hook for managing filter state in URL query parameters
+ * Uses URL state synchronization to persist filter values in the URL
  *
  * @example
  * ```tsx
@@ -173,6 +176,10 @@ export function useFilterSheet<
     await setFilter(id, null);
   };
 
+  /**
+   * Clear all filters defined in the defaults (i.e., keys present in filterParsers).
+   * Sets those filters to null, which triggers clearOnDefault behavior.
+   */
   const clearAllFilters = async (): Promise<void> => {
     // Clear all filters by setting them to null (will trigger clearOnDefault)
     const resetValues: Record<string, null> = {};
@@ -184,6 +191,10 @@ export function useFilterSheet<
     );
   };
 
+  /**
+   * Get all filter values as an object.
+   * Returns values only for filters defined in the defaults (i.e., keys present in filterParsers).
+   */
   const getAllFilters = (): Partial<Record<keyof T, FilterValue | null>> => {
     const all: Partial<Record<keyof T, FilterValue | null>> = {};
     Object.keys(filterParsers).forEach((key) => {

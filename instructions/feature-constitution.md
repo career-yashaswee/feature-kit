@@ -153,7 +153,6 @@ ASCII symbols ensure:
 - **TanStack Query** (`@tanstack/react-query`) - For data fetching and server state
 - **TanStack Store** (`@tanstack/store`) OR **Zustand** (`zustand`) - For client-side state management
 - **TanStack Pacer** (`@tanstack/react-pacer`) - For debouncing, throttling, rate limiting, queuing, and batching utilities
-- **nuqs** (`nuqs`) - For managing filter and search state in URL query parameters (type-safe, framework-agnostic)
 - Both options should be configurable via adapters
 
 ### UI Components

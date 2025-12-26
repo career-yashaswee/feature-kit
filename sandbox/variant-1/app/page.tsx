@@ -135,14 +135,8 @@ function HomePage() {
   const featureTagsValue = allFilters["feature-tags"];
 
   const selectedCategory = (categoryValue as string) || "ALL";
-  const selectedTags = useMemo(
-    () => (tagsValue as string[]) || [],
-    [tagsValue]
-  );
-  const selectedFeatureTags = useMemo(
-    () => (featureTagsValue as string[]) || [],
-    [featureTagsValue]
-  );
+  const selectedTags = (tagsValue as string[]) || [];
+  const selectedFeatureTags = (featureTagsValue as string[]) || [];
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(

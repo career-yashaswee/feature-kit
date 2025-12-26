@@ -102,4 +102,103 @@ describe("FilterSheet", () => {
 
     expect(onClearAll).toHaveBeenCalled();
   });
+
+  describe("enableUrlSync property", () => {
+    it("accepts enableUrlSync prop", () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
+      
+      render(
+        <FilterSheet
+          open={true}
+          onOpenChange={jest.fn()}
+          filters={mockFilters}
+          enableUrlSync={true}
+        />
+      );
+
+      expect(screen.getByText("Filters")).toBeInTheDocument();
+      expect(consoleSpy).not.toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
+    });
+
+    it("defaults enableUrlSync to false when not provided", () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
+      
+      render(
+        <FilterSheet
+          open={true}
+          onOpenChange={jest.fn()}
+          filters={mockFilters}
+        />
+      );
+
+      expect(screen.getByText("Filters")).toBeInTheDocument();
+      expect(consoleSpy).not.toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe("backward compatibility with useNuqs", () => {
+    it("accepts deprecated useNuqs prop and maps it to enableUrlSync", () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
+      
+      render(
+        <FilterSheet
+          open={true}
+          onOpenChange={jest.fn()}
+          filters={mockFilters}
+          useNuqs={true}
+        />
+      );
+
+      expect(screen.getByText("Filters")).toBeInTheDocument();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining("[FilterSheet] The `useNuqs` prop is deprecated")
+      );
+      
+      consoleSpy.mockRestore();
+    });
+
+    it("prioritizes enableUrlSync over useNuqs when both are provided", () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
+      
+      render(
+        <FilterSheet
+          open={true}
+          onOpenChange={jest.fn()}
+          filters={mockFilters}
+          enableUrlSync={false}
+          useNuqs={true}
+        />
+      );
+
+      expect(screen.getByText("Filters")).toBeInTheDocument();
+      // Should still warn about useNuqs being deprecated
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining("[FilterSheet] The `useNuqs` prop is deprecated")
+      );
+      
+      consoleSpy.mockRestore();
+    });
+
+    it("does not warn when only enableUrlSync is provided", () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
+      
+      render(
+        <FilterSheet
+          open={true}
+          onOpenChange={jest.fn()}
+          filters={mockFilters}
+          enableUrlSync={true}
+        />
+      );
+
+      expect(screen.getByText("Filters")).toBeInTheDocument();
+      expect(consoleSpy).not.toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
+    });
+  });
 });

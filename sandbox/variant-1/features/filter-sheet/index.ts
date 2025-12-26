@@ -9,8 +9,6 @@ export type {
   MultiSelectFilter,
   TagFilter,
   FilterSheetProps,
-} from "./types";
-export type {
   UseFilterSheetOptions,
   UseFilterSheetReturn,
-} from "./hooks/use-filter-sheet";
+} from "./types";

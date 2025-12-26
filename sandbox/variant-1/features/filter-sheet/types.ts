@@ -1,4 +1,4 @@
-import type { ReactNode, ComponentType } from "react";
+import type { ComponentType } from "react";
 
 export type FilterValue = string | boolean | string[];
 
@@ -73,9 +73,21 @@ export interface FilterSheetProps {
   side?: "left" | "right" | "top" | "bottom";
   width?: string;
   /**
-   * Whether to use nuqs for URL state management
+   * Whether to enable URL state synchronization
    * When enabled, filter values will be synced with URL query parameters
+   * @default false
+   */
+  enableUrlSync?: boolean;
+  /**
+   * @deprecated Use `enableUrlSync` instead. This property is kept for backward compatibility
+   * and will be removed in a future version.
    * @default false
    */
   useNuqs?: boolean;
 }
+
+// Re-export hook types for consolidated exports
+export type {
+  UseFilterSheetOptions,
+  UseFilterSheetReturn,
+} from "./hooks/use-filter-sheet";

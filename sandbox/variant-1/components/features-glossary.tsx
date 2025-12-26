@@ -2,6 +2,7 @@ import { Sparkle } from "@phosphor-icons/react/ssr";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export interface FeatureItem {
+  id?: string;
   icon: React.ReactNode;
   title: string;
   description: string;
@@ -32,9 +33,9 @@ export function FeaturesGlossary({
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2">
-          {features.map((feature, index) => (
+          {features.map((feature) => (
             <div
-              key={index}
+              key={feature.id ?? feature.title}
               className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
             >
               <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">

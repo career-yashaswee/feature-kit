@@ -67,13 +67,13 @@ export default function FilterSheetPage() {
       dependencies: [] as string[],
       domains: [] as string[],
     },
-    history: "push",
+    history: "replace",
   });
 
   // Get filter values from URL
   const difficulty = (getFilter("difficulty") as string) || "ALL";
   const status = (getFilter("status") as string) || "ALL";
-  const favoriteOnly = (getFilter("favoriteOnly") as boolean) || false;
+  const favoriteOnly = (getFilter("favoriteOnly") as boolean) ?? false;
   const selectedTags = (getFilter("tags") as string[]) || [];
   const selectedVariants = (getFilter("variants") as string[]) || [];
   const selectedStacks = (getFilter("stacks") as string[]) || [];
