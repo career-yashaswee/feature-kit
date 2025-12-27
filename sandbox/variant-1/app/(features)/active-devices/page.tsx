@@ -26,8 +26,6 @@ import {
 } from "@/components/ui/select";
 import {
   Monitor,
-  Shield,
-  MapPin,
   Lightning,
   Code,
   CursorClick,

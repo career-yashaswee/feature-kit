@@ -25,7 +25,12 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Heart, Pulse, Lightning, Code, CursorClick, Warning } from "@phosphor-icons/react";
+import {
+  Heart,
+  Lightning,
+  Code,
+  CursorClick,
+} from "@phosphor-icons/react";
 import { HealthBar } from "@/features/health-bar/components/health-bar";
 import { useQuery } from "@tanstack/react-query";
 import { HowToTestCard } from "@/components/how-to-test-card";
@@ -42,24 +47,6 @@ interface PropConfig {
   inputType: "number" | "select" | "text" | "boolean";
   options?: string[];
 }
-
-const features = [
-  {
-    title: "Visual Health Indicator",
-    description: "Color-coded bar that changes based on health percentage",
-    icon: Heart,
-  },
-  {
-    title: "Timer Display",
-    description: "Shows time until next health regeneration",
-    icon: Pulse,
-  },
-  {
-    title: "Customizable",
-    description: "Configurable data sources and display options",
-    icon: Lightning,
-  },
-];
 
 async function fetchHealthData() {
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -120,7 +107,7 @@ export default function HealthBarPage() {
 
   const handleValueChange = (
     index: number,
-    newValue: string | number | boolean,
+    newValue: string | number | boolean
   ) => {
     setProps((prev) => {
       const updated = [...prev];
@@ -169,7 +156,8 @@ export default function HealthBarPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: The `data` prop (HealthBarData object) is complex and not editable here.
+              Note: The `data` prop (HealthBarData object) is complex and not
+              editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -179,7 +167,9 @@ export default function HealthBarPage() {
                 <h3 className="text-sm font-semibold">Edit Health Bar Data:</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="current" className="text-xs">Current</Label>
+                    <Label htmlFor="current" className="text-xs">
+                      Current
+                    </Label>
                     <Input
                       id="current"
                       type="number"
@@ -189,21 +179,29 @@ export default function HealthBarPage() {
                       onChange={(e) =>
                         setManualData((prev) => ({
                           ...prev,
-                          current: Math.max(0, Math.min(prev.max, parseInt(e.target.value) || 0)),
+                          current: Math.max(
+                            0,
+                            Math.min(prev.max, parseInt(e.target.value) || 0)
+                          ),
                         }))
                       }
                       className="h-8"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="max" className="text-xs">Max</Label>
+                    <Label htmlFor="max" className="text-xs">
+                      Max
+                    </Label>
                     <Input
                       id="max"
                       type="number"
                       min="1"
                       value={manualData.max}
                       onChange={(e) => {
-                        const newMax = Math.max(1, parseInt(e.target.value) || 100);
+                        const newMax = Math.max(
+                          1,
+                          parseInt(e.target.value) || 100
+                        );
                         setManualData((prev) => ({
                           ...prev,
                           max: newMax,
@@ -214,7 +212,9 @@ export default function HealthBarPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="secondsToNext" className="text-xs">Seconds to Next</Label>
+                    <Label htmlFor="secondsToNext" className="text-xs">
+                      Seconds to Next
+                    </Label>
                     <Input
                       id="secondsToNext"
                       type="number"
@@ -223,7 +223,10 @@ export default function HealthBarPage() {
                       onChange={(e) =>
                         setManualData((prev) => ({
                           ...prev,
-                          secondsToNext: Math.max(0, parseInt(e.target.value) || 0),
+                          secondsToNext: Math.max(
+                            0,
+                            parseInt(e.target.value) || 0
+                          ),
                         }))
                       }
                       className="h-8"
@@ -246,7 +249,8 @@ export default function HealthBarPage() {
             </div>
             <CardDescription>
               Interact with the table below to customize the component in
-              real-time. Note: The `data` prop (HealthBarData object) is complex and not editable here.
+              real-time. Note: The `data` prop (HealthBarData object) is complex
+              and not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>

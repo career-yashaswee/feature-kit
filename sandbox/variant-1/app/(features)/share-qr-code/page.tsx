@@ -22,7 +22,6 @@ import { Button } from "@/components/ui/button";
 import {
   QrCode,
   CursorClick,
-  Sparkle,
   Code,
   Lightning,
   Download,

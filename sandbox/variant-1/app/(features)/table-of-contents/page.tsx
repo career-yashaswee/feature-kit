@@ -31,8 +31,6 @@ import { TableOfContents } from "@/features/table-of-contents/components/table-o
 import { useTableOfContents } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import type { TocItem } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import { HowToTestCard } from "@/components/how-to-test-card";
-import { FeaturesGlossary } from "@/components/features-glossary";
-import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
 
 const PersistenceTipTapEditor = dynamic(

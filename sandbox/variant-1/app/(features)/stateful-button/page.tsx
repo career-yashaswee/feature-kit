@@ -27,10 +27,7 @@ import {
 import {
   CursorClick,
   Lightning,
-  Sparkle,
   Code,
-  Gear,
-  CircleNotch,
   CheckCircle,
   XCircle,
   Plus,

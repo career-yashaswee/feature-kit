@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Flag, Warning, Lightning, Code, CursorClick } from "@phosphor-icons/react";
+import { Flag, Lightning, Code, CursorClick } from "@phosphor-icons/react";
 import { ReportButton, type ReportIssue } from "@/features/report-button";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
@@ -66,24 +66,6 @@ const sampleIssues: ReportIssue[] = [
     id: "OTHER",
     label: "Other Issue",
     description: "Something else that needs attention",
-  },
-];
-
-const features = [
-  {
-    title: "TanStack Query",
-    description: "Uses TanStack Query mutations for reliable submission",
-    icon: Flag,
-  },
-  {
-    title: "Toast Notifications",
-    description: "Built-in success and error notifications with Sonner",
-    icon: Warning,
-  },
-  {
-    title: "Flexible Issues",
-    description: "Configurable issue types and custom issue support",
-    icon: Lightning,
   },
 ];
 

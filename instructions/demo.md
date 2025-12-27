@@ -79,53 +79,166 @@ When creating demo pages for features, follow these consistent patterns to ensur
 
 Every demo page should include:
 
-1. **"How to Test" Card** - First card with testing instructions
+1. **"How to Test" Card** - First card with testing instructions (use `HowToTestCard` component)
 2. **Example Cards** - Showcase different use cases
-3. **Features Card** - Grid of feature highlights (2 columns on md+)
+3. **Features Card** - Grid of feature highlights (use `FeaturesGlossary` component)
 
-### 4. Testing Steps Format
+**CRITICAL:** Always use the reusable components `HowToTestCard` and `FeaturesGlossary` instead of manually implementing these sections. This ensures consistency and reduces code duplication.
 
-```tsx
-<ol className="space-y-3">
-  {[
-    "Step 1 description",
-    "Step 2 description",
-  ].map((step, index) => (
-    <li
-      key={index}
-      className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-    >
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-        {index + 1}
-      </span>
-      <span className="text-muted-foreground">{step}</span>
-    </li>
-  ))}
-</ol>
-```
+### 4. How to Test Card (Using Reusable Component)
 
-### 5. Features Grid
+**Always use the `HowToTestCard` component** instead of manually creating the testing steps section. The component automatically handles styling, numbering, and layout.
+
+#### Required Imports
 
 ```tsx
-<div className="grid gap-4 md:grid-cols-2">
-  {features.map((feature, index) => (
-    <div
-      key={index}
-      className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-    >
-      <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-        <feature.icon className="h-5 w-5 text-primary" />
-      </div>
-      <div className="flex-1 space-y-1">
-        <h4 className="font-semibold">{feature.title}</h4>
-        <p className="text-sm text-muted-foreground">
-          {feature.description}
-        </p>
-      </div>
-    </div>
-  ))}
-</div>
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
+import { CursorClick } from "@phosphor-icons/react";
 ```
+
+#### Using Data from features.json (Recommended)
+
+First, add your feature data to `sandbox/variant-1/data/features.json`:
+
+```json
+{
+  "name": "Your Feature Name",
+  "path": "/your-feature-path",
+  "icon": "YourIcon",
+  "howToTest": {
+    "steps": [
+      "Step 1 description",
+      "Step 2 description",
+      "Step 3 description"
+    ],
+    "conclusion": "Optional conclusion text explaining what users should expect"
+  },
+  "features": [
+    {
+      "icon": "IconName",
+      "title": "Feature Title",
+      "description": "Feature description"
+    }
+  ]
+}
+```
+
+Then use it in your component:
+
+```tsx
+{(() => {
+  const featureData = featuresData.find(
+    (f) => f.path === "/your-feature-path"
+  );
+  if (featureData?.howToTest) {
+    return (
+      <HowToTestCard
+        steps={featureData.howToTest.steps}
+        conclusion={featureData.howToTest.conclusion}
+        icon={<CursorClick className="h-5 w-5 text-primary" />}
+      />
+    );
+  }
+  return null;
+})()}
+```
+
+#### Fallback to Local Data
+
+If data is not available in `features.json`, provide local fallback:
+
+```tsx
+{(() => {
+  const featureData = featuresData.find(
+    (f) => f.path === "/your-feature-path"
+  );
+  if (featureData?.howToTest) {
+    return (
+      <HowToTestCard
+        steps={featureData.howToTest.steps}
+        conclusion={featureData.howToTest.conclusion}
+        icon={<CursorClick className="h-5 w-5 text-primary" />}
+      />
+    );
+  }
+  return (
+    <HowToTestCard
+      steps={[
+        "Step 1 description",
+        "Step 2 description",
+      ]}
+      conclusion="Optional conclusion text"
+      icon={<CursorClick className="h-5 w-5 text-primary" />}
+    />
+  );
+})()}
+```
+
+### 5. Features Glossary (Using Reusable Component)
+
+**Always use the `FeaturesGlossary` component** instead of manually creating the features grid. The component automatically handles the 2-column grid layout and styling.
+
+#### Using Data from features.json (Recommended)
+
+```tsx
+{(() => {
+  const featureData = featuresData.find(
+    (f) => f.path === "/your-feature-path"
+  );
+  if (featureData?.features) {
+    const featuresWithIcons = featureData.features.map((feature) => ({
+      icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+      title: feature.title,
+      description: feature.description,
+    }));
+    return <FeaturesGlossary features={featuresWithIcons} />;
+  }
+  return null;
+})()}
+```
+
+#### Fallback to Local Data
+
+If you have local feature definitions with icon components:
+
+```tsx
+const features = [
+  {
+    title: "Feature Title",
+    description: "Feature description",
+    icon: Lightning, // Direct icon component
+  },
+];
+
+// In your JSX:
+{(() => {
+  const featureData = featuresData.find(
+    (f) => f.path === "/your-feature-path"
+  );
+  if (featureData?.features) {
+    const featuresWithIcons = featureData.features.map((feature) => ({
+      icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+      title: feature.title,
+      description: feature.description,
+    }));
+    return <FeaturesGlossary features={featuresWithIcons} />;
+  }
+  const defaultFeatures = features.map((feature) => ({
+    icon: <feature.icon className="h-5 w-5 text-primary" />,
+    title: feature.title,
+    description: feature.description,
+  }));
+  return <FeaturesGlossary features={defaultFeatures} />;
+})()}
+```
+
+#### Icon Rendering
+
+- **From features.json**: Use `renderIcon(feature.icon, "h-5 w-5 text-primary")` where `feature.icon` is a string (e.g., "Lightning", "Gear")
+- **From local components**: Use `<feature.icon className="h-5 w-5 text-primary" />` where `feature.icon` is a Phosphor icon component
 
 ## Common Patterns
 
@@ -230,18 +343,60 @@ module.exports = {
 };
 ```
 
+## Data Management with features.json
+
+### Adding Feature Data
+
+When creating a new demo page, add the feature metadata to `sandbox/variant-1/data/features.json`:
+
+```json
+{
+  "name": "Feature Name",
+  "path": "/feature-path",
+  "icon": "IconName",
+  "summary": "Brief summary",
+  "description": "Full description",
+  "category": "Category",
+  "statusBadge": "New",
+  "lastUpdatedAt": "2024-01-15T10:30:00Z",
+  "howToTest": {
+    "steps": [
+      "Step 1",
+      "Step 2",
+      "Step 3"
+    ],
+    "conclusion": "Optional conclusion text"
+  },
+  "features": [
+    {
+      "icon": "IconName",
+      "title": "Feature Title",
+      "description": "Feature description"
+    }
+  ]
+}
+```
+
+### Icon Names in features.json
+
+- Use string names matching Phosphor icon component names (e.g., "Lightning", "Gear", "Sparkle")
+- These will be converted to icon components using the `renderIcon` utility
+- Icon names are case-sensitive and must match exactly
+
 ## Checklist
 
 When creating a demo page, ensure:
 - [ ] Badges use `bg-secondary/80` for visibility
 - [ ] All CardHeaders use the correct layout (icon + title horizontal, description below)
-- [ ] "How to Test" card is the first card
-- [ ] Testing steps use numbered list format
-- [ ] Features grid uses 2 columns on md+ screens
+- [ ] **"How to Test" card uses `HowToTestCard` component** (not manual implementation)
+- [ ] **Features section uses `FeaturesGlossary` component** (not manual implementation)
+- [ ] Feature data is added to `features.json` when available
+- [ ] Components check `features.json` first, then fallback to local data
+- [ ] `renderIcon` utility is used for string-based icons from `features.json`
 - [ ] Consistent spacing (`gap-12` between sections, `gap-6` between cards)
 - [ ] All icons are properly sized (h-4 w-4 for badges, h-5 w-5 for card headers)
-- [ ] CardTitle uses `text-2xl mb-2` when followed by description
 - [ ] **Only Phosphor Icons React is used** - no other icon libraries
 - [ ] Icons are imported as named exports from `@phosphor-icons/react`
 - [ ] Icon sizing follows demo page standards (h-3 w-3 for badges, h-5 w-5 for headers)
+- [ ] Required imports are added: `HowToTestCard`, `FeaturesGlossary`, `renderIcon`, `featuresData`
 

@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowUp, Lightning, CreditCard, Code, CursorClick } from "@phosphor-icons/react";
+import { ArrowUp, Lightning, Code, CursorClick } from "@phosphor-icons/react";
 import { UpgradeButton } from "@/features/upgrade-button/components/upgrade-button";
 import type { UpgradeAction } from "@/features/upgrade-button/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
@@ -41,25 +41,6 @@ interface PropConfig {
   inputType: "number" | "select" | "text" | "boolean";
   options?: string[];
 }
-
-const features = [
-  {
-    title: "Smart State Management",
-    description:
-      "Automatically shows appropriate button based on subscription status",
-    icon: CreditCard,
-  },
-  {
-    title: "Configurable Actions",
-    description: "Support for trial, upgrade, and manage subscription actions",
-    icon: ArrowUp,
-  },
-  {
-    title: "Flexible Styling",
-    description: "Multiple variants, sizes, and icon-only mode",
-    icon: Lightning,
-  },
-];
 
 export default function UpgradeButtonPage() {
   const [isSubscribed, setIsSubscribed] = useState(false);

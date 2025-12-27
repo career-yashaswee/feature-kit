@@ -13,8 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
   Rocket,
-  Lightning,
-  Gear,
   CheckCircle,
   ArrowRight,
   CursorClick,
@@ -50,24 +48,6 @@ const sampleSteps: OnboardingStep[] = [
     order: 4,
     title: "Complete",
     description: "You're all set!",
-  },
-];
-
-const features = [
-  {
-    title: "Step Navigation",
-    description: "Visual stepper with completed, active, and upcoming states",
-    icon: Rocket,
-  },
-  {
-    title: "Responsive Design",
-    description: "Adapts to mobile and desktop with sidebar stepper",
-    icon: Gear,
-  },
-  {
-    title: "Configurable",
-    description: "Customizable steps, translations, and branding",
-    icon: Lightning,
   },
 ];
 

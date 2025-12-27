@@ -28,8 +28,6 @@ import { Stack, Lightning, Gear, Code, CursorClick } from "@phosphor-icons/react
 import { VariantSelect } from "@/features/variant-select";
 import type { Variant } from "@/features/variant-select/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
-import { FeaturesGlossary } from "@/components/features-glossary";
-import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
 
 interface PropConfig {

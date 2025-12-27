@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/select";
 import {
   Share,
-  Sparkle,
   Code,
   Gear,
   Lightning,

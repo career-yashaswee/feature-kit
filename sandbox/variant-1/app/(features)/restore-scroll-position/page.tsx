@@ -30,6 +30,7 @@ import {
   Code,
   Lightning,
   CursorClick,
+  Gear,
 } from "@phosphor-icons/react";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
