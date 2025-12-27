@@ -36,9 +36,14 @@ import {
   ArrowRight,
   Lightning,
   Code,
+  CursorClick,
 } from "@phosphor-icons/react";
 import { ScrollableBreadcrumb } from "@/features/scrollable-breadcrumbs/components/scrollable-breadcrumb";
 import type { BreadcrumbItem } from "@/features/scrollable-breadcrumbs/types";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -266,41 +271,33 @@ export default function ScrollableBreadcrumbsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Compass className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">How to Test</CardTitle>
-            </div>
-            <CardDescription>
-              Follow these steps to test the Scrollable Breadcrumbs component
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ol className="space-y-3">
-              {[
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/scrollable-breadcrumbs"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return (
+            <HowToTestCard
+              steps={[
                 "Use the buttons below to cycle through different breadcrumb scenarios",
                 "Try scrolling horizontally to see the fade indicators",
                 "Toggle between default links and Next.js Link rendering",
                 "Notice how it auto-scrolls to show the current (last) item",
                 "Test with different numbers of breadcrumb items",
                 "Resize the window to see responsive behavior",
-              ].map((step, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                    {index + 1}
-                  </span>
-                  <span className="text-muted-foreground">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </CardContent>
-        </Card>
+              ]}
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        })()}
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -424,36 +421,25 @@ export default function ScrollableBreadcrumbsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Compass className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/scrollable-breadcrumbs"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = features.map((feature) => ({
+            icon: <feature.icon className="h-5 w-5 text-primary" />,
+            title: feature.title,
+            description: feature.description,
+          }));
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
       </main>
     </div>
   );

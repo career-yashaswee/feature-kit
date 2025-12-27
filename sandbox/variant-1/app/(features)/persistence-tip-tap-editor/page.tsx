@@ -22,7 +22,12 @@ import {
   FloppyDisk,
   Database,
   Lightning,
+  CursorClick,
 } from "@phosphor-icons/react";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 export default function PersistenceTipTapEditorPage() {
   const [content, setContent] = useState("");
@@ -41,40 +46,32 @@ export default function PersistenceTipTapEditorPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <FileText className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">How to Test</CardTitle>
-            </div>
-            <CardDescription>
-              Test the editor&apos;s persistence and save functionality
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ol className="space-y-3">
-              {[
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/persistence-tip-tap-editor"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return (
+            <HowToTestCard
+              steps={[
                 "Type some content in the editor below",
                 "Content is automatically saved to localStorage (check DevTools)",
                 "Click the 'Save' button to sync to database (simulated)",
                 "Refresh the page - your content should persist",
                 "Try editing and watch the 'Unsaved changes' indicator",
-              ].map((step, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                    {index + 1}
-                  </span>
-                  <span className="text-muted-foreground">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </CardContent>
-        </Card>
+              ]}
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        })()}
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -108,64 +105,46 @@ export default function PersistenceTipTapEditorPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Lightning className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-            <CardDescription>
-              Key capabilities of the persistence TipTap editor
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: FloppyDisk,
-                  title: "Auto-Save",
-                  description:
-                    "Automatically saves content to localStorage with debouncing",
-                },
-                {
-                  icon: Database,
-                  title: "DB Sync",
-                  description:
-                    "Optional database synchronization via onSave callback",
-                },
-                {
-                  icon: Lightning,
-                  title: "Debounced",
-                  description:
-                    "Configurable debounce delay to prevent excessive saves",
-                },
-                {
-                  icon: FileText,
-                  title: "Rich Text",
-                  description:
-                    "Full-featured rich text editing with TipTap (when installed)",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/persistence-tip-tap-editor"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = [
+            {
+              icon: <FloppyDisk className="h-5 w-5 text-primary" />,
+              title: "Auto-Save",
+              description:
+                "Automatically saves content to localStorage with debouncing",
+            },
+            {
+              icon: <Database className="h-5 w-5 text-primary" />,
+              title: "DB Sync",
+              description:
+                "Optional database synchronization via onSave callback",
+            },
+            {
+              icon: <Lightning className="h-5 w-5 text-primary" />,
+              title: "Debounced",
+              description:
+                "Configurable debounce delay to prevent excessive saves",
+            },
+            {
+              icon: <FileText className="h-5 w-5 text-primary" />,
+              title: "Rich Text",
+              description:
+                "Full-featured rich text editing with TipTap (when installed)",
+            },
+          ];
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
       </main>
     </div>
   );

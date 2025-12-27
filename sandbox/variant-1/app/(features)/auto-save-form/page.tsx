@@ -21,6 +21,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CursorClick } from "@phosphor-icons/react";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface AutoSaveFormData extends Record<string, unknown> {
   title: string;
@@ -120,6 +125,37 @@ export default function AutoSaveFormPage() {
             </AutoSaveForm>
           </CardContent>
         </Card>
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/auto-save-form"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/auto-save-form"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          return null;
+        })()}
     </>
   );
 }

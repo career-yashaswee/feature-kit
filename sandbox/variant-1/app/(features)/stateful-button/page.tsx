@@ -44,6 +44,10 @@ import {
 import type { ReactNode } from "react";
 import { StatefulButton } from "@/features/stateful-button/components/stateful-button";
 import { toast } from "sonner";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 type ChildrenOption = {
   key: string;
@@ -659,80 +663,80 @@ export default function StatefulButtonPage() {
           </CardContent>
         </Card>
 
-        {/* Features Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkle className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: CircleNotch,
-                  title: "Loading State",
-                  description:
-                    "Shows spinner and loading text while action is in progress",
-                },
-                {
-                  icon: CheckCircle,
-                  title: "Success State",
-                  description:
-                    "Displays success icon and message, auto-resets after 2 seconds",
-                },
-                {
-                  icon: XCircle,
-                  title: "Error State",
-                  description:
-                    "Shows error icon and message, auto-recovers after 2 seconds",
-                },
-                {
-                  icon: Lightning,
-                  title: "Rate Limiting",
-                  description:
-                    "Uses TanStack Pacer to prevent rapid consecutive clicks",
-                },
-                {
-                  icon: Sparkle,
-                  title: "Smooth Animations",
-                  description:
-                    "Framer Motion animations for smooth state transitions",
-                },
-                {
-                  icon: Gear,
-                  title: "Customizable",
-                  description:
-                    "Configurable rate limits, callbacks, and styling options",
-                },
-                {
-                  icon: CursorClick,
-                  title: "Double Tap to Confirm",
-                  description:
-                    "Require two taps for destructive actions with automatic timeout reset",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/stateful-button"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/stateful-button"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = [
+            {
+              icon: renderIcon("CircleNotch", "h-5 w-5 text-primary"),
+              title: "Loading State",
+              description:
+                "Shows spinner and loading text while action is in progress",
+            },
+            {
+              icon: renderIcon("CheckCircle", "h-5 w-5 text-primary"),
+              title: "Success State",
+              description:
+                "Displays success icon and message, auto-resets after 2 seconds",
+            },
+            {
+              icon: renderIcon("XCircle", "h-5 w-5 text-primary"),
+              title: "Error State",
+              description:
+                "Shows error icon and message, auto-recovers after 2 seconds",
+            },
+            {
+              icon: renderIcon("Lightning", "h-5 w-5 text-primary"),
+              title: "Rate Limiting",
+              description:
+                "Uses TanStack Pacer to prevent rapid consecutive clicks",
+            },
+            {
+              icon: renderIcon("Sparkle", "h-5 w-5 text-primary"),
+              title: "Smooth Animations",
+              description:
+                "Framer Motion animations for smooth state transitions",
+            },
+            {
+              icon: renderIcon("Gear", "h-5 w-5 text-primary"),
+              title: "Customizable",
+              description:
+                "Configurable rate limits, callbacks, and styling options",
+            },
+            {
+              icon: renderIcon("CursorClick", "h-5 w-5 text-primary"),
+              title: "Double Tap to Confirm",
+              description:
+                "Require two taps for destructive actions with automatic timeout reset",
+            },
+          ];
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
       </main>
     </div>
   );

@@ -34,6 +34,10 @@ import {
   Globe,
 } from "@phosphor-icons/react";
 import { ShareButton } from "@/features/share-button/components/share-button";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -427,61 +431,62 @@ export default function ShareButtonPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkle className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: Share,
-                  title: "Native Share API",
-                  description:
-                    "Uses native Share API when available, with fallback to custom modal",
-                },
-                {
-                  icon: Globe,
-                  title: "Social Media Integration",
-                  description:
-                    "Share to Twitter, Facebook, and LinkedIn with pre-filled content",
-                },
-                {
-                  icon: Code,
-                  title: "UTM Parameters",
-                  description:
-                    "Optional UTM parameter support for tracking share sources",
-                },
-                {
-                  icon: Gear,
-                  title: "Copy Link",
-                  description:
-                    "Built-in copy-to-clipboard functionality with visual feedback",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/share-button"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/share-button"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = [
+            {
+              icon: <Share className="h-5 w-5 text-primary" />,
+              title: "Native Share API",
+              description:
+                "Uses native Share API when available, with fallback to custom modal",
+            },
+            {
+              icon: <Globe className="h-5 w-5 text-primary" />,
+              title: "Social Media Integration",
+              description:
+                "Share to Twitter, Facebook, and LinkedIn with pre-filled content",
+            },
+            {
+              icon: <Code className="h-5 w-5 text-primary" />,
+              title: "UTM Parameters",
+              description:
+                "Optional UTM parameter support for tracking share sources",
+            },
+            {
+              icon: <Gear className="h-5 w-5 text-primary" />,
+              title: "Copy Link",
+              description:
+                "Built-in copy-to-clipboard functionality with visual feedback",
+            },
+          ];
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
       </main>
     </div>
   );

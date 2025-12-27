@@ -30,6 +30,10 @@ import {
 import { TableOfContents } from "@/features/table-of-contents/components/table-of-contents";
 import { useTableOfContents } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import type { TocItem } from "@/features/table-of-contents/hooks/use-table-of-contents";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 const PersistenceTipTapEditor = dynamic(
   () =>
@@ -340,24 +344,22 @@ export default function TableOfContentsPage() {
           </CardContent>
         </Card>
 
-        {/* How to Test Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <CursorClick className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">How to Test</CardTitle>
-            </div>
-            <CardDescription>
-              Edit the markdown content in the editor and watch the table of
-              contents update dynamically. Scroll through the preview to see
-              active section highlighting.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <ol className="space-y-3">
-              {[
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/table-of-contents"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion || "Edit the markdown content in the editor and watch the table of contents update dynamically. Scroll through the preview to see active section highlighting."}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return (
+            <HowToTestCard
+              steps={[
                 "Edit the markdown content in the TipTap editor above",
                 "Add headings using # for H1, ## for H2, ### for H3, etc.",
                 "Watch the table of contents update automatically as you type",
@@ -365,20 +367,12 @@ export default function TableOfContentsPage() {
                 "Watch the table of contents highlight the active section",
                 "Click on any item in the table of contents to scroll to that section",
                 "Notice the smooth scrolling animation when clicking TOC items",
-              ].map((step, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                    {index + 1}
-                  </span>
-                  <span className="text-muted-foreground">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </CardContent>
-        </Card>
+              ]}
+              conclusion="Edit the markdown content in the editor and watch the table of contents update dynamically. Scroll through the preview to see active section highlighting."
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        })()}
 
         {/* Demo Content Section */}
         <div className="grid gap-6 lg:grid-cols-[1fr_300px]">

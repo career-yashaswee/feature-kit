@@ -27,12 +27,14 @@ import {
 } from "@/components/ui/select";
 import {
   Scroll,
-  Sparkle,
   Code,
-  Gear,
   Lightning,
   CursorClick,
 } from "@phosphor-icons/react";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -257,53 +259,32 @@ export default function RestoreScrollPositionPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <CursorClick className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <CardTitle className="text-2xl">How to Test</CardTitle>
-                <CardDescription className="text-base">
-                  Scroll down this page, then navigate away and come back to see
-                  your scroll position automatically restored
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Testing Steps:</h3>
-              <ol className="space-y-3">
-                {[
-                  "Scroll down this page to any position",
-                  "Navigate to another page or refresh the page",
-                  "Come back to this page",
-                  "Your scroll position should be automatically restored",
-                ].map((step, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                  >
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                      {index + 1}
-                    </span>
-                    <span className="text-muted-foreground">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div className="rounded-lg border-l-4 border-primary bg-primary/5 p-4">
-              <p className="text-sm font-medium text-foreground">
-                This page uses session storage by default. Scroll positions are
-                saved automatically as you scroll and restored when you return.
-                The scroll position is debounced to avoid excessive storage
-                writes.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/restore-scroll-position"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion || "This page uses session storage by default. Scroll positions are saved automatically as you scroll and restored when you return. The scroll position is debounced to avoid excessive storage writes."}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return (
+            <HowToTestCard
+              steps={[
+                "Scroll down this page to any position",
+                "Navigate to another page or refresh the page",
+                "Come back to this page",
+                "Your scroll position should be automatically restored",
+              ]}
+              conclusion="This page uses session storage by default. Scroll positions are saved automatically as you scroll and restored when you return. The scroll position is debounced to avoid excessive storage writes."
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        })()}
 
         <RestoreScrollPosition {...getComponentProps()}>
           <Card className="border-2 shadow-lg">
@@ -350,61 +331,46 @@ export default function RestoreScrollPositionPage() {
           </Card>
         </RestoreScrollPosition>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkle className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: Scroll,
-                  title: "Automatic Restoration",
-                  description:
-                    "Automatically restores scroll position when component mounts or page loads",
-                },
-                {
-                  icon: Gear,
-                  title: "Storage Options",
-                  description:
-                    "Choose between session storage (temporary) or local storage (persistent)",
-                },
-                {
-                  icon: Lightning,
-                  title: "Debounced Saving",
-                  description:
-                    "Scroll position is saved with debouncing to avoid excessive storage writes",
-                },
-                {
-                  icon: Code,
-                  title: "Flexible Usage",
-                  description:
-                    "Use as a wrapper component or with the useScrollPosition hook directly",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/restore-scroll-position"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = [
+            {
+              icon: <Scroll className="h-5 w-5 text-primary" />,
+              title: "Automatic Restoration",
+              description:
+                "Automatically restores scroll position when component mounts or page loads",
+            },
+            {
+              icon: renderIcon("Gear", "h-5 w-5 text-primary"),
+              title: "Storage Options",
+              description:
+                "Choose between session storage (temporary) or local storage (persistent)",
+            },
+            {
+              icon: <Lightning className="h-5 w-5 text-primary" />,
+              title: "Debounced Saving",
+              description:
+                "Scroll position is saved with debouncing to avoid excessive storage writes",
+            },
+            {
+              icon: <Code className="h-5 w-5 text-primary" />,
+              title: "Flexible Usage",
+              description:
+                "Use as a wrapper component or with the useScrollPosition hook directly",
+            },
+          ];
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
 
         <Card className="border-2 shadow-lg">
           <CardHeader>

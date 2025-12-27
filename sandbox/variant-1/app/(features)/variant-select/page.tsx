@@ -24,9 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Stack, Lightning, Gear, Code } from "@phosphor-icons/react";
+import { Stack, Lightning, Gear, Code, CursorClick } from "@phosphor-icons/react";
 import { VariantSelect } from "@/features/variant-select";
 import type { Variant } from "@/features/variant-select/types";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -252,40 +256,32 @@ export default function VariantSelectPage() {
         </CardContent>
       </Card>
 
-      <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Stack className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">How to Test</CardTitle>
-            </div>
-            <CardDescription>
-              Test the variant selector functionality
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ol className="space-y-3">
-              {[
-                "Click the variant selector button to open the dropdown",
-                "Browse through available variants with their dependencies",
-                "Select a variant - it will be persisted automatically",
-                "Refresh the page - your selection should persist",
-                "Try switching between display and selector modes",
-              ].map((step, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                    {index + 1}
-                  </span>
-                  <span className="text-muted-foreground">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </CardContent>
-        </Card>
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/variant-select"
+        );
+        if (featureData?.howToTest) {
+          return (
+            <HowToTestCard
+              steps={featureData.howToTest.steps}
+              conclusion={featureData.howToTest.conclusion}
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        }
+        return (
+          <HowToTestCard
+            steps={[
+              "Click the variant selector button to open the dropdown",
+              "Browse through available variants with their dependencies",
+              "Select a variant - it will be persisted automatically",
+              "Refresh the page - your selection should persist",
+              "Try switching between display and selector modes",
+            ]}
+            icon={<CursorClick className="h-5 w-5 text-primary" />}
+          />
+        );
+      })()}
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">

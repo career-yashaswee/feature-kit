@@ -23,6 +23,10 @@ import {
 import { ConsequenceConfirmationDialog } from "@/features/consequence-confirmation-dialog/components/consequence-confirmation-dialog";
 import { useConsequenceConfirmationDialog } from "@/features/consequence-confirmation-dialog/hooks/use-consequence-confirmation-dialog";
 import { toast } from "sonner";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 export default function ConsequenceConfirmationDialogPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -388,6 +392,37 @@ export default function ConsequenceConfirmationDialogPage() {
             cancelLabel={options.cancelLabel}
           />
         )}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/consequence-confirmation-dialog"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/consequence-confirmation-dialog"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          return null;
+        })()}
       </main>
     </div>
   );

@@ -24,9 +24,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowUp, Lightning, CreditCard, Code } from "@phosphor-icons/react";
+import { ArrowUp, Lightning, CreditCard, Code, CursorClick } from "@phosphor-icons/react";
 import { UpgradeButton } from "@/features/upgrade-button/components/upgrade-button";
 import type { UpgradeAction } from "@/features/upgrade-button/types";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -521,36 +525,54 @@ export default function UpgradeButtonPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Lightning className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/upgrade-button"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/upgrade-button"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = [
+            {
+              icon: renderIcon("CreditCard", "h-5 w-5 text-primary"),
+              title: "Smart State Management",
+              description:
+                "Automatically shows appropriate button based on subscription status",
+            },
+            {
+              icon: renderIcon("ArrowUp", "h-5 w-5 text-primary"),
+              title: "Configurable Actions",
+              description: "Support for trial, upgrade, and manage subscription actions",
+            },
+            {
+              icon: renderIcon("Lightning", "h-5 w-5 text-primary"),
+              title: "Flexible Styling",
+              description: "Multiple variants, sizes, and icon-only mode",
+            },
+          ];
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
       </main>
     </div>
   );

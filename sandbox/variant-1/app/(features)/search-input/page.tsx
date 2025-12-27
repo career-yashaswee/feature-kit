@@ -27,6 +27,10 @@ import {
   Lightning,
 } from "@phosphor-icons/react";
 import { SearchInput } from "@/features/search-input/components/search-input";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -410,74 +414,74 @@ export default function SearchInputPage() {
           </Card>
         </div>
 
-        {/* Features Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Sparkle className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: MagnifyingGlass,
-                  title: "Fuzzy MagnifyingGlass",
-                  description:
-                    "Uses Fuse.js for intelligent fuzzy matching with configurable threshold",
-                },
-                {
-                  icon: Lightning,
-                  title: "Debouncing",
-                  description:
-                    "Debounced search queries to reduce API calls and improve performance",
-                },
-                {
-                  icon: Microphone,
-                  title: "Speech Recognition",
-                  description:
-                    "Voice input support using react-speech-recognition and Web Speech API",
-                },
-                {
-                  icon: Gear,
-                  title: "Customizable",
-                  description:
-                    "Configurable search keys, debounce delay, and fuzzy threshold",
-                },
-                {
-                  icon: Sparkle,
-                  title: "Real-time Results",
-                  description:
-                    "Instant search results with loading indicators and empty states",
-                },
-                {
-                  icon: Code,
-                  title: "TypeScript",
-                  description:
-                    "Fully typed with TypeScript for better developer experience",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/search-input"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/search-input"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = [
+            {
+              icon: <MagnifyingGlass className="h-5 w-5 text-primary" />,
+              title: "Fuzzy Search",
+              description:
+                "Uses Fuse.js for intelligent fuzzy matching with configurable threshold",
+            },
+            {
+              icon: <Lightning className="h-5 w-5 text-primary" />,
+              title: "Debouncing",
+              description:
+                "Debounced search queries to reduce API calls and improve performance",
+            },
+            {
+              icon: <Microphone className="h-5 w-5 text-primary" />,
+              title: "Speech Recognition",
+              description:
+                "Voice input support using react-speech-recognition and Web Speech API",
+            },
+            {
+              icon: <Gear className="h-5 w-5 text-primary" />,
+              title: "Customizable",
+              description:
+                "Configurable search keys, debounce delay, and fuzzy threshold",
+            },
+            {
+              icon: <Sparkle className="h-5 w-5 text-primary" />,
+              title: "Real-time Results",
+              description:
+                "Instant search results with loading indicators and empty states",
+            },
+            {
+              icon: <Code className="h-5 w-5 text-primary" />,
+              title: "TypeScript",
+              description:
+                "Fully typed with TypeScript for better developer experience",
+            },
+          ];
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
       </main>
     </div>
   );

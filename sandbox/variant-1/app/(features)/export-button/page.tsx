@@ -8,7 +8,7 @@ const ExportButton = dynamic(
     import("@/features/export-button/components/export-button").then((mod) => ({
       default: mod.ExportButton,
     })),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   Card,
@@ -33,7 +33,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Lightning, Code } from "@phosphor-icons/react";
+import { Lightning, Code, CursorClick } from "@phosphor-icons/react";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -63,7 +67,14 @@ export default function ExportButtonPage() {
       defaultValue: "outline",
       value: "outline",
       inputType: "select",
-      options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      options: [
+        "default",
+        "destructive",
+        "outline",
+        "secondary",
+        "ghost",
+        "link",
+      ],
     },
     {
       property: "size",
@@ -127,7 +138,7 @@ export default function ExportButtonPage() {
 
   const handleValueChange = (
     index: number,
-    newValue: string | number | boolean,
+    newValue: string | number | boolean
   ) => {
     setProps((prev) => {
       const updated = [...prev];
@@ -141,7 +152,13 @@ export default function ExportButtonPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+      variant?:
+        | "default"
+        | "destructive"
+        | "outline"
+        | "secondary"
+        | "ghost"
+        | "link";
       size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
       filename?: string;
       resource?: string;
@@ -187,7 +204,8 @@ export default function ExportButtonPage() {
           </div>
           <CardDescription>
             See the component update in real-time as you change props below.
-            Note: Complex props like `fetchData`, `onSuccess`, and `onError` are not editable here.
+            Note: Complex props like `fetchData`, `onSuccess`, and `onError` are
+            not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -212,7 +230,8 @@ export default function ExportButtonPage() {
           </div>
           <CardDescription>
             Interact with the table below to customize the component in
-            real-time. Note: Complex props like `fetchData`, `onSuccess`, and `onError` are not editable here.
+            real-time. Note: Complex props like `fetchData`, `onSuccess`, and
+            `onError` are not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -314,6 +333,37 @@ export default function ExportButtonPage() {
           </div>
         </CardContent>
       </Card>
+
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/export-button"
+        );
+        if (featureData?.howToTest) {
+          return (
+            <HowToTestCard
+              steps={featureData.howToTest.steps}
+              conclusion={featureData.howToTest.conclusion}
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        }
+        return null;
+      })()}
+
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/export-button"
+        );
+        if (featureData?.features) {
+          const featuresWithIcons = featureData.features.map((feature) => ({
+            icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+            title: feature.title,
+            description: feature.description,
+          }));
+          return <FeaturesGlossary features={featuresWithIcons} />;
+        }
+        return null;
+      })()}
     </>
   );
 }

@@ -36,7 +36,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Lightning, Code } from "@phosphor-icons/react";
+import { Lightning, Code, CursorClick } from "@phosphor-icons/react";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -288,6 +292,37 @@ export default function RefreshButtonPage() {
           </Table>
         </CardContent>
       </Card>
+
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/refresh-button"
+        );
+        if (featureData?.howToTest) {
+          return (
+            <HowToTestCard
+              steps={featureData.howToTest.steps}
+              conclusion={featureData.howToTest.conclusion}
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
+          );
+        }
+        return null;
+      })()}
+
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/refresh-button"
+        );
+        if (featureData?.features) {
+          const featuresWithIcons = featureData.features.map((feature) => ({
+            icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+            title: feature.title,
+            description: feature.description,
+          }));
+          return <FeaturesGlossary features={featuresWithIcons} />;
+        }
+        return null;
+      })()}
 
       <Card className="border-2 shadow-lg">
         <CardHeader>

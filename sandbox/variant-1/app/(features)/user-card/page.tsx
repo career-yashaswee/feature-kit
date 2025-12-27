@@ -25,6 +25,10 @@ import {
 } from "@phosphor-icons/react";
 import { UserCard } from "@/features/user-card/components/user-card";
 import type { UserCardVariant, ThemeVariant } from "@/features/user-card/types";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 export default function UserCardPage() {
   const [cardVariant, setCardVariant] = useState<UserCardVariant>("linkedin");
@@ -202,61 +206,62 @@ export default function UserCardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: LinkedinLogo,
-                  title: "LinkedIn Variant",
-                  description:
-                    "Professional LinkedIn-style card with items, badges, and external links",
-                },
-                {
-                  icon: TwitterLogo,
-                  title: "TwitterLogo Variant",
-                  description:
-                    "TwitterLogo-style card with username, bio, following/followers, and join date",
-                },
-                {
-                  icon: Gear,
-                  title: "Banner Images",
-                  description:
-                    "Customizable banner with react-image fallback support",
-                },
-                {
-                  icon: Lightning,
-                  title: "Light & Dark Mode",
-                  description:
-                    "Full support for both light and dark themes with appropriate styling",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/user-card"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/user-card"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          const defaultFeatures = [
+            {
+              icon: renderIcon("LinkedinLogo", "h-5 w-5 text-primary"),
+              title: "LinkedIn Variant",
+              description:
+                "Professional LinkedIn-style card with items, badges, and external links",
+            },
+            {
+              icon: renderIcon("TwitterLogo", "h-5 w-5 text-primary"),
+              title: "Twitter Variant",
+              description:
+                "Twitter-style card with username, bio, following/followers, and join date",
+            },
+            {
+              icon: renderIcon("Gear", "h-5 w-5 text-primary"),
+              title: "Banner Images",
+              description:
+                "Customizable banner with react-image fallback support",
+            },
+            {
+              icon: renderIcon("Lightning", "h-5 w-5 text-primary"),
+              title: "Light & Dark Mode",
+              description:
+                "Full support for both light and dark themes with appropriate styling",
+            },
+          ];
+          return <FeaturesGlossary features={defaultFeatures} />;
+        })()}
       </main>
     </div>
   );
