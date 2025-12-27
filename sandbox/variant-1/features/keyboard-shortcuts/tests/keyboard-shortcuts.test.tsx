@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { KeyboardShortcuts } from "../components/keyboard-shortcuts";
 import * as reactHotkeysHook from "react-hotkeys-hook";
 

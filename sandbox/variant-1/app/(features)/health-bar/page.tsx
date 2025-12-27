@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Heart, Pulse, Lightning, Code } from "@phosphor-icons/react";
 import { HealthBar } from "@/features/health-bar/components/health-bar";
 import { useQuery } from "@tanstack/react-query";

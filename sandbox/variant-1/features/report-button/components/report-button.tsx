@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Flag, Spinner, Check, X } from "@phosphor-icons/react";
+import { Flag, Check, X } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,12 +15,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import type { ReportButtonProps, ReportIssue } from "../types";
+import type { ReportButtonProps } from "../types";
 import { useReportButton } from "../hooks/use-report-button";
 import { StatefulButton } from "@/features/stateful-button";
 
 export function ReportButton({
-  reportId,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  reportId: _reportId,
   reportTitle,
   issues,
   onSubmit,

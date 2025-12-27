@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 export interface NotificationAction {
   label: string;
   variant: "default" | "outline" | "destructive";

@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { Stack, Lightning, Gear, Code } from "@phosphor-icons/react";
 import { VariantSelect } from "@/features/variant-select";
 import type { Variant } from "@/features/variant-select/types";

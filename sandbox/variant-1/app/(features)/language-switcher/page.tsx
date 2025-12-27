@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Translate, Globe, Lightning } from "@phosphor-icons/react";
 import { LanguageSwitcher } from "@/features/language-switcher/components/language-switcher";
 import type { Language } from "@/features/language-switcher/types";

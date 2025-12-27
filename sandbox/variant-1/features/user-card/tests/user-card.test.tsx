@@ -3,6 +3,7 @@ import { UserCard } from "../components/user-card";
 
 jest.mock("react-image", () => ({
   Img: ({ src, alt }: { src: string | string[]; alt: string }) => (
+    // eslint-disable-next-line @next/next/no-img-element
     <img src={Array.isArray(src) ? src[0] : src} alt={alt} />
   ),
 }));

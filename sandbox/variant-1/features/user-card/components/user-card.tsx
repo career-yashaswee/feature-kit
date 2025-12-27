@@ -7,6 +7,7 @@ import {
   Calendar,
   PencilSimple,
 } from "@phosphor-icons/react";
+import Image from "next/image";
 import { Img } from "react-image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -134,10 +135,11 @@ export function UserCard({
                 isDark ? "border-black" : "border-white",
               )}
             >
-              <img
+              <Image
                 src={avatarUrl}
                 alt={`${firstName} ${lastName}`}
-                className="h-full w-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
           </div>
@@ -341,10 +343,11 @@ export function UserCard({
             isDark ? "border-[#1a1a1a]" : "border-white",
           )}
         >
-          <img
+          <Image
             src={avatarUrl}
             alt={`${firstName} ${lastName}`}
-            className="h-full w-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
       </div>
@@ -412,11 +415,14 @@ export function UserCard({
               >
                 <div className="flex items-center gap-2">
                   {typeof item.logo === "string" ? (
-                    <img
-                      src={item.logo}
-                      alt=""
-                      className="h-4 w-4 object-contain"
-                    />
+                    <div className="h-4 w-4 relative shrink-0">
+                      <Image
+                        src={item.logo}
+                        alt=""
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
                   ) : (
                     <div className="h-4 w-4 shrink-0">{item.logo}</div>
                   )}

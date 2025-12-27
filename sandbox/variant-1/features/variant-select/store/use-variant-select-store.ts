@@ -26,6 +26,7 @@ export const useVariantSelectStore = create<VariantSelectState>()(
         get().selectedVariants[featureId] || null,
       clearSelectedVariant: (featureId: string) =>
         set((state) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { [featureId]: _, ...rest } = state.selectedVariants;
           return { selectedVariants: rest };
         }),

@@ -18,6 +18,7 @@ export interface UseOptimisticActionButtonOptions {
 
 export function useOptimisticActionButton({
   action,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   optimisticState: _optimisticState,
   onOptimisticUpdate,
   onRollback,
@@ -28,7 +29,8 @@ export function useOptimisticActionButton({
   onError,
   doubleTapToConfirm = false,
   doubleTapTimeoutMs = 3000,
-  doubleTapConfirmMessage = "Press again to confirm",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doubleTapConfirmMessage: _doubleTapConfirmMessage = "Press again to confirm",
 }: UseOptimisticActionButtonOptions) {
   const [isLoading, setIsLoading] = useState(false);
   const [isWaitingForConfirm, setIsWaitingForConfirm] = useState(false);

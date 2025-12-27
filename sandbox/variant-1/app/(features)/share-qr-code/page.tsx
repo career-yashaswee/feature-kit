@@ -24,7 +24,6 @@ import {
   CursorClick,
   Sparkle,
   Code,
-  Gear,
   Lightning,
   Download,
   Share,

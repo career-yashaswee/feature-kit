@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWindowScroll } from "@uidotdev/usehooks";
 import { CaretUp } from "@phosphor-icons/react";

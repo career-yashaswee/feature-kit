@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { Target, TrendUp, Lightning, ChartBar, Code } from "@phosphor-icons/react";
 import { UniqueValueProposition } from "@/features/unique-value-proposition/components/unique-value-proposition";
 import type { DataPoint } from "@/features/unique-value-proposition/types";

@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import {
-  List,
   CursorClick,
   FileText,
   Sparkle,
@@ -110,7 +109,7 @@ function parseHtmlToTocItems(html: string): TocItem[] {
     const tocItems: TocItem[] = [];
     const seenCounts: Record<string, number> = {};
 
-    headings.forEach((heading, index) => {
+    headings.forEach((heading) => {
       const level = parseInt(heading.tagName.charAt(1));
       const content = heading.textContent?.trim() || "";
       if (!content) return;

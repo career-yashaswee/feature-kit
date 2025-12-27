@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -17,8 +16,6 @@ import {
   Lightning,
   Gear,
   CheckCircle,
-  User,
-  Envelope,
   ArrowRight,
 } from "@phosphor-icons/react";
 import { OnboardingLayout } from "@/features/on-boarding/components/onboarding-layout";
@@ -323,7 +320,7 @@ export default function OnBoardingPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {sampleSteps.map((step, index) => (
+              {sampleSteps.map((step) => (
                 <div
                   key={step.id}
                   className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3"

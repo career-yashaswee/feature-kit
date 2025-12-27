@@ -25,12 +25,16 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
   const [isPending, startTransition] = useTransition();
 
-  const adapterInstance = adapter || {
-    currentLanguage,
-    languages,
-    onChange: onLanguageChange,
-    persist: persistLanguage,
-  };
+  const adapterInstance = useMemo(
+    () =>
+      adapter || {
+        currentLanguage,
+        languages,
+        onChange: onLanguageChange,
+        persist: persistLanguage,
+      },
+    [adapter, currentLanguage, languages, onLanguageChange, persistLanguage],
+  );
 
   const current = adapterInstance.currentLanguage;
   const currentOption =

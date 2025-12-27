@@ -41,9 +41,7 @@ import {
   ArrowCircleUp,
   CursorClick,
   Scroll,
-  Sparkle,
   Code,
-  Gear,
   Lightning,
 } from "@phosphor-icons/react";
 import type { Icon } from "@phosphor-icons/react";

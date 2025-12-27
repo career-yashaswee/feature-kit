@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { toast } from "sonner";
 import { PersistenceTipTapEditor } from "../components/persistence-tip-tap-editor";
+import * as useHooks from "@uidotdev/usehooks";
 
 jest.mock("sonner", () => ({
   toast: {
@@ -80,7 +80,7 @@ describe("PersistenceTipTapEditor", () => {
 
   it("calls onSave when autoSave is enabled", async () => {
     const onSave = jest.fn().mockResolvedValue(undefined);
-    const { useDebounce } = require("@uidotdev/usehooks");
+    const useDebounce = jest.mocked(useHooks.useDebounce);
     useDebounce.mockReturnValue("Test content");
 
     render(

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -163,7 +163,10 @@ export function ActiveDevices({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSettingActive, setIsSettingActive] = useState(false);
 
-  const sessions = adapter?.sessions || propSessions || [];
+  const sessions = useMemo(
+    () => adapter?.sessions || propSessions || [],
+    [adapter?.sessions, propSessions],
+  );
   const isLoading = adapter?.isLoading ?? propIsLoading ?? false;
 
   const sessionToDeleteInfo = sessions.find((s) => s.token === sessionToDelete);

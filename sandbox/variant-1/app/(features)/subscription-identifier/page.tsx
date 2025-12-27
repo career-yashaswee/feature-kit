@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { Crown, Sparkle, Lightning, Code } from "@phosphor-icons/react";
 import { SubscriptionIdentifier } from "@/features/subscription-identifier/components/subscription-identifier";
 

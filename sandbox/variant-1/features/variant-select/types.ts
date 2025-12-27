@@ -1,5 +1,3 @@
-import type { ComponentType } from "react";
-
 export interface Dependency {
   id: string;
   name: string;

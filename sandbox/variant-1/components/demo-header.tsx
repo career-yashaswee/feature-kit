@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/features/language-switcher";
 import { ScrollableBreadcrumb } from "@/features/scrollable-breadcrumbs";
 import type { BreadcrumbItem } from "@/features/scrollable-breadcrumbs/types";
-import { GB, US, FR, DE, ES } from "country-flag-icons/react/3x2";
+import { GB, FR, DE, ES } from "country-flag-icons/react/3x2";
 import type { Language } from "@/features/language-switcher/types";
 
 const languages: Language[] = [

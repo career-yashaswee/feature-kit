@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { ArrowUp, Lightning, CreditCard, Code } from "@phosphor-icons/react";
 import { UpgradeButton } from "@/features/upgrade-button/components/upgrade-button";
 import type { UpgradeAction } from "@/features/upgrade-button/types";

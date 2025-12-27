@@ -20,7 +20,8 @@ export function useStatefulButton({
   onError,
   doubleTapToConfirm = false,
   doubleTapTimeoutMs = 3000,
-  doubleTapConfirmMessage = "Press again to confirm",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doubleTapConfirmMessage: _doubleTapConfirmMessage = "Press again to confirm",
 }: UseStatefulButtonOptions) {
   const [state, setState] = useState<ButtonState>("default");
   const [isWaitingForConfirm, setIsWaitingForConfirm] = useState(false);

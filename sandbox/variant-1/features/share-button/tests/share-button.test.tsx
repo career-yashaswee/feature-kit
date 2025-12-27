@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { ShareButton } from "../components/share-button";
+import * as useHooks from "@uidotdev/usehooks";
 
 jest.mock("@uidotdev/usehooks", () => ({
   useCopyToClipboard: jest.fn(() => [false, jest.fn()]),
@@ -23,7 +24,7 @@ describe("ShareButton", () => {
   });
 
   it("opens dialog when clicked", async () => {
-    const { useToggle } = require("@uidotdev/usehooks");
+    const useToggle = jest.mocked(useHooks.useToggle);
     const toggleOpen = jest.fn();
     useToggle.mockReturnValue([false, toggleOpen]);
 
@@ -36,7 +37,7 @@ describe("ShareButton", () => {
   });
 
   it("displays share URL in dialog", async () => {
-    const { useToggle } = require("@uidotdev/usehooks");
+    const useToggle = jest.mocked(useHooks.useToggle);
     useToggle.mockReturnValue([true, jest.fn()]);
 
     render(<ShareButton url="https://example.com" />);
@@ -47,7 +48,7 @@ describe("ShareButton", () => {
   });
 
   it("opens Twitter share when Twitter option is clicked", async () => {
-    const { useToggle } = require("@uidotdev/usehooks");
+    const useToggle = jest.mocked(useHooks.useToggle);
     useToggle.mockReturnValue([true, jest.fn()]);
 
     render(<ShareButton url="https://example.com" title="Test" />);
@@ -66,7 +67,7 @@ describe("ShareButton", () => {
   });
 
   it("includes UTM parameters when withUtmParams is true", () => {
-    const { useToggle } = require("@uidotdev/usehooks");
+    const useToggle = jest.mocked(useHooks.useToggle);
     useToggle.mockReturnValue([true, jest.fn()]);
 
     render(

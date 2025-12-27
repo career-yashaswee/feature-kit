@@ -34,12 +34,10 @@ export function FilterSheet({
   className,
   side = "right",
   width = "w-[400px] sm:w-[540px]",
-  enableUrlSync,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  enableUrlSync: _enableUrlSync,
   useNuqs,
 }: FilterSheetProps) {
-  // Handle backward compatibility: map deprecated useNuqs to enableUrlSync
-  const urlSyncEnabled = enableUrlSync ?? useNuqs ?? false;
-
   // Show deprecation warning if useNuqs is used
   if (process.env.NODE_ENV !== "production" && useNuqs !== undefined) {
     console.warn(
@@ -195,7 +193,8 @@ export function FilterSheet({
                   className="text-sm font-normal cursor-pointer flex-1 flex items-center gap-2"
                 >
                   {option.iconUrl ? (
-                    <div className="h-5 w-5 flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="h-5 w-5 flex items-center justify-center shrink-0 overflow-hidden relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={option.iconUrl}
                         alt={option.label}

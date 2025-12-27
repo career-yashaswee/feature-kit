@@ -5,7 +5,6 @@ import {
   Warning,
   Info,
   Question,
-  Crown,
   Trash,
   X,
 } from "@phosphor-icons/react";

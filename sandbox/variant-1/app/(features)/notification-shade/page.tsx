@@ -144,7 +144,7 @@ const sampleNotifications: Notification[] = [
 export default function NotificationShadePage() {
   const [notifications, setNotifications] =
     useState<Notification[]>(sampleNotifications);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [, setIsRefreshing] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 

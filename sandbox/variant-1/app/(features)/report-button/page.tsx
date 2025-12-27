@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { Flag, Warning, Lightning, Code } from "@phosphor-icons/react";
 import { ReportButton, type ReportIssue } from "@/features/report-button";
 

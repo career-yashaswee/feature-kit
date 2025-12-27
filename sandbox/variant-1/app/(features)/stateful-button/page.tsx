@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import {
   CursorClick,
   Lightning,
@@ -37,7 +36,6 @@ import {
   Plus,
   Trash,
   Download,
-  Upload,
   FloppyDisk,
   Share,
   Heart,

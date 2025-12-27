@@ -48,6 +48,7 @@ export function PersistenceTipTapEditor({
       setContent(localContent);
       previousContentRef.current = localContent;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle content changes

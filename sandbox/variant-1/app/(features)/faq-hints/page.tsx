@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { Question, CheckCircle, Sparkle, Code } from "@phosphor-icons/react";
 import { FaqHints, type FaqItem } from "@/features/faq-hints";
 

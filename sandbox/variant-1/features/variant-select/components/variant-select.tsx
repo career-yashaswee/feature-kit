@@ -14,10 +14,7 @@ import { cn } from "@/lib/utils";
 import { CaretDown, Circle, Stack } from "@phosphor-icons/react";
 import { Img } from "react-image";
 import type { VariantSelectProps } from "../types";
-import {
-  useVariantSelectStore,
-  createVariantSelectAdapter,
-} from "../store/use-variant-select-store";
+import { createVariantSelectAdapter } from "../store/use-variant-select-store";
 
 export function VariantSelect({
   featureId,
