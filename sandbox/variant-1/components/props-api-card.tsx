@@ -2,12 +2,12 @@
 
 import { Code } from "@phosphor-icons/react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Table,
   TableBody,
@@ -105,16 +105,10 @@ function PropRow({
             return (
               <Input
                 type="number"
-                value={
-                  typeof prop.value === "number"
-                    ? prop.value
-                    : safeNumber
-                }
+                value={typeof prop.value === "number" ? prop.value : safeNumber}
                 onChange={(e) => {
                   const newValue =
-                    e.target.value === ""
-                      ? safeNumber
-                      : Number(e.target.value);
+                    e.target.value === "" ? safeNumber : Number(e.target.value);
                   // Type guard to ensure we never pass undefined or NaN
                   if (typeof newValue === "number" && !isNaN(newValue)) {
                     onChange(index, newValue);
@@ -146,7 +140,7 @@ export function PropsApiCard({
   description,
 }: PropsApiCardProps) {
   return (
-    <Card className="border-2 shadow-lg">
+    <BaseCard>
       <CardHeader>
         <div className="flex items-center gap-2">
           <div className="rounded-lg bg-primary/10 p-2">
@@ -154,9 +148,7 @@ export function PropsApiCard({
           </div>
           <CardTitle className="text-2xl">Props API</CardTitle>
         </div>
-        {description && (
-          <CardDescription>{description}</CardDescription>
-        )}
+        {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent>
         <Table>
@@ -180,7 +172,6 @@ export function PropsApiCard({
           </TableBody>
         </Table>
       </CardContent>
-    </Card>
+    </BaseCard>
   );
 }
-

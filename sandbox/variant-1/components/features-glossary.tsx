@@ -1,5 +1,6 @@
 import { Sparkle } from "@phosphor-icons/react/ssr";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 
 export interface FeatureItem {
   id?: string;
@@ -22,7 +23,7 @@ export function FeaturesGlossary({
   const defaultIcon = <Sparkle className="h-5 w-5 text-primary" />;
 
   return (
-    <Card className="border-2 shadow-lg">
+    <BaseCard>
       <CardHeader>
         <div className="flex items-center gap-2">
           <div className="rounded-lg bg-primary/10 p-2">
@@ -51,6 +52,6 @@ export function FeaturesGlossary({
           ))}
         </div>
       </CardContent>
-    </Card>
+    </BaseCard>
   );
 }

@@ -1,11 +1,11 @@
 import { CursorClick } from "@phosphor-icons/react/ssr";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 
 export interface HowToTestCardProps {
   title?: string;
@@ -23,7 +23,7 @@ export function HowToTestCard({
   const defaultIcon = <CursorClick className="h-5 w-5 text-primary" />;
 
   return (
-    <Card className="border-2 shadow-lg">
+    <BaseCard>
       <CardHeader>
         <div className="flex items-center gap-2">
           <div className="rounded-lg bg-primary/10 p-2">
@@ -41,7 +41,7 @@ export function HowToTestCard({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-3">
-          <h3 className="font-semibold text-lg">Testing Steps</h3>
+          {/* <h3 className="font-semibold text-lg">Testing Steps</h3> */}
           <ol className="space-y-3">
             {steps.map((step, index) => (
               <li
@@ -62,6 +62,6 @@ export function HowToTestCard({
           </div>
         )}
       </CardContent>
-    </Card>
+    </BaseCard>
   );
 }

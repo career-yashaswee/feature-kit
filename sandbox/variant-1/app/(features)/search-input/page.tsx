@@ -9,15 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
   MagnifyingGlass,
   CursorClick,
   Microphone,
@@ -27,20 +18,13 @@ import {
   Lightning,
 } from "@phosphor-icons/react";
 import { SearchInput } from "@/features/search-input/components/search-input";
+import type { SearchInputProps } from "@/features/search-input/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number;
-  value: string | number;
-  inputType: "number" | "select" | "text";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const sampleData = [
   {
@@ -99,7 +83,7 @@ export default function SearchInputPage() {
     typeof sampleData
   >([]);
 
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "placeholder",
       type: "string",
@@ -131,48 +115,22 @@ export default function SearchInputPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (index: number, newValue: string | number) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof SearchInputProps<typeof sampleData[0]>> = {
+    placeholder: "placeholder",
+    debounceMs: "debounceMs",
+    fuzzyThreshold: "fuzzyThreshold",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      placeholder?: string;
-      debounceMs?: number;
-      fuzzyThreshold?: number;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "placeholder" && prop.value) {
-        componentProps.placeholder = String(prop.value);
-      } else if (prop.property === "debounceMs") {
-        const numValue = Number(prop.value);
-        if (!isNaN(numValue)) {
-          componentProps.debounceMs = numValue;
-        }
-      } else if (prop.property === "fuzzyThreshold") {
-        const numValue = Number(prop.value);
-        if (!isNaN(numValue)) {
-          componentProps.fuzzyThreshold = numValue;
-        }
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<SearchInputProps<typeof sampleData[0]>>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -210,7 +168,7 @@ export default function SearchInputPage() {
                   </div>
                 </div>
               )}
-              {...getComponentProps()}
+              {...getComponentProps}
             />
             {searchQuery && (
               <div className="mt-2 text-sm text-muted-foreground">
@@ -223,88 +181,11 @@ export default function SearchInputPage() {
         </Card>
 
         {/* Props API Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
-            <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: Complex props like `data`, `searchKeys`, `onSearch`, `onResultClick`, and `renderResult` are not editable here.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "number" ? (
-                        <Input
-                          type="number"
-                          value={
-                            typeof prop.value === "number"
-                              ? prop.value
-                              : Number(prop.value) || 0
-                          }
-                          onChange={(e) =>
-                            handleValueChange(
-                              index,
-                              e.target.value === ""
-                                ? prop.defaultValue
-                                : Number(e.target.value)
-                            )
-                          }
-                          className="h-8"
-                        />
-                      ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `data`, `searchKeys`, `onSearch`, `onResultClick`, and `renderResult` are not editable here."
+        />
 
         {/* How to Test Card */}
         <Card className="border-2 shadow-lg">

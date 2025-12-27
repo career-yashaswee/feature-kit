@@ -5,12 +5,12 @@ import { formatDistanceToNow } from "date-fns";
 import { ArrowUp } from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { TextTruncation } from "@/features/text-truncation";
 
@@ -95,7 +95,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
 
   return (
     <Link href={path}>
-      <Card className="group h-full cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg flex flex-col">
+      <BaseCard className="group h-full cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg flex flex-col">
         <CardHeader className="flex-1">
           <div className="flex items-start justify-between">
             <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
@@ -136,7 +136,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
             <ArrowUp className="h-4 w-4 rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
     </Link>
   );
 }
