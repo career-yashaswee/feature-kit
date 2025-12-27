@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useCallback } from "react";
+import { type ReactNode, useCallback, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWindowScroll } from "@uidotdev/usehooks";
 import { ChevronUp } from "lucide-react";
@@ -23,7 +23,16 @@ export function ScrollToTopButton({
 }: ScrollToTopButtonProps) {
   const [{ y }, scrollTo] = useWindowScroll();
   const currentY = typeof y === "number" ? y : 0;
-  const isVisible = currentY > threshold;
+  const previousY = useRef<number>(0);
+  const [isScrollingUp, setIsScrollingUp] = useState(false);
+
+  useLayoutEffect(() => {
+    const scrollingUp = currentY < previousY.current;
+    setIsScrollingUp(scrollingUp);
+    previousY.current = currentY;
+  }, [currentY]);
+
+  const isVisible = currentY > threshold && isScrollingUp;
 
   const alignmentClass =
     position === "left"

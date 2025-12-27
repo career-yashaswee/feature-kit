@@ -8,7 +8,7 @@ export interface UseKeyboardShortcutOptions {
 export function useKeyboardShortcut(
   keys: string,
   callback: () => void,
-  options?: UseKeyboardShortcutOptions,
+  options?: UseKeyboardShortcutOptions
 ) {
   useHotkeys(
     keys,
@@ -18,6 +18,6 @@ export function useKeyboardShortcut(
       }
       callback();
     },
-    { enabled: options?.enabled !== false },
+    { enabled: options?.enabled !== false }
   );
 }

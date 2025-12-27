@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWindowScroll } from "@uidotdev/usehooks";
 import { CaretUp } from "@phosphor-icons/react";
@@ -17,7 +17,16 @@ export function ScrollToTopButton({
 }: ScrollToTopButtonProps) {
   const [{ y }, scrollTo] = useWindowScroll();
   const currentY = typeof y === "number" ? y : 0;
-  const isVisible = currentY > threshold;
+  const previousY = useRef<number>(0);
+  const [isScrollingUp, setIsScrollingUp] = useState(false);
+
+  useLayoutEffect(() => {
+    const scrollingUp = currentY < previousY.current;
+    setIsScrollingUp(scrollingUp);
+    previousY.current = currentY;
+  }, [currentY]);
+
+  const isVisible = currentY > threshold && isScrollingUp;
 
   const alignmentClass =
     position === "left"
@@ -47,7 +56,7 @@ export function ScrollToTopButton({
             onClick={handleClick}
             className={cn(
               "rounded-full shadow-md bg-primary text-primary-foreground hover:bg-primary/90",
-              className,
+              className
             )}
           >
             {children ?? <CaretUp />}

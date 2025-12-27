@@ -27,7 +27,7 @@ export function KeyboardShortcuts({
         setIsOpen(true);
       }
     },
-    { enabled: showHelp },
+    { enabled: showHelp }
   );
 
   const groupedShortcuts = shortcuts.reduce(
@@ -39,7 +39,7 @@ export function KeyboardShortcuts({
       acc[category].push(shortcut);
       return acc;
     },
-    {} as Record<string, Shortcut[]>,
+    {} as Record<string, Shortcut[]>
   );
 
   const formatKey = (key: string) => {
@@ -113,7 +113,7 @@ export function KeyboardShortcuts({
                       ))}
                     </div>
                   </div>
-                ),
+                )
               )}
             </div>
           </DialogContent>

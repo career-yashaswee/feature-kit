@@ -8,7 +8,7 @@ export function getSupabaseClient() {
     const env = validateEnv();
     supabaseClient = createClient(
       env.NEXT_PUBLIC_SUPABASE_URL,
-      env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     );
   }
   return supabaseClient;
@@ -27,7 +27,7 @@ export const supabase =
         return {
           from: () => {
             throw new Error(
-              "Supabase client not available during SSR. Use getSupabaseClient() in client components only.",
+              "Supabase client not available during SSR. Use getSupabaseClient() in client components only."
             );
           },
         };

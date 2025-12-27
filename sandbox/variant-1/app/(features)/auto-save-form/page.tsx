@@ -8,9 +8,9 @@ const AutoSaveForm = dynamic(
     import("@/features/auto-save-form/components/auto-save-form").then(
       (mod) => ({
         default: mod.AutoSaveForm,
-      }),
+      })
     ),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   Card,
@@ -35,7 +35,7 @@ interface AutoSaveFormData extends Record<string, unknown> {
 
 async function saveFormData(
   data: Record<string, unknown>,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) {
   await new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
@@ -79,83 +79,83 @@ export default function AutoSaveFormPage() {
   return (
     <>
       <Card>
-          <CardHeader>
-            <CardTitle>Edit Profile</CardTitle>
-            <CardDescription>
-              Changes are saved automatically after 1 second of inactivity
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <AutoSaveForm
-              data={formData}
-              onSave={saveFormData}
-              storageKey="auto-save-form-demo"
-              debounceMs={1000}
-              onLoadFromStorage={(loadedData) => {
-                reset(loadedData);
-              }}
-            >
-              <form className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    {...register("title")}
-                    placeholder="Enter title"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Input
-                    id="description"
-                    {...register("description")}
-                    placeholder="Enter description"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    {...register("email")}
-                    placeholder="Enter email"
-                  />
-                </div>
-              </form>
-            </AutoSaveForm>
-          </CardContent>
-        </Card>
+        <CardHeader>
+          <CardTitle>Edit Profile</CardTitle>
+          <CardDescription>
+            Changes are saved automatically after 1 second of inactivity
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AutoSaveForm
+            data={formData}
+            onSave={saveFormData}
+            storageKey="auto-save-form-demo"
+            debounceMs={1000}
+            onLoadFromStorage={(loadedData) => {
+              reset(loadedData);
+            }}
+          >
+            <form className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Title</Label>
+                <Input
+                  id="title"
+                  {...register("title")}
+                  placeholder="Enter title"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="description">Description</Label>
+                <Input
+                  id="description"
+                  {...register("description")}
+                  placeholder="Enter description"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  {...register("email")}
+                  placeholder="Enter email"
+                />
+              </div>
+            </form>
+          </AutoSaveForm>
+        </CardContent>
+      </Card>
 
-        {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/auto-save-form"
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/auto-save-form"
+        );
+        if (featureData?.howToTest) {
+          return (
+            <HowToTestCard
+              steps={featureData.howToTest.steps}
+              conclusion={featureData.howToTest.conclusion}
+              icon={<CursorClick className="h-5 w-5 text-primary" />}
+            />
           );
-          if (featureData?.howToTest) {
-            return (
-              <HowToTestCard
-                steps={featureData.howToTest.steps}
-                conclusion={featureData.howToTest.conclusion}
-                icon={<CursorClick className="h-5 w-5 text-primary" />}
-              />
-            );
-          }
-          return null;
-        })()}
+        }
+        return null;
+      })()}
 
-        {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/auto-save-form"
-          );
-          if (featureData?.features) {
-            const featuresWithIcons = featureData.features.map((feature) => ({
-              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
-              title: feature.title,
-              description: feature.description,
-            }));
-            return <FeaturesGlossary features={featuresWithIcons} />;
-          }
-          return null;
-        })()}
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/auto-save-form"
+        );
+        if (featureData?.features) {
+          const featuresWithIcons = featureData.features.map((feature) => ({
+            icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+            title: feature.title,
+            description: feature.description,
+          }));
+          return <FeaturesGlossary features={featuresWithIcons} />;
+        }
+        return null;
+      })()}
     </>
   );
 }
