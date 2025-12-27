@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -31,6 +30,7 @@ import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
 import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
 import { PropsApiCard } from "@/components/props-api-card";
+import { BaseCard } from "@/components/base-card";
 
 const features = [
   {
@@ -165,7 +165,8 @@ export default function CompareAlternativesPage() {
     {
       property: "showCrownIcon",
       type: "boolean",
-      description: "Whether to show the crown icon for the highlighted alternative",
+      description:
+        "Whether to show the crown icon for the highlighted alternative",
       defaultValue: true,
       value: true,
       inputType: "boolean",
@@ -226,7 +227,7 @@ export default function CompareAlternativesPage() {
         })()}
 
         {/* Live Demo */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -236,7 +237,8 @@ export default function CompareAlternativesPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `features`, `alternatives`, and `pricingRowId` are not editable here.
+              Note: Complex props like `features`, `alternatives`, and
+              `pricingRowId` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -247,7 +249,7 @@ export default function CompareAlternativesPage() {
               {...getComponentProps}
             />
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -256,7 +258,7 @@ export default function CompareAlternativesPage() {
           description="Interact with the table below to customize the component in real-time. Note: Complex props like `features`, `alternatives`, and `pricingRowId` are not editable here."
         />
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -320,7 +322,7 @@ export default function CompareAlternativesPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

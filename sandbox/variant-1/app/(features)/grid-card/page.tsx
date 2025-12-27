@@ -133,9 +133,7 @@ export default function GridCardPage() {
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/grid-card"
-          );
+          const featureData = featuresData.find((f) => f.path === "/grid-card");
           if (featureData?.howToTest) {
             return (
               <HowToTestCard
@@ -160,7 +158,7 @@ export default function GridCardPage() {
         })()}
 
         {/* Live Demo */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -170,7 +168,9 @@ export default function GridCardPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `onClick`, `href`, `onNavigate`, `headerContent`, `footerContent`, and `children` are not editable here.
+              Note: Complex props like `onClick`, `href`, `onNavigate`,
+              `headerContent`, `footerContent`, and `children` are not editable
+              here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -192,7 +192,7 @@ export default function GridCardPage() {
               </GridCard>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -201,7 +201,7 @@ export default function GridCardPage() {
           description="Interact with the table below to customize the component in real-time. Note: Complex props like `onClick`, `href`, `onNavigate`, `headerContent`, `footerContent`, and `children` are not editable here."
         />
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -230,7 +230,11 @@ export default function GridCardPage() {
                 }
                 footerContent={
                   <GridCardFooter>
-                    <Button variant="ghost" size="sm" className="whitespace-nowrap">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="whitespace-nowrap"
+                    >
                       <Star className="h-4 w-4" />
                       Favorite
                     </Button>
@@ -281,7 +285,7 @@ export default function GridCardPage() {
           </CardContent>
         </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -334,7 +338,7 @@ export default function GridCardPage() {
           </CardContent>
         </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -385,7 +389,7 @@ export default function GridCardPage() {
           </CardContent>
         </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -418,9 +422,7 @@ export default function GridCardPage() {
         </BaseCard>
 
         {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/grid-card"
-          );
+          const featureData = featuresData.find((f) => f.path === "/grid-card");
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
               icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),

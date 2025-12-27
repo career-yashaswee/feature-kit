@@ -8,9 +8,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BaseCard } from "@/components/base-card";
-import { Translate, Globe, Lightning, CursorClick } from "@phosphor-icons/react";
+import {
+  Translate,
+  Globe,
+  Lightning,
+  CursorClick,
+} from "@phosphor-icons/react";
 import { LanguageSwitcher } from "@/features/language-switcher/components/language-switcher";
-import type { Language, LanguageSwitcherProps } from "@/features/language-switcher/types";
+import type {
+  Language,
+  LanguageSwitcherProps,
+} from "@/features/language-switcher/types";
 import { GB, US, IN, FR, DE, ES } from "country-flag-icons/react/3x2";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
@@ -141,7 +149,7 @@ export default function LanguageSwitcherPage() {
         })()}
 
         {/* Live Demo */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -151,7 +159,8 @@ export default function LanguageSwitcherPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `languages`, `currentLanguage`, `onLanguageChange`, and `persistLanguage` are not editable here.
+              Note: Complex props like `languages`, `currentLanguage`,
+              `onLanguageChange`, and `persistLanguage` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -167,7 +176,7 @@ export default function LanguageSwitcherPage() {
               />
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -176,7 +185,7 @@ export default function LanguageSwitcherPage() {
           description="Interact with the table below to customize the component in real-time. Note: Complex props like `languages`, `currentLanguage`, `onLanguageChange`, and `persistLanguage` are not editable here."
         />
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -210,7 +219,7 @@ export default function LanguageSwitcherPage() {
           </CardContent>
         </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">

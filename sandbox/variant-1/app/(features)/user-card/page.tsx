@@ -1,19 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { BaseCard } from "@/components/base-card";
 import {
   LinkedinLogo,
   TwitterLogo,
   CursorClick,
-  Sparkle,
   Crown,
   Star,
   Trophy,
@@ -21,8 +18,11 @@ import {
   Globe,
   Lightning,
 } from "@phosphor-icons/react";
-import { UserCard } from "@/features/user-card/components/user-card";
-import type { UserCardVariant, ThemeVariant, UserCardProps } from "@/features/user-card/types";
+import {
+  UserCard,
+  UserCardProps,
+} from "@/features/user-card/components/user-card";
+import type { UserCardVariant, ThemeVariant } from "@/features/user-card/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
@@ -147,16 +147,15 @@ export default function UserCardPage() {
     });
 
   // Get current variant from props
-  const currentVariant = (getComponentProps.variant || "linkedin") as UserCardVariant;
+  const currentVariant = (getComponentProps.variant ||
+    "linkedin") as UserCardVariant;
   const currentData = currentVariant === "twitter" ? twitterData : linkedinData;
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/user-card"
-          );
+          const featureData = featuresData.find((f) => f.path === "/user-card");
           if (featureData?.howToTest) {
             return (
               <HowToTestCard
@@ -170,7 +169,7 @@ export default function UserCardPage() {
         })()}
 
         {/* Live Demo */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -180,7 +179,8 @@ export default function UserCardPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like user data (firstName, lastName, avatarUrl, etc.) are not editable here.
+              Note: Complex props like user data (firstName, lastName,
+              avatarUrl, etc.) are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -188,7 +188,7 @@ export default function UserCardPage() {
               <UserCard {...currentData} {...getComponentProps} />
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -197,7 +197,7 @@ export default function UserCardPage() {
           description="Interact with the table below to customize the component in real-time. Note: Complex props like user data (firstName, lastName, avatarUrl, etc.) are not editable here."
         />
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -235,13 +235,10 @@ export default function UserCardPage() {
               </ol>
             </div>
           </CardContent>
-        </Card>
-
+        </BaseCard>
 
         {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/user-card"
-          );
+          const featureData = featuresData.find((f) => f.path === "/user-card");
           if (featureData?.howToTest) {
             return (
               <HowToTestCard
@@ -255,9 +252,7 @@ export default function UserCardPage() {
         })()}
 
         {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/user-card"
-          );
+          const featureData = featuresData.find((f) => f.path === "/user-card");
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
               icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
