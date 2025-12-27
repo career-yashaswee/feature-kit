@@ -76,7 +76,9 @@ export function RefreshButton({
     });
   }, [queryClient, queryKeys, resource, isRefreshing, onSuccess, onError]);
 
-  const displayLabel = label ?? "Refresh";
+  const isIconSize = size === "icon" || size === "icon-sm" || size === "icon-lg";
+  const shouldShowIcon = isIconSize ? true : showIcon;
+  const shouldShowLabel = isIconSize ? false : label ?? "Refresh";
   const displayAriaLabel = ariaLabel ?? `Refresh ${resource}`;
 
   return (
@@ -89,7 +91,7 @@ export function RefreshButton({
       disabled={isRefreshing}
       className={cn("inline-flex items-center gap-2", className)}
     >
-      {showIcon && (
+      {shouldShowIcon && (
         <motion.div
           animate={{ rotate: isRefreshing ? 360 : 0 }}
           transition={{
@@ -101,7 +103,7 @@ export function RefreshButton({
           <ArrowsClockwise className="h-4 w-4 shrink-0" />
         </motion.div>
       )}
-      {displayLabel && <span className="hidden sm:inline">{displayLabel}</span>}
+      {shouldShowLabel && <span className="hidden sm:inline">{shouldShowLabel}</span>}
     </Button>
   );
 }

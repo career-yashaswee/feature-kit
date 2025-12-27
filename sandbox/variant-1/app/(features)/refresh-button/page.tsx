@@ -69,14 +69,13 @@ export default function RefreshButtonPage() {
   const [props, setProps] = useState<PropConfig[]>([
     {
       property: "variant",
-      type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
+      type: '"default" | "outline" | "secondary" | "ghost" | "link"',
       description: "Visual variant of the button",
       defaultValue: "outline",
       value: "outline",
       inputType: "select",
       options: [
         "default",
-        "destructive",
         "outline",
         "secondary",
         "ghost",
@@ -144,7 +143,6 @@ export default function RefreshButtonPage() {
     const componentProps: {
       variant?:
         | "default"
-        | "destructive"
         | "outline"
         | "secondary"
         | "ghost"

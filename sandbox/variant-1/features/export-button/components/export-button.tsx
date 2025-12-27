@@ -30,7 +30,12 @@ export function ExportButton({
     onError,
   });
 
-  const displayLabel = label ?? `Export ${format.toUpperCase()}`;
+  const isIconSize =
+    size === "icon" || size === "icon-sm" || size === "icon-lg";
+  const shouldShowIcon = isIconSize ? true : showIcon;
+  const shouldShowLabel = isIconSize
+    ? false
+    : (label ?? `Export ${format.toUpperCase()}`);
 
   return (
     <Button
@@ -52,7 +57,7 @@ export function ExportButton({
           >
             <Check className="h-4 w-4 shrink-0" />
           </motion.div>
-        ) : showIcon ? (
+        ) : shouldShowIcon ? (
           <motion.div
             key="download"
             animate={{ y: isExporting ? [0, -2, 0] : 0 }}
@@ -62,7 +67,9 @@ export function ExportButton({
           </motion.div>
         ) : null}
       </AnimatePresence>
-      {displayLabel && <span className="hidden sm:inline">{displayLabel}</span>}
+      {shouldShowLabel && (
+        <span className="hidden sm:inline">{shouldShowLabel}</span>
+      )}
     </Button>
   );
 }
