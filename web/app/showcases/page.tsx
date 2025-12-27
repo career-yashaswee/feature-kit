@@ -3,6 +3,7 @@
 import { useProjects } from "@/features/showcases/hooks/use-projects";
 import { ProjectCard } from "@/features/showcases/components/project-card";
 import { ProjectCardSkeleton } from "@/components/common/loading-skeleton";
+import { EmptyState } from "@/features/empty-states";
 
 export default function ShowcasesPage() {
   const { data: projects = [], isLoading: loading } = useProjects();
@@ -23,7 +24,11 @@ export default function ShowcasesPage() {
           ))}
         </div>
       ) : (
-        <p>No showcases available</p>
+        <EmptyState
+          type="no-data"
+          title="No showcases available"
+          description="There are no showcases to display at the moment."
+        />
       )}
     </div>
   );

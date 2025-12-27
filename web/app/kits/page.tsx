@@ -5,6 +5,7 @@ import { useKits } from "@/features/kits/hooks/use-kits";
 import { useFeatures } from "@/features/features/hooks/use-features";
 import { KitCard } from "@/features/kits/components/kit-card";
 import { KitCardSkeleton } from "@/components/common/loading-skeleton";
+import { EmptyState } from "@/features/empty-states";
 
 export default function KitsPage() {
   const { t } = useTranslation();
@@ -41,7 +42,11 @@ export default function KitsPage() {
           ))}
         </div>
       ) : (
-        <p>{t("kits.noKitsAvailable")}</p>
+        <EmptyState
+          type="no-data"
+          title={t("kits.noKitsAvailable")}
+          description="There are no kits available at the moment."
+        />
       )}
     </div>
   );

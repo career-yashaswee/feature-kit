@@ -64,7 +64,7 @@ export default function FeatureLayout({ children }: FeatureLayoutProps) {
       <SidebarProvider>
         <Sidebar
           variant="sidebar"
-          className="top-16 flex flex-col [&>[data-slot=sidebar-container]]:!h-[calc(100vh-4rem)] [&>[data-slot=sidebar-container]]:!top-16 [&>[data-slot=sidebar-container]]:!bottom-auto [&>[data-slot=sidebar-container]]:!inset-y-auto"
+          className="top-16 flex flex-col *:data-[slot=sidebar-container]:h-[calc(100vh-4rem)]! *:data-[slot=sidebar-container]:top-16! *:data-[slot=sidebar-container]:bottom-auto! *:data-[slot=sidebar-container]:inset-y-auto!"
         >
           <SidebarContent className="flex-1 min-h-0 overflow-auto">
             <SidebarGroup>

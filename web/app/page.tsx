@@ -18,6 +18,7 @@ import {
   KitCardSkeleton,
   StackCardSkeleton,
 } from "@/components/common/loading-skeleton";
+import { EmptyState } from "@/features/empty-states";
 
 function HomePageContent() {
   const { t } = useTranslation();
@@ -193,7 +194,11 @@ function HomePageContent() {
               ))}
             </div>
           ) : (
-            <p>{t("home.noFeaturesFound")}</p>
+            <EmptyState
+              type="search"
+              title={t("home.noFeaturesFound")}
+              description="Try adjusting your search query or filters to find more features."
+            />
           )}
         </div>
       ) : (
@@ -206,7 +211,7 @@ function HomePageContent() {
                   <KitCardSkeleton key={i} />
                 ))}
               </div>
-            ) : (
+            ) : kits.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {kits.map((kit) => (
                   <KitCard
@@ -216,6 +221,12 @@ function HomePageContent() {
                   />
                 ))}
               </div>
+            ) : (
+              <EmptyState
+                type="no-data"
+                title={t("kits.noKitsAvailable")}
+                description="There are no kits available at the moment."
+              />
             )}
           </div>
 
@@ -236,7 +247,11 @@ function HomePageContent() {
                 ))}
               </div>
             ) : (
-              <p>{t("home.noFeaturesAvailable")}</p>
+              <EmptyState
+                type="no-data"
+                title={t("home.noFeaturesAvailable")}
+                description="There are no features available at the moment."
+              />
             )}
           </div>
 
@@ -255,7 +270,11 @@ function HomePageContent() {
                 ))}
               </div>
             ) : (
-              <p>No stacks available</p>
+              <EmptyState
+                type="no-data"
+                title="No stacks available"
+                description="There are no stacks available at the moment."
+              />
             )}
           </div>
         </>
@@ -266,23 +285,25 @@ function HomePageContent() {
 
 export default function HomePage() {
   return (
-    <Suspense fallback={
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <div className="h-10 w-64 bg-muted animate-pulse rounded mb-4" />
-          <div className="h-6 w-96 bg-muted animate-pulse rounded mb-6" />
-          <div className="flex items-center gap-2 max-w-md">
-            <div className="h-10 flex-1 bg-muted animate-pulse rounded" />
-            <div className="h-10 w-10 bg-muted animate-pulse rounded" />
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-8">
+            <div className="h-10 w-64 bg-muted animate-pulse rounded mb-4" />
+            <div className="h-6 w-96 bg-muted animate-pulse rounded mb-6" />
+            <div className="flex items-center gap-2 max-w-md">
+              <div className="h-10 flex-1 bg-muted animate-pulse rounded" />
+              <div className="h-10 w-10 bg-muted animate-pulse rounded" />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <FeatureCardSkeleton key={i} />
+            ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <FeatureCardSkeleton key={i} />
-          ))}
-        </div>
-      </div>
-    }>
+      }
+    >
       <HomePageContent />
     </Suspense>
   );

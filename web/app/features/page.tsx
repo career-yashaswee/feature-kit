@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useFeatures } from "@/features/features/hooks/use-features";
 import { FeatureCard } from "@/features/features/components/feature-card";
 import { FeatureCardSkeleton } from "@/components/common/loading-skeleton";
+import { EmptyState } from "@/features/empty-states";
 
 export default function FeaturesPage() {
   const { t } = useTranslation();
@@ -25,7 +26,11 @@ export default function FeaturesPage() {
           ))}
         </div>
       ) : (
-        <p>{t("home.noFeaturesAvailable")}</p>
+        <EmptyState
+          type="no-data"
+          title={t("home.noFeaturesAvailable")}
+          description="There are no features available at the moment."
+        />
       )}
     </div>
   );

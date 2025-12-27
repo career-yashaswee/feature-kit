@@ -3,6 +3,8 @@
 import { useFavoriteFeatures } from "@/features/favorites/hooks/use-favorite-features";
 import { FeatureCard } from "@/features/features/components/feature-card";
 import { FeatureCardSkeleton } from "@/components/common/loading-skeleton";
+import { EmptyState } from "@/features/empty-states";
+import { Heart } from "lucide-react";
 
 export default function FavoritesPage() {
   const { data: favoriteFeatures = [], isLoading: loading } =
@@ -24,7 +26,12 @@ export default function FavoritesPage() {
           ))}
         </div>
       ) : (
-        <p>No favorite features yet. Start adding some!</p>
+        <EmptyState
+          type="no-data"
+          title="No favorite features yet"
+          description="Start adding features to your favorites to see them here!"
+          icon={<Heart className="h-8 w-8" />}
+        />
       )}
     </div>
   );
