@@ -20,7 +20,7 @@ A collection of reusable web features and components.
 - Circular Progress Score
 - File Explorer
 - Card with Markdown Points
-- Download Report Button 
+- Download Report Button
 - Domain Badge [DONE]
 - Scrollable Breadcrumbs [DONE]
 - Daily Calendar
@@ -35,4 +35,3 @@ A collection of reusable web features and components.
 - Report Button [DONE]
 - Editor with Local Storage Sync and Save to DB [DONE]
 - GitHub Contributions
-

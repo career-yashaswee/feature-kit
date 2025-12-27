@@ -63,6 +63,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </CardDescription>
         )}
       </CardHeader>
-    </BaseCard>
+    </Card>
   );
 }

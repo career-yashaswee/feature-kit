@@ -63,7 +63,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
                   "h-4 w-4",
                   favorite
                     ? "fill-red-500 text-red-500"
-                    : "text-muted-foreground",
+                    : "text-muted-foreground"
                 )}
               />
             </Button>
@@ -103,7 +103,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
             </>
           )}
         </CardFooter>
-      </BaseCard>
+      </Card>
     </Link>
   );
 }

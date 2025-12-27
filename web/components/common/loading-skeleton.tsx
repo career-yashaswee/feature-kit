@@ -18,7 +18,7 @@ export function FeatureCardSkeleton() {
           <Skeleton className="h-5 w-14" />
         </div>
       </CardContent>
-    </BaseCard>
+    </Card>
   );
 }
 
@@ -30,7 +30,7 @@ export function KitCardSkeleton() {
         <Skeleton className="h-6 w-24 mb-2" />
         <Skeleton className="h-4 w-20" />
       </CardHeader>
-    </BaseCard>
+    </Card>
   );
 }
 
@@ -42,7 +42,7 @@ export function StackCardSkeleton() {
         <Skeleton className="h-4 w-full mb-2" />
         <Skeleton className="h-4 w-24" />
       </CardHeader>
-    </BaseCard>
+    </Card>
   );
 }
 
@@ -54,7 +54,7 @@ export function ProjectCardSkeleton() {
         <Skeleton className="h-6 w-24 mb-2" />
         <Skeleton className="h-4 w-full" />
       </CardHeader>
-    </BaseCard>
+    </Card>
   );
 }
 

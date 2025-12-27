@@ -387,3 +387,4 @@ const statistics: QuizStatisticsData = {
     </div>
   );
 }
+
