@@ -13,12 +13,12 @@ const OptimisticActionButton = dynamic(
   { ssr: false }
 );
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Select,
   SelectContent,
@@ -275,7 +275,7 @@ export default function OptimisticActionButtonPage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -315,7 +315,7 @@ export default function OptimisticActionButtonPage() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Props API Card */}
       <PropsApiCard
@@ -325,7 +325,7 @@ export default function OptimisticActionButtonPage() {
       />
 
       {/* Children Selector */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <CardTitle className="text-xl">Children (Button Content)</CardTitle>
           <CardDescription>
@@ -358,9 +358,9 @@ export default function OptimisticActionButtonPage() {
             </SelectContent>
           </Select>
         </CardContent>
-      </Card>
+      </BaseCard>
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <CardTitle>Favorite Item</CardTitle>
           <CardDescription>
@@ -392,9 +392,9 @@ export default function OptimisticActionButtonPage() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-destructive/10 p-2">
@@ -432,7 +432,7 @@ export default function OptimisticActionButtonPage() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
     </>
   );
 }

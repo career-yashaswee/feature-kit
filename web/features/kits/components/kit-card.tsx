@@ -55,7 +55,7 @@ export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
             {featureCount} {featureText}
           </p>
         </CardHeader>
-      </Card>
+      </BaseCard>
     </Link>
   );
 }

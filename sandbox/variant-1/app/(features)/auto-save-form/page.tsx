@@ -13,12 +13,12 @@ const AutoSaveForm = dynamic(
   { ssr: false }
 );
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CursorClick } from "@phosphor-icons/react";
@@ -124,7 +124,7 @@ export default function AutoSaveFormPage() {
             </form>
           </AutoSaveForm>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {(() => {
         const featureData = featuresData.find(

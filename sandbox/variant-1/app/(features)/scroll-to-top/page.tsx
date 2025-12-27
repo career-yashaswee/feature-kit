@@ -13,12 +13,12 @@ const ScrollToTopButton = dynamic(
   { ssr: false }
 );
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Select,
   SelectContent,
@@ -105,7 +105,7 @@ export default function ScrollToTopPage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -128,7 +128,7 @@ export default function ScrollToTopPage() {
             </ScrollToTopButton>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Props API Card */}
       <PropsApiCard
@@ -138,7 +138,7 @@ export default function ScrollToTopPage() {
       />
 
       {/* Icon Selector */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <CardTitle className="text-xl">Icon (Button Content)</CardTitle>
           <CardDescription>
@@ -165,7 +165,7 @@ export default function ScrollToTopPage() {
             </SelectContent>
           </Select>
         </CardContent>
-      </Card>
+      </BaseCard>
       {/* How to Test Card */}
       {(() => {
         const featureData = featuresData.find(
@@ -202,7 +202,7 @@ export default function ScrollToTopPage() {
 
       {/* Demo Content Section */}
       <section className="space-y-6">
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -243,7 +243,7 @@ export default function ScrollToTopPage() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
       </section>
 
       <ScrollToTopButton {...getComponentProps}>

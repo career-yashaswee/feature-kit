@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Button } from "@/components/ui/button";
 import {
   GridFour,
@@ -29,6 +29,9 @@ import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { GridCardProps } from "@/features/grid-card/types";
 
 const features = [
   {
@@ -54,6 +57,77 @@ export default function GridCardPage() {
   const handleNavigate = (href: string) => {
     console.log("Navigate to:", href);
   };
+
+  const initialConfig: PropConfig[] = [
+    {
+      property: "variant",
+      type: '"default" | "elevated" | "outlined"',
+      description: "Visual variant of the card",
+      defaultValue: "default",
+      value: "default",
+      inputType: "select",
+      options: ["default", "elevated", "outlined"],
+      transform: (value) => value as GridCardProps["variant"],
+    },
+    {
+      property: "size",
+      type: '"sm" | "md" | "lg"',
+      description: "Size of the card",
+      defaultValue: "md",
+      value: "md",
+      inputType: "select",
+      options: ["sm", "md", "lg"],
+      transform: (value) => value as GridCardProps["size"],
+    },
+    {
+      property: "disabled",
+      type: "boolean",
+      description: "Whether the card is disabled",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "isPinned",
+      type: "boolean",
+      description: "Whether the card is pinned",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "showBlurOverlay",
+      type: "boolean",
+      description: "Whether to show blur overlay on hover",
+      defaultValue: true,
+      value: true,
+      inputType: "boolean",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+      skipIfEmpty: true,
+    },
+  ];
+
+  const propMap: Record<string, keyof GridCardProps> = {
+    variant: "variant",
+    size: "size",
+    disabled: "disabled",
+    isPinned: "isPinned",
+    showBlurOverlay: "showBlurOverlay",
+    className: "className",
+  };
+
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<GridCardProps>({
+      initialConfig,
+      propMap,
+    });
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -84,6 +158,48 @@ export default function GridCardPage() {
             />
           );
         })()}
+
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props like `onClick`, `href`, `onNavigate`, `headerContent`, `footerContent`, and `children` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center rounded-lg border bg-card p-8">
+              <GridCard
+                onClick={() => console.log("Card clicked")}
+                headerContent={
+                  <GridCardHeader>
+                    <GridCardTitle>Live Demo Card</GridCardTitle>
+                  </GridCardHeader>
+                }
+                {...getComponentProps}
+              >
+                <GridCardContent>
+                  <GridCardDescription>
+                    This card updates in real-time as you change props below.
+                  </GridCardDescription>
+                </GridCardContent>
+              </GridCard>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `onClick`, `href`, `onNavigate`, `headerContent`, `footerContent`, and `children` are not editable here."
+        />
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -163,7 +279,7 @@ export default function GridCardPage() {
               </GridCard>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -216,7 +332,7 @@ export default function GridCardPage() {
               </GridCard>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -267,7 +383,7 @@ export default function GridCardPage() {
               </GridCard>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -299,7 +415,7 @@ export default function GridCardPage() {
               </GridCardContent>
             </GridCard>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

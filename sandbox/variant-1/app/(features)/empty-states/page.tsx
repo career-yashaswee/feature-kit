@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Select,
   SelectContent,
@@ -199,7 +199,7 @@ export default function EmptyStatesPage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -218,7 +218,7 @@ export default function EmptyStatesPage() {
             onAction={getSelectedAction()}
           />
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Props API Card */}
       <PropsApiCard
@@ -228,7 +228,7 @@ export default function EmptyStatesPage() {
       />
 
       {/* Icon Selector */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <CardTitle className="text-xl">Icon</CardTitle>
           <CardDescription>
@@ -255,10 +255,10 @@ export default function EmptyStatesPage() {
             </SelectContent>
           </Select>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Action Selector */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <CardTitle className="text-xl">Action</CardTitle>
           <CardDescription>
@@ -279,9 +279,9 @@ export default function EmptyStatesPage() {
             </SelectContent>
           </Select>
         </CardContent>
-      </Card>
+      </BaseCard>
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -321,9 +321,9 @@ export default function EmptyStatesPage() {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -350,9 +350,9 @@ export default function EmptyStatesPage() {
             />
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -395,9 +395,9 @@ export default function EmptyStatesPage() {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -419,7 +419,7 @@ export default function EmptyStatesPage() {
             />
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
     </>
   );
 }

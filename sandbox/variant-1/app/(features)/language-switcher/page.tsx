@@ -2,20 +2,22 @@
 
 import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Translate, Globe, Lightning, CursorClick } from "@phosphor-icons/react";
 import { LanguageSwitcher } from "@/features/language-switcher/components/language-switcher";
-import type { Language } from "@/features/language-switcher/types";
+import type { Language, LanguageSwitcherProps } from "@/features/language-switcher/types";
 import { GB, US, IN, FR, DE, ES } from "country-flag-icons/react/3x2";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const sampleTranslate: Language[] = [
   { code: "en", label: "English", flag: GB },
@@ -67,6 +69,48 @@ export default function LanguageSwitcherPage() {
     }
   };
 
+  const initialConfig: PropConfig[] = [
+    {
+      property: "size",
+      type: '"sm" | "md" | "lg"',
+      description: "Size of the language switcher",
+      defaultValue: "md",
+      value: "md",
+      inputType: "select",
+      options: ["sm", "md", "lg"],
+      transform: (value) => value as LanguageSwitcherProps["size"],
+    },
+    {
+      property: "showLabel",
+      type: "boolean",
+      description: "Whether to show the language label",
+      defaultValue: true,
+      value: true,
+      inputType: "boolean",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+      skipIfEmpty: true,
+    },
+  ];
+
+  const propMap: Record<string, keyof LanguageSwitcherProps> = {
+    size: "size",
+    showLabel: "showLabel",
+    className: "className",
+  };
+
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<LanguageSwitcherProps>({
+      initialConfig,
+      propMap,
+    });
+
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
@@ -95,6 +139,42 @@ export default function LanguageSwitcherPage() {
             />
           );
         })()}
+
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props like `languages`, `currentLanguage`, `onLanguageChange`, and `persistLanguage` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center rounded-lg border bg-card p-8">
+              <LanguageSwitcher
+                languages={sampleTranslate}
+                currentLanguage={currentLang}
+                onLanguageChange={handleLanguageChange}
+                persistLanguage={(code) => {
+                  localStorage.setItem("demo-language", code);
+                }}
+                {...getComponentProps}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `languages`, `currentLanguage`, `onLanguageChange`, and `persistLanguage` are not editable here."
+        />
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -128,7 +208,7 @@ export default function LanguageSwitcherPage() {
               </p>
             )}
           </CardContent>
-        </Card>
+        </BaseCard>
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
@@ -164,7 +244,7 @@ export default function LanguageSwitcherPage() {
               />
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

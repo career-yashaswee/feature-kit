@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -123,7 +123,7 @@ export default function AskAgentPage() {
         })()}
 
         {/* Ask Agent Interface Card */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -221,7 +221,7 @@ export default function AskAgentPage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

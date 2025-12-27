@@ -23,11 +23,14 @@ import { CompareAlternatives } from "@/features/compare-alternatives/components/
 import type {
   ComparisonFeature,
   Alternative,
+  CompareAlternativesProps,
 } from "@/features/compare-alternatives/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const features = [
   {
@@ -140,6 +143,57 @@ const sampleFeatures: ComparisonFeature[] = [
 ];
 
 export default function CompareAlternativesPage() {
+  const initialConfig: PropConfig[] = [
+    {
+      property: "heading",
+      type: "string",
+      description: "Heading text for the comparison table",
+      defaultValue: "Compare Alternatives",
+      value: "Compare Alternatives",
+      inputType: "text",
+      skipIfEmpty: true,
+    },
+    {
+      property: "description",
+      type: "string",
+      description: "Description text for the comparison table",
+      defaultValue: "See how different platforms compare across key features",
+      value: "See how different platforms compare across key features",
+      inputType: "text",
+      skipIfEmpty: true,
+    },
+    {
+      property: "showCrownIcon",
+      type: "boolean",
+      description: "Whether to show the crown icon for the highlighted alternative",
+      defaultValue: true,
+      value: true,
+      inputType: "boolean",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+      skipIfEmpty: true,
+    },
+  ];
+
+  const propMap: Record<string, keyof CompareAlternativesProps> = {
+    heading: "heading",
+    description: "description",
+    showCrownIcon: "showCrownIcon",
+    className: "className",
+  };
+
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<CompareAlternativesProps>({
+      initialConfig,
+      propMap,
+    });
+
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
@@ -171,13 +225,35 @@ export default function CompareAlternativesPage() {
           );
         })()}
 
-        <CompareAlternatives
-          features={sampleFeatures}
-          alternatives={alternatives}
-          heading="Compare Alternatives"
-          description="See how different platforms compare across key features"
-          showCrownIcon={true}
-          pricingRowId="pricing"
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props like `features`, `alternatives`, and `pricingRowId` are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CompareAlternatives
+              features={sampleFeatures}
+              alternatives={alternatives}
+              pricingRowId="pricing"
+              {...getComponentProps}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `features`, `alternatives`, and `pricingRowId` are not editable here."
         />
 
         <Card className="border-2 shadow-lg">

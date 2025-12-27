@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Select,
   SelectContent,
@@ -272,7 +272,7 @@ export default function StatefulButtonPage() {
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {/* Live Demo */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -298,7 +298,7 @@ export default function StatefulButtonPage() {
               </StatefulButton>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -308,7 +308,7 @@ export default function StatefulButtonPage() {
         />
 
         {/* Children Selector */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <CardTitle className="text-xl">Children (Button Content)</CardTitle>
             <CardDescription>
@@ -341,10 +341,10 @@ export default function StatefulButtonPage() {
               </SelectContent>
             </Select>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* How to Test Card */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -378,11 +378,11 @@ export default function StatefulButtonPage() {
               ))}
             </ol>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Example Cards */}
         <div className="grid gap-6 md:grid-cols-2">
-          <Card className="border-2 shadow-lg">
+          <BaseCard>
             <CardHeader>
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -409,9 +409,9 @@ export default function StatefulButtonPage() {
                 Success count: {successCount}
               </div>
             </CardContent>
-          </Card>
+          </BaseCard>
 
-          <Card className="border-2 shadow-lg">
+          <BaseCard>
             <CardHeader>
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -438,10 +438,10 @@ export default function StatefulButtonPage() {
                 Error count: {errorCount}
               </div>
             </CardContent>
-          </Card>
+          </BaseCard>
         </div>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -467,9 +467,9 @@ export default function StatefulButtonPage() {
               notice it only executes once per second due to rate limiting.
             </p>
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-destructive/10 p-2 shrink-0">
@@ -502,7 +502,7 @@ export default function StatefulButtonPage() {
               Wait 3 seconds to see it reset automatically.
             </p>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

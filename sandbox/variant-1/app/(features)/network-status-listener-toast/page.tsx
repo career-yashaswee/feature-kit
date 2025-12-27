@@ -3,12 +3,12 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Lightning,
   CursorClick,
@@ -76,7 +76,7 @@ export default function HomePage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -99,7 +99,7 @@ export default function HomePage() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Props API Card */}
       <PropsApiCard

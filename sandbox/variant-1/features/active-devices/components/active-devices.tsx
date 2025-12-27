@@ -17,12 +17,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -412,7 +412,7 @@ export function ActiveDevices({
             </div>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       <DeleteConfirmDialog
         isOpen={!!sessionToDelete}

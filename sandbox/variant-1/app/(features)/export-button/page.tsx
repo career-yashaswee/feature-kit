@@ -10,12 +10,12 @@ const ExportButton = dynamic(
   { ssr: false }
 );
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Lightning, CursorClick } from "@phosphor-icons/react";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
@@ -130,7 +130,7 @@ export default function ExportButtonPage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -153,7 +153,7 @@ export default function ExportButtonPage() {
             />
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Props API Card */}
       <PropsApiCard
@@ -162,7 +162,7 @@ export default function ExportButtonPage() {
         description="Interact with the table below to customize the component in real-time. Note: Complex props like `fetchData`, `onSuccess`, and `onError` are not editable here."
       />
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -185,7 +185,7 @@ export default function ExportButtonPage() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {(() => {
         const featureData = featuresData.find(

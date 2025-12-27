@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Crown, Sparkle, Lightning, CursorClick } from "@phosphor-icons/react";
 import { SubscriptionIdentifier } from "@/features/subscription-identifier/components/subscription-identifier";
 import type { SubscriptionIdentifierProps } from "@/features/subscription-identifier/types";
@@ -133,7 +133,7 @@ export default function SubscriptionIdentifierPage() {
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {/* Live Demo */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -151,7 +151,7 @@ export default function SubscriptionIdentifierPage() {
               {...getComponentProps}
             />
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -160,7 +160,7 @@ export default function SubscriptionIdentifierPage() {
           description="Interact with the table below to customize the component in real-time."
         />
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -192,9 +192,9 @@ export default function SubscriptionIdentifierPage() {
               ))}
             </ol>
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -264,9 +264,9 @@ export default function SubscriptionIdentifierPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -303,7 +303,7 @@ export default function SubscriptionIdentifierPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

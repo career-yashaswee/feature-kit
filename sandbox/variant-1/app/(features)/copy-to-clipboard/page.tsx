@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { BaseCard } from "@/components/base-card";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Copy,
   Code,
@@ -26,7 +27,10 @@ import { PropsApiCard } from "@/components/props-api-card";
 import type { CopyToClipboardProps } from "@/features/copy-to-clipboard/types";
 
 const PersistenceTipTapEditor = dynamic(
-  () => import("@/features/persistence-tip-tap-editor").then((mod) => mod.PersistenceTipTapEditor),
+  () =>
+    import("@/features/persistence-tip-tap-editor").then(
+      (mod) => mod.PersistenceTipTapEditor
+    ),
   { ssr: false }
 );
 import { Textarea } from "@/components/ui/textarea";
@@ -61,7 +65,14 @@ export default function CopyToClipboardPage() {
       defaultValue: "outline",
       value: "outline",
       inputType: "select",
-      options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      options: [
+        "default",
+        "destructive",
+        "outline",
+        "secondary",
+        "ghost",
+        "link",
+      ],
       transform: (value) => value as CopyToClipboardProps["variant"],
     },
     {
@@ -138,7 +149,7 @@ export default function CopyToClipboardPage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -148,7 +159,8 @@ export default function CopyToClipboardPage() {
           </div>
           <CardDescription>
             See the component update in real-time as you change props below.
-            Note: Complex props like `html`, `onCopy`, and `onError` are not editable here.
+            Note: Complex props like `html`, `onCopy`, and `onError` are not
+            editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -160,7 +172,9 @@ export default function CopyToClipboardPage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">HTML Content (Textarea):</label>
+              <label className="text-sm font-medium">
+                HTML Content (Textarea):
+              </label>
               <Textarea
                 value={htmlText}
                 onChange={(e) => setHtmlText(e.target.value)}
@@ -168,14 +182,20 @@ export default function CopyToClipboardPage() {
                 className="min-h-[100px] font-mono text-sm"
               />
               <div className="flex items-center gap-2">
-                <CopyToClipboard text={htmlText} html={htmlText} label="Copy HTML" />
+                <CopyToClipboard
+                  text={htmlText}
+                  html={htmlText}
+                  label="Copy HTML"
+                />
                 <span className="text-xs text-muted-foreground">
                   {htmlText.length} characters
                 </span>
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">HTML Content (TipTap Editor):</label>
+              <label className="text-sm font-medium">
+                HTML Content (TipTap Editor):
+              </label>
               <PersistenceTipTapEditor
                 content={htmlFromEditor}
                 onContentChange={(content) => setHtmlFromEditor(content)}
@@ -185,7 +205,11 @@ export default function CopyToClipboardPage() {
                 showToolbar={true}
               />
               <div className="flex items-center gap-2">
-                <CopyToClipboard text={htmlFromEditor} html={htmlFromEditor} label="Copy HTML from Editor" />
+                <CopyToClipboard
+                  text={htmlFromEditor}
+                  html={htmlFromEditor}
+                  label="Copy HTML from Editor"
+                />
                 <span className="text-xs text-muted-foreground">
                   {htmlFromEditor.length} characters
                 </span>
@@ -193,7 +217,7 @@ export default function CopyToClipboardPage() {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Props API Card */}
       <PropsApiCard
@@ -218,136 +242,134 @@ export default function CopyToClipboardPage() {
         return null;
       })()}
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Copy className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Basic Examples</CardTitle>
-              <CardDescription>
-                Simple copy buttons with different variants and sizes
-              </CardDescription>
+      <BaseCard>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div className="rounded-lg bg-primary/10 p-2">
+              <Copy className="h-5 w-5 text-primary" />
             </div>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div>
-                <h3 className="mb-2 text-sm font-semibold">Plain Text</h3>
-                <div className="flex items-center gap-3 rounded-lg border bg-card p-4">
-                  <code className="flex-1 text-sm text-muted-foreground">
-                    {sampleText}
-                  </code>
-                  <CopyToClipboard text={sampleText} />
-                </div>
-              </div>
-              <div>
-                <h3 className="mb-2 text-sm font-semibold">With Label</h3>
-                <div className="flex items-center gap-3 rounded-lg border bg-card p-4">
-                  <code className="flex-1 text-sm text-muted-foreground">
-                    {sampleText}
-                  </code>
-                  <CopyToClipboard text={sampleText} label="Copy" />
-                </div>
-              </div>
-              <div>
-                <h3 className="mb-2 text-sm font-semibold">
-                  Different Variants
-                </h3>
-                <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-4">
-                  <CopyToClipboard text={sampleText} variant="default" />
-                  <CopyToClipboard text={sampleText} variant="outline" />
-                  <CopyToClipboard text={sampleText} variant="secondary" />
-                  <CopyToClipboard text={sampleText} variant="ghost" />
-                  <CopyToClipboard text={sampleText} variant="destructive" />
-                </div>
-              </div>
-              <div>
-                <h3 className="mb-2 text-sm font-semibold">Different Sizes</h3>
-                <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-4">
-                  <CopyToClipboard text={sampleText} size="sm" />
-                  <CopyToClipboard text={sampleText} size="default" />
-                  <CopyToClipboard text={sampleText} size="lg" />
-                </div>
+            <CardTitle className="text-2xl">Basic Examples</CardTitle>
+            <CardDescription>
+              Simple copy buttons with different variants and sizes
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="space-y-4">
+            <div>
+              <h3 className="mb-2 text-sm font-semibold">Plain Text</h3>
+              <div className="flex items-center gap-3 rounded-lg border bg-card p-4">
+                <code className="flex-1 text-sm text-muted-foreground">
+                  {sampleText}
+                </code>
+                <CopyToClipboard text={sampleText} />
               </div>
             </div>
-          </CardContent>
-        </Card>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold">With Label</h3>
+              <div className="flex items-center gap-3 rounded-lg border bg-card p-4">
+                <code className="flex-1 text-sm text-muted-foreground">
+                  {sampleText}
+                </code>
+                <CopyToClipboard text={sampleText} label="Copy" />
+              </div>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold">Different Variants</h3>
+              <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-4">
+                <CopyToClipboard text={sampleText} variant="default" />
+                <CopyToClipboard text={sampleText} variant="outline" />
+                <CopyToClipboard text={sampleText} variant="secondary" />
+                <CopyToClipboard text={sampleText} variant="ghost" />
+                <CopyToClipboard text={sampleText} variant="destructive" />
+              </div>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold">Different Sizes</h3>
+              <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-4">
+                <CopyToClipboard text={sampleText} size="sm" />
+                <CopyToClipboard text={sampleText} size="default" />
+                <CopyToClipboard text={sampleText} size="lg" />
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </BaseCard>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Code Snippets</CardTitle>
-              <CardDescription>
-                Copy code snippets with syntax highlighting preserved
-              </CardDescription>
+      <BaseCard>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div className="rounded-lg bg-primary/10 p-2">
+              <Code className="h-5 w-5 text-primary" />
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="relative">
-                <div className="absolute right-2 top-2">
-                  <CopyToClipboard text={codeSnippet} />
-                </div>
-                <pre className="overflow-x-auto rounded-lg border bg-muted p-4 text-sm">
-                  <code>{codeSnippet}</code>
-                </pre>
+            <CardTitle className="text-2xl">Code Snippets</CardTitle>
+            <CardDescription>
+              Copy code snippets with syntax highlighting preserved
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="relative">
+              <div className="absolute right-2 top-2">
+                <CopyToClipboard text={codeSnippet} />
               </div>
+              <pre className="overflow-x-auto rounded-lg border bg-muted p-4 text-sm">
+                <code>{codeSnippet}</code>
+              </pre>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </BaseCard>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Gear className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">HTML Content</CardTitle>
-              <CardDescription>
-                Copy both plain text and HTML formats simultaneously
-              </CardDescription>
+      <BaseCard>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <div className="rounded-lg bg-primary/10 p-2">
+              <Gear className="h-5 w-5 text-primary" />
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="rounded-lg border bg-card p-4">
-                <div className="mb-3 flex items-center justify-between">
-                  <p className="text-sm text-muted-foreground">
-                    HTML content with both text and HTML formats
-                  </p>
-                  <CopyToClipboard
-                    text={htmlContent}
-                    html={htmlContent}
-                    label="Copy HTML"
-                  />
-                </div>
-                <div
-                  className="rounded-md border bg-muted/50 p-3"
-                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+            <CardTitle className="text-2xl">HTML Content</CardTitle>
+            <CardDescription>
+              Copy both plain text and HTML formats simultaneously
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="rounded-lg border bg-card p-4">
+              <div className="mb-3 flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  HTML content with both text and HTML formats
+                </p>
+                <CopyToClipboard
+                  text={htmlContent}
+                  html={htmlContent}
+                  label="Copy HTML"
                 />
               </div>
+              <div
+                className="rounded-md border bg-muted/50 p-3"
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
+              />
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </BaseCard>
 
-        {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/copy-to-clipboard"
-          );
-          if (featureData?.features) {
-            const featuresWithIcons = featureData.features.map((feature) => ({
-              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
-              title: feature.title,
-              description: feature.description,
-            }));
-            return <FeaturesGlossary features={featuresWithIcons} />;
-          }
-          return null;
-        })()}
+      {(() => {
+        const featureData = featuresData.find(
+          (f) => f.path === "/copy-to-clipboard"
+        );
+        if (featureData?.features) {
+          const featuresWithIcons = featureData.features.map((feature) => ({
+            icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+            title: feature.title,
+            description: feature.description,
+          }));
+          return <FeaturesGlossary features={featuresWithIcons} />;
+        }
+        return null;
+      })()}
     </>
   );
 }

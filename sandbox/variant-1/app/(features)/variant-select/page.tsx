@@ -2,12 +2,12 @@
 
 import React, { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Stack, Lightning, Gear, CursorClick } from "@phosphor-icons/react";
 import { VariantSelect } from "@/features/variant-select";
 import type { Variant } from "@/features/variant-select/types";
@@ -97,7 +97,7 @@ export default function VariantSelectPage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -121,7 +121,7 @@ export default function VariantSelectPage() {
               {...getComponentProps}
           />
         </CardContent>
-      </Card>
+      </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -157,7 +157,7 @@ export default function VariantSelectPage() {
         );
       })()}
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -190,9 +190,9 @@ export default function VariantSelectPage() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -211,9 +211,9 @@ export default function VariantSelectPage() {
               mode="display"
             />
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -269,7 +269,7 @@ export default function VariantSelectPage() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
     </>
   );
 }

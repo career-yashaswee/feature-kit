@@ -260,7 +260,7 @@ const features = [
 ### Card Styling
 
 ```tsx
-<Card className="border-2 shadow-lg">{/* Content */}</Card>
+<BaseCard>{/* Content */}</BaseCard>
 ```
 
 ## Icon Usage Guidelines

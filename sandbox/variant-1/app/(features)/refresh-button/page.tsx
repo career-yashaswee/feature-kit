@@ -13,12 +13,12 @@ const RefreshButton = dynamic(
   { ssr: false }
 );
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Lightning, CursorClick } from "@phosphor-icons/react";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
@@ -117,7 +117,7 @@ export default function RefreshButtonPage() {
   return (
     <>
       {/* Live Demo */}
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-primary/10 p-2">
@@ -140,7 +140,7 @@ export default function RefreshButtonPage() {
             />
           </div>
         </CardContent>
-      </Card>
+      </BaseCard>
 
       {/* Props API Card */}
       <PropsApiCard
@@ -180,7 +180,7 @@ export default function RefreshButtonPage() {
         return null;
       })()}
 
-      <Card className="border-2 shadow-lg">
+      <BaseCard>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -215,7 +215,7 @@ export default function RefreshButtonPage() {
             </div>
           )}
         </CardContent>
-      </Card>
+      </BaseCard>
     </>
   );
 }

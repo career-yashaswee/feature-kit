@@ -2,12 +2,12 @@
 
 import { useState, Suspense } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -372,7 +372,7 @@ function FilterSheetContent() {
           );
         })()}
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -451,9 +451,9 @@ function FilterSheetContent() {
               </div>
             )}
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -507,7 +507,7 @@ function FilterSheetContent() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

@@ -3,12 +3,12 @@
 export const dynamic = "force-dynamic";
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   SquaresFour,
   Code,
@@ -55,7 +55,7 @@ export default function ResizablePanelsPage() {
           );
         })()}
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -131,9 +131,9 @@ export default function ResizablePanelsPage() {
               />
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -191,7 +191,7 @@ export default function ResizablePanelsPage() {
               />
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

@@ -30,6 +30,6 @@ export function StackCard({ stack }: StackCardProps) {
           {stack.dependency_count} {dependencyText}
         </p>
       </CardHeader>
-    </Card>
+    </BaseCard>
   );
 }

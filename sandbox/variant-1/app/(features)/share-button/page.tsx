@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   Share,
   Gear,
@@ -142,7 +142,7 @@ export default function ShareButtonPage() {
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {/* Live Demo */}
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -159,7 +159,7 @@ export default function ShareButtonPage() {
               <ShareButton {...getComponentProps} />
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {/* Props API Card */}
         <PropsApiCard
@@ -168,7 +168,7 @@ export default function ShareButtonPage() {
           description="Interact with the table below to customize the component in real-time"
         />
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -208,9 +208,9 @@ export default function ShareButtonPage() {
               </ol>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -290,7 +290,7 @@ export default function ShareButtonPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

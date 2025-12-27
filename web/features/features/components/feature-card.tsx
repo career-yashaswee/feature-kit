@@ -103,7 +103,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
             </>
           )}
         </CardFooter>
-      </Card>
+      </BaseCard>
     </Link>
   );
 }

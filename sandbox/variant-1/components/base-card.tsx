@@ -21,10 +21,12 @@ export function BaseCard({ children, className, ...props }: BaseCardProps) {
       }}
       className="w-full"
     >
-      <Card className={cn("transition-shadow duration-300", className)} {...props}>
+      <Card
+        className={cn("transition-shadow duration-300", className)}
+        {...props}
+      >
         {children}
       </Card>
     </motion.div>
   );
 }
-

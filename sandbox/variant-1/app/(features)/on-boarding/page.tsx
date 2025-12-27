@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -107,7 +107,7 @@ export default function OnBoardingPage() {
                 get the most out of FeatureKit.
               </p>
             </CardContent>
-          </Card>
+          </BaseCard>
         );
       case 2:
         return (
@@ -141,7 +141,7 @@ export default function OnBoardingPage() {
                 />
               </div>
             </CardContent>
-          </Card>
+          </BaseCard>
         );
       case 3:
         return (
@@ -155,7 +155,7 @@ export default function OnBoardingPage() {
                 Choose your preferences for notifications, theme, and more.
               </p>
             </CardContent>
-          </Card>
+          </BaseCard>
         );
       case 4:
         return (
@@ -173,7 +173,7 @@ export default function OnBoardingPage() {
                 start using FeatureKit!
               </p>
             </CardContent>
-          </Card>
+          </BaseCard>
         );
       default:
         return null;
@@ -223,7 +223,7 @@ export default function OnBoardingPage() {
           return null;
         })()}
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -269,9 +269,9 @@ export default function OnBoardingPage() {
               </Button>
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -305,7 +305,7 @@ export default function OnBoardingPage() {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(

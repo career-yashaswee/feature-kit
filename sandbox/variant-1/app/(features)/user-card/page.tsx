@@ -19,18 +19,18 @@ import {
   Trophy,
   GithubLogo,
   Globe,
+  Lightning,
 } from "@phosphor-icons/react";
 import { UserCard } from "@/features/user-card/components/user-card";
-import type { UserCardVariant, ThemeVariant } from "@/features/user-card/types";
+import type { UserCardVariant, ThemeVariant, UserCardProps } from "@/features/user-card/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 export default function UserCardPage() {
-  const [cardVariant, setCardVariant] = useState<UserCardVariant>("linkedin");
-  const [theme, setTheme] = useState<ThemeVariant>("dark");
-
   const linkedinData = {
     firstName: "Yashaswee",
     lastName: "Kesharwani",
@@ -102,11 +102,101 @@ export default function UserCardPage() {
     followers: 2,
   };
 
-  const currentData = cardVariant === "twitter" ? twitterData : linkedinData;
+  const initialConfig: PropConfig[] = [
+    {
+      property: "variant",
+      type: '"linkedin" | "twitter"',
+      description: "Visual variant of the user card",
+      defaultValue: "linkedin",
+      value: "linkedin",
+      inputType: "select",
+      options: ["linkedin", "twitter"],
+      transform: (value) => value as UserCardVariant,
+    },
+    {
+      property: "theme",
+      type: '"light" | "dark"',
+      description: "Theme variant of the user card",
+      defaultValue: "dark",
+      value: "dark",
+      inputType: "select",
+      options: ["light", "dark"],
+      transform: (value) => value as ThemeVariant,
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes for custom styling",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+      skipIfEmpty: true,
+    },
+  ];
+
+  const propMap: Record<string, keyof UserCardProps> = {
+    variant: "variant",
+    theme: "theme",
+    className: "className",
+  };
+
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<UserCardProps>({
+      initialConfig,
+      propMap,
+    });
+
+  // Get current variant from props
+  const currentVariant = (getComponentProps.variant || "linkedin") as UserCardVariant;
+  const currentData = currentVariant === "twitter" ? twitterData : linkedinData;
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/user-card"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {/* Live Demo */}
+        <Card className="border-2 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props like user data (firstName, lastName, avatarUrl, etc.) are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex justify-center">
+              <UserCard {...currentData} {...getComponentProps} />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like user data (firstName, lastName, avatarUrl, etc.) are not editable here."
+        />
+
         <Card className="border-2 shadow-lg">
           <CardHeader>
             <div className="flex items-center gap-2">
@@ -147,61 +237,6 @@ export default function UserCardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="rounded-lg bg-primary/10 p-2">
-                  <Sparkle className="h-5 w-5 text-primary" />
-                </div>
-                <CardTitle className="text-2xl">
-                  Variant & Theme Toggle
-                </CardTitle>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2">
-                  <Button
-                    variant={cardVariant === "linkedin" ? "default" : "outline"}
-                    onClick={() => setCardVariant("linkedin")}
-                    size="sm"
-                  >
-                    <LinkedinLogo className="h-4 w-4 mr-2" />
-                    LinkedIn
-                  </Button>
-                  <Button
-                    variant={cardVariant === "twitter" ? "default" : "outline"}
-                    onClick={() => setCardVariant("twitter")}
-                    size="sm"
-                  >
-                    <TwitterLogo className="h-4 w-4 mr-2" />
-                    TwitterLogo
-                  </Button>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant={theme === "light" ? "default" : "outline"}
-                    onClick={() => setTheme("light")}
-                    size="sm"
-                  >
-                    Light Mode
-                  </Button>
-                  <Button
-                    variant={theme === "dark" ? "default" : "outline"}
-                    onClick={() => setTheme("dark")}
-                    size="sm"
-                  >
-                    Dark Mode
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-center">
-              <UserCard {...currentData} variant={cardVariant} theme={theme} />
-            </div>
-          </CardContent>
-        </Card>
 
         {(() => {
           const featureData = featuresData.find(

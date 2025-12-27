@@ -11,12 +11,12 @@ const PersistenceTipTapEditor = dynamic(
   { ssr: false }
 );
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
 import {
   FileText,
   FloppyDisk,
@@ -73,7 +73,7 @@ export default function PersistenceTipTapEditorPage() {
           );
         })()}
 
-        <Card className="border-2 shadow-lg">
+        <BaseCard>
           <CardHeader className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2 shrink-0">
@@ -103,7 +103,7 @@ export default function PersistenceTipTapEditorPage() {
               }}
             />
           </CardContent>
-        </Card>
+        </BaseCard>
 
         {(() => {
           const featureData = featuresData.find(
