@@ -144,7 +144,7 @@ export default function FeaturesLayout({
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
           <div className="flex items-center gap-2 justify-center">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
+            <div className="inline-flex items-center rounded-full border bg-background px-2 gap-1.5">
               <IconComponent className="h-4 w-4 text-primary" />
               <span className="text-sm font-medium">{feature.category}</span>
             </div>
