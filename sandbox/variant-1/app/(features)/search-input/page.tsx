@@ -78,10 +78,8 @@ export default function SearchInputPage() {
   const [selectedItem, setSelectedItem] = useState<
     (typeof sampleData)[0] | null
   >(null);
-  const [searchQuery, setMagnifyingGlassQuery] = useState("");
-  const [searchResults, setMagnifyingGlassResults] = useState<
-    typeof sampleData
-  >([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<typeof sampleData>([]);
 
   const initialConfig: PropConfig[] = [
     {
@@ -159,8 +157,8 @@ export default function SearchInputPage() {
               data={sampleData}
               searchKeys={["name", "category", "description"]}
               onSearch={(query, results) => {
-                setMagnifyingGlassQuery(query);
-                setMagnifyingGlassResults(results);
+                setSearchQuery(query);
+                setSearchResults(results);
               }}
               onResultClick={(item) => {
                 setSelectedItem(item);
@@ -252,8 +250,8 @@ export default function SearchInputPage() {
                 fuzzyThreshold={0.4}
                 placeholder="Search foods..."
                 onSearch={(query, results) => {
-                  setMagnifyingGlassQuery(query);
-                  setMagnifyingGlassResults(results);
+                  setSearchQuery(query);
+                  setSearchResults(results);
                 }}
                 onResultClick={(item) => {
                   setSelectedItem(item);
@@ -310,7 +308,7 @@ export default function SearchInputPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/search-input",
+            (f) => f.path === "/search-input"
           );
           if (featureData?.howToTest) {
             return (
@@ -326,7 +324,7 @@ export default function SearchInputPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/search-input",
+            (f) => f.path === "/search-input"
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

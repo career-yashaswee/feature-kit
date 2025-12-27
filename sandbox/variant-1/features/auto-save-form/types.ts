@@ -1,15 +1,21 @@
 import type { ReactNode } from "react";
 
-export interface AutoSaveFormProps<T extends Record<string, unknown>> {
+export interface AutoSaveFormProps<T> {
   children: ReactNode;
-  onSave: (data: T, signal?: AbortSignal) => Promise<void> | void;
+  /** The data to auto-save */
   data: T;
-  debounceMs?: number;
+  /** Callback function to save the data */
+  onSave: (data: T) => Promise<void> | void;
+  /** Debounce interval in milliseconds (default: 2000) */
+  interval?: number;
+  /** localStorage key for persistence (optional) */
   storageKey?: string;
-  onSaveStart?: () => void;
-  onSaveSuccess?: () => void;
-  onSaveError?: (error: Error) => void;
-  onLoadFromStorage?: (data: T) => void;
+  /** Callback when data is loaded from storage */
+  onLoad?: (data: T) => void;
+  /** Whether to save on unmount (default: true) */
+  saveOnUnmount?: boolean;
+  /** Custom success message */
   successMessage?: string;
+  /** Custom error message */
   errorMessage?: string;
 }

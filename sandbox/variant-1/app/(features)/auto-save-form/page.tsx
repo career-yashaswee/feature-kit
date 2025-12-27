@@ -8,9 +8,9 @@ const AutoSaveForm = dynamic(
     import("@/features/auto-save-form/components/auto-save-form").then(
       (mod) => ({
         default: mod.AutoSaveForm,
-      }),
+      })
     ),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   CardContent,
@@ -33,35 +33,17 @@ interface AutoSaveFormData extends Record<string, unknown> {
   email: string;
 }
 
-async function saveFormData(
-  data: Record<string, unknown>,
-  signal?: AbortSignal,
-) {
-  await new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(() => {
-      if (signal?.aborted) {
-        reject(new DOMException("The operation was aborted.", "AbortError"));
-      } else {
-        resolve(undefined);
-      }
+async function saveFormData(data: AutoSaveFormData) {
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(undefined);
     }, 500);
-
-    if (signal) {
-      signal.addEventListener("abort", () => {
-        clearTimeout(timeoutId);
-        reject(new DOMException("The operation was aborted.", "AbortError"));
-      });
-    }
   });
-
-  if (signal?.aborted) {
-    throw new DOMException("The operation was aborted.", "AbortError");
-  }
 
   if (Math.random() > 0.9) {
     throw new Error("Failed to save");
   }
-  console.log("Saved:", data as AutoSaveFormData);
+  console.log("Saved:", data);
 }
 
 export default function AutoSaveFormPage() {
@@ -82,17 +64,19 @@ export default function AutoSaveFormPage() {
         <CardHeader>
           <CardTitle>Edit Profile</CardTitle>
           <CardDescription>
-            Changes are saved automatically after 1 second of inactivity
+            Changes are saved automatically after 1 second of inactivity. Watch
+            for toast notifications showing save status. Data persists in
+            localStorage - try refreshing the page!
           </CardDescription>
         </CardHeader>
         <CardContent>
           <AutoSaveForm
             data={formData}
-            onSave={saveFormData}
+            onSave={(data) => saveFormData(data as AutoSaveFormData)}
             storageKey="auto-save-form-demo"
-            debounceMs={1000}
-            onLoadFromStorage={(loadedData) => {
-              reset(loadedData);
+            interval={1000}
+            onLoad={(loadedData) => {
+              reset(loadedData as AutoSaveFormData);
             }}
           >
             <form className="space-y-4">
@@ -128,7 +112,7 @@ export default function AutoSaveFormPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/auto-save-form",
+          (f) => f.path === "/auto-save-form"
         );
         if (featureData?.howToTest) {
           return (
@@ -144,7 +128,7 @@ export default function AutoSaveFormPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/auto-save-form",
+          (f) => f.path === "/auto-save-form"
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({

@@ -555,5 +555,47 @@
         "description": "Live session status with last activity timestamps"
       }
     ]
+  },
+  {
+    "name": "Daily Completion Calendar",
+    "path": "/daily-completion-calendar",
+    "icon": "Calendar",
+    "summary": "Track daily actions with visual completion indicators",
+    "description": "A calendar component that tracks daily actions with visual indicators. Completed days show a checkmark icon, failed days show a red dot below the date.",
+    "category": "Calendar",
+    "statusBadge": "New",
+    "lastUpdatedAt": "2024-01-25T10:00:00Z",
+    "howToTest": {
+      "steps": [
+        "Click on any day in the calendar to toggle its completion status",
+        "Watch completed days show a checkmark icon instead of the date number",
+        "See failed days display a red dot below the date number",
+        "Navigate between months using the arrow buttons",
+        "Try clicking different days to see the status change in real-time"
+      ],
+      "conclusion": "The calendar tracks your daily actions with visual indicators. Completed actions show a checkmark, while failed actions show a red dot below the date."
+    },
+    "features": [
+      {
+        "icon": "CheckCircle",
+        "title": "Visual Indicators",
+        "description": "Clear visual feedback with checkmarks for completed days and red dots for failed days"
+      },
+      {
+        "icon": "Calendar",
+        "title": "Shadcn Calendar",
+        "description": "Built on top of Shadcn Calendar component for consistent styling and behavior"
+      },
+      {
+        "icon": "Gear",
+        "title": "Flexible Data",
+        "description": "Accept completions as an array or Map for different use cases"
+      },
+      {
+        "icon": "Code",
+        "title": "TypeScript Support",
+        "description": "Fully typed with TypeScript for better developer experience"
+      }
+    ]
   }
 ]

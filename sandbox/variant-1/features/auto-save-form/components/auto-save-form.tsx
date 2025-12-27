@@ -1,30 +1,26 @@
 "use client";
 
-import { useAutoSaveForm } from "../hooks/use-auto-save-form";
+import { useAutoSave } from "../hooks/use-auto-save";
 import type { AutoSaveFormProps } from "../types";
 
-export function AutoSaveForm<T extends Record<string, unknown>>({
+export function AutoSaveForm<T>({
   children,
-  onSave,
   data,
-  debounceMs = 1000,
+  onSave,
+  interval = 2000,
   storageKey,
-  onSaveStart,
-  onSaveSuccess,
-  onSaveError,
-  onLoadFromStorage,
+  onLoad,
+  saveOnUnmount = true,
   successMessage = "Changes saved",
   errorMessage = "Failed to save changes",
 }: AutoSaveFormProps<T>) {
-  useAutoSaveForm({
+  useAutoSave({
     data,
     onSave,
-    debounceMs,
+    interval,
     storageKey,
-    onSaveStart,
-    onSaveSuccess,
-    onSaveError,
-    onLoadFromStorage,
+    onLoad,
+    saveOnUnmount,
     successMessage,
     errorMessage,
   });
