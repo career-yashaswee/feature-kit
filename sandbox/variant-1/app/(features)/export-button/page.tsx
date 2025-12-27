@@ -235,14 +235,19 @@ export default function ExportButtonPage() {
               {props.map((prop, index) => (
                 <TableRow key={prop.property}>
                   <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
+                    className="font-medium text-sm"
+                    style={{
+                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                    }}
+                  >
                     {prop.property}
                   </TableCell>
-                  <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
+                  <TableCell
+                    className="text-xs text-muted-foreground"
+                    style={{
+                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                    }}
+                  >
                     {prop.type}
                   </TableCell>
                   <TableCell

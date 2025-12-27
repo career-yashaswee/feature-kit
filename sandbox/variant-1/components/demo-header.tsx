@@ -122,7 +122,6 @@ export function DemoHeader() {
                 <GithubLogo className="h-4 w-4" />
               </Link>
             </Button>
-            <Separator orientation="vertical" className="h-6" />
             <LanguageSwitcher
               languages={languages}
               currentLanguage={currentLang}
