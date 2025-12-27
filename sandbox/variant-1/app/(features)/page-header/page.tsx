@@ -9,15 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -32,7 +23,6 @@ import {
   Plus,
   Download,
   Share,
-  Code,
   Folder,
   User,
   GearSix,
@@ -49,6 +39,9 @@ import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { PageHeaderProps } from "@/features/page-header/types";
 
 const iconMap: Record<string, Icon> = {
   FileText,
@@ -66,16 +59,6 @@ const iconMap: Record<string, Icon> = {
   Bookmark,
   Trash,
 };
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean" | "icon";
-  options?: string[];
-}
 
 const features = [
   {
@@ -96,7 +79,9 @@ const features = [
 ];
 
 export default function PageHeaderPage() {
-  const [props, setProps] = useState<PropConfig[]>([
+  const [selectedIconKey, setSelectedIconKey] = useState("FileText");
+
+  const initialConfig: PropConfig[] = [
     {
       property: "title",
       type: "string",
@@ -121,6 +106,7 @@ export default function PageHeaderPage() {
       value: "default",
       inputType: "select",
       options: ["default", "minimal", "bordered"],
+      transform: (value) => value as PageHeaderProps["variant"],
     },
     {
       property: "iconSize",
@@ -130,6 +116,7 @@ export default function PageHeaderPage() {
       value: "md",
       inputType: "select",
       options: ["sm", "md", "lg"],
+      transform: (value) => value as PageHeaderProps["iconSize"],
     },
     {
       property: "showCornerDecorations",
@@ -148,79 +135,36 @@ export default function PageHeaderPage() {
       inputType: "boolean",
     },
     {
-      property: "icon",
-      type: "ReactNode",
-      description: "Icon to display in the header",
-      defaultValue: "FileText",
-      value: "FileText",
-      inputType: "icon",
-      options: Object.keys(iconMap),
-    },
-    {
       property: "className",
       type: "string",
       description: "Additional CSS classes for custom styling",
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof PageHeaderProps> = {
+    title: "title",
+    subtitle: "subtitle",
+    variant: "variant",
+    iconSize: "iconSize",
+    showCornerDecorations: "showCornerDecorations",
+    showDashedBorder: "showDashedBorder",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      title: string;
-      subtitle?: string;
-      variant?: "default" | "minimal" | "bordered";
-      iconSize?: "sm" | "md" | "lg";
-      showCornerDecorations?: boolean;
-      showDashedBorder?: boolean;
-      className?: string;
-    } = {
-      title: "Page Title",
-    };
-
-    props.forEach((prop) => {
-      if (prop.property === "title" && prop.value) {
-        componentProps.title = String(prop.value);
-      } else if (prop.property === "subtitle" && prop.value) {
-        componentProps.subtitle = String(prop.value);
-      } else if (prop.property === "variant") {
-        componentProps.variant = prop.value as typeof componentProps.variant;
-      } else if (prop.property === "iconSize") {
-        componentProps.iconSize = prop.value as typeof componentProps.iconSize;
-      } else if (prop.property === "showCornerDecorations") {
-        componentProps.showCornerDecorations = Boolean(prop.value);
-      } else if (prop.property === "showDashedBorder") {
-        componentProps.showDashedBorder = Boolean(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<PageHeaderProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   const getSelectedIcon = () => {
-    const iconProp = props.find((p) => p.property === "icon");
-    if (iconProp && typeof iconProp.value === "string") {
-      const IconComponent = iconMap[iconProp.value];
-      if (IconComponent) {
-        return <IconComponent className="h-full w-full" />;
-      }
+    const IconComponent = iconMap[selectedIconKey];
+    if (IconComponent) {
+      return <IconComponent className="h-full w-full" />;
     }
     return <FileText className="h-full w-full" />;
   };
@@ -244,133 +188,45 @@ export default function PageHeaderPage() {
           <CardContent>
             <PageHeader
               icon={getSelectedIcon()}
-              {...getComponentProps()}
+              {...getComponentProps}
             />
           </CardContent>
         </Card>
 
         {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: The `actionsSlot` prop (ReactNode) is not editable here."
+        />
+
+        {/* Icon Selector */}
         <Card className="border-2 shadow-lg">
           <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
+            <CardTitle className="text-xl">Icon</CardTitle>
             <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: The `actionsSlot` prop (ReactNode) is not editable here.
+              Select the icon to display in the header
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "select" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value)
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {prop.options?.map((option) => (
-                              <SelectItem key={option} value={option}>
-                                {option}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "boolean" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value === "true")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">true</SelectItem>
-                            <SelectItem value="false">false</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "icon" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value)
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {prop.options?.map((iconName) => {
-                              const IconComponent = iconMap[iconName];
-                              return (
-                                <SelectItem key={iconName} value={iconName}>
-                                  <div className="flex items-center gap-2">
-                                    {IconComponent && (
-                                      <IconComponent className="h-4 w-4" />
-                                    )}
-                                    <span>{iconName}</span>
-                                  </div>
-                                </SelectItem>
-                              );
-                            })}
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <Select value={selectedIconKey} onValueChange={setSelectedIconKey}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.keys(iconMap).map((iconName) => {
+                  const IconComponent = iconMap[iconName];
+                  return (
+                    <SelectItem key={iconName} value={iconName}>
+                      <div className="flex items-center gap-2">
+                        {IconComponent && <IconComponent className="h-4 w-4" />}
+                        <span>{iconName}</span>
+                      </div>
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </CardContent>
         </Card>
 

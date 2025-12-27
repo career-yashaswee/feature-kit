@@ -145,7 +145,8 @@ export default function ReportButtonPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `issues`, `onSubmit`, `open`, and `onOpenChange` are not editable here.
+              Note: Complex props like `issues`, `onSubmit`, `open`, and
+              `onOpenChange` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -164,13 +165,15 @@ export default function ReportButtonPage() {
               </div>
               <div className="flex items-center justify-center rounded-lg border bg-card p-8">
                 <ReportButton
+                  {...getComponentProps}
                   reportId={getComponentProps.reportId || "live-demo"}
-                  reportTitle={getComponentProps.reportTitle || "Live Demo Content"}
+                  reportTitle={
+                    getComponentProps.reportTitle || "Live Demo Content"
+                  }
                   issues={sampleIssues}
                   onSubmit={submitReport}
                   open={isOpen}
                   onOpenChange={setIsOpen}
-                  {...getComponentProps}
                 />
               </div>
             </div>

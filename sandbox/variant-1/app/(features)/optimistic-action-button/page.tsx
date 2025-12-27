@@ -26,13 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Heart,
-  Lightning,
-  Star,
-  Bookmark,
-  Trash,
-} from "@phosphor-icons/react";
+import { Heart, Lightning, Star, Bookmark, Trash } from "@phosphor-icons/react";
 import { toast } from "sonner";
 import type { ReactNode } from "react";
 import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
@@ -132,7 +126,6 @@ const childrenMap: Record<string, ChildrenOption> = {};
 childrenOptions.forEach((option) => {
   childrenMap[option.key] = option;
 });
-
 
 async function toggleFavorite(id: string, currentState: boolean) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -310,12 +303,10 @@ export default function OptimisticActionButtonPage() {
                 setIsFavorite(!isFavorite);
               }}
               onRollback={() => setIsFavorite(prevIsFavoriteRef.current)}
-              variant={
-                isFavorite
-                  ? "default"
-                  : getComponentProps.variant || "outline"
-              }
               {...getComponentProps}
+              variant={
+                isFavorite ? "default" : getComponentProps.variant || "outline"
+              }
             >
               {getSelectedChildren()}
             </OptimisticActionButton>

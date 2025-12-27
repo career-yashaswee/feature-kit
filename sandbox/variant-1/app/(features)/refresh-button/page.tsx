@@ -50,13 +50,7 @@ export default function RefreshButtonPage() {
       defaultValue: "outline",
       value: "outline",
       inputType: "select",
-      options: [
-        "default",
-        "outline",
-        "secondary",
-        "ghost",
-        "link",
-      ],
+      options: ["default", "outline", "secondary", "ghost", "link"],
       transform: (value) => value as RefreshButtonProps["variant"],
     },
     {
