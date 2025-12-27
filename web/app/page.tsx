@@ -100,10 +100,10 @@ export default function HomePage() {
       {
         type: "select" as const,
         id: "kit",
-        label: "Kit",
+        label: t("filter.kit"),
         value: selectedKit || "ALL",
         options: [
-          { value: "ALL", label: "All Kits" },
+          { value: "ALL", label: t("filter.allKits") },
           ...kits.map((kit) => ({
             value: kit.id,
             label: kit.name,
@@ -114,25 +114,25 @@ export default function HomePage() {
       {
         type: "select" as const,
         id: "tier",
-        label: "Tier",
+        label: t("filter.tier"),
         value: selectedTier || "ALL",
         options: [
-          { value: "ALL", label: "All Tiers" },
-          { value: "free", label: "Free" },
-          { value: "plus", label: "Plus" },
+          { value: "ALL", label: t("filter.allTiers") },
+          { value: "free", label: t("tier.free") },
+          { value: "plus", label: t("tier.plus") },
         ],
         onChange: (value: string) => setFilter("tier", value),
       },
       {
         type: "tags" as const,
         id: "tags",
-        label: "Tags",
+        label: t("filter.tags"),
         selectedTags: selectedTags,
         availableTags: allTags,
         onChange: (tags: string[]) => setFilter("tags", tags),
       },
     ];
-  }, [selectedKit, selectedTier, selectedTags, allTags, kits, setFilter]);
+  }, [selectedKit, selectedTier, selectedTags, allTags, kits, setFilter, t]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -152,7 +152,7 @@ export default function HomePage() {
             variant="outline"
             size="icon"
             onClick={() => setFilterSheetOpen(true)}
-            aria-label="Open filters"
+            aria-label={t("filter.openFilters")}
           >
             <Sliders className="h-4 w-4" />
           </Button>
@@ -163,15 +163,12 @@ export default function HomePage() {
         open={filterSheetOpen}
         onOpenChange={setFilterSheetOpen}
         filters={filters}
-        title={t("home.filters") || "Filters"}
-        description={
-          t("home.filterDescription") ||
-          "Filter features by kit, tier, and tags"
-        }
+        title={t("filter.title")}
+        description={t("filter.description")}
         onClearAll={async () => {
           await clearAllFilters();
         }}
-        clearAllLabel={t("home.clearFilters") || "Clear All Filters"}
+        clearAllLabel={t("filter.clearAll")}
         enableUrlSync={true}
       />
 

@@ -21,10 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import type {
-  FilterSheetProps,
-  Filter,
-} from "../types";
+import type { FilterSheetProps, Filter } from "../types";
 
 export function FilterSheet({
   open,
@@ -44,7 +41,7 @@ export function FilterSheet({
   if (process.env.NODE_ENV !== "production" && useNuqs !== undefined) {
     console.warn(
       "[FilterSheet] The `useNuqs` prop is deprecated. Please use `enableUrlSync` instead. " +
-        "The `useNuqs` prop will be removed in a future version.",
+        "The `useNuqs` prop will be removed in a future version."
     );
   }
   const hasActiveFilters = filters.some((filter) => {
@@ -86,7 +83,7 @@ export function FilterSheet({
     icon: Filter["icon"],
     defaultIcon: React.ComponentType<{
       className?: string;
-    }> = Sliders,
+    }> = Sliders
   ) => {
     if (icon) {
       const IconComponent = icon;
@@ -110,7 +107,6 @@ export function FilterSheet({
             />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="ALL">All {filter.label}</SelectItem>
             {filter.options.map((option) => {
               const OptionIcon = option.icon;
               return (
@@ -120,7 +116,7 @@ export function FilterSheet({
                       <OptionIcon
                         className={cn(
                           "h-4 w-4",
-                          option.iconColor || "text-current",
+                          option.iconColor || "text-current"
                         )}
                       />
                       {option.label}
@@ -138,7 +134,7 @@ export function FilterSheet({
   };
 
   const renderCheckboxFilter = (
-    filter: Extract<Filter, { type: "checkbox" }>,
+    filter: Extract<Filter, { type: "checkbox" }>
   ) => {
     return (
       <div key={filter.id} className="space-y-3">
@@ -164,7 +160,7 @@ export function FilterSheet({
   };
 
   const renderMultiSelectFilter = (
-    filter: Extract<Filter, { type: "multiselect" }>,
+    filter: Extract<Filter, { type: "multiselect" }>
   ) => {
     const handleToggle = (optionId: string) => {
       if (filter.selectedValues.includes(optionId)) {
@@ -300,4 +296,3 @@ export function FilterSheet({
     </Sheet>
   );
 }
-

@@ -83,5 +83,16 @@
     "submit": "Enviar Reporte",
     "success": "Gracias por reportar este error. Lo revisaremos.",
     "reportAnother": "Reportar otro error"
+  },
+  "filter": {
+    "title": "Filtros",
+    "description": "Filtrar características por kit, nivel y etiquetas",
+    "clearAll": "Limpiar Todos los Filtros",
+    "kit": "Kit",
+    "tier": "Nivel",
+    "tags": "Etiquetas",
+    "allKits": "Todos los Kits",
+    "allTiers": "Todos los Niveles",
+    "openFilters": "Abrir filtros"
   }
 }

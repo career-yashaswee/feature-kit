@@ -136,7 +136,7 @@ const LogoTextMobile = ({ children, className, ...props }: LogoTextProps) => (
   <span
     className={cn(
       "text-lg font-semibold tracking-tighter md:hidden",
-      className,
+      className
     )}
     {...props}
   >
@@ -148,7 +148,7 @@ const LogoTextDesktop = ({ children, className, ...props }: LogoTextProps) => (
   <span
     className={cn(
       "hidden text-lg font-semibold tracking-tighter md:flex",
-      className,
+      className
     )}
     {...props}
   >

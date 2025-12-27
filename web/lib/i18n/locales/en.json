@@ -83,5 +83,16 @@
     "submit": "Submit Report",
     "success": "Thank you for reporting this bug. We'll look into it.",
     "reportAnother": "Report another bug"
+  },
+  "filter": {
+    "title": "Filters",
+    "description": "Filter features by kit, tier, and tags",
+    "clearAll": "Clear All Filters",
+    "kit": "Kit",
+    "tier": "Tier",
+    "tags": "Tags",
+    "allKits": "All Kits",
+    "allTiers": "All Tiers",
+    "openFilters": "Open filters"
   }
 }

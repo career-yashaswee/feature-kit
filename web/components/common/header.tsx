@@ -11,6 +11,7 @@ import { useFeatures } from "@/features/features/hooks/use-features";
 import { useProjects } from "@/features/showcases/hooks/use-projects";
 import { Github, Twitter, Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export function Header() {
   const { t } = useTranslation();
@@ -28,11 +29,13 @@ export function Header() {
               href="/"
               className="flex items-center gap-2 text-xl font-bold hover:opacity-80 transition-opacity"
             >
-              <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground text-xs font-bold">
-                  FK
-                </span>
-              </div>
+              <Avatar className="h-7 w-7">
+                <AvatarImage
+                  src="https://res.cloudinary.com/dmkku8emk/image/upload/v1766850935/8_v0srfh.svg"
+                  alt="FeatureKit Logo"
+                />
+                <AvatarFallback>FK</AvatarFallback>
+              </Avatar>
               <span>{t("header.title")}</span>
             </Link>
             <div className="h-6 w-px bg-border" />
