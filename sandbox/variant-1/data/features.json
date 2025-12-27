@@ -597,5 +597,111 @@
         "description": "Fully typed with TypeScript for better developer experience"
       }
     ]
+  },
+  {
+    "name": "Quiz Statistics",
+    "path": "/quiz-statistics",
+    "icon": "ChartBar",
+    "summary": "Display comprehensive quiz results with detailed statistics and performance metrics",
+    "description": "Display comprehensive quiz results with detailed statistics, question-by-question breakdown, and performance metrics. Perfect for educational platforms and assessment tools.",
+    "category": "Data Visualization",
+    "statusBadge": "New",
+    "lastUpdatedAt": "2024-01-26T10:00:00Z",
+    "howToTest": {
+      "steps": [
+        "Review the overall performance metrics at the top (accuracy, points, answered count)",
+        "Examine the question navigation grid to see status indicators for each question",
+        "Check the status breakdown section to see counts and percentages",
+        "Scroll through the question details section to see individual question results",
+        "Click on any question in the grid to see it highlighted (check console for click events)",
+        "Try clicking the close button in the top right corner"
+      ],
+      "conclusion": "The quiz statistics component displays comprehensive results with visual indicators for correct (green checkmark), incorrect (red X), half-correct (yellow question mark), need review (gray question mark), and skipped (gray X) questions."
+    },
+    "features": [
+      {
+        "icon": "ChartBar",
+        "title": "Comprehensive Statistics",
+        "description": "Display overall accuracy, points earned, and answered count with visual progress indicators"
+      },
+      {
+        "icon": "User",
+        "title": "User Profile Display",
+        "description": "Show user information with avatar, name, role, and tag in a clean header section"
+      },
+      {
+        "icon": "Sparkle",
+        "title": "Question Grid Navigation",
+        "description": "Interactive grid showing all questions with color-coded status indicators for quick navigation"
+      },
+      {
+        "icon": "Gear",
+        "title": "Status Breakdown",
+        "description": "Detailed breakdown of question statuses with counts and percentages for each category"
+      },
+      {
+        "icon": "Code",
+        "title": "TypeScript Support",
+        "description": "Fully typed with comprehensive data models for User, Quiz, Question, and Statistics"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Scrollable Details",
+        "description": "Scrollable section showing individual question details with time taken and points earned"
+      }
+    ]
+  },
+  {
+    "name": "Quiz Question Statistics",
+    "path": "/quiz-question-statistics",
+    "icon": "ChartBar",
+    "summary": "Display detailed statistics for individual quiz questions with answer distribution",
+    "description": "Display detailed statistics for individual quiz questions with answer distribution, response counts, and accuracy metrics. Perfect for analyzing question performance and understanding user responses.",
+    "category": "Data Visualization",
+    "statusBadge": "New",
+    "lastUpdatedAt": "2024-01-26T11:00:00Z",
+    "howToTest": {
+      "steps": [
+        "Review the question header showing question number, type, average time, and points",
+        "Examine the answer options with progress bars showing response distribution",
+        "Notice the color coding: green for correct answers, red for incorrect answers",
+        "Check the statistics sidebar on the right showing correct/incorrect counts and accuracy",
+        "Use the Previous and Next buttons to navigate between questions",
+        "Observe how the statistics update as you navigate"
+      ],
+      "conclusion": "The quiz question statistics component displays detailed analytics for individual questions, showing how users responded to each option with visual progress bars and comprehensive statistics."
+    },
+    "features": [
+      {
+        "icon": "ChartBar",
+        "title": "Answer Distribution",
+        "description": "Visual progress bars showing response distribution for each answer option with counts and percentages"
+      },
+      {
+        "icon": "ListChecks",
+        "title": "Color-Coded Options",
+        "description": "Green progress bars for correct answers, red for incorrect answers for quick visual identification"
+      },
+      {
+        "icon": "Gear",
+        "title": "Statistics Sidebar",
+        "description": "Dedicated sidebar showing correct/incorrect counts and accuracy percentage with visual indicators"
+      },
+      {
+        "icon": "Lightning",
+        "title": "Question Navigation",
+        "description": "Previous and Next buttons for navigating between questions with automatic disable states"
+      },
+      {
+        "icon": "Code",
+        "title": "TypeScript Support",
+        "description": "Fully typed with comprehensive data models for questions, answers, and statistics"
+      },
+      {
+        "icon": "Sparkle",
+        "title": "Responsive Layout",
+        "description": "Adaptive grid layout with main content area and sticky statistics sidebar on larger screens"
+      }
+    ]
   }
 ]
