@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 
@@ -20,37 +19,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Lightning, Code, CursorClick } from "@phosphor-icons/react";
+import { Lightning, CursorClick } from "@phosphor-icons/react";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { RefreshButtonProps } from "@/features/refresh-button/types";
 
 async function fetchData() {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -66,7 +42,7 @@ export default function RefreshButtonPage() {
     queryFn: fetchData,
   });
 
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "variant",
       type: '"default" | "outline" | "secondary" | "ghost" | "link"',
@@ -81,6 +57,7 @@ export default function RefreshButtonPage() {
         "ghost",
         "link",
       ],
+      transform: (value) => value as RefreshButtonProps["variant"],
     },
     {
       property: "size",
@@ -90,6 +67,7 @@ export default function RefreshButtonPage() {
       value: "default",
       inputType: "select",
       options: ["default", "sm", "lg", "icon", "icon-sm", "icon-lg"],
+      transform: (value) => value as RefreshButtonProps["size"],
     },
     {
       property: "resource",
@@ -106,6 +84,7 @@ export default function RefreshButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "showIcon",
@@ -122,56 +101,24 @@ export default function RefreshButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof RefreshButtonProps> = {
+    variant: "variant",
+    size: "size",
+    resource: "resource",
+    label: "label",
+    showIcon: "showIcon",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      variant?:
-        | "default"
-        | "outline"
-        | "secondary"
-        | "ghost"
-        | "link";
-      size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
-      resource?: string;
-      label?: string;
-      showIcon?: boolean;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "variant") {
-        componentProps.variant = prop.value as typeof componentProps.variant;
-      } else if (prop.property === "size") {
-        componentProps.size = prop.value as typeof componentProps.size;
-      } else if (prop.property === "resource" && prop.value) {
-        componentProps.resource = String(prop.value);
-      } else if (prop.property === "label" && prop.value) {
-        componentProps.label = String(prop.value);
-      } else if (prop.property === "showIcon") {
-        componentProps.showIcon = Boolean(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<RefreshButtonProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <>
@@ -195,111 +142,18 @@ export default function RefreshButtonPage() {
             <RefreshButton
               queryKeys={[["sample-data"]]}
               onSuccess={() => console.log("Refreshed!")}
-              {...getComponentProps()}
+              {...getComponentProps}
             />
           </div>
         </CardContent>
       </Card>
 
       {/* Props API Card */}
-      <Card className="border-2 shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <Code className="h-5 w-5 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">Props API</CardTitle>
-          </div>
-          <CardDescription>
-            Interact with the table below to customize the component in
-            real-time. Note: Complex props like `queryKeys`, `onSuccess`, and
-            `onError` are not editable here.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[150px]">Property</TableHead>
-                <TableHead className="w-[200px]">Type</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead className="w-[200px]">Value</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {props.map((prop, index) => (
-                <TableRow key={prop.property}>
-                  <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                    {prop.property}
-                  </TableCell>
-                  <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                    {prop.type}
-                  </TableCell>
-                  <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                    {prop.description}
-                  </TableCell>
-                  <TableCell>
-                    {prop.inputType === "select" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {prop.options?.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : prop.inputType === "boolean" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value === "true")
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="true">true</SelectItem>
-                          <SelectItem value="false">false</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <Input
-                        type="text"
-                        value={String(prop.value)}
-                        onChange={(e) =>
-                          handleValueChange(index, e.target.value)
-                        }
-                        placeholder={`Enter ${prop.property}`}
-                        className="h-8"
-                      />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <PropsApiCard
+        props={props}
+        onValueChange={handleValueChange}
+        description="Interact with the table below to customize the component in real-time. Note: Complex props like `queryKeys`, `onSuccess`, and `onError` are not editable here."
+      />
 
       {(() => {
         const featureData = featuresData.find(

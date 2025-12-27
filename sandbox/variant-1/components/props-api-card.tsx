@@ -42,7 +42,7 @@ function PropRow({
   onChange: (index: number, value: string | number | boolean) => void;
 }) {
   return (
-    <TableRow key={prop.property}>
+    <TableRow>
       <TableCell
         className="font-medium text-sm"
         style={{
@@ -96,21 +96,36 @@ function PropRow({
             </SelectContent>
           </Select>
         ) : prop.inputType === "number" ? (
-          <Input
-            type="number"
-            value={
-              typeof prop.value === "number"
-                ? prop.value
-                : Number(prop.value) || 0
-            }
-            onChange={(e) =>
-              onChange(
-                index,
-                e.target.value === "" ? prop.defaultValue : Number(e.target.value)
-              )
-            }
-            className="h-8"
-          />
+          (() => {
+            // Compute safeNumber: use defaultValue if numeric, otherwise try value, fallback to 0
+            const safeNumber =
+              typeof prop.defaultValue === "number"
+                ? prop.defaultValue
+                : Number(prop.value) || 0;
+            return (
+              <Input
+                type="number"
+                value={
+                  typeof prop.value === "number"
+                    ? prop.value
+                    : safeNumber
+                }
+                onChange={(e) => {
+                  const newValue =
+                    e.target.value === ""
+                      ? safeNumber
+                      : Number(e.target.value);
+                  // Type guard to ensure we never pass undefined or NaN
+                  if (typeof newValue === "number" && !isNaN(newValue)) {
+                    onChange(index, newValue);
+                  } else {
+                    onChange(index, safeNumber);
+                  }
+                }}
+                className="h-8"
+              />
+            );
+          })()
         ) : (
           <Input
             type="text"
@@ -156,7 +171,7 @@ export function PropsApiCard({
           <TableBody>
             {props.map((prop, index) => (
               <PropRow
-                key={prop.property}
+                key={`${prop.property}-${index}`}
                 prop={prop}
                 index={index}
                 onChange={onValueChange}

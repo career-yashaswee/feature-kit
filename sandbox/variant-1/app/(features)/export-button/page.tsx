@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import dynamic from "next/dynamic";
 
 const ExportButton = dynamic(
@@ -17,37 +16,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Lightning, Code, CursorClick } from "@phosphor-icons/react";
+import { Lightning, CursorClick } from "@phosphor-icons/react";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { ExportButtonProps } from "@/features/export-button/types";
 
 async function fetchExportData() {
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -59,7 +35,7 @@ async function fetchExportData() {
 }
 
 export default function ExportButtonPage() {
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "variant",
       type: '"default" | "outline" | "secondary" | "ghost" | "link"',
@@ -68,6 +44,7 @@ export default function ExportButtonPage() {
       value: "outline",
       inputType: "select",
       options: ["default", "outline", "secondary", "ghost", "link"],
+      transform: (value) => value as ExportButtonProps["variant"],
     },
     {
       property: "size",
@@ -77,6 +54,7 @@ export default function ExportButtonPage() {
       value: "default",
       inputType: "select",
       options: ["default", "sm", "lg", "icon", "icon-sm", "icon-lg"],
+      transform: (value) => value as ExportButtonProps["size"],
     },
     {
       property: "filename",
@@ -101,6 +79,7 @@ export default function ExportButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "format",
@@ -110,6 +89,7 @@ export default function ExportButtonPage() {
       value: "csv",
       inputType: "select",
       options: ["csv", "json"],
+      transform: (value) => value as ExportButtonProps["format"],
     },
     {
       property: "showIcon",
@@ -126,57 +106,26 @@ export default function ExportButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof ExportButtonProps> = {
+    variant: "variant",
+    size: "size",
+    filename: "filename",
+    resource: "resource",
+    label: "label",
+    format: "format",
+    showIcon: "showIcon",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      variant?: "default" | "outline" | "secondary" | "ghost" | "link";
-      size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
-      filename?: string;
-      resource?: string;
-      label?: string;
-      format?: "csv" | "json";
-      showIcon?: boolean;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "variant") {
-        componentProps.variant = prop.value as typeof componentProps.variant;
-      } else if (prop.property === "size") {
-        componentProps.size = prop.value as typeof componentProps.size;
-      } else if (prop.property === "filename" && prop.value) {
-        componentProps.filename = String(prop.value);
-      } else if (prop.property === "resource" && prop.value) {
-        componentProps.resource = String(prop.value);
-      } else if (prop.property === "label" && prop.value) {
-        componentProps.label = String(prop.value);
-      } else if (prop.property === "format") {
-        componentProps.format = prop.value as typeof componentProps.format;
-      } else if (prop.property === "showIcon") {
-        componentProps.showIcon = Boolean(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<ExportButtonProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <>
@@ -200,116 +149,18 @@ export default function ExportButtonPage() {
             <ExportButton
               fetchData={fetchExportData}
               onSuccess={() => console.log("Exported!")}
-              {...getComponentProps()}
+              {...getComponentProps}
             />
           </div>
         </CardContent>
       </Card>
 
       {/* Props API Card */}
-      <Card className="border-2 shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <Code className="h-5 w-5 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">Props API</CardTitle>
-          </div>
-          <CardDescription>
-            Interact with the table below to customize the component in
-            real-time. Note: Complex props like `fetchData`, `onSuccess`, and
-            `onError` are not editable here.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[150px]">Property</TableHead>
-                <TableHead className="w-[200px]">Type</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead className="w-[200px]">Value</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {props.map((prop, index) => (
-                <TableRow key={prop.property}>
-                  <TableCell
-                    className="font-medium text-sm"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                    {prop.property}
-                  </TableCell>
-                  <TableCell
-                    className="text-xs text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                    {prop.type}
-                  </TableCell>
-                  <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                    {prop.description}
-                  </TableCell>
-                  <TableCell>
-                    {prop.inputType === "select" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {prop.options?.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : prop.inputType === "boolean" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value === "true")
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="true">true</SelectItem>
-                          <SelectItem value="false">false</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <Input
-                        type="text"
-                        value={String(prop.value)}
-                        onChange={(e) =>
-                          handleValueChange(index, e.target.value)
-                        }
-                        placeholder={`Enter ${prop.property}`}
-                        className="h-8"
-                      />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <PropsApiCard
+        props={props}
+        onValueChange={handleValueChange}
+        description="Interact with the table below to customize the component in real-time. Note: Complex props like `fetchData`, `onSuccess`, and `onError` are not editable here."
+      />
 
       <Card className="border-2 shadow-lg">
         <CardHeader>

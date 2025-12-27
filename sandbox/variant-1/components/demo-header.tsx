@@ -6,7 +6,6 @@ import Link from "next/link";
 import { House, Lightning, Book, GithubLogo } from "@phosphor-icons/react";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/features/language-switcher";
 import { ScrollableBreadcrumb } from "@/features/scrollable-breadcrumbs";

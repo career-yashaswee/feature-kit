@@ -46,7 +46,7 @@ export function usePropsApi<T>({
       const propKey = propMap[prop.property] as keyof T;
       if (!propKey) return;
 
-      const shouldSkip = prop.skipIfEmpty && !prop.value;
+      const shouldSkip = prop.skipIfEmpty && (prop.value === '' || prop.value == null);
       if (shouldSkip) return;
 
       const transform =
