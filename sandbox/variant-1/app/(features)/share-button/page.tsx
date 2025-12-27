@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,24 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Share,
-  Code,
   Gear,
   Lightning,
   CursorClick,
@@ -37,22 +19,16 @@ import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { ShareButtonProps } from "@/features/share-button/types";
 
 export default function ShareButtonPage() {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
   const shareTitle = "Feature Kit - Share Button";
   const shareDescription = "A beautiful share button with native Share API fallback";
-  const [props, setProps] = useState<PropConfig[]>([
+
+  const initialConfig: PropConfig[] = [
     {
       property: "url",
       type: "string",
@@ -65,16 +41,16 @@ export default function ShareButtonPage() {
       property: "title",
       type: "string",
       description: "Title of the shared content",
-      defaultValue: "Feature Kit - Share Button",
-      value: "Feature Kit - Share Button",
+      defaultValue: shareTitle,
+      value: shareTitle,
       inputType: "text",
     },
     {
       property: "description",
       type: "string",
       description: "Description of the shared content",
-      defaultValue: "A beautiful share button with native Share API fallback",
-      value: "A beautiful share button with native Share API fallback",
+      defaultValue: shareDescription,
+      value: shareDescription,
       inputType: "text",
     },
     {
@@ -85,6 +61,7 @@ export default function ShareButtonPage() {
       value: "default",
       inputType: "select",
       options: ["default", "outline", "ghost"],
+      transform: (value) => value as ShareButtonProps["variant"],
     },
     {
       property: "size",
@@ -94,6 +71,7 @@ export default function ShareButtonPage() {
       value: "default",
       inputType: "select",
       options: ["default", "sm", "lg", "icon"],
+      transform: (value) => value as ShareButtonProps["size"],
     },
     {
       property: "withUtmParams",
@@ -110,6 +88,7 @@ export default function ShareButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "utmMedium",
@@ -118,6 +97,7 @@ export default function ShareButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "utmCampaign",
@@ -126,6 +106,7 @@ export default function ShareButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "className",
@@ -134,65 +115,28 @@ export default function ShareButtonPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof ShareButtonProps> = {
+    url: "url",
+    title: "title",
+    description: "description",
+    variant: "variant",
+    size: "size",
+    withUtmParams: "withUtmParams",
+    utmSource: "utmSource",
+    utmMedium: "utmMedium",
+    utmCampaign: "utmCampaign",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      url: string;
-      title?: string;
-      description?: string;
-      variant?: "default" | "outline" | "ghost";
-      size?: "default" | "sm" | "lg" | "icon";
-      withUtmParams?: boolean;
-      utmSource?: string;
-      utmMedium?: string;
-      utmCampaign?: string;
-      className?: string;
-    } = {
-      url: shareUrl || "https://example.com",
-    };
-
-    props.forEach((prop) => {
-      if (prop.property === "url" && prop.value) {
-        componentProps.url = String(prop.value);
-      } else if (prop.property === "title" && prop.value) {
-        componentProps.title = String(prop.value);
-      } else if (prop.property === "description" && prop.value) {
-        componentProps.description = String(prop.value);
-      } else if (prop.property === "variant") {
-        componentProps.variant = prop.value as typeof componentProps.variant;
-      } else if (prop.property === "size") {
-        componentProps.size = prop.value as typeof componentProps.size;
-      } else if (prop.property === "withUtmParams") {
-        componentProps.withUtmParams = Boolean(prop.value);
-      } else if (prop.property === "utmSource" && prop.value) {
-        componentProps.utmSource = String(prop.value);
-      } else if (prop.property === "utmMedium" && prop.value) {
-        componentProps.utmMedium = String(prop.value);
-      } else if (prop.property === "utmCampaign" && prop.value) {
-        componentProps.utmCampaign = String(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<ShareButtonProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -212,109 +156,17 @@ export default function ShareButtonPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-center rounded-lg border bg-card p-8">
-              <ShareButton {...getComponentProps()} />
+              <ShareButton {...getComponentProps} />
             </div>
           </CardContent>
         </Card>
 
         {/* Props API Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
-            <CardDescription>
-              Interact with the table below to customize the component in
-              real-time
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "select" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value)
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {prop.options?.map((option) => (
-                              <SelectItem key={option} value={option}>
-                                {option}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "boolean" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value === "true")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">true</SelectItem>
-                            <SelectItem value="false">false</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time"
+        />
 
         <Card className="border-2 shadow-lg">
           <CardHeader>

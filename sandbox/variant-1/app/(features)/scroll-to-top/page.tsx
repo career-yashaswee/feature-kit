@@ -20,15 +20,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -41,7 +32,6 @@ import {
   ArrowCircleUp,
   CursorClick,
   Scroll,
-  Code,
   Lightning,
 } from "@phosphor-icons/react";
 import type { Icon } from "@phosphor-icons/react";
@@ -49,8 +39,9 @@ import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-type Position = "left" | "center" | "right";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { ScrollToTopButtonProps } from "@/features/scroll-to-top/types";
 
 const iconMap: Record<string, Icon> = {
   ArrowUp,
@@ -58,18 +49,10 @@ const iconMap: Record<string, Icon> = {
   ArrowCircleUp,
 };
 
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number;
-  value: string | number;
-  inputType: "number" | "select" | "text" | "icon";
-  options?: string[];
-}
-
 export default function ScrollToTopPage() {
-  const [props, setProps] = useState<PropConfig[]>([
+  const [selectedIconKey, setSelectedIconKey] = useState("ArrowUp");
+
+  const initialConfig: PropConfig[] = [
     {
       property: "threshold",
       type: "number",
@@ -86,15 +69,7 @@ export default function ScrollToTopPage() {
       value: "center",
       inputType: "select",
       options: ["left", "center", "right"],
-    },
-    {
-      property: "children",
-      type: "ReactNode",
-      description: "Icon or content to display inside the button",
-      defaultValue: "ArrowUp",
-      value: "ArrowUp",
-      inputType: "icon",
-      options: Object.keys(iconMap),
+      transform: (value) => value as ScrollToTopButtonProps["position"],
     },
     {
       property: "className",
@@ -103,50 +78,26 @@ export default function ScrollToTopPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (index: number, newValue: string | number) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof ScrollToTopButtonProps> = {
+    threshold: "threshold",
+    position: "position",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      threshold?: number;
-      position?: Position;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "threshold") {
-        const numValue = Number(prop.value);
-        if (!isNaN(numValue)) {
-          componentProps.threshold = numValue;
-        }
-      } else if (prop.property === "position") {
-        componentProps.position = prop.value as Position;
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<ScrollToTopButtonProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   const getSelectedIcon = () => {
-    const childrenProp = props.find((p) => p.property === "children");
-    if (childrenProp && typeof childrenProp.value === "string") {
-      const IconComponent = iconMap[childrenProp.value];
-      if (IconComponent) {
-        return <IconComponent className="h-4 w-4" />;
-      }
+    const IconComponent = iconMap[selectedIconKey];
+    if (IconComponent) {
+      return <IconComponent className="h-4 w-4" />;
     }
     return <ArrowUp className="h-4 w-4" />;
   };
@@ -172,7 +123,7 @@ export default function ScrollToTopPage() {
             <div className="text-center text-sm text-muted-foreground mb-4">
               Scroll down this page to see the button appear
             </div>
-            <ScrollToTopButton {...getComponentProps()}>
+            <ScrollToTopButton {...getComponentProps}>
               {getSelectedIcon()}
             </ScrollToTopButton>
           </div>
@@ -180,130 +131,39 @@ export default function ScrollToTopPage() {
       </Card>
 
       {/* Props API Card */}
+      <PropsApiCard
+        props={props}
+        onValueChange={handleValueChange}
+        description="Interact with the table below to customize the component in real-time"
+      />
+
+      {/* Icon Selector */}
       <Card className="border-2 shadow-lg">
         <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <Code className="h-5 w-5 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">Props API</CardTitle>
-          </div>
+          <CardTitle className="text-xl">Icon (Button Content)</CardTitle>
           <CardDescription>
-            Interact with the table below to customize the component in
-            real-time
+            Select the icon to display inside the button
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[150px]">Property</TableHead>
-                <TableHead className="w-[200px]">Type</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead className="w-[200px]">Value</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {props.map((prop, index) => (
-                <TableRow key={prop.property}>
-                  <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                    {prop.property}
-                  </TableCell>
-                  <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                    {prop.type}
-                  </TableCell>
-                  <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                    {prop.description}
-                  </TableCell>
-                  <TableCell>
-                    {prop.inputType === "select" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {prop.options?.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : prop.inputType === "icon" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {prop.options?.map((iconName) => {
-                            const IconComponent = iconMap[iconName];
-                            return (
-                              <SelectItem key={iconName} value={iconName}>
-                                <div className="flex items-center gap-2">
-                                  {IconComponent && (
-                                    <IconComponent className="h-4 w-4" />
-                                  )}
-                                  <span>{iconName}</span>
-                                </div>
-                              </SelectItem>
-                            );
-                          })}
-                        </SelectContent>
-                      </Select>
-                    ) : prop.inputType === "number" ? (
-                      <Input
-                        type="number"
-                        value={
-                          typeof prop.value === "number"
-                            ? prop.value
-                            : Number(prop.value) || 0
-                        }
-                        onChange={(e) =>
-                          handleValueChange(
-                            index,
-                            e.target.value === ""
-                              ? prop.defaultValue
-                              : Number(e.target.value)
-                          )
-                        }
-                        className="h-8"
-                      />
-                    ) : (
-                      <Input
-                        type="text"
-                        value={String(prop.value)}
-                        onChange={(e) =>
-                          handleValueChange(index, e.target.value)
-                        }
-                        placeholder="Enter className"
-                        className="h-8"
-                      />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <Select value={selectedIconKey} onValueChange={setSelectedIconKey}>
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.keys(iconMap).map((iconName) => {
+                const IconComponent = iconMap[iconName];
+                return (
+                  <SelectItem key={iconName} value={iconName}>
+                    <div className="flex items-center gap-2">
+                      {IconComponent && <IconComponent className="h-4 w-4" />}
+                      <span>{iconName}</span>
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </CardContent>
       </Card>
       {/* How to Test Card */}
@@ -386,7 +246,7 @@ export default function ScrollToTopPage() {
         </Card>
       </section>
 
-      <ScrollToTopButton {...getComponentProps()}>
+      <ScrollToTopButton {...getComponentProps}>
         {getSelectedIcon()}
       </ScrollToTopButton>
     </>

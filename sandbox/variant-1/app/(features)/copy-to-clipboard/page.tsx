@@ -10,22 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Copy,
   Code,
   Gear,
@@ -37,22 +21,15 @@ import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { CopyToClipboardProps } from "@/features/copy-to-clipboard/types";
 
 const PersistenceTipTapEditor = dynamic(
   () => import("@/features/persistence-tip-tap-editor").then((mod) => mod.PersistenceTipTapEditor),
   { ssr: false }
 );
 import { Textarea } from "@/components/ui/textarea";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
 
 const sampleText = "Hello, World! This is sample text to copy.";
 const codeSnippet = `function greet(name: string) {
@@ -67,7 +44,8 @@ const htmlContent = `<div>
 export default function CopyToClipboardPage() {
   const [htmlText, setHtmlText] = useState(htmlContent);
   const [htmlFromEditor, setHtmlFromEditor] = useState("");
-  const [props, setProps] = useState<PropConfig[]>([
+
+  const initialConfig: PropConfig[] = [
     {
       property: "text",
       type: "string",
@@ -84,6 +62,7 @@ export default function CopyToClipboardPage() {
       value: "outline",
       inputType: "select",
       options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      transform: (value) => value as CopyToClipboardProps["variant"],
     },
     {
       property: "size",
@@ -93,6 +72,7 @@ export default function CopyToClipboardPage() {
       value: "sm",
       inputType: "select",
       options: ["default", "sm", "lg", "icon", "icon-sm", "icon-lg"],
+      transform: (value) => value as CopyToClipboardProps["size"],
     },
     {
       property: "label",
@@ -101,6 +81,7 @@ export default function CopyToClipboardPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "showIcon",
@@ -133,59 +114,26 @@ export default function CopyToClipboardPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof CopyToClipboardProps> = {
+    text: "text",
+    variant: "variant",
+    size: "size",
+    label: "label",
+    showIcon: "showIcon",
+    successMessage: "successMessage",
+    errorMessage: "errorMessage",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      text: string;
-      variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
-      size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
-      label?: string;
-      showIcon?: boolean;
-      successMessage?: string;
-      errorMessage?: string;
-      className?: string;
-    } = {
-      text: "Hello, World!",
-    };
-
-    props.forEach((prop) => {
-      if (prop.property === "text" && prop.value) {
-        componentProps.text = String(prop.value);
-      } else if (prop.property === "variant") {
-        componentProps.variant = prop.value as typeof componentProps.variant;
-      } else if (prop.property === "size") {
-        componentProps.size = prop.value as typeof componentProps.size;
-      } else if (prop.property === "label" && prop.value) {
-        componentProps.label = String(prop.value);
-      } else if (prop.property === "showIcon") {
-        componentProps.showIcon = Boolean(prop.value);
-      } else if (prop.property === "successMessage" && prop.value) {
-        componentProps.successMessage = String(prop.value);
-      } else if (prop.property === "errorMessage" && prop.value) {
-        componentProps.errorMessage = String(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<CopyToClipboardProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <>
@@ -206,7 +154,10 @@ export default function CopyToClipboardPage() {
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-center justify-center rounded-lg border bg-card p-8">
-              <CopyToClipboard {...getComponentProps()} />
+              <CopyToClipboard
+                text={getComponentProps.text || "Hello, World!"}
+                {...getComponentProps}
+              />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">HTML Content (Textarea):</label>
@@ -245,103 +196,11 @@ export default function CopyToClipboardPage() {
       </Card>
 
       {/* Props API Card */}
-      <Card className="border-2 shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <Code className="h-5 w-5 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">Props API</CardTitle>
-          </div>
-          <CardDescription>
-            Interact with the table below to customize the component in
-            real-time. Note: Complex props like `html`, `onCopy`, and `onError` are not editable here.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[150px]">Property</TableHead>
-                <TableHead className="w-[200px]">Type</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead className="w-[200px]">Value</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {props.map((prop, index) => (
-                <TableRow key={prop.property}>
-                  <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                    {prop.property}
-                  </TableCell>
-                  <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                    {prop.type}
-                  </TableCell>
-                  <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                    {prop.description}
-                  </TableCell>
-                  <TableCell>
-                    {prop.inputType === "select" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value)
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {prop.options?.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : prop.inputType === "boolean" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value === "true")
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="true">true</SelectItem>
-                          <SelectItem value="false">false</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <Input
-                        type="text"
-                        value={String(prop.value)}
-                        onChange={(e) =>
-                          handleValueChange(index, e.target.value)
-                        }
-                        placeholder={`Enter ${prop.property}`}
-                        className="h-8"
-                      />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <PropsApiCard
+        props={props}
+        onValueChange={handleValueChange}
+        description="Interact with the table below to customize the component in real-time. Note: Complex props like `html`, `onCopy`, and `onError` are not editable here."
+      />
 
       {(() => {
         const featureData = featuresData.find(
