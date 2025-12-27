@@ -9,43 +9,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Keyboard,
   Sparkle,
-  Code,
   Gear,
   Lightning,
   CursorClick,
 } from "@phosphor-icons/react";
 import { useKeyboardShortcut } from "@/features/keyboard-shortcuts";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import type { KeyboardShortcutsProps } from "@/features/keyboard-shortcuts/types";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const KeyboardShortcuts = dynamic(
   () =>
@@ -105,7 +85,7 @@ export default function KeyboardShortcutsPage() {
   const [saveCount, setSaveCount] = useState(0);
   const [searchCount, setSearchCount] = useState(0);
 
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "triggerKey",
       type: "string",
@@ -113,6 +93,7 @@ export default function KeyboardShortcutsPage() {
       defaultValue: "mod+k",
       value: "mod+k",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "showHelp",
@@ -129,42 +110,21 @@ export default function KeyboardShortcutsPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof KeyboardShortcutsProps> = {
+    triggerKey: "triggerKey",
+    showHelp: "showHelp",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      triggerKey?: string;
-      showHelp?: boolean;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "triggerKey" && prop.value) {
-        componentProps.triggerKey = String(prop.value);
-      } else if (prop.property === "showHelp") {
-        componentProps.showHelp = Boolean(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<KeyboardShortcutsProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   useKeyboardShortcut("mod+s", () => {
     setSaveCount((prev) => prev + 1);
@@ -200,7 +160,7 @@ export default function KeyboardShortcutsPage() {
               <p className="text-sm text-muted-foreground mb-2">
                 Press the trigger key to open the shortcuts dialog. Current trigger:{" "}
                 <Badge variant="outline" className="font-mono text-xs">
-                  {getComponentProps().triggerKey || "mod+k"}
+                  {getComponentProps.triggerKey || "mod+k"}
                 </Badge>
               </p>
             </div>
@@ -208,85 +168,11 @@ export default function KeyboardShortcutsPage() {
         </Card>
 
         {/* Props API Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
-            <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: Complex props like `shortcuts` are not editable here.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "boolean" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value === "true")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">true</SelectItem>
-                            <SelectItem value="false">false</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `shortcuts` are not editable here."
+        />
 
         <Card className="border-2 shadow-lg">
           <CardHeader>
@@ -455,7 +341,7 @@ export default function KeyboardShortcutsPage() {
         </Card>
       </main>
 
-      <KeyboardShortcuts shortcuts={shortcuts} {...getComponentProps()} />
+      <KeyboardShortcuts shortcuts={shortcuts} {...getComponentProps} />
     </div>
   );
 }

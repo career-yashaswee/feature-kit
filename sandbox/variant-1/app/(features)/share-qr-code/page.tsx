@@ -8,21 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   QrCode,
   CursorClick,
-  Code,
   Lightning,
   Download,
   Share,
@@ -30,21 +20,14 @@ import {
   Palette,
 } from "@phosphor-icons/react";
 import { ShareQRCode } from "@/features/share-qr-code/components/share-qr-code";
+import type { ShareQRCodeProps } from "@/features/share-qr-code/types";
 import { useToggle } from "@uidotdev/usehooks";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 export default function ShareQRCodePage() {
   const [isOpen, toggleOpen] = useToggle(false);
@@ -54,7 +37,7 @@ export default function ShareQRCodePage() {
       : "https://example.com";
   const username = "ISTUDIO2001";
 
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "url",
       type: "string",
@@ -70,6 +53,7 @@ export default function ShareQRCodePage() {
       defaultValue: "ISTUDIO2001",
       value: "ISTUDIO2001",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "title",
@@ -78,6 +62,7 @@ export default function ShareQRCodePage() {
       defaultValue: "Feature Kit - Share QR Code",
       value: "Feature Kit - Share QR Code",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "description",
@@ -86,6 +71,7 @@ export default function ShareQRCodePage() {
       defaultValue: "Share this profile via QR code",
       value: "Share this profile via QR code",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "className",
@@ -94,50 +80,23 @@ export default function ShareQRCodePage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof ShareQRCodeProps> = {
+    url: "url",
+    username: "username",
+    title: "title",
+    description: "description",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      url: string;
-      username?: string;
-      title?: string;
-      description?: string;
-      className?: string;
-    } = {
-      url: shareUrl,
-    };
-
-    props.forEach((prop) => {
-      if (prop.property === "url" && prop.value) {
-        componentProps.url = String(prop.value);
-      } else if (prop.property === "username" && prop.value) {
-        componentProps.username = String(prop.value);
-      } else if (prop.property === "title" && prop.value) {
-        componentProps.title = String(prop.value);
-      } else if (prop.property === "description" && prop.value) {
-        componentProps.description = String(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<ShareQRCodeProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -167,68 +126,11 @@ export default function ShareQRCodePage() {
         </Card>
 
         {/* Props API Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
-            <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: Complex props like `isOpen` and `onOpenChange` are not editable here.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="text"
-                        value={String(prop.value)}
-                        onChange={(e) =>
-                          handleValueChange(index, e.target.value)
-                        }
-                        placeholder={`Enter ${prop.property}`}
-                        className="h-8"
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `isOpen` and `onOpenChange` are not editable here."
+        />
 
         <div className="flex flex-wrap items-center justify-center gap-2">
           <Badge
@@ -413,7 +315,7 @@ export default function ShareQRCodePage() {
 
         {/* QR Code Modal */}
         <ShareQRCode
-          {...getComponentProps()}
+          {...getComponentProps}
           isOpen={isOpen}
           onOpenChange={toggleOpen}
         />

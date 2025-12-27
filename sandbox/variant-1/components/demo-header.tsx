@@ -87,7 +87,7 @@ export function DemoHeader() {
           <div className="flex items-center gap-2 shrink-0">
             <Avatar className="h-8 w-8">
               <AvatarImage
-                src="https://res.cloudinary.com/dmkku8emk/image/upload/v1765140248/feature-kit_kry0dd.png"
+                src="https://res.cloudinary.com/dmkku8emk/image/upload/v1766850935/8_v0srfh.svg"
                 alt="FeatureKit Logo"
               />
               <AvatarFallback>FK</AvatarFallback>

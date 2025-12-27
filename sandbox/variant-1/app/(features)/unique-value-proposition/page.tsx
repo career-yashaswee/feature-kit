@@ -8,39 +8,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Target, TrendUp, Lightning, ChartBar, Code, CursorClick } from "@phosphor-icons/react";
+import { Target, TrendUp, Lightning, ChartBar, CursorClick } from "@phosphor-icons/react";
 import { UniqueValueProposition } from "@/features/unique-value-proposition/components/unique-value-proposition";
 import type { DataPoint } from "@/features/unique-value-proposition/types";
+import type { UniqueValuePropositionProps } from "@/features/unique-value-proposition/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const sampleDataPoints: DataPoint[] = [
   // Top-Left Quadrant (Low Relevance to Full Stack, High Velocity but Low Accuracy)
@@ -161,7 +138,7 @@ const features = [
 ];
 
 export default function UniqueValuePropositionPage() {
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "title",
       type: "string",
@@ -169,6 +146,7 @@ export default function UniqueValuePropositionPage() {
       defaultValue: "A Unique Value Proposition",
       value: "A Unique Value Proposition",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "description",
@@ -177,6 +155,7 @@ export default function UniqueValuePropositionPage() {
       defaultValue: "See how FeatureKit compares to other platforms",
       value: "See how FeatureKit compares to other platforms",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "xAxisLabel",
@@ -185,6 +164,7 @@ export default function UniqueValuePropositionPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "yAxisLabel",
@@ -193,6 +173,7 @@ export default function UniqueValuePropositionPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "footerDescription",
@@ -201,6 +182,7 @@ export default function UniqueValuePropositionPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "chartHeight",
@@ -210,6 +192,7 @@ export default function UniqueValuePropositionPage() {
       value: "md",
       inputType: "select",
       options: ["sm", "md", "lg"],
+      transform: (value) => value as UniqueValuePropositionProps["chartHeight"],
     },
     {
       property: "showLegend",
@@ -226,57 +209,26 @@ export default function UniqueValuePropositionPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof UniqueValuePropositionProps> = {
+    title: "title",
+    description: "description",
+    xAxisLabel: "xAxisLabel",
+    yAxisLabel: "yAxisLabel",
+    footerDescription: "footerDescription",
+    chartHeight: "chartHeight",
+    showLegend: "showLegend",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      title?: string;
-      description?: string;
-      xAxisLabel?: string;
-      yAxisLabel?: string;
-      footerDescription?: string;
-      chartHeight?: "sm" | "md" | "lg";
-      showLegend?: boolean;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "title" && prop.value) {
-        componentProps.title = String(prop.value);
-      } else if (prop.property === "description" && prop.value) {
-        componentProps.description = String(prop.value);
-      } else if (prop.property === "xAxisLabel" && prop.value) {
-        componentProps.xAxisLabel = String(prop.value);
-      } else if (prop.property === "yAxisLabel" && prop.value) {
-        componentProps.yAxisLabel = String(prop.value);
-      } else if (prop.property === "footerDescription" && prop.value) {
-        componentProps.footerDescription = String(prop.value);
-      } else if (prop.property === "chartHeight") {
-        componentProps.chartHeight = prop.value as "sm" | "md" | "lg";
-      } else if (prop.property === "showLegend") {
-        componentProps.showLegend = Boolean(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<UniqueValuePropositionProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -298,127 +250,17 @@ export default function UniqueValuePropositionPage() {
             <UniqueValueProposition
               dataPoints={sampleDataPoints}
               highlightedPoint={highlightedPoint}
-              {...getComponentProps()}
+              {...getComponentProps}
             />
           </CardContent>
         </Card>
 
         {/* Props API Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
-            <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: Complex props like `dataPoints`, `highlightedPoint`, `quadrantLabels`, and `legend` are not editable here.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "select" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value)
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {prop.options?.map((option) => (
-                              <SelectItem key={option} value={option}>
-                                {option}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "boolean" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value === "true")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">true</SelectItem>
-                            <SelectItem value="false">false</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "number" ? (
-                        <Input
-                          type="number"
-                          value={
-                            typeof prop.value === "number"
-                              ? prop.value
-                              : Number(prop.value) || 0
-                          }
-                          onChange={(e) =>
-                            handleValueChange(
-                              index,
-                              e.target.value === ""
-                                ? prop.defaultValue
-                                : Number(e.target.value),
-                            )
-                          }
-                          className="h-8"
-                        />
-                      ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `dataPoints`, `highlightedPoint`, `quadrantLabels`, and `legend` are not editable here."
+        />
 
         <Card className="border-2 shadow-lg">
           <CardHeader className="space-y-3">
