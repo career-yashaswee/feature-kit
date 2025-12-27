@@ -8,15 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -24,12 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import {
   CheckCircle,
   CircleNotch,
   Flask,
-  Code,
   Lightning,
   CursorClick,
 } from "@phosphor-icons/react";
@@ -37,21 +27,14 @@ import { TestCaseBadge } from "@/features/test-case-badge/components/test-case-b
 import type {
   TestResults,
   TestCaseStatus,
+  TestCaseBadgeProps,
 } from "@/features/test-case-badge/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const features = [
   {
@@ -93,24 +76,9 @@ export default function TestCaseBadgePage() {
   const [currentStatus, setCurrentStatus] = useState<
     TestCaseStatus | undefined
   >(undefined);
-  const [props, setProps] = useState<PropConfig[]>([
-    {
-      property: "status",
-      type: "TestCaseStatus",
-      description: "Status of the test case",
-      defaultValue: "none",
-      value: "none",
-      inputType: "select",
-      options: [
-        "none",
-        "IN_PROGRESS",
-        "COMPLETED",
-        "ABANDONED",
-        "ANALYSING",
-        "ELAPSED",
-        "INACTIVE",
-      ],
-    },
+  const [selectedStatus, setSelectedStatus] = useState<string>("none");
+
+  const initialConfig: PropConfig[] = [
     {
       property: "showProgress",
       type: "boolean",
@@ -127,6 +95,7 @@ export default function TestCaseBadgePage() {
       value: "md",
       inputType: "select",
       options: ["sm", "md", "lg"],
+      transform: (value) => value as TestCaseBadgeProps["size"],
     },
     {
       property: "emptyMessage",
@@ -135,6 +104,7 @@ export default function TestCaseBadgePage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "className",
@@ -143,47 +113,26 @@ export default function TestCaseBadgePage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof TestCaseBadgeProps> = {
+    showProgress: "showProgress",
+    size: "size",
+    emptyMessage: "emptyMessage",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      status?: TestCaseStatus;
-      showProgress?: boolean;
-      size?: "sm" | "md" | "lg";
-      emptyMessage?: string;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "status" && prop.value && prop.value !== "none") {
-        componentProps.status = prop.value as TestCaseStatus;
-      } else if (prop.property === "showProgress") {
-        componentProps.showProgress = Boolean(prop.value);
-      } else if (prop.property === "size") {
-        componentProps.size = prop.value as "sm" | "md" | "lg";
-      } else if (prop.property === "emptyMessage" && prop.value) {
-        componentProps.emptyMessage = String(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<TestCaseBadgeProps>({
+      initialConfig,
+      propMap,
     });
 
-    return componentProps;
+  const getStatus = (): TestCaseStatus | undefined => {
+    if (selectedStatus === "none") return undefined;
+    return selectedStatus as TestCaseStatus;
   };
 
   const currentResults = sampleTestResults[currentIndex];
@@ -207,126 +156,41 @@ export default function TestCaseBadgePage() {
           <CardContent>
             <TestCaseBadge
               testResults={currentResults}
-              {...getComponentProps()}
+              status={getStatus()}
+              {...getComponentProps}
             />
           </CardContent>
         </Card>
 
         {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: The `testResults` prop (TestResults object) is complex and not editable here."
+        />
+
+        {/* Status Selector */}
         <Card className="border-2 shadow-lg">
           <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
+            <CardTitle className="text-xl">Status</CardTitle>
             <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: The `testResults` prop (TestResults object) is
-              complex and not editable here.
+              Select the status of the test case
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "select" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value || "")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {prop.options?.map((option) => (
-                              <SelectItem key={option} value={option}>
-                                {option === "none" ? "(none)" : option}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "boolean" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value === "true")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">true</SelectItem>
-                            <SelectItem value="false">false</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "number" ? (
-                        <Input
-                          type="number"
-                          value={
-                            typeof prop.value === "number"
-                              ? prop.value
-                              : Number(prop.value) || 0
-                          }
-                          onChange={(e) =>
-                            handleValueChange(
-                              index,
-                              e.target.value === ""
-                                ? prop.defaultValue
-                                : Number(e.target.value),
-                            )
-                          }
-                          className="h-8"
-                        />
-                      ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
+            <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">(none)</SelectItem>
+                {statuses.map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {status}
+                  </SelectItem>
                 ))}
-              </TableBody>
-            </Table>
+              </SelectContent>
+            </Select>
           </CardContent>
         </Card>
 

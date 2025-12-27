@@ -9,15 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -27,7 +18,6 @@ import {
 import {
   CursorClick,
   Lightning,
-  Code,
   CheckCircle,
   XCircle,
   Plus,
@@ -40,11 +30,14 @@ import {
 } from "@phosphor-icons/react";
 import type { ReactNode } from "react";
 import { StatefulButton } from "@/features/stateful-button/components/stateful-button";
+import type { StatefulButtonProps } from "@/features/stateful-button/types";
 import { toast } from "sonner";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 type ChildrenOption = {
   key: string;
@@ -155,21 +148,12 @@ childrenOptions.forEach((option) => {
   childrenMap[option.key] = option;
 });
 
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean" | "reactnode";
-  options?: string[];
-}
-
 export default function StatefulButtonPage() {
   const [successCount, setSuccessCount] = useState(0);
   const [errorCount, setErrorCount] = useState(0);
+  const [selectedChildrenKey, setSelectedChildrenKey] = useState("Click Me");
 
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "variant",
       type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
@@ -178,6 +162,7 @@ export default function StatefulButtonPage() {
       value: "default",
       inputType: "select",
       options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      transform: (value) => value as StatefulButtonProps["variant"],
     },
     {
       property: "size",
@@ -187,6 +172,7 @@ export default function StatefulButtonPage() {
       value: "default",
       inputType: "select",
       options: ["default", "sm", "lg"],
+      transform: (value) => value as StatefulButtonProps["size"],
     },
     {
       property: "disabled",
@@ -205,21 +191,13 @@ export default function StatefulButtonPage() {
       inputType: "number",
     },
     {
-      property: "children",
-      type: "ReactNode",
-      description: "Content to display inside the button",
-      defaultValue: "Click Me",
-      value: "Click Me",
-      inputType: "reactnode",
-      options: childrenOptions.map((opt) => opt.key),
-    },
-    {
       property: "className",
       type: "string",
       description: "Additional CSS classes for custom styling",
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "doubleTapToConfirm",
@@ -244,71 +222,31 @@ export default function StatefulButtonPage() {
       defaultValue: "Press again to confirm",
       value: "Press again to confirm",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof StatefulButtonProps> = {
+    variant: "variant",
+    size: "size",
+    disabled: "disabled",
+    rateLimitMs: "rateLimitMs",
+    className: "className",
+    doubleTapToConfirm: "doubleTapToConfirm",
+    doubleTapTimeoutMs: "doubleTapTimeoutMs",
+    doubleTapConfirmMessage: "doubleTapConfirmMessage",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
-      size?: "default" | "sm" | "lg";
-      disabled?: boolean;
-      rateLimitMs?: number;
-      className?: string;
-      doubleTapToConfirm?: boolean;
-      doubleTapTimeoutMs?: number;
-      doubleTapConfirmMessage?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "variant") {
-        componentProps.variant = prop.value as typeof componentProps.variant;
-      } else if (prop.property === "size") {
-        componentProps.size = prop.value as typeof componentProps.size;
-      } else if (prop.property === "disabled") {
-        componentProps.disabled = Boolean(prop.value);
-      } else if (prop.property === "rateLimitMs") {
-        const numValue = Number(prop.value);
-        if (!isNaN(numValue)) {
-          componentProps.rateLimitMs = numValue;
-        }
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      } else if (prop.property === "doubleTapToConfirm") {
-        componentProps.doubleTapToConfirm = Boolean(prop.value);
-      } else if (prop.property === "doubleTapTimeoutMs") {
-        const numValue = Number(prop.value);
-        if (!isNaN(numValue)) {
-          componentProps.doubleTapTimeoutMs = numValue;
-        }
-      } else if (prop.property === "doubleTapConfirmMessage" && prop.value) {
-        componentProps.doubleTapConfirmMessage = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<StatefulButtonProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   const getSelectedChildren = () => {
-    const childrenProp = props.find((p) => p.property === "children");
-    if (childrenProp && typeof childrenProp.value === "string") {
-      const option = childrenMap[childrenProp.value];
-      if (option) {
-        return option.render();
-      }
+    const option = childrenMap[selectedChildrenKey];
+    if (option) {
+      return option.render();
     }
     return "Click Me";
   };
@@ -354,7 +292,7 @@ export default function StatefulButtonPage() {
                 onSuccess={() => {
                   console.log("Success callback executed");
                 }}
-                {...getComponentProps()}
+                {...getComponentProps}
               >
                 {getSelectedChildren()}
               </StatefulButton>
@@ -363,149 +301,45 @@ export default function StatefulButtonPage() {
         </Card>
 
         {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `onAction`, `onSuccess`, and `onError` are not editable here."
+        />
+
+        {/* Children Selector */}
         <Card className="border-2 shadow-lg">
           <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
+            <CardTitle className="text-xl">Children (Button Content)</CardTitle>
             <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: Complex props like `onAction`, `onSuccess`, and `onError` are not editable here.
+              Select the content to display inside the button
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "select" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value)
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {prop.options?.map((option) => (
-                              <SelectItem key={option} value={option}>
-                                {option}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "boolean" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value === "true")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">true</SelectItem>
-                            <SelectItem value="false">false</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : prop.inputType === "number" ? (
-                        <Input
-                          type="number"
-                          value={
-                            typeof prop.value === "number"
-                              ? prop.value
-                              : Number(prop.value) || 0
-                          }
-                          onChange={(e) =>
-                            handleValueChange(
-                              index,
-                              e.target.value === ""
-                                ? prop.defaultValue
-                                : Number(e.target.value)
-                            )
-                          }
-                          className="h-8"
-                        />
-                      ) : prop.inputType === "reactnode" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value)
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {prop.options?.map((optionKey) => {
-                              const option = childrenMap[optionKey];
-                              return (
-                                <SelectItem key={optionKey} value={optionKey}>
-                                  <div className="flex items-center gap-2">
-                                    {typeof option?.render() === "string" ? (
-                                      <span>{option.label}</span>
-                                    ) : (
-                                      <>
-                                        {option?.render()}
-                                        <span>{option?.label}</span>
-                                      </>
-                                    )}
-                                  </div>
-                                </SelectItem>
-                              );
-                            })}
-                          </SelectContent>
-                        </Select>
+            <Select
+              value={selectedChildrenKey}
+              onValueChange={setSelectedChildrenKey}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {childrenOptions.map((option) => (
+                  <SelectItem key={option.key} value={option.key}>
+                    <div className="flex items-center gap-2">
+                      {typeof option.render() === "string" ? (
+                        <span>{option.label}</span>
                       ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
+                        <>
+                          {option.render()}
+                          <span>{option.label}</span>
+                        </>
                       )}
-                    </TableCell>
-                  </TableRow>
+                    </div>
+                  </SelectItem>
                 ))}
-              </TableBody>
-            </Table>
+              </SelectContent>
+            </Select>
           </CardContent>
         </Card>
 

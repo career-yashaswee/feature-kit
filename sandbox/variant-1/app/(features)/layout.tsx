@@ -195,33 +195,34 @@ export default function FeaturesLayout({
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         <section className="space-y-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-            <IconComponent className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">{feature.category}</span>
+          <div className="flex items-center gap-2 justify-center">
+            <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
+              <IconComponent className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">{feature.category}</span>
+            </div>
+            {feature.statusBadge && getStatusFromBadge(feature.statusBadge) && (
+              <Status
+                status={getStatusFromBadge(feature.statusBadge)!}
+                className="gap-1.5"
+              >
+                <StatusIndicator />
+                <StatusLabel>
+                  {feature.statusBadge}
+                  {feature.lastUpdatedAt &&
+                    formatTimestamp(feature.lastUpdatedAt) && (
+                      <span className="ml-1 text-xs opacity-80">
+                        {formatTimestamp(feature.lastUpdatedAt)}
+                      </span>
+                    )}
+                </StatusLabel>
+              </Status>
+            )}
           </div>
           <div className="flex flex-col items-center gap-4">
             <div className="flex items-center gap-3 flex-wrap justify-center">
               <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                 {feature.name}
               </h1>
-              {feature.statusBadge &&
-                getStatusFromBadge(feature.statusBadge) && (
-                  <Status
-                    status={getStatusFromBadge(feature.statusBadge)!}
-                    className="gap-1.5"
-                  >
-                    <StatusIndicator />
-                    <StatusLabel>
-                      {feature.statusBadge}
-                      {feature.lastUpdatedAt &&
-                        formatTimestamp(feature.lastUpdatedAt) && (
-                          <span className="ml-1 text-xs opacity-80">
-                            {formatTimestamp(feature.lastUpdatedAt)}
-                          </span>
-                        )}
-                    </StatusLabel>
-                  </Status>
-                )}
             </div>
             <div className="flex items-center gap-2 flex-wrap justify-center">
               <ShareButton
