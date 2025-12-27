@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { formatDistanceToNow } from "date-fns";
 import { ArrowUp } from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,6 +12,8 @@ import {
 import { BaseCard } from "@/components/base-card";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { TextTruncation } from "@/features/text-truncation";
+import { getStatusFromBadge } from "@/lib/utils/status";
+import { formatLastUpdated } from "@/lib/utils/date";
 
 export interface Feature {
   name: string;
@@ -28,59 +29,6 @@ export interface FeatureCardProps {
   feature: Feature;
 }
 
-const getStatusFromBadge = (
-  statusBadge?: string,
-): "online" | "offline" | "maintenance" | "degraded" | null => {
-  if (!statusBadge) return null;
-  const badgeLower = statusBadge.toLowerCase();
-  if (
-    badgeLower === "new" ||
-    badgeLower === "updated" ||
-    badgeLower === "fixed"
-  ) {
-    return "online";
-  }
-  if (badgeLower === "maintenance") {
-    return "maintenance";
-  }
-  if (badgeLower === "degraded" || badgeLower === "deprecated") {
-    return "degraded";
-  }
-  if (badgeLower === "offline") {
-    return "offline";
-  }
-  return "online";
-};
-
-const formatLastUpdated = (lastUpdatedAt?: string): string => {
-  if (!lastUpdatedAt) return "";
-  try {
-    const date = new Date(lastUpdatedAt);
-    const distance = formatDistanceToNow(date, { addSuffix: true });
-    // Convert to short format: "2d ago", "2w ago", "just now", etc.
-    if (
-      distance.includes("second") ||
-      (distance.includes("minute") && distance.includes("less than"))
-    ) {
-      return "just now";
-    }
-    const shortDistance = distance
-      .replace(/about /g, "")
-      .replace(/less than a /g, "")
-      .replace(/over /g, "")
-      .replace(/almost /g, "")
-      .replace(/ minutes?/g, "m")
-      .replace(/ hours?/g, "h")
-      .replace(/ days?/g, "d")
-      .replace(/ weeks?/g, "w")
-      .replace(/ months?/g, "mo")
-      .replace(/ years?/g, "y");
-    return shortDistance;
-  } catch {
-    return "";
-  }
-};
-
 export function FeatureCard({ feature }: FeatureCardProps) {
   const {
     name,
@@ -95,31 +43,33 @@ export function FeatureCard({ feature }: FeatureCardProps) {
 
   return (
     <Link href={path}>
-      <BaseCard className="group h-full cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg flex flex-col">
+      <BaseCard className="group h-full cursor-pointer transition-all hover:border-primary/50 flex flex-col">
         <CardHeader className="flex-1">
           <div className="flex items-start justify-between">
             <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
               <Icon className="h-5 w-5 text-primary" />
             </div>
-            <Badge variant="secondary" className="text-xs">
-              {category}
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="text-xs">
+                {category}
+              </Badge>
+              {statusBadge && status && (
+                <Status status={status}>
+                  <StatusIndicator />
+                  <StatusLabel>
+                    {statusBadge}
+                    {lastUpdatedAt && (
+                      <span className="ml-1 text-xs opacity-80">
+                        {formatLastUpdated(lastUpdatedAt)}
+                      </span>
+                    )}
+                  </StatusLabel>
+                </Status>
+              )}
+            </div>
           </div>
           <div className="mt-4 flex items-center gap-2 flex-wrap">
             <CardTitle>{name}</CardTitle>
-            {statusBadge && status && (
-              <Status status={status}>
-                <StatusIndicator />
-                <StatusLabel>
-                  {statusBadge}
-                  {lastUpdatedAt && (
-                    <span className="ml-1 text-xs opacity-80">
-                      {formatLastUpdated(lastUpdatedAt)}
-                    </span>
-                  )}
-                </StatusLabel>
-              </Status>
-            )}
           </div>
           <CardDescription>
             <TextTruncation

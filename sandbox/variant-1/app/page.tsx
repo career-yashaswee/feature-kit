@@ -46,7 +46,7 @@ const RestoreScrollPosition = dynamic(
     import("@/features/restore-scroll-position").then((mod) => ({
       default: mod.RestoreScrollPosition,
     })),
-  { ssr: false },
+  { ssr: false }
 );
 
 const NetworkStatusListener = dynamic(
@@ -54,7 +54,7 @@ const NetworkStatusListener = dynamic(
     import("@/features/network-status-listener").then((mod) => ({
       default: mod.NetworkStatusListener,
     })),
-  { ssr: false },
+  { ssr: false }
 );
 
 import featuresData from "@/data/features.json";
@@ -113,7 +113,7 @@ const allFeatures: Feature[] = (featuresData as FeatureData[]).map(
   (feature) => ({
     ...feature,
     icon: iconMap[feature.icon] || ArrowUp,
-  }),
+  })
 );
 
 function HomePageContent() {
@@ -138,16 +138,16 @@ function HomePageContent() {
   const selectedCategory = (categoryValue as string) || "ALL";
   const selectedTags = useMemo(
     () => (tagsValue as string[]) || [],
-    [tagsValue],
+    [tagsValue]
   );
   const selectedFeatureTags = useMemo(
     () => (featureTagsValue as string[]) || [],
-    [featureTagsValue],
+    [featureTagsValue]
   );
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
-      new Set(allFeatures.map((f) => f.category)),
+      new Set(allFeatures.map((f) => f.category))
     );
     return uniqueCategories.sort();
   }, []);
@@ -177,7 +177,7 @@ function HomePageContent() {
           ...f.name.toLowerCase().split(" "),
         ];
         return selectedTags.some((tag) =>
-          featureTags.some((ft) => ft.includes(tag.toLowerCase())),
+          featureTags.some((ft) => ft.includes(tag.toLowerCase()))
         );
       });
     }

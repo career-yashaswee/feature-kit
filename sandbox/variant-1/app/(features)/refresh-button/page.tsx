@@ -8,9 +8,9 @@ const RefreshButton = dynamic(
     import("@/features/refresh-button/components/refresh-button").then(
       (mod) => ({
         default: mod.RefreshButton,
-      }),
+      })
     ),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   CardContent,
@@ -151,7 +151,7 @@ export default function RefreshButtonPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/refresh-button",
+          (f) => f.path === "/refresh-button"
         );
         if (featureData?.howToTest) {
           return (
@@ -167,7 +167,7 @@ export default function RefreshButtonPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/refresh-button",
+          (f) => f.path === "/refresh-button"
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({

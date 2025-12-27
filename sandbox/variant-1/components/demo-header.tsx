@@ -12,6 +12,7 @@ import { ScrollableBreadcrumb } from "@/features/scrollable-breadcrumbs";
 import type { BreadcrumbItem } from "@/features/scrollable-breadcrumbs/types";
 import { GB, FR, DE, ES } from "country-flag-icons/react/3x2";
 import type { Language } from "@/features/language-switcher/types";
+import { generateBreadcrumbItems } from "@/lib/utils/breadcrumb";
 
 const languages: Language[] = [
   { code: "en", label: "English", flag: GB },
@@ -38,37 +39,12 @@ export function DemoHeader() {
   };
 
   const breadcrumbItems = useMemo<BreadcrumbItem[]>(() => {
-    const items: BreadcrumbItem[] = [
-      {
-        href: "/",
-        label: "Home",
-        icon: House,
-      },
-    ];
-
-    if (pathname && pathname !== "/") {
-      const segments = pathname.split("/").filter(Boolean);
-      segments.forEach((segment, index) => {
-        const href = "/" + segments.slice(0, index + 1).join("/");
-        const label =
-          segment
-            .split("-")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ") || segment;
-        items.push({
-          href,
-          label,
-          icon: index === segments.length - 1 ? Lightning : undefined,
-        });
-      });
-    }
-
-    return items;
+    return generateBreadcrumbItems(pathname || "/", House, Lightning);
   }, [pathname]);
 
   const renderBreadcrumbLink = (
     item: BreadcrumbItem,
-    children: React.ReactNode,
+    children: React.ReactNode
   ) => {
     return (
       <Link
@@ -136,11 +112,13 @@ export function DemoHeader() {
           </div>
         </div>
       </header>
-      <ScrollableBreadcrumb
-        items={breadcrumbItems}
-        renderLink={renderBreadcrumbLink}
-        className="h-9"
-      />
+      <div className="mx-auto max-w-7xl">
+        <ScrollableBreadcrumb
+          items={breadcrumbItems}
+          renderLink={renderBreadcrumbLink}
+          className="h-9"
+        />
+      </div>
     </>
   );
 }

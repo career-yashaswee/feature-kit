@@ -79,17 +79,204 @@ When creating demo pages for features, follow these consistent patterns to ensur
 - Description appears below both icon and title, aligned to card's left padding edge
 - When no description, use simple flex layout without space-y on CardHeader
 
-### 3. Standard Card Sections
+### 3. Standard Page Structure
 
-Every demo page should include:
+Every demo page should follow this structure (in order):
 
-1. **"How to Test" Card** - First card with testing instructions (use `HowToTestCard` component)
-2. **Example Cards** - Showcase different use cases
-3. **Features Card** - Grid of feature highlights (use `FeaturesGlossary` component)
+1. **Live Demo Card** - Interactive component demonstration with real-time prop updates
+2. **Props API Card** - Editable props table (use `PropsApiCard` component)
+3. **How to Test Card** - Testing instructions (use `HowToTestCard` component)
+4. **Example Cards** - Showcase different use cases and variants
+5. **Features Glossary** - Grid of feature highlights (use `FeaturesGlossary` component)
 
-**CRITICAL:** Always use the reusable components `HowToTestCard` and `FeaturesGlossary` instead of manually implementing these sections. This ensures consistency and reduces code duplication.
+**CRITICAL:** Always use the reusable components `PropsApiCard`, `HowToTestCard`, and `FeaturesGlossary` instead of manually implementing these sections. This ensures consistency and reduces code duplication.
 
-### 4. How to Test Card (Using Reusable Component)
+### 4. Props API System (NEW)
+
+**All demo pages with editable props must use the `usePropsApi` hook and `PropsApiCard` component.** This system provides a unified, type-safe way to manage and display component props.
+
+#### Required Imports
+
+```tsx
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+import type { YourComponentProps } from "@/features/your-feature/types";
+```
+
+#### Setting Up Props Configuration
+
+Define your props configuration using `initialConfig`:
+
+```tsx
+const initialConfig: PropConfig[] = [
+  {
+    property: "variant",
+    type: '"default" | "outline" | "secondary"',
+    description: "Visual variant of the component",
+    defaultValue: "default",
+    value: "default",
+    inputType: "select",
+    options: ["default", "outline", "secondary"],
+    transform: (value) => value as YourComponentProps["variant"],
+  },
+  {
+    property: "size",
+    type: '"sm" | "md" | "lg"',
+    description: "Size of the component",
+    defaultValue: "md",
+    value: "md",
+    inputType: "select",
+    options: ["sm", "md", "lg"],
+    transform: (value) => value as YourComponentProps["size"],
+  },
+  {
+    property: "disabled",
+    type: "boolean",
+    description: "Whether the component is disabled",
+    defaultValue: false,
+    value: false,
+    inputType: "boolean",
+  },
+  {
+    property: "label",
+    type: "string",
+    description: "Label text for the component",
+    defaultValue: "Click me",
+    value: "Click me",
+    inputType: "text",
+  },
+  {
+    property: "className",
+    type: "string",
+    description: "Additional CSS classes for custom styling",
+    defaultValue: "",
+    value: "",
+    inputType: "text",
+    skipIfEmpty: true, // Don't pass prop if empty
+  },
+];
+```
+
+#### PropConfig Interface
+
+```tsx
+interface PropConfig {
+  property: string; // Property name (e.g., "variant", "size")
+  type: string; // TypeScript type string (e.g., '"sm" | "md" | "lg"')
+  description: string; // Description shown in props table
+  defaultValue: string | number | boolean; // Default value
+  value: string | number | boolean; // Current value
+  inputType: "number" | "select" | "text" | "boolean"; // Input control type
+  options?: string[]; // Required for "select" inputType
+  skipIfEmpty?: boolean; // Skip prop if value is empty/null
+  transform?: (value: string | number | boolean) => unknown; // Type transformation
+}
+```
+
+#### Creating the Prop Map
+
+Map property names to component prop keys:
+
+```tsx
+const propMap: Record<string, keyof YourComponentProps> = {
+  variant: "variant",
+  size: "size",
+  disabled: "disabled",
+  label: "label",
+  className: "className",
+};
+```
+
+#### Using the Hook
+
+```tsx
+const { props, handleValueChange, getComponentProps } =
+  usePropsApi<YourComponentProps>({
+    initialConfig,
+    propMap,
+  });
+```
+
+**Return Values:**
+
+- `props`: Array of `PropConfig` objects (for `PropsApiCard`)
+- `handleValueChange`: Function to update prop values
+- `getComponentProps`: Memoized object with transformed props ready to spread
+
+#### Live Demo Section
+
+```tsx
+{
+  /* Live Demo */
+}
+<BaseCard>
+  <CardHeader>
+    <div className="flex items-center gap-2">
+      <div className="rounded-lg bg-primary/10 p-2">
+        <Lightning className="h-5 w-5 text-primary" />
+      </div>
+      <CardTitle className="text-2xl">Live Demo</CardTitle>
+    </div>
+    <CardDescription>
+      See the component update in real-time as you change props below. Note:
+      Complex props like `onClick`, `data`, and `renderItem` are not editable
+      here.
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <YourComponent
+      {...getComponentProps}
+      // Complex props that aren't editable
+      onClick={() => console.log("Clicked")}
+      data={sampleData}
+    />
+  </CardContent>
+</BaseCard>;
+```
+
+#### Props API Card Section
+
+```tsx
+{
+  /* Props API Card */
+}
+<PropsApiCard
+  props={props}
+  onValueChange={handleValueChange}
+  description="Interact with the table below to customize the component in real-time. Note: Complex props like `onClick`, `data`, and `renderItem` are not editable here."
+/>;
+```
+
+#### Best Practices
+
+1. **Type Safety**: Always use `transform` functions for enum/union types:
+
+   ```tsx
+   transform: (value) => value as YourComponentProps["variant"];
+   ```
+
+2. **Optional Props**: Use `skipIfEmpty: true` for optional string props:
+
+   ```tsx
+   {
+     property: "className",
+     skipIfEmpty: true, // Won't pass prop if empty
+   }
+   ```
+
+3. **Complex Props**: Don't include complex props (functions, objects, arrays, ReactNode) in `initialConfig`. Document them in the description instead.
+
+4. **Default Values**: Always provide sensible defaults that match the component's actual defaults.
+
+5. **Spreading Props**: Always spread `getComponentProps` last to allow overrides:
+   ```tsx
+   <YourComponent
+     customProp="value"
+     {...getComponentProps} // Spread last
+   />
+   ```
+
+### 5. How to Test Card (Using Reusable Component)
 
 **Always use the `HowToTestCard` component** instead of manually creating the testing steps section. The component automatically handles styling, numbering, and layout.
 
@@ -178,7 +365,7 @@ If data is not available in `features.json`, provide local fallback:
 }
 ```
 
-### 5. Features Glossary (Using Reusable Component)
+### 6. Features Glossary (Using Reusable Component)
 
 **Always use the `FeaturesGlossary` component** instead of manually creating the features grid. The component automatically handles the 2-column grid layout and styling.
 
@@ -259,9 +446,29 @@ const features = [
 
 ### Card Styling
 
+**CRITICAL:** Always use `BaseCard` instead of `Card` with className. The `BaseCard` component provides consistent styling and hover animations.
+
 ```tsx
-<BaseCard>{/* Content */}</BaseCard>
+import { BaseCard } from "@/components/base-card";
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+<BaseCard>
+  <CardHeader>{/* Header content */}</CardHeader>
+  <CardContent>{/* Content */}</CardContent>
+</BaseCard>;
 ```
+
+**Key Points:**
+
+- Import `BaseCard` from `@/components/base-card`
+- Import card sub-components (`CardHeader`, `CardContent`, etc.) from `@/components/ui/card`
+- Do NOT use `Card` with `className="border-2 shadow-lg"` - use `BaseCard` instead
+- `BaseCard` automatically handles hover animations and consistent styling
 
 ## Icon Usage Guidelines
 
@@ -384,10 +591,178 @@ When creating a new demo page, add the feature metadata to `sandbox/variant-1/da
 - These will be converted to icon components using the `renderIcon` utility
 - Icon names are case-sensitive and must match exactly
 
+## Complete Example
+
+Here's a complete example of a demo page using the new structure:
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { BaseCard } from "@/components/base-card";
+import { Lightning, CursorClick } from "@phosphor-icons/react";
+import { YourComponent } from "@/features/your-feature/components/your-component";
+import type { YourComponentProps } from "@/features/your-feature/types";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
+
+export default function YourFeaturePage() {
+  // Optional: Keep demo-specific state separate from props
+  const [demoState, setDemoState] = useState(false);
+
+  // Define props configuration
+  const initialConfig: PropConfig[] = [
+    {
+      property: "variant",
+      type: '"default" | "outline"',
+      description: "Visual variant",
+      defaultValue: "default",
+      value: "default",
+      inputType: "select",
+      options: ["default", "outline"],
+      transform: (value) => value as YourComponentProps["variant"],
+    },
+    {
+      property: "disabled",
+      type: "boolean",
+      description: "Whether disabled",
+      defaultValue: false,
+      value: false,
+      inputType: "boolean",
+    },
+    {
+      property: "className",
+      type: "string",
+      description: "Additional CSS classes",
+      defaultValue: "",
+      value: "",
+      inputType: "text",
+      skipIfEmpty: true,
+    },
+  ];
+
+  // Map properties to component props
+  const propMap: Record<string, keyof YourComponentProps> = {
+    variant: "variant",
+    disabled: "disabled",
+    className: "className",
+  };
+
+  // Use the hook
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<YourComponentProps>({
+      initialConfig,
+      propMap,
+    });
+
+  return (
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
+      <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
+        {/* Live Demo */}
+        <BaseCard>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <div className="rounded-lg bg-primary/10 p-2">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Live Demo</CardTitle>
+            </div>
+            <CardDescription>
+              See the component update in real-time as you change props below.
+              Note: Complex props are not editable here.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <YourComponent
+              {...getComponentProps}
+              onAction={() => console.log("Action")}
+            />
+          </CardContent>
+        </BaseCard>
+
+        {/* Props API Card */}
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time."
+        />
+
+        {/* How to Test */}
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/your-feature"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
+
+        {/* Example Cards */}
+        <BaseCard>
+          <CardHeader className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
+                <Lightning className="h-5 w-5 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Example Usage</CardTitle>
+            </div>
+            <CardDescription>
+              Different examples of the component
+            </CardDescription>
+          </CardHeader>
+          <CardContent>{/* Your examples */}</CardContent>
+        </BaseCard>
+
+        {/* Features Glossary */}
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/your-feature"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          return null;
+        })()}
+      </main>
+    </div>
+  );
+}
+```
+
 ## Checklist
 
 When creating a demo page, ensure:
 
+- [ ] **Use `BaseCard` instead of `Card`** - Import from `@/components/base-card`
+- [ ] **Live Demo section is first** - Shows interactive component with real-time updates
+- [ ] **Props API Card follows Live Demo** - Uses `PropsApiCard` component
+- [ ] **`usePropsApi` hook is used** - For all editable props
+- [ ] **`initialConfig` is properly defined** - With all editable props
+- [ ] **`propMap` maps properties correctly** - Links config to component props
+- [ ] **Type transforms are used** - For enum/union types with `transform` function
+- [ ] **`skipIfEmpty` is used** - For optional string props
 - [ ] Badges use `bg-secondary/80` for visibility
 - [ ] All CardHeaders use the correct layout (icon + title horizontal, description below)
 - [ ] **"How to Test" card uses `HowToTestCard` component** (not manual implementation)
@@ -400,4 +775,4 @@ When creating a demo page, ensure:
 - [ ] **Only Phosphor Icons React is used** - no other icon libraries
 - [ ] Icons are imported as named exports from `@phosphor-icons/react`
 - [ ] Icon sizing follows demo page standards (h-3 w-3 for badges, h-5 w-5 for headers)
-- [ ] Required imports are added: `HowToTestCard`, `FeaturesGlossary`, `renderIcon`, `featuresData`
+- [ ] Required imports are added: `usePropsApi`, `PropsApiCard`, `BaseCard`, `HowToTestCard`, `FeaturesGlossary`, `renderIcon`, `featuresData`
