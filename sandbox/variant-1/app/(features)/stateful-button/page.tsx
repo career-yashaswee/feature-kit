@@ -181,12 +181,12 @@ export default function StatefulButtonPage() {
     },
     {
       property: "size",
-      type: '"default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg"',
+      type: '"default" | "sm" | "lg"',
       description: "Size of the button",
       defaultValue: "default",
       value: "default",
       inputType: "select",
-      options: ["default", "sm", "lg", "icon", "icon-sm", "icon-lg"],
+      options: ["default", "sm", "lg"],
     },
     {
       property: "disabled",
@@ -264,7 +264,7 @@ export default function StatefulButtonPage() {
   const getComponentProps = () => {
     const componentProps: {
       variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
-      size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
+      size?: "default" | "sm" | "lg";
       disabled?: boolean;
       rateLimitMs?: number;
       className?: string;
@@ -389,13 +389,23 @@ export default function StatefulButtonPage() {
               <TableBody>
                 {props.map((prop, index) => (
                   <TableRow key={prop.property}>
-                    <TableCell className="font-medium font-mono text-sm">
+                    <TableCell
+                      className="font-medium text-sm"
+                      style={{
+                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                      }}
+                    >
                       {prop.property}
                     </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
+                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
                       {prop.type}
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
+                    <TableCell
+                    className="text-sm text-muted-foreground"
+                    style={{
+                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                    }}
+                  >
                       {prop.description}
                     </TableCell>
                     <TableCell>

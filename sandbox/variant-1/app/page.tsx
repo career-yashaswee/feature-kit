@@ -325,16 +325,7 @@ function HomePageContent() {
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredFeatures.map((feature) => (
-                <FeatureCard
-                  key={feature.path}
-                  name={feature.name}
-                  path={feature.path}
-                  icon={feature.icon}
-                  description={feature.description}
-                  category={feature.category}
-                  statusBadge={feature.statusBadge}
-                  lastUpdatedAt={feature.lastUpdatedAt}
-                />
+                <FeatureCard feature={feature} key={feature.path} />
               ))}
             </div>
           )}

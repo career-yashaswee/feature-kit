@@ -114,8 +114,8 @@ export default function GridCardPage() {
                 }
                 footerContent={
                   <GridCardFooter>
-                    <Button variant="ghost" size="sm">
-                      <Star className="h-4 w-4 mr-2" />
+                    <Button variant="ghost" size="sm" className="whitespace-nowrap">
+                      <Star className="h-4 w-4" />
                       Favorite
                     </Button>
                     <Button size="sm">View</Button>

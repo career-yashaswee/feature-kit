@@ -263,13 +263,23 @@ export default function UpgradeButtonPage() {
               <TableBody>
                 {props.map((prop, index) => (
                   <TableRow key={prop.property}>
-                    <TableCell className="font-medium font-mono text-sm">
+                    <TableCell
+                      className="font-medium text-sm"
+                      style={{
+                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                      }}
+                    >
                       {prop.property}
                     </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
+                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
                       {prop.type}
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
+                    <TableCell
+                    className="text-sm text-muted-foreground"
+                    style={{
+                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                    }}
+                  >
                       {prop.description}
                     </TableCell>
                     <TableCell>

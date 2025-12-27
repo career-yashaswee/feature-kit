@@ -41,7 +41,7 @@ export function HowToTestCard({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-3">
-          <h3 className="font-semibold text-lg">Testing Steps:</h3>
+          <h3 className="font-semibold text-lg">Testing Steps</h3>
           <ol className="space-y-3">
             {steps.map((step, index) => (
               <li

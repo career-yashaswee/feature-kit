@@ -14,7 +14,7 @@ import {
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 import { TextTruncation } from "@/features/text-truncation";
 
-export interface FeatureCardProps {
+export interface Feature {
   name: string;
   path: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -22,6 +22,10 @@ export interface FeatureCardProps {
   category: string;
   statusBadge?: string;
   lastUpdatedAt?: string;
+}
+
+export interface FeatureCardProps {
+  feature: Feature;
 }
 
 const getStatusFromBadge = (
@@ -77,15 +81,16 @@ const formatLastUpdated = (lastUpdatedAt?: string): string => {
   }
 };
 
-export function FeatureCard({
-  name,
-  path,
-  icon: Icon,
-  description,
-  category,
-  statusBadge,
-  lastUpdatedAt,
-}: FeatureCardProps) {
+export function FeatureCard({ feature }: FeatureCardProps) {
+  const {
+    name,
+    path,
+    icon: Icon,
+    description,
+    category,
+    statusBadge,
+    lastUpdatedAt,
+  } = feature;
   const status = getStatusFromBadge(statusBadge);
 
   return (
@@ -121,6 +126,7 @@ export function FeatureCard({
               text={description}
               maxLines={3}
               showToggle={false}
+              className="text-sm text-muted-foreground font-ibm-plex-sans"
             />
           </CardDescription>
         </CardHeader>

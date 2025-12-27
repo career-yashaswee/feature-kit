@@ -8,9 +8,9 @@ const OptimisticActionButton = dynamic(
     import("@/features/optimistic-action-button/components/optimistic-action-button").then(
       (mod) => ({
         default: mod.OptimisticActionButton,
-      }),
+      })
     ),
-  { ssr: false },
+  { ssr: false }
 );
 import {
   Card,
@@ -127,10 +127,10 @@ const childrenOptions: ChildrenOption[] = [
     key: "bookmark-text",
     label: "Bookmark + Text",
     render: () => (
-      <>
+      <div className="flex-row items-center gap-2">
         <Bookmark className="h-4 w-4 mr-2" />
         Save
-      </>
+      </div>
     ),
   },
 ];
@@ -170,7 +170,14 @@ export default function OptimisticActionButtonPage() {
       defaultValue: "outline",
       value: "outline",
       inputType: "select",
-      options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      options: [
+        "default",
+        "destructive",
+        "outline",
+        "secondary",
+        "ghost",
+        "link",
+      ],
     },
     {
       property: "size",
@@ -233,7 +240,8 @@ export default function OptimisticActionButtonPage() {
     {
       property: "doubleTapToConfirm",
       type: "boolean",
-      description: "Require double tap to confirm action (useful for destructive actions)",
+      description:
+        "Require double tap to confirm action (useful for destructive actions)",
       defaultValue: false,
       value: false,
       inputType: "boolean",
@@ -241,7 +249,8 @@ export default function OptimisticActionButtonPage() {
     {
       property: "doubleTapTimeoutMs",
       type: "number",
-      description: "Timeout in milliseconds before double tap confirmation resets",
+      description:
+        "Timeout in milliseconds before double tap confirmation resets",
       defaultValue: 3000,
       value: 3000,
       inputType: "number",
@@ -258,7 +267,7 @@ export default function OptimisticActionButtonPage() {
 
   const handleValueChange = (
     index: number,
-    newValue: string | number | boolean,
+    newValue: string | number | boolean
   ) => {
     setProps((prev) => {
       const updated = [...prev];
@@ -272,7 +281,13 @@ export default function OptimisticActionButtonPage() {
 
   const getComponentProps = () => {
     const componentProps: {
-      variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+      variant?:
+        | "default"
+        | "destructive"
+        | "outline"
+        | "secondary"
+        | "ghost"
+        | "link";
       size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
       disabled?: boolean;
       loadingMessage?: string;
@@ -343,7 +358,9 @@ export default function OptimisticActionButtonPage() {
           </div>
           <CardDescription>
             See the component update in real-time as you change props below.
-            Note: Complex props like `action`, `optimisticState`, `onOptimisticUpdate`, `onRollback`, `onSuccess`, and `onError` are not editable here.
+            Note: Complex props like `action`, `optimisticState`,
+            `onOptimisticUpdate`, `onRollback`, `onSuccess`, and `onError` are
+            not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -359,7 +376,11 @@ export default function OptimisticActionButtonPage() {
                 setIsFavorite(!isFavorite);
               }}
               onRollback={() => setIsFavorite(prevIsFavoriteRef.current)}
-              variant={isFavorite ? "default" : (getComponentProps().variant || "outline")}
+              variant={
+                isFavorite
+                  ? "default"
+                  : getComponentProps().variant || "outline"
+              }
               {...getComponentProps()}
             >
               {getSelectedChildren()}
@@ -382,7 +403,9 @@ export default function OptimisticActionButtonPage() {
           </div>
           <CardDescription>
             Interact with the table below to customize the component in
-            real-time. Note: Complex props like `action`, `optimisticState`, `onOptimisticUpdate`, `onRollback`, `onSuccess`, and `onError` are not editable here.
+            real-time. Note: Complex props like `action`, `optimisticState`,
+            `onOptimisticUpdate`, `onRollback`, `onSuccess`, and `onError` are
+            not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -398,13 +421,23 @@ export default function OptimisticActionButtonPage() {
             <TableBody>
               {props.map((prop, index) => (
                 <TableRow key={prop.property}>
-                  <TableCell className="font-medium font-mono text-sm">
+                  <TableCell
+                      className="font-medium text-sm"
+                      style={{
+                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                      }}
+                    >
                     {prop.property}
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-muted-foreground">
+                  <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
                     {prop.type}
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
+                  <TableCell
+                    className="text-sm text-muted-foreground"
+                    style={{
+                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                    }}
+                  >
                     {prop.description}
                   </TableCell>
                   <TableCell>
@@ -533,9 +566,9 @@ export default function OptimisticActionButtonPage() {
             <CardTitle className="text-2xl">Double Tap to Confirm</CardTitle>
           </div>
           <CardDescription>
-            For destructive actions, require two taps to confirm. First tap shows
-            confirmation message, second tap executes the action. If you wait too
-            long, it resets automatically.
+            For destructive actions, require two taps to confirm. First tap
+            shows confirmation message, second tap executes the action. If you
+            wait too long, it resets automatically.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

@@ -11,7 +11,7 @@ export type StatefulButtonProps = UseStatefulButtonOptions & {
     | "secondary"
     | "ghost"
     | "link";
-  size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
+  size?: "default" | "sm" | "lg";
   disabled?: boolean;
   doubleTapToConfirm?: boolean;
   doubleTapTimeoutMs?: number;

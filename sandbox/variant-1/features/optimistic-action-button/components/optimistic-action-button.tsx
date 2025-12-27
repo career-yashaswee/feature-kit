@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { OptimisticActionButtonProps } from "../types";
 import { useOptimisticActionButton } from "../hooks/use-optimistic-action-button";
+import { Spinner } from "@phosphor-icons/react";
 
 export function OptimisticActionButton({
   action,
@@ -65,11 +66,7 @@ export function OptimisticActionButton({
             transition={{ duration: 0.2 }}
             className="flex items-center gap-2"
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="h-4 w-4 rounded-full border-2 border-current border-t-transparent"
-            />
+            <Spinner className="h-4 w-4 animate-spin" />
             <span className="hidden sm:inline">{loadingMessage}</span>
           </motion.div>
         ) : isWaitingForConfirm ? (
@@ -90,6 +87,7 @@ export function OptimisticActionButton({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.15 }}
+            className="flex items-center gap-2"
           >
             {children}
           </motion.div>

@@ -26,13 +26,16 @@ import {
 } from "@/components/ui/select";
 import {
   FileText,
-  Sparkle,
   Code,
   Gear,
   Lightning,
   CursorClick,
 } from "@phosphor-icons/react";
 import { TextTruncation } from "@/features/text-truncation/components/text-truncation";
+import { HowToTestCard } from "@/components/how-to-test-card";
+import { FeaturesGlossary } from "@/components/features-glossary";
+import { renderIcon } from "@/lib/icon-map";
+import featuresData from "@/data/features.json";
 
 interface PropConfig {
   property: string;
@@ -104,7 +107,7 @@ export default function TextTruncationPage() {
 
   const handleValueChange = (
     index: number,
-    newValue: string | number | boolean,
+    newValue: string | number | boolean
   ) => {
     setProps((prev) => {
       const updated = [...prev];
@@ -166,10 +169,7 @@ export default function TextTruncationPage() {
           </CardHeader>
           <CardContent>
             <div className="rounded-lg border bg-card p-4">
-              <TextTruncation
-                text={veryLongText}
-                {...getComponentProps()}
-              />
+              <TextTruncation text={veryLongText} {...getComponentProps()} />
             </div>
           </CardContent>
         </Card>
@@ -201,13 +201,28 @@ export default function TextTruncationPage() {
               <TableBody>
                 {props.map((prop, index) => (
                   <TableRow key={prop.property}>
-                    <TableCell className="font-medium font-mono text-sm">
+                    <TableCell
+                      className="font-medium text-sm"
+                      style={{
+                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                      }}
+                    >
                       {prop.property}
                     </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
+                    <TableCell
+                      className="text-xs text-muted-foreground"
+                      style={{
+                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                      }}
+                    >
                       {prop.type}
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
+                    <TableCell
+                    className="text-sm text-muted-foreground"
+                    style={{
+                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
+                    }}
+                  >
                       {prop.description}
                     </TableCell>
                     <TableCell>
@@ -257,7 +272,7 @@ export default function TextTruncationPage() {
                               index,
                               e.target.value === ""
                                 ? prop.defaultValue
-                                : Number(e.target.value),
+                                : Number(e.target.value)
                             )
                           }
                           className="h-8"
@@ -281,46 +296,21 @@ export default function TextTruncationPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <CursorClick className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <CardTitle className="text-2xl">How to Test</CardTitle>
-                <CardDescription className="text-base">
-                  Scroll down to see different truncation examples. Click
-                  &quot;Show more&quot; to expand and &quot;Show less&quot; to
-                  collapse.
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Testing Steps:</h3>
-              <ol className="space-y-3">
-                {[
-                  "Scroll down to see different truncation examples",
-                  "Click 'Show more' to expand truncated text",
-                  "Click 'Show less' to collapse expanded text",
-                  "Notice how the toggle button only appears when truncation is needed",
-                ].map((step, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start gap-3 rounded-lg border bg-muted/50 p-3 text-sm"
-                  >
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                      {index + 1}
-                    </span>
-                    <span className="text-muted-foreground">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/text-truncation"
+          );
+          if (featureData?.howToTest) {
+            return (
+              <HowToTestCard
+                steps={featureData.howToTest.steps}
+                conclusion={featureData.howToTest.conclusion}
+                icon={<CursorClick className="h-5 w-5 text-primary" />}
+              />
+            );
+          }
+          return null;
+        })()}
 
         <Card className="border-2 shadow-lg">
           <CardHeader>
@@ -420,61 +410,20 @@ export default function TextTruncationPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Sparkle className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: FileText,
-                  title: "Line-Based Truncation",
-                  description:
-                    "Truncate text to a specific number of lines using CSS line-clamp",
-                },
-                {
-                  icon: Code,
-                  title: "Character-Based Truncation",
-                  description:
-                    "Truncate text to a specific character length with ellipsis",
-                },
-                {
-                  icon: Sparkle,
-                  title: "Auto Detection",
-                  description:
-                    "Automatically detects if truncation is needed and only shows toggle when necessary",
-                },
-                {
-                  icon: Gear,
-                  title: "Customizable",
-                  description:
-                    "Customize labels, styling, and toggle button visibility",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {(() => {
+          const featureData = featuresData.find(
+            (f) => f.path === "/text-truncation"
+          );
+          if (featureData?.features) {
+            const featuresWithIcons = featureData.features.map((feature) => ({
+              icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+              title: feature.title,
+              description: feature.description,
+            }));
+            return <FeaturesGlossary features={featuresWithIcons} />;
+          }
+          return null;
+        })()}
       </main>
     </div>
   );

@@ -82,67 +82,67 @@ export function DemoHeader() {
   };
 
   return (
-    <header className="border-b bg-background">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4">
-        <div className="flex items-center gap-2 shrink-0">
-          <Avatar className="h-8 w-8">
-            <AvatarImage
-              src="https://res.cloudinary.com/dmkku8emk/image/upload/v1765140248/feature-kit_kry0dd.png"
-              alt="FeatureKit Logo"
-            />
-            <AvatarFallback>FK</AvatarFallback>
-          </Avatar>
+    <>
+      <header className="border-b bg-background">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
+          <div className="flex items-center gap-2 shrink-0">
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src="https://res.cloudinary.com/dmkku8emk/image/upload/v1765140248/feature-kit_kry0dd.png"
+                alt="FeatureKit Logo"
+              />
+              <AvatarFallback>FK</AvatarFallback>
+            </Avatar>
 
-          <Link
-            href="/"
-            className="text-lg font-semibold transition-colors hover:text-primary cursor-pointer whitespace-nowrap"
-          >
-            FeatureKit
-          </Link>
-        </div>
-        <div className="flex-1 min-w-0">
-          <ScrollableBreadcrumb
-            items={breadcrumbItems}
-            renderLink={renderBreadcrumbLink}
-            className="h-9"
-          />
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
             <Link
-              href="https://docs.featurekit.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Documentation"
+              href="/"
+              className="text-lg font-semibold transition-colors hover:text-primary cursor-pointer whitespace-nowrap"
             >
-              <Book className="h-4 w-4" />
+              FeatureKit
             </Link>
-          </Button>
-          <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
-            <Link
-              href="https://github.com/featurekit/featurekit"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-            >
-              <GithubLogo className="h-4 w-4" />
-            </Link>
-          </Button>
-          <Separator orientation="vertical" className="h-6" />
-          <LanguageSwitcher
-            languages={languages}
-            currentLanguage={currentLang}
-            onLanguageChange={handleLanguageChange}
-            persistLanguage={(code) => {
-              if (typeof window !== "undefined") {
-                localStorage.setItem("language", code);
-              }
-            }}
-            size="md"
-          />
-          <AnimatedThemeToggler className="h-9 w-9" />
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
+              <Link
+                href="https://docs.featurekit.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Documentation"
+              >
+                <Book className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
+              <Link
+                href="https://github.com/featurekit/featurekit"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <GithubLogo className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Separator orientation="vertical" className="h-6" />
+            <LanguageSwitcher
+              languages={languages}
+              currentLanguage={currentLang}
+              onLanguageChange={handleLanguageChange}
+              persistLanguage={(code) => {
+                if (typeof window !== "undefined") {
+                  localStorage.setItem("language", code);
+                }
+              }}
+              size="md"
+            />
+            <AnimatedThemeToggler className="h-9 w-9" />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      <ScrollableBreadcrumb
+        items={breadcrumbItems}
+        renderLink={renderBreadcrumbLink}
+        className="h-9"
+      />
+    </>
   );
 }
