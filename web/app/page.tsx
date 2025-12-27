@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFeatures } from "@/features/features/hooks/use-features";
 import { useKits } from "@/features/kits/hooks/use-kits";
@@ -19,7 +19,7 @@ import {
   StackCardSkeleton,
 } from "@/components/common/loading-skeleton";
 
-export default function HomePage() {
+function HomePageContent() {
   const { t } = useTranslation();
   const { data: features = [], isLoading: featuresLoading } = useFeatures();
   const { data: kits = [], isLoading: kitsLoading } = useKits();
@@ -261,5 +261,29 @@ export default function HomePage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <div className="h-10 w-64 bg-muted animate-pulse rounded mb-4" />
+          <div className="h-6 w-96 bg-muted animate-pulse rounded mb-6" />
+          <div className="flex items-center gap-2 max-w-md">
+            <div className="h-10 flex-1 bg-muted animate-pulse rounded" />
+            <div className="h-10 w-10 bg-muted animate-pulse rounded" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <FeatureCardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    }>
+      <HomePageContent />
+    </Suspense>
   );
 }

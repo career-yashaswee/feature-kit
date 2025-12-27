@@ -250,7 +250,7 @@ export default function FeaturePage() {
               <Heart
                 className={cn(
                   "size-4 mr-2",
-                  isFavorite(feature.id) ? "fill-red-500 text-red-500" : "",
+                  isFavorite(feature.id) ? "fill-red-500 text-red-500" : ""
                 )}
               />
               {isFavorite(feature.id) ? "Favorited" : "Favorite"}

@@ -136,8 +136,8 @@ FeatureKit uses the following security practices for dependencies:
 ```typescript
 // Good: Validate input
 function processInput(input: string): string {
-  if (typeof input !== 'string') {
-    throw new Error('Invalid input type');
+  if (typeof input !== "string") {
+    throw new Error("Invalid input type");
   }
   return sanitize(input);
 }
@@ -192,4 +192,3 @@ Before releasing a feature:
 ## Contact
 
 For security-related inquiries, contact the maintainers through the appropriate channels. Do not use public issues for security concerns.
-
