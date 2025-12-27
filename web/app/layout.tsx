@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
+import { IBM_Plex_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/common/header";
 import { QueryProvider } from "@/lib/providers/query-provider";
@@ -7,6 +7,10 @@ import { AppErrorBoundary } from "@/components/common/error-boundary";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { I18nProvider } from "@/lib/providers/i18n-provider";
 import { Toaster } from "sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { SpeechRecognitionProvider } from "@/lib/providers/speech-recognition-provider";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
@@ -26,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -40,17 +44,26 @@ export default function RootLayout({
         />
       </head>
       <body className={`${ibmPlexSans.variable} antialiased`}>
-        <ThemeProvider>
-          <I18nProvider>
-            <QueryProvider>
-              <AppErrorBoundary>
-                <Header />
-                <main className="min-h-screen">{children}</main>
-                <Toaster richColors />
-              </AppErrorBoundary>
-            </QueryProvider>
-          </I18nProvider>
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <I18nProvider>
+              <QueryProvider>
+                <SpeechRecognitionProvider>
+                  <AppErrorBoundary>
+                    <Header />
+                    <main className="min-h-screen">{children}</main>
+                    <Toaster richColors />
+                  </AppErrorBoundary>
+                </SpeechRecognitionProvider>
+              </QueryProvider>
+            </I18nProvider>
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

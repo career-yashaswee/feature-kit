@@ -10,9 +10,7 @@ export function useFavoriteFeatures() {
   const favorites = useFavoritesStore((state) => state.favorites);
 
   const favoriteFeatures = useMemo(() => {
-    return features.filter((feature: Feature) =>
-      favorites.has(feature.id),
-    );
+    return features.filter((feature: Feature) => favorites.has(feature.id));
   }, [features, favorites]);
 
   return {

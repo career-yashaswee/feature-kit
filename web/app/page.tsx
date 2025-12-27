@@ -1,12 +1,15 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useFeatures } from "@/features/features/hooks/use-features";
 import { useKits } from "@/features/kits/hooks/use-kits";
 import { useStacks } from "@/features/stacks/hooks/use-stacks";
-import { useSearch } from "@/features/search/hooks/use-search";
+import { useSearch } from "@/features/search";
+import { FilterSheet, useFilterSheet } from "@/features/filters";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Sliders } from "lucide-react";
 import { FeatureCard } from "@/features/features/components/feature-card";
 import { KitCard } from "@/features/kits/components/kit-card";
 import { StackCard } from "@/features/stacks/components/stack-card";
@@ -21,7 +24,64 @@ export default function HomePage() {
   const { data: features = [], isLoading: featuresLoading } = useFeatures();
   const { data: kits = [], isLoading: kitsLoading } = useKits();
   const { data: stacks = [], isLoading: stacksLoading } = useStacks();
-  const { searchQuery, setSearchQuery, filteredFeatures } = useSearch(features);
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false);
+
+  // Search functionality
+  const {
+    searchQuery,
+    setSearchQuery,
+    filteredFeatures: searchResults,
+  } = useSearch(features);
+
+  // Filter functionality
+  const { getFilter, setFilter, clearAllFilters } = useFilterSheet({
+    defaults: {
+      kit: "ALL",
+      tier: "ALL",
+      tags: [] as string[],
+    },
+  });
+
+  const selectedKit = getFilter("kit");
+  const selectedTier = getFilter("tier");
+  const selectedTagsRaw = getFilter("tags");
+  const selectedTags = useMemo(() => selectedTagsRaw || [], [selectedTagsRaw]);
+
+  // Get all unique tags from features
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    features.forEach((feature) => {
+      feature.tags?.forEach((tag) => {
+        tagSet.add(tag.name);
+      });
+    });
+    return Array.from(tagSet).sort();
+  }, [features]);
+
+  // Apply filters to search results
+  const filteredFeatures = useMemo(() => {
+    let result = searchResults;
+
+    // Filter by kit
+    if (selectedKit && selectedKit !== "ALL") {
+      result = result.filter((f) => f.kit?.id === selectedKit);
+    }
+
+    // Filter by tier
+    if (selectedTier && selectedTier !== "ALL") {
+      result = result.filter((f) => f.tier === selectedTier);
+    }
+
+    // Filter by tags
+    if (selectedTags.length > 0) {
+      result = result.filter((f) => {
+        const featureTags = f.tags?.map((t) => t.name) || [];
+        return selectedTags.some((tag) => featureTags.includes(tag));
+      });
+    }
+
+    return result;
+  }, [searchResults, selectedKit, selectedTier, selectedTags]);
 
   const kitFeatureCounts = useMemo(() => {
     if (featuresLoading || kitsLoading) return {};
@@ -30,26 +90,95 @@ export default function HomePage() {
         acc[kit.id] = features.filter((f) => f.kit_id === kit.id).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {} as Record<string, number>
     );
   }, [kits, features, featuresLoading, kitsLoading]);
+
+  // Build filter configuration
+  const filters = useMemo(() => {
+    return [
+      {
+        type: "select" as const,
+        id: "kit",
+        label: "Kit",
+        value: selectedKit || "ALL",
+        options: [
+          { value: "ALL", label: "All Kits" },
+          ...kits.map((kit) => ({
+            value: kit.id,
+            label: kit.name,
+          })),
+        ],
+        onChange: (value: string) => setFilter("kit", value),
+      },
+      {
+        type: "select" as const,
+        id: "tier",
+        label: "Tier",
+        value: selectedTier || "ALL",
+        options: [
+          { value: "ALL", label: "All Tiers" },
+          { value: "free", label: "Free" },
+          { value: "plus", label: "Plus" },
+        ],
+        onChange: (value: string) => setFilter("tier", value),
+      },
+      {
+        type: "tags" as const,
+        id: "tags",
+        label: "Tags",
+        selectedTags: selectedTags,
+        availableTags: allTags,
+        onChange: (tags: string[]) => setFilter("tags", tags),
+      },
+    ];
+  }, [selectedKit, selectedTier, selectedTags, allTags, kits, setFilter]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-4">{t("home.title")}</h1>
         <p className="text-muted-foreground mb-6">{t("home.subtitle")}</p>
-        <Input
-          type="search"
-          placeholder={t("home.searchPlaceholder")}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="max-w-md"
-          aria-label={t("home.searchAria")}
-        />
+        <div className="flex items-center gap-2 max-w-md">
+          <Input
+            type="search"
+            placeholder={t("home.searchPlaceholder")}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-1"
+            aria-label={t("home.searchAria")}
+          />
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setFilterSheetOpen(true)}
+            aria-label="Open filters"
+          >
+            <Sliders className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
-      {searchQuery ? (
+      <FilterSheet
+        open={filterSheetOpen}
+        onOpenChange={setFilterSheetOpen}
+        filters={filters}
+        title={t("home.filters") || "Filters"}
+        description={
+          t("home.filterDescription") ||
+          "Filter features by kit, tier, and tags"
+        }
+        onClearAll={async () => {
+          await clearAllFilters();
+        }}
+        clearAllLabel={t("home.clearFilters") || "Clear All Filters"}
+        enableUrlSync={true}
+      />
+
+      {searchQuery ||
+      selectedKit !== "ALL" ||
+      selectedTier !== "ALL" ||
+      selectedTags.length > 0 ? (
         <div>
           <h2 className="text-2xl font-semibold mb-4">
             {t("home.searchResults")} ({filteredFeatures.length})

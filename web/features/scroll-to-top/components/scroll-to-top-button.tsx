@@ -1,6 +1,12 @@
 "use client";
 
-import { type ReactNode, useCallback, useLayoutEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useWindowScroll } from "@uidotdev/usehooks";
 import { ChevronUp } from "lucide-react";

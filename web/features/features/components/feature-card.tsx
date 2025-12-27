@@ -44,7 +44,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
         role="article"
       >
         <CardHeader className="flex-shrink-0">
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center justify-center gap-2">
             <div className="flex items-start gap-2 flex-1 min-w-0">
               <CardTitle className="flex-1 min-w-0">{feature.name}</CardTitle>
               <TierTag tier={feature.tier} className="flex-shrink-0" />
@@ -63,7 +63,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
                   "h-4 w-4",
                   favorite
                     ? "fill-red-500 text-red-500"
-                    : "text-muted-foreground"
+                    : "text-muted-foreground",
                 )}
               />
             </Button>

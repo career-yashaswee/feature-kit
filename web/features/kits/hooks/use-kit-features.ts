@@ -27,7 +27,7 @@ async function fetchKitFeatures(kitSlug: string): Promise<Feature[]> {
       tags:feature_tags(
         tag:tags(*)
       )
-    `
+    `,
     )
     .eq("kit_id", kitData.id)
     .order("created_at", { ascending: false });
