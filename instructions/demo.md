@@ -1,11 +1,13 @@
 # Demo Page Creation Guidelines
 
 ## Overview
+
 When creating demo pages for features, follow these consistent patterns to ensure a cohesive user experience across all demos.
 
 ## Structure
 
 ### 1. Hero Section
+
 ```tsx
 <section className="space-y-6 text-center">
   <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
@@ -28,6 +30,7 @@ When creating demo pages for features, follow these consistent patterns to ensur
 ```
 
 **Key Points:**
+
 - Badges MUST use `bg-secondary/80 dark:bg-secondary/60` for better visibility in both light and dark modes
 - Use appropriate icons for each badge
 - Keep badge text concise (2-3 words)
@@ -38,6 +41,7 @@ When creating demo pages for features, follow these consistent patterns to ensur
 **CRITICAL:** CardHeader layout must follow this exact structure:
 
 **With Description:**
+
 ```tsx
 <CardHeader className="space-y-3">
   <div className="flex items-start gap-3">
@@ -46,13 +50,12 @@ When creating demo pages for features, follow these consistent patterns to ensur
     </div>
     <CardTitle className="text-2xl">Title</CardTitle>
   </div>
-  <CardDescription>
-    Description text goes here
-  </CardDescription>
+  <CardDescription>Description text goes here</CardDescription>
 </CardHeader>
 ```
 
 **Without Description:**
+
 ```tsx
 <CardHeader>
   <div className="flex items-start gap-3">
@@ -65,6 +68,7 @@ When creating demo pages for features, follow these consistent patterns to ensur
 ```
 
 **Layout Rules:**
+
 - Apply `space-y-3` directly to CardHeader when description is present
 - First row: Icon (with bounding box) + Title in a flex container
 - Second row: Description as a direct child of CardHeader (NOT nested in wrapper div)
@@ -109,11 +113,7 @@ First, add your feature data to `sandbox/variant-1/data/features.json`:
   "path": "/your-feature-path",
   "icon": "YourIcon",
   "howToTest": {
-    "steps": [
-      "Step 1 description",
-      "Step 2 description",
-      "Step 3 description"
-    ],
+    "steps": ["Step 1 description", "Step 2 description", "Step 3 description"],
     "conclusion": "Optional conclusion text explaining what users should expect"
   },
   "features": [
@@ -129,21 +129,23 @@ First, add your feature data to `sandbox/variant-1/data/features.json`:
 Then use it in your component:
 
 ```tsx
-{(() => {
-  const featureData = featuresData.find(
-    (f) => f.path === "/your-feature-path"
-  );
-  if (featureData?.howToTest) {
-    return (
-      <HowToTestCard
-        steps={featureData.howToTest.steps}
-        conclusion={featureData.howToTest.conclusion}
-        icon={<CursorClick className="h-5 w-5 text-primary" />}
-      />
+{
+  (() => {
+    const featureData = featuresData.find(
+      (f) => f.path === "/your-feature-path"
     );
-  }
-  return null;
-})()}
+    if (featureData?.howToTest) {
+      return (
+        <HowToTestCard
+          steps={featureData.howToTest.steps}
+          conclusion={featureData.howToTest.conclusion}
+          icon={<CursorClick className="h-5 w-5 text-primary" />}
+        />
+      );
+    }
+    return null;
+  })();
+}
 ```
 
 #### Fallback to Local Data
@@ -151,30 +153,29 @@ Then use it in your component:
 If data is not available in `features.json`, provide local fallback:
 
 ```tsx
-{(() => {
-  const featureData = featuresData.find(
-    (f) => f.path === "/your-feature-path"
-  );
-  if (featureData?.howToTest) {
+{
+  (() => {
+    const featureData = featuresData.find(
+      (f) => f.path === "/your-feature-path"
+    );
+    if (featureData?.howToTest) {
+      return (
+        <HowToTestCard
+          steps={featureData.howToTest.steps}
+          conclusion={featureData.howToTest.conclusion}
+          icon={<CursorClick className="h-5 w-5 text-primary" />}
+        />
+      );
+    }
     return (
       <HowToTestCard
-        steps={featureData.howToTest.steps}
-        conclusion={featureData.howToTest.conclusion}
+        steps={["Step 1 description", "Step 2 description"]}
+        conclusion="Optional conclusion text"
         icon={<CursorClick className="h-5 w-5 text-primary" />}
       />
     );
-  }
-  return (
-    <HowToTestCard
-      steps={[
-        "Step 1 description",
-        "Step 2 description",
-      ]}
-      conclusion="Optional conclusion text"
-      icon={<CursorClick className="h-5 w-5 text-primary" />}
-    />
-  );
-})()}
+  })();
+}
 ```
 
 ### 5. Features Glossary (Using Reusable Component)
@@ -184,20 +185,22 @@ If data is not available in `features.json`, provide local fallback:
 #### Using Data from features.json (Recommended)
 
 ```tsx
-{(() => {
-  const featureData = featuresData.find(
-    (f) => f.path === "/your-feature-path"
-  );
-  if (featureData?.features) {
-    const featuresWithIcons = featureData.features.map((feature) => ({
-      icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
-      title: feature.title,
-      description: feature.description,
-    }));
-    return <FeaturesGlossary features={featuresWithIcons} />;
-  }
-  return null;
-})()}
+{
+  (() => {
+    const featureData = featuresData.find(
+      (f) => f.path === "/your-feature-path"
+    );
+    if (featureData?.features) {
+      const featuresWithIcons = featureData.features.map((feature) => ({
+        icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+        title: feature.title,
+        description: feature.description,
+      }));
+      return <FeaturesGlossary features={featuresWithIcons} />;
+    }
+    return null;
+  })();
+}
 ```
 
 #### Fallback to Local Data
@@ -214,25 +217,27 @@ const features = [
 ];
 
 // In your JSX:
-{(() => {
-  const featureData = featuresData.find(
-    (f) => f.path === "/your-feature-path"
-  );
-  if (featureData?.features) {
-    const featuresWithIcons = featureData.features.map((feature) => ({
-      icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+{
+  (() => {
+    const featureData = featuresData.find(
+      (f) => f.path === "/your-feature-path"
+    );
+    if (featureData?.features) {
+      const featuresWithIcons = featureData.features.map((feature) => ({
+        icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),
+        title: feature.title,
+        description: feature.description,
+      }));
+      return <FeaturesGlossary features={featuresWithIcons} />;
+    }
+    const defaultFeatures = features.map((feature) => ({
+      icon: <feature.icon className="h-5 w-5 text-primary" />,
       title: feature.title,
       description: feature.description,
     }));
-    return <FeaturesGlossary features={featuresWithIcons} />;
-  }
-  const defaultFeatures = features.map((feature) => ({
-    icon: <feature.icon className="h-5 w-5 text-primary" />,
-    title: feature.title,
-    description: feature.description,
-  }));
-  return <FeaturesGlossary features={defaultFeatures} />;
-})()}
+    return <FeaturesGlossary features={defaultFeatures} />;
+  })();
+}
 ```
 
 #### Icon Rendering
@@ -243,6 +248,7 @@ const features = [
 ## Common Patterns
 
 ### Main Container
+
 ```tsx
 <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
   <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
@@ -252,10 +258,9 @@ const features = [
 ```
 
 ### Card Styling
+
 ```tsx
-<Card className="border-2 shadow-lg">
-  {/* Content */}
-</Card>
+<Card className="border-2 shadow-lg">{/* Content */}</Card>
 ```
 
 ## Icon Usage Guidelines
@@ -360,11 +365,7 @@ When creating a new demo page, add the feature metadata to `sandbox/variant-1/da
   "statusBadge": "New",
   "lastUpdatedAt": "2024-01-15T10:30:00Z",
   "howToTest": {
-    "steps": [
-      "Step 1",
-      "Step 2",
-      "Step 3"
-    ],
+    "steps": ["Step 1", "Step 2", "Step 3"],
     "conclusion": "Optional conclusion text"
   },
   "features": [
@@ -386,6 +387,7 @@ When creating a new demo page, add the feature metadata to `sandbox/variant-1/da
 ## Checklist
 
 When creating a demo page, ensure:
+
 - [ ] Badges use `bg-secondary/80` for visibility
 - [ ] All CardHeaders use the correct layout (icon + title horizontal, description below)
 - [ ] **"How to Test" card uses `HowToTestCard` component** (not manual implementation)
@@ -399,4 +401,3 @@ When creating a demo page, ensure:
 - [ ] Icons are imported as named exports from `@phosphor-icons/react`
 - [ ] Icon sizing follows demo page standards (h-3 w-3 for badges, h-5 w-5 for headers)
 - [ ] Required imports are added: `HowToTestCard`, `FeaturesGlossary`, `renderIcon`, `featuresData`
-

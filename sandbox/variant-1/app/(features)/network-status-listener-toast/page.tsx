@@ -10,40 +10,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Lightning,
-  Code,
   CursorClick,
 } from "@phosphor-icons/react";
+import type { NetworkStatusListenerProps } from "@/features/network-status-listener/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const NetworkStatusListener = dynamic(
   () =>
@@ -56,7 +32,7 @@ const NetworkStatusListener = dynamic(
 );
 
 export default function HomePage() {
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "showToast",
       type: "boolean",
@@ -72,6 +48,7 @@ export default function HomePage() {
       defaultValue: "You are offline. Please check your connection.",
       value: "You are offline. Please check your connection.",
       inputType: "text",
+      skipIfEmpty: true,
     },
     {
       property: "onlineMessage",
@@ -80,42 +57,21 @@ export default function HomePage() {
       defaultValue: "Connection restored. You are back online.",
       value: "Connection restored. You are back online.",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof NetworkStatusListenerProps> = {
+    showToast: "showToast",
+    offlineMessage: "offlineMessage",
+    onlineMessage: "onlineMessage",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      showToast?: boolean;
-      offlineMessage?: string;
-      onlineMessage?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "showToast") {
-        componentProps.showToast = Boolean(prop.value);
-      } else if (prop.property === "offlineMessage" && prop.value) {
-        componentProps.offlineMessage = String(prop.value);
-      } else if (prop.property === "onlineMessage" && prop.value) {
-        componentProps.onlineMessage = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<NetworkStatusListenerProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <>
@@ -139,92 +95,18 @@ export default function HomePage() {
             <p className="text-sm text-muted-foreground text-center">
               Network Status Listener is active. Disconnect your internet to see toast notifications.
               <br />
-              Current settings: showToast={String(getComponentProps().showToast ?? true)}
+              Current settings: showToast={String(getComponentProps.showToast ?? true)}
             </p>
           </div>
         </CardContent>
       </Card>
 
       {/* Props API Card */}
-      <Card className="border-2 shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <Code className="h-5 w-5 text-primary" />
-            </div>
-            <CardTitle className="text-2xl">Props API</CardTitle>
-          </div>
-          <CardDescription>
-            Interact with the table below to customize the component in
-            real-time
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[150px]">Property</TableHead>
-                <TableHead className="w-[200px]">Type</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead className="w-[200px]">Value</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {props.map((prop, index) => (
-                <TableRow key={prop.property}>
-                  <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                    {prop.property}
-                  </TableCell>
-                  <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                    {prop.type}
-                  </TableCell>
-                  <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                    {prop.description}
-                  </TableCell>
-                  <TableCell>
-                    {prop.inputType === "boolean" ? (
-                      <Select
-                        value={String(prop.value)}
-                        onValueChange={(value) =>
-                          handleValueChange(index, value === "true")
-                        }
-                      >
-                        <SelectTrigger className="h-8 w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="true">true</SelectItem>
-                          <SelectItem value="false">false</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <Input
-                        type="text"
-                        value={String(prop.value)}
-                        onChange={(e) =>
-                          handleValueChange(index, e.target.value)
-                        }
-                        placeholder={`Enter ${prop.property}`}
-                        className="h-8"
-                      />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <PropsApiCard
+        props={props}
+        onValueChange={handleValueChange}
+        description="Interact with the table below to customize the component in real-time."
+      />
 
       {(() => {
         const featureData = featuresData.find(
@@ -308,7 +190,7 @@ export default function HomePage() {
       })()}
 
       {/* Network Status Listener Component */}
-      <NetworkStatusListener {...getComponentProps()} />
+      <NetworkStatusListener {...getComponentProps} />
     </>
   );
 }

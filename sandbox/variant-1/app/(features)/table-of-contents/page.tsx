@@ -11,27 +11,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
   CursorClick,
   FileText,
   Sparkle,
-  Code,
   Gear,
   Lightning,
 } from "@phosphor-icons/react";
 import { TableOfContents } from "@/features/table-of-contents/components/table-of-contents";
+import type { TableOfContentsProps } from "@/features/table-of-contents/types";
 import { useTableOfContents } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import type { TocItem } from "@/features/table-of-contents/hooks/use-table-of-contents";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import featuresData from "@/data/features.json";
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const PersistenceTipTapEditor = dynamic(
   () =>
@@ -40,16 +33,6 @@ const PersistenceTipTapEditor = dynamic(
     ),
   { ssr: false }
 );
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
 
 const sampleMarkdown = `# Introduction
 
@@ -220,7 +203,7 @@ export default function TableOfContentsPage() {
 
     return doc.body.innerHTML;
   }, [htmlContent, tocItems]);
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "className",
       type: "string",
@@ -228,36 +211,19 @@ export default function TableOfContentsPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof TableOfContentsProps> = {
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<TableOfContentsProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -278,7 +244,7 @@ export default function TableOfContentsPage() {
           </CardHeader>
           <CardContent>
             {tocItems.length > 0 ? (
-              <TableOfContents items={tocItems} {...getComponentProps()} />
+              <TableOfContents items={tocItems} {...getComponentProps} />
             ) : (
               <p className="text-sm text-muted-foreground">
                 No headings found in markdown content.
@@ -288,69 +254,11 @@ export default function TableOfContentsPage() {
         </Card>
 
         {/* Props API Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
-            <CardDescription>
-              Interact with the table below to customize the component styling.
-              The TOC items are automatically generated from the editor content
-              above.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="text"
-                        value={String(prop.value)}
-                        onChange={(e) =>
-                          handleValueChange(index, e.target.value)
-                        }
-                        placeholder={`Enter ${prop.property}`}
-                        className="h-8"
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component styling. The TOC items are automatically generated from the editor content above."
+        />
 
         {(() => {
           const featureData = featuresData.find(
@@ -425,7 +333,7 @@ export default function TableOfContentsPage() {
             {tocItems.length > 0 ? (
               <Card className="border-2 shadow-lg lg:border-0 lg:shadow-none lg:bg-transparent">
                 <CardContent className="p-0">
-                  <TableOfContents items={tocItems} {...getComponentProps()} />
+                  <TableOfContents items={tocItems} {...getComponentProps} />
                 </CardContent>
               </Card>
             ) : (

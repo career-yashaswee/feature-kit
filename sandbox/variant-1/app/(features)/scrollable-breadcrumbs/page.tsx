@@ -9,22 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   House,
@@ -35,25 +19,17 @@ import {
   Compass,
   ArrowRight,
   Lightning,
-  Code,
   CursorClick,
 } from "@phosphor-icons/react";
 import { ScrollableBreadcrumb } from "@/features/scrollable-breadcrumbs/components/scrollable-breadcrumb";
 import type { BreadcrumbItem } from "@/features/scrollable-breadcrumbs/types";
+import type { ScrollableBreadcrumbProps } from "@/features/scrollable-breadcrumbs/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
 import featuresData from "@/data/features.json";
-
-interface PropConfig {
-  property: string;
-  type: string;
-  description: string;
-  defaultValue: string | number | boolean;
-  value: string | number | boolean;
-  inputType: "number" | "select" | "text" | "boolean";
-  options?: string[];
-}
+import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
+import { PropsApiCard } from "@/components/props-api-card";
 
 const features = [
   {
@@ -107,7 +83,7 @@ const sampleBreadcrumbs: BreadcrumbItem[][] = [
 export default function ScrollableBreadcrumbsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [useNextLink, setUseNextLink] = useState(false);
-  const [props, setProps] = useState<PropConfig[]>([
+  const initialConfig: PropConfig[] = [
     {
       property: "autoScroll",
       type: "boolean",
@@ -123,39 +99,20 @@ export default function ScrollableBreadcrumbsPage() {
       defaultValue: "",
       value: "",
       inputType: "text",
+      skipIfEmpty: true,
     },
-  ]);
+  ];
 
-  const handleValueChange = (
-    index: number,
-    newValue: string | number | boolean,
-  ) => {
-    setProps((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        value: newValue,
-      };
-      return updated;
-    });
+  const propMap: Record<string, keyof ScrollableBreadcrumbProps> = {
+    autoScroll: "autoScroll",
+    className: "className",
   };
 
-  const getComponentProps = () => {
-    const componentProps: {
-      autoScroll?: boolean;
-      className?: string;
-    } = {};
-
-    props.forEach((prop) => {
-      if (prop.property === "autoScroll") {
-        componentProps.autoScroll = Boolean(prop.value);
-      } else if (prop.property === "className" && prop.value) {
-        componentProps.className = String(prop.value);
-      }
+  const { props, handleValueChange, getComponentProps } =
+    usePropsApi<ScrollableBreadcrumbProps>({
+      initialConfig,
+      propMap,
     });
-
-    return componentProps;
-  };
 
   const currentBreadcrumbs = sampleBreadcrumbs[currentIndex];
 
@@ -195,91 +152,17 @@ export default function ScrollableBreadcrumbsPage() {
             <ScrollableBreadcrumb
               items={currentBreadcrumbs}
               renderLink={useNextLink ? nextLinkRenderer : undefined}
-              {...getComponentProps()}
+              {...getComponentProps}
             />
           </CardContent>
         </Card>
 
         {/* Props API Card */}
-        <Card className="border-2 shadow-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="rounded-lg bg-primary/10 p-2">
-                <Code className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Props API</CardTitle>
-            </div>
-            <CardDescription>
-              Interact with the table below to customize the component in
-              real-time. Note: Complex props like `items`, `renderLink`, `separator`, and `onSidebarChange` are not editable here.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Property</TableHead>
-                  <TableHead className="w-[200px]">Type</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="w-[200px]">Value</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {props.map((prop, index) => (
-                  <TableRow key={prop.property}>
-                    <TableCell
-                      className="font-medium text-sm"
-                      style={{
-                        fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                      }}
-                    >
-                      {prop.property}
-                    </TableCell>
-                    <TableCell className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif' }}>
-                      {prop.type}
-                    </TableCell>
-                    <TableCell
-                    className="text-sm text-muted-foreground"
-                    style={{
-                      fontFamily: "var(--font-ibm-plex-sans), sans-serif",
-                    }}
-                  >
-                      {prop.description}
-                    </TableCell>
-                    <TableCell>
-                      {prop.inputType === "boolean" ? (
-                        <Select
-                          value={String(prop.value)}
-                          onValueChange={(value) =>
-                            handleValueChange(index, value === "true")
-                          }
-                        >
-                          <SelectTrigger className="h-8 w-full">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="true">true</SelectItem>
-                            <SelectItem value="false">false</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <Input
-                          type="text"
-                          value={String(prop.value)}
-                          onChange={(e) =>
-                            handleValueChange(index, e.target.value)
-                          }
-                          placeholder={`Enter ${prop.property}`}
-                          className="h-8"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <PropsApiCard
+          props={props}
+          onValueChange={handleValueChange}
+          description="Interact with the table below to customize the component in real-time. Note: Complex props like `items`, `renderLink`, `separator`, and `onSidebarChange` are not editable here."
+        />
 
         {(() => {
           const featureData = featuresData.find(
