@@ -10,11 +10,7 @@ import {
 import { BaseCard } from "@/components/base-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Heart,
-  Lightning,
-  CursorClick,
-} from "@phosphor-icons/react";
+import { Heart, Lightning, CursorClick } from "@phosphor-icons/react";
 import { HealthBar } from "@/features/health-bar/components/health-bar";
 import type { HealthBarProps } from "@/features/health-bar/types";
 import { useQuery } from "@tanstack/react-query";
@@ -135,7 +131,7 @@ export default function HealthBarPage() {
                           ...prev,
                           current: Math.max(
                             0,
-                            Math.min(prev.max, parseInt(e.target.value) || 0)
+                            Math.min(prev.max, parseInt(e.target.value) || 0),
                           ),
                         }))
                       }
@@ -154,7 +150,7 @@ export default function HealthBarPage() {
                       onChange={(e) => {
                         const newMax = Math.max(
                           1,
-                          parseInt(e.target.value) || 100
+                          parseInt(e.target.value) || 100,
                         );
                         setManualData((prev) => ({
                           ...prev,
@@ -179,7 +175,7 @@ export default function HealthBarPage() {
                           ...prev,
                           secondsToNext: Math.max(
                             0,
-                            parseInt(e.target.value) || 0
+                            parseInt(e.target.value) || 0,
                           ),
                         }))
                       }
@@ -201,7 +197,7 @@ export default function HealthBarPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/health-bar"
+            (f) => f.path === "/health-bar",
           );
           if (featureData?.howToTest) {
             return (
@@ -285,7 +281,7 @@ export default function HealthBarPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/health-bar"
+            (f) => f.path === "/health-bar",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

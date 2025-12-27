@@ -73,11 +73,7 @@ describe("TextTruncation", () => {
 
   it("uses custom expand label", () => {
     render(
-      <TextTruncation
-        text={longText}
-        maxLines={2}
-        expandLabel="Read more"
-      />,
+      <TextTruncation text={longText} maxLines={2} expandLabel="Read more" />,
     );
 
     expect(screen.getByText("Read more")).toBeInTheDocument();
@@ -85,11 +81,7 @@ describe("TextTruncation", () => {
 
   it("uses custom collapse label", () => {
     render(
-      <TextTruncation
-        text={longText}
-        maxLines={2}
-        collapseLabel="Read less"
-      />,
+      <TextTruncation text={longText} maxLines={2} collapseLabel="Read less" />,
     );
 
     const expandButton = screen.getByText("Show more");
@@ -99,9 +91,7 @@ describe("TextTruncation", () => {
   });
 
   it("hides toggle button when showToggle is false", () => {
-    render(
-      <TextTruncation text={longText} maxLines={2} showToggle={false} />,
-    );
+    render(<TextTruncation text={longText} maxLines={2} showToggle={false} />);
 
     expect(screen.queryByText("Show more")).not.toBeInTheDocument();
   });
@@ -113,6 +103,3 @@ describe("TextTruncation", () => {
     expect(displayedText).toBeInTheDocument();
   });
 });
-
-
-

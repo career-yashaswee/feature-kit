@@ -73,7 +73,10 @@ describe("HealthBar", () => {
       />,
     );
 
-    const bar = screen.getByRole("img").closest("div")?.querySelector("div[style*='width']");
+    const bar = screen
+      .getByRole("img")
+      .closest("div")
+      ?.querySelector("div[style*='width']");
     expect(bar).toHaveClass("bg-red-500");
   });
 
@@ -88,7 +91,10 @@ describe("HealthBar", () => {
       />,
     );
 
-    const bar = screen.getByRole("img").closest("div")?.querySelector("div[style*='width']");
+    const bar = screen
+      .getByRole("img")
+      .closest("div")
+      ?.querySelector("div[style*='width']");
     expect(bar).toHaveClass("bg-amber-300");
   });
 
@@ -103,7 +109,10 @@ describe("HealthBar", () => {
       />,
     );
 
-    const bar = screen.getByRole("img").closest("div")?.querySelector("div[style*='width']");
+    const bar = screen
+      .getByRole("img")
+      .closest("div")
+      ?.querySelector("div[style*='width']");
     expect(bar).toHaveClass("bg-green-500");
   });
 
@@ -133,10 +142,10 @@ describe("HealthBar", () => {
       />,
     );
 
-    const bar = screen.getByRole("img").closest("div")?.querySelector("div[style*='width: 75%']");
+    const bar = screen
+      .getByRole("img")
+      .closest("div")
+      ?.querySelector("div[style*='width: 75%']");
     expect(bar).toBeInTheDocument();
   });
 });
-
-
-

@@ -7,7 +7,7 @@ const ExportButton = dynamic(
     import("@/features/export-button/components/export-button").then((mod) => ({
       default: mod.ExportButton,
     })),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   CardContent,
@@ -189,7 +189,7 @@ export default function ExportButtonPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/export-button"
+          (f) => f.path === "/export-button",
         );
         if (featureData?.howToTest) {
           return (
@@ -205,7 +205,7 @@ export default function ExportButtonPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/export-button"
+          (f) => f.path === "/export-button",
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({

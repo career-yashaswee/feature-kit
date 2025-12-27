@@ -26,12 +26,7 @@ describe("PersistenceTipTapEditor", () => {
   });
 
   it("renders editor", () => {
-    render(
-      <PersistenceTipTapEditor
-        content=""
-        onContentChange={jest.fn()}
-      />,
-    );
+    render(<PersistenceTipTapEditor content="" onContentChange={jest.fn()} />);
 
     // Editor should be rendered (structure may vary based on TipTap implementation)
     expect(screen.getByPlaceholderText("Start writing...")).toBeInTheDocument();
@@ -46,17 +41,16 @@ describe("PersistenceTipTapEditor", () => {
       />,
     );
 
-    expect(screen.getByPlaceholderText("Custom placeholder")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Custom placeholder"),
+    ).toBeInTheDocument();
   });
 
   it("calls onContentChange when content changes", async () => {
     const onContentChange = jest.fn();
 
     render(
-      <PersistenceTipTapEditor
-        content=""
-        onContentChange={onContentChange}
-      />,
+      <PersistenceTipTapEditor content="" onContentChange={onContentChange} />,
     );
 
     // Simulate content change (implementation depends on TipTap)
@@ -97,10 +91,9 @@ describe("PersistenceTipTapEditor", () => {
     await waitFor(() => {
       // onSave should be called when content changes and autoSave is enabled
       // This depends on the actual TipTap implementation
-      expect(screen.getByPlaceholderText("Start writing...")).toBeInTheDocument();
+      expect(
+        screen.getByPlaceholderText("Start writing..."),
+      ).toBeInTheDocument();
     });
   });
 });
-
-
-

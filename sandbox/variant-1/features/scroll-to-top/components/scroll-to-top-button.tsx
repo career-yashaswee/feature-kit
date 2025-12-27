@@ -56,7 +56,7 @@ export function ScrollToTopButton({
             onClick={handleClick}
             className={cn(
               "rounded-full shadow-md bg-primary text-primary-foreground hover:bg-primary/90",
-              className
+              className,
             )}
           >
             {children ?? <CaretUp />}

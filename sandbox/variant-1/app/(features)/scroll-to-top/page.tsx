@@ -8,9 +8,9 @@ const ScrollToTopButton = dynamic(
     import("@/features/scroll-to-top/components/scroll-to-top-button").then(
       (mod) => ({
         default: mod.ScrollToTopButton,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   CardContent,
@@ -169,7 +169,7 @@ export default function ScrollToTopPage() {
       {/* How to Test Card */}
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/scroll-to-top"
+          (f) => f.path === "/scroll-to-top",
         );
         if (featureData?.howToTest) {
           return (
@@ -186,7 +186,7 @@ export default function ScrollToTopPage() {
       {/* Features Card */}
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/scroll-to-top"
+          (f) => f.path === "/scroll-to-top",
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({

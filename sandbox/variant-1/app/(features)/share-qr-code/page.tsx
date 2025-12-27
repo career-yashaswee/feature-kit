@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   CardContent,
   CardDescription,
@@ -18,6 +17,7 @@ import {
   Share,
   Copy,
   Palette,
+  Code,
 } from "@phosphor-icons/react";
 import { ShareQRCode } from "@/features/share-qr-code/components/share-qr-code";
 import type { ShareQRCodeProps } from "@/features/share-qr-code/types";
@@ -112,7 +112,8 @@ export default function ShareQRCodePage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `isOpen` and `onOpenChange` are not editable here.
+              Note: Complex props like `isOpen` and `onOpenChange` are not
+              editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -246,7 +247,7 @@ export default function ShareQRCodePage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/share-qr-code"
+            (f) => f.path === "/share-qr-code",
           );
           if (featureData?.howToTest) {
             return (
@@ -262,7 +263,7 @@ export default function ShareQRCodePage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/share-qr-code"
+            (f) => f.path === "/share-qr-code",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
@@ -316,6 +317,7 @@ export default function ShareQRCodePage() {
         {/* QR Code Modal */}
         <ShareQRCode
           {...getComponentProps}
+          url={getComponentProps.url || shareUrl}
           isOpen={isOpen}
           onOpenChange={toggleOpen}
         />

@@ -28,11 +28,7 @@ describe("VariantSelect", () => {
 
   it("renders display badge in display mode", () => {
     render(
-      <VariantSelect
-        featureId="test"
-        variants={mockVariants}
-        mode="display"
-      />,
+      <VariantSelect featureId="test" variants={mockVariants} mode="display" />,
     );
 
     expect(screen.getByText("2 variants")).toBeInTheDocument();
@@ -114,6 +110,3 @@ describe("VariantSelect", () => {
     expect(screen.getByText("Variant 1")).toBeInTheDocument();
   });
 });
-
-
-

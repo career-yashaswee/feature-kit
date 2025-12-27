@@ -19,14 +19,15 @@ import type { VariantSelectProps } from "@/features/variant-select/types";
 
 export default function VariantSelectPage() {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    null
+    null,
   );
 
   const initialConfig: PropConfig[] = [
     {
       property: "mode",
       type: '"display" | "selector"',
-      description: "Display mode: 'display' shows count badge, 'selector' shows dropdown",
+      description:
+        "Display mode: 'display' shows count badge, 'selector' shows dropdown",
       defaultValue: "selector",
       value: "selector",
       inputType: "select",
@@ -107,7 +108,8 @@ export default function VariantSelectPage() {
           </div>
           <CardDescription>
             See the component update in real-time as you change props below.
-            Note: The `featureId`, `variants`, `onVariantSelect`, and `adapter` props are complex and not editable here.
+            Note: The `featureId`, `variants`, `onVariantSelect`, and `adapter`
+            props are complex and not editable here.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -118,21 +120,21 @@ export default function VariantSelectPage() {
               setSelectedVariantId(variantId);
               console.log("Selected variant:", variantId);
             }}
-              {...getComponentProps}
+            {...getComponentProps}
           />
         </CardContent>
       </BaseCard>
 
-        {/* Props API Card */}
-        <PropsApiCard
-          props={props}
-          onValueChange={handleValueChange}
-          description="Interact with the table below to customize the component in real-time. Note: Complex props like `featureId`, `variants`, `onVariantSelect`, and `adapter` are not editable here."
-        />
+      {/* Props API Card */}
+      <PropsApiCard
+        props={props}
+        onValueChange={handleValueChange}
+        description="Interact with the table below to customize the component in real-time. Note: Complex props like `featureId`, `variants`, `onVariantSelect`, and `adapter` are not editable here."
+      />
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/variant-select"
+          (f) => f.path === "/variant-select",
         );
         if (featureData?.howToTest) {
           return (
@@ -157,119 +159,118 @@ export default function VariantSelectPage() {
         );
       })()}
 
-        <BaseCard>
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Stack className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Selector Mode</CardTitle>
+      <BaseCard>
+        <CardHeader className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="rounded-lg bg-primary/10 p-2 shrink-0">
+              <Stack className="h-5 w-5 text-primary" />
             </div>
-            <CardDescription>
-              Full-featured variant selector with dropdown
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <VariantSelect
-                featureId="demo-feature"
-                variants={sampleVariants}
-                onVariantSelect={(variantId) => {
-                  setSelectedVariantId(variantId);
-                  console.log("Selected variant:", variantId);
-                }}
-                mode="selector"
-              />
-            </div>
-            {selectedVariantId && (
-              <div className="p-4 bg-muted rounded-lg">
-                <p className="text-sm text-muted-foreground">
-                  Selected:{" "}
-                  <span className="font-semibold">{selectedVariantId}</span>
-                </p>
-              </div>
-            )}
-          </CardContent>
-        </BaseCard>
-
-        <BaseCard>
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Stack className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Display Mode</CardTitle>
-            </div>
-            <CardDescription>
-              Simple badge display showing variant count
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            <CardTitle className="text-2xl">Selector Mode</CardTitle>
+          </div>
+          <CardDescription>
+            Full-featured variant selector with dropdown
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
             <VariantSelect
-              featureId="demo-feature-2"
+              featureId="demo-feature"
               variants={sampleVariants}
-              mode="display"
+              onVariantSelect={(variantId) => {
+                setSelectedVariantId(variantId);
+                console.log("Selected variant:", variantId);
+              }}
+              mode="selector"
             />
-          </CardContent>
-        </BaseCard>
+          </div>
+          {selectedVariantId && (
+            <div className="p-4 bg-muted rounded-lg">
+              <p className="text-sm text-muted-foreground">
+                Selected:{" "}
+                <span className="font-semibold">{selectedVariantId}</span>
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </BaseCard>
 
-        <BaseCard>
-          <CardHeader className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg bg-primary/10 p-2 shrink-0">
-                <Lightning className="h-5 w-5 text-primary" />
-              </div>
-              <CardTitle className="text-2xl">Features</CardTitle>
+      <BaseCard>
+        <CardHeader className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="rounded-lg bg-primary/10 p-2 shrink-0">
+              <Stack className="h-5 w-5 text-primary" />
             </div>
-            <CardDescription>
-              Key capabilities of the variant selector
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  icon: Stack,
-                  title: "Dependency Icons",
-                  description:
-                    "Visual representation of variant dependencies with icons",
-                },
-                {
-                  icon: Lightning,
-                  title: "Persistent State",
-                  description:
-                    "Selection state persists across page reloads using Zustand",
-                },
-                {
-                  icon: Gear,
-                  title: "Adapter Pattern",
-                  description:
-                    "Configurable adapter for custom state management",
-                },
-                {
-                  icon: Stack,
-                  title: "Stack Badges",
-                  description: "Display stack information with visual badges",
-                },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
-                >
-                  <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
-                    <feature.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-semibold">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
+            <CardTitle className="text-2xl">Display Mode</CardTitle>
+          </div>
+          <CardDescription>
+            Simple badge display showing variant count
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <VariantSelect
+            featureId="demo-feature-2"
+            variants={sampleVariants}
+            mode="display"
+          />
+        </CardContent>
+      </BaseCard>
+
+      <BaseCard>
+        <CardHeader className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="rounded-lg bg-primary/10 p-2 shrink-0">
+              <Lightning className="h-5 w-5 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">Features</CardTitle>
+          </div>
+          <CardDescription>
+            Key capabilities of the variant selector
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2">
+            {[
+              {
+                icon: Stack,
+                title: "Dependency Icons",
+                description:
+                  "Visual representation of variant dependencies with icons",
+              },
+              {
+                icon: Lightning,
+                title: "Persistent State",
+                description:
+                  "Selection state persists across page reloads using Zustand",
+              },
+              {
+                icon: Gear,
+                title: "Adapter Pattern",
+                description: "Configurable adapter for custom state management",
+              },
+              {
+                icon: Stack,
+                title: "Stack Badges",
+                description: "Display stack information with visual badges",
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="group flex gap-4 rounded-lg border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-md"
+              >
+                <div className="rounded-lg bg-primary/10 p-2.5 group-hover:bg-primary/20 transition-colors">
+                  <feature.icon className="h-5 w-5 text-primary" />
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </BaseCard>
+                <div className="flex-1 space-y-1">
+                  <h4 className="font-semibold">{feature.title}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </BaseCard>
     </>
   );
 }

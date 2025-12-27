@@ -8,11 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BaseCard } from "@/components/base-card";
-import {
-  Monitor,
-  Lightning,
-  CursorClick,
-} from "@phosphor-icons/react";
+import { Monitor, Lightning, CursorClick } from "@phosphor-icons/react";
 import { ActiveDevices } from "@/features/active-devices";
 import type { Session } from "@/features/active-devices/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
@@ -116,7 +112,7 @@ export default function ActiveDevicesPage() {
       prev.map((s) => ({
         ...s,
         isCurrent: s.token === sessionToken,
-      }))
+      })),
     );
   };
 
@@ -157,7 +153,7 @@ export default function ActiveDevicesPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/active-devices"
+            (f) => f.path === "/active-devices",
           );
           if (featureData?.howToTest) {
             return (
@@ -196,7 +192,7 @@ export default function ActiveDevicesPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/active-devices"
+            (f) => f.path === "/active-devices",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

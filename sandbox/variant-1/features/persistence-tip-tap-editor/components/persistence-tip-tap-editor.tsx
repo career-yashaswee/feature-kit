@@ -30,7 +30,7 @@ export function PersistenceTipTapEditor({
 }: PersistenceTipTapEditorProps) {
   const [localContent, setLocalContent] = useLocalStorage<string>(
     storageKey || "tiptap-editor-content",
-    ""
+    "",
   );
   const [content, setContent] = useState(propContent || localContent || "");
   const [isSaving, setIsSaving] = useState(false);

@@ -21,9 +21,7 @@ describe("PageLoader", () => {
   });
 
   it("does not render when isVisible is false", () => {
-    const { container } = render(
-      <PageLoader isVisible={false} />,
-    );
+    const { container } = render(<PageLoader isVisible={false} />);
 
     expect(container.firstChild).toBeNull();
   });
@@ -67,11 +65,7 @@ describe("PageLoader", () => {
 
   it("shows brand name when hideBranding is false", async () => {
     render(
-      <PageLoader
-        isVisible={true}
-        brandName="MyApp"
-        hideBranding={false}
-      />,
+      <PageLoader isVisible={true} brandName="MyApp" hideBranding={false} />,
     );
 
     jest.advanceTimersByTime(20);
@@ -83,11 +77,7 @@ describe("PageLoader", () => {
 
   it("hides brand when hideBranding is true", async () => {
     render(
-      <PageLoader
-        isVisible={true}
-        brandName="MyApp"
-        hideBranding={true}
-      />,
+      <PageLoader isVisible={true} brandName="MyApp" hideBranding={true} />,
     );
 
     jest.advanceTimersByTime(20);
@@ -109,10 +99,9 @@ describe("PageLoader", () => {
     jest.advanceTimersByTime(120);
 
     await waitFor(() => {
-      expect(screen.getByText("Taking longer than expected?")).toBeInTheDocument();
+      expect(
+        screen.getByText("Taking longer than expected?"),
+      ).toBeInTheDocument();
     });
   });
 });
-
-
-

@@ -119,7 +119,7 @@ export default function ScrollableBreadcrumbsPage() {
   // Custom renderLink for Next.js Link
   const nextLinkRenderer = (
     item: BreadcrumbItem,
-    children: React.ReactNode
+    children: React.ReactNode,
   ) => {
     return (
       <Link
@@ -145,7 +145,8 @@ export default function ScrollableBreadcrumbsPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: The `items`, `renderLink`, `separator`, and `onSidebarChange` props are complex and not editable here.
+              Note: The `items`, `renderLink`, `separator`, and
+              `onSidebarChange` props are complex and not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -166,7 +167,7 @@ export default function ScrollableBreadcrumbsPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/scrollable-breadcrumbs"
+            (f) => f.path === "/scrollable-breadcrumbs",
           );
           if (featureData?.howToTest) {
             return (
@@ -217,7 +218,7 @@ export default function ScrollableBreadcrumbsPage() {
                   variant="outline"
                   onClick={() =>
                     setCurrentIndex(
-                      (prev) => (prev + 1) % sampleBreadcrumbs.length
+                      (prev) => (prev + 1) % sampleBreadcrumbs.length,
                     )
                   }
                 >
@@ -276,7 +277,10 @@ export default function ScrollableBreadcrumbsPage() {
                     Scenario {index + 1}
                   </div>
                   <div className="p-4 border rounded-lg bg-muted/50">
-                    <ScrollableBreadcrumb items={breadcrumbs} {...getComponentProps} />
+                    <ScrollableBreadcrumb
+                      items={breadcrumbs}
+                      {...getComponentProps}
+                    />
                   </div>
                 </div>
               ))}
@@ -300,7 +304,10 @@ export default function ScrollableBreadcrumbsPage() {
                 <div className="text-sm font-medium mb-2">
                   Default Separator
                 </div>
-                <ScrollableBreadcrumb items={currentBreadcrumbs} {...getComponentProps} />
+                <ScrollableBreadcrumb
+                  items={currentBreadcrumbs}
+                  {...getComponentProps}
+                />
               </div>
               <div>
                 <div className="text-sm font-medium mb-2">Custom Separator</div>
@@ -316,7 +323,7 @@ export default function ScrollableBreadcrumbsPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/scrollable-breadcrumbs"
+            (f) => f.path === "/scrollable-breadcrumbs",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BaseCard } from "@/components/base-card";
 import {
   Copy,
   Code,
@@ -29,9 +28,9 @@ import type { CopyToClipboardProps } from "@/features/copy-to-clipboard/types";
 const PersistenceTipTapEditor = dynamic(
   () =>
     import("@/features/persistence-tip-tap-editor").then(
-      (mod) => mod.PersistenceTipTapEditor
+      (mod) => mod.PersistenceTipTapEditor,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import { Textarea } from "@/components/ui/textarea";
 
@@ -228,7 +227,7 @@ export default function CopyToClipboardPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/copy-to-clipboard"
+          (f) => f.path === "/copy-to-clipboard",
         );
         if (featureData?.howToTest) {
           return (
@@ -358,7 +357,7 @@ export default function CopyToClipboardPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/copy-to-clipboard"
+          (f) => f.path === "/copy-to-clipboard",
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({

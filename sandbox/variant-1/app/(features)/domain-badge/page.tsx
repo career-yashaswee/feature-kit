@@ -19,7 +19,10 @@ import {
   Lightning,
 } from "@phosphor-icons/react";
 import { DomainBadge } from "@/features/domain-badge/components/domain-badge";
-import type { DomainConfig, DomainBadgeProps } from "@/features/domain-badge/types";
+import type {
+  DomainConfig,
+  DomainBadgeProps,
+} from "@/features/domain-badge/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
@@ -138,7 +141,7 @@ export default function DomainBadgePage() {
     setSelectedDomains((prev) =>
       prev.includes(domainId)
         ? prev.filter((id) => id !== domainId)
-        : [...prev, domainId]
+        : [...prev, domainId],
     );
   };
 
@@ -156,7 +159,8 @@ export default function DomainBadgePage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: The `domains` and `domainConfigs` props are complex and not editable here.
+              Note: The `domains` and `domainConfigs` props are complex and not
+              editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -176,7 +180,9 @@ export default function DomainBadgePage() {
         />
 
         {(() => {
-          const featureData = featuresData.find((f) => f.path === "/domain-badge");
+          const featureData = featuresData.find(
+            (f) => f.path === "/domain-badge",
+          );
           if (featureData?.howToTest) {
             return (
               <HowToTestCard
@@ -211,7 +217,7 @@ export default function DomainBadgePage() {
                     "px-3 py-1.5 rounded-md border text-sm transition-colors",
                     selectedDomains.includes(domain.id)
                       ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-background hover:bg-muted"
+                      : "bg-background hover:bg-muted",
                   )}
                 >
                   {domain.label}
@@ -288,7 +294,9 @@ export default function DomainBadgePage() {
         </BaseCard>
 
         {(() => {
-          const featureData = featuresData.find((f) => f.path === "/domain-badge");
+          const featureData = featuresData.find(
+            (f) => f.path === "/domain-badge",
+          );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
               icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),

@@ -52,10 +52,7 @@ describe("ConsequenceConfirmationDialog", () => {
     const onConfirm = jest.fn().mockResolvedValue(undefined);
 
     render(
-      <ConsequenceConfirmationDialog
-        {...defaultProps}
-        onConfirm={onConfirm}
-      />,
+      <ConsequenceConfirmationDialog {...defaultProps} onConfirm={onConfirm} />,
     );
 
     const confirmButton = screen.getByText("Confirm");
@@ -129,16 +126,10 @@ describe("ConsequenceConfirmationDialog", () => {
 
   it("disables buttons when isLoading is true", () => {
     render(
-      <ConsequenceConfirmationDialog
-        {...defaultProps}
-        isLoading={true}
-      />,
+      <ConsequenceConfirmationDialog {...defaultProps} isLoading={true} />,
     );
 
     const cancelButton = screen.getByText("Cancel");
     expect(cancelButton).toBeDisabled();
   });
 });
-
-
-

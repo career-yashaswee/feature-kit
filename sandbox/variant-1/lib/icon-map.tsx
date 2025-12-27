@@ -75,7 +75,7 @@ export function getIconComponent(iconName: string): Icon {
 
 export function renderIcon(
   iconName: string,
-  className?: string
+  className?: string,
 ): React.ReactNode {
   const IconComponent = getIconComponent(iconName);
   return <IconComponent className={className} />;

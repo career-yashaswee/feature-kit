@@ -36,7 +36,7 @@ export function usePropsApi<T>({
         return updated;
       });
     },
-    []
+    [],
   );
 
   const getComponentProps = useMemo((): Partial<T> => {
@@ -46,7 +46,8 @@ export function usePropsApi<T>({
       const propKey = propMap[prop.property] as keyof T;
       if (!propKey) return;
 
-      const shouldSkip = prop.skipIfEmpty && (prop.value === '' || prop.value == null);
+      const shouldSkip =
+        prop.skipIfEmpty && (prop.value === "" || prop.value == null);
       if (shouldSkip) return;
 
       const transform =
@@ -69,4 +70,3 @@ export function usePropsApi<T>({
     getComponentProps,
   };
 }
-

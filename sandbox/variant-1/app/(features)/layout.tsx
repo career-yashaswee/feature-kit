@@ -48,7 +48,7 @@ type FeatureData = {
 };
 
 const getStatusFromBadge = (
-  statusBadge?: string
+  statusBadge?: string,
 ): "online" | "offline" | "maintenance" | "degraded" | null => {
   if (!statusBadge) return null;
   const badgeLower = statusBadge.toLowerCase();
@@ -175,7 +175,7 @@ export default function FeaturesLayout({
   const pathname = usePathname();
 
   const feature = (featuresData as FeatureData[]).find(
-    (f) => f.path === pathname
+    (f) => f.path === pathname,
   );
 
   const shareUrl = useMemo(() => {

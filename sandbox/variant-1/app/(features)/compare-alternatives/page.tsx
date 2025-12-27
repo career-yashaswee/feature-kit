@@ -200,7 +200,7 @@ export default function CompareAlternativesPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/compare-alternatives"
+            (f) => f.path === "/compare-alternatives",
           );
           if (featureData?.howToTest) {
             return (
@@ -326,7 +326,7 @@ export default function CompareAlternativesPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/compare-alternatives"
+            (f) => f.path === "/compare-alternatives",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

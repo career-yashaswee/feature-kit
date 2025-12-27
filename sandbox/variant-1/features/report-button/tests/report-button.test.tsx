@@ -120,7 +120,9 @@ describe("ReportButton", () => {
       const otherCheckbox = screen.getByLabelText(/Other/i);
       fireEvent.click(otherCheckbox);
 
-      expect(screen.getByPlaceholderText("Summarize what is wrong")).toBeInTheDocument();
+      expect(
+        screen.getByPlaceholderText("Summarize what is wrong"),
+      ).toBeInTheDocument();
     });
   });
 
@@ -143,6 +145,3 @@ describe("ReportButton", () => {
     });
   });
 });
-
-
-

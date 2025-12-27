@@ -6,14 +6,18 @@ describe("EmptyState", () => {
     render(<EmptyState type="no-data" />);
 
     expect(screen.getByText("No data available")).toBeInTheDocument();
-    expect(screen.getByText("There's nothing to display here yet.")).toBeInTheDocument();
+    expect(
+      screen.getByText("There's nothing to display here yet."),
+    ).toBeInTheDocument();
   });
 
   it("renders error state", () => {
     render(<EmptyState type="error" />);
 
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();
-    expect(screen.getByText("We encountered an error. Please try again.")).toBeInTheDocument();
+    expect(
+      screen.getByText("We encountered an error. Please try again."),
+    ).toBeInTheDocument();
   });
 
   it("renders loading state", () => {
@@ -63,11 +67,7 @@ describe("EmptyState", () => {
     const onAction = jest.fn();
 
     render(
-      <EmptyState
-        type="no-data"
-        actionLabel="Click me"
-        onAction={onAction}
-      />,
+      <EmptyState type="no-data" actionLabel="Click me" onAction={onAction} />,
     );
 
     const button = screen.getByText("Click me");
@@ -77,28 +77,15 @@ describe("EmptyState", () => {
   });
 
   it("disables button when onAction is not provided", () => {
-    render(
-      <EmptyState
-        type="no-data"
-        actionLabel="Click me"
-      />,
-    );
+    render(<EmptyState type="no-data" actionLabel="Click me" />);
 
     const button = screen.getByText("Click me");
     expect(button).toBeDisabled();
   });
 
   it("renders default action label for no-data type", () => {
-    render(
-      <EmptyState
-        type="no-data"
-        onAction={jest.fn()}
-      />,
-    );
+    render(<EmptyState type="no-data" onAction={jest.fn()} />);
 
     expect(screen.getByText("Refresh")).toBeInTheDocument();
   });
 });
-
-
-

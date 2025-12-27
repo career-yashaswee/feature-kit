@@ -10,7 +10,10 @@ import {
 import { BaseCard } from "@/components/base-card";
 import { ArrowUp, Lightning, CursorClick } from "@phosphor-icons/react";
 import { UpgradeButton } from "@/features/upgrade-button/components/upgrade-button";
-import type { UpgradeAction, UpgradeButtonProps } from "@/features/upgrade-button/types";
+import type {
+  UpgradeAction,
+  UpgradeButtonProps,
+} from "@/features/upgrade-button/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
 import { renderIcon } from "@/lib/icon-map";
@@ -336,7 +339,7 @@ export default function UpgradeButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/upgrade-button"
+            (f) => f.path === "/upgrade-button",
           );
           if (featureData?.howToTest) {
             return (
@@ -352,7 +355,7 @@ export default function UpgradeButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/upgrade-button"
+            (f) => f.path === "/upgrade-button",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
@@ -372,7 +375,8 @@ export default function UpgradeButtonPage() {
             {
               icon: renderIcon("ArrowUp", "h-5 w-5 text-primary"),
               title: "Configurable Actions",
-              description: "Support for trial, upgrade, and manage subscription actions",
+              description:
+                "Support for trial, upgrade, and manage subscription actions",
             },
             {
               icon: renderIcon("Lightning", "h-5 w-5 text-primary"),

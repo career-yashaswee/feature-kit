@@ -76,9 +76,10 @@ export function RefreshButton({
     });
   }, [queryClient, queryKeys, resource, isRefreshing, onSuccess, onError]);
 
-  const isIconSize = size === "icon" || size === "icon-sm" || size === "icon-lg";
+  const isIconSize =
+    size === "icon" || size === "icon-sm" || size === "icon-lg";
   const shouldShowIcon = isIconSize ? true : showIcon;
-  const shouldShowLabel = isIconSize ? false : label ?? "Refresh";
+  const shouldShowLabel = isIconSize ? false : (label ?? "Refresh");
   const displayAriaLabel = ariaLabel ?? `Refresh ${resource}`;
 
   return (
@@ -103,7 +104,9 @@ export function RefreshButton({
           <ArrowsClockwise className="h-4 w-4 shrink-0" />
         </motion.div>
       )}
-      {shouldShowLabel && <span className="hidden sm:inline">{shouldShowLabel}</span>}
+      {shouldShowLabel && (
+        <span className="hidden sm:inline">{shouldShowLabel}</span>
+      )}
     </Button>
   );
 }

@@ -109,6 +109,3 @@ describe("TestCaseBadge", () => {
     expect(container).toHaveClass("px-5", "py-3");
   });
 });
-
-
-

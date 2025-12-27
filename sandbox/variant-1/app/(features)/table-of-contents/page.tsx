@@ -16,6 +16,7 @@ import {
   Sparkle,
   Gear,
   Lightning,
+  Code,
 } from "@phosphor-icons/react";
 import { TableOfContents } from "@/features/table-of-contents/components/table-of-contents";
 import type { TableOfContentsProps } from "@/features/table-of-contents/types";
@@ -29,9 +30,9 @@ import { PropsApiCard } from "@/components/props-api-card";
 const PersistenceTipTapEditor = dynamic(
   () =>
     import("@/features/persistence-tip-tap-editor").then(
-      (mod) => mod.PersistenceTipTapEditor
+      (mod) => mod.PersistenceTipTapEditor,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 const sampleMarkdown = `# Introduction
@@ -154,7 +155,7 @@ function markdownToHtml(markdown: string): string {
       const slug = count > 0 ? `${baseSlug}-${count}` : baseSlug;
 
       htmlLines.push(
-        `<h${level} id="${slug}" class="scroll-mt-24">${content}</h${level}>`
+        `<h${level} id="${slug}" class="scroll-mt-24">${content}</h${level}>`,
       );
     } else {
       htmlLines.push(line);
@@ -170,13 +171,13 @@ export default function TableOfContentsPage() {
   // Convert markdown to HTML for display
   const htmlContent = useMemo(
     () => markdownToHtml(editorContent),
-    [editorContent]
+    [editorContent],
   );
 
   // Parse content to get TOC items - try HTML first, then markdown
   const tocItemsFromHtml = useMemo(
     () => parseHtmlToTocItems(editorContent),
-    [editorContent]
+    [editorContent],
   );
   const tocItemsFromMarkdown = useTableOfContents(editorContent);
 
@@ -262,13 +263,16 @@ export default function TableOfContentsPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/table-of-contents"
+            (f) => f.path === "/table-of-contents",
           );
           if (featureData?.howToTest) {
             return (
               <HowToTestCard
                 steps={featureData.howToTest.steps}
-                conclusion={featureData.howToTest.conclusion || "Edit the markdown content in the editor and watch the table of contents update dynamically. Scroll through the preview to see active section highlighting."}
+                conclusion={
+                  featureData.howToTest.conclusion ||
+                  "Edit the markdown content in the editor and watch the table of contents update dynamically. Scroll through the preview to see active section highlighting."
+                }
                 icon={<CursorClick className="h-5 w-5 text-primary" />}
               />
             );
@@ -331,13 +335,13 @@ export default function TableOfContentsPage() {
 
           <div className="order-first lg:order-last">
             {tocItems.length > 0 ? (
-              <Card className="border-2 shadow-lg lg:border-0 lg:shadow-none lg:bg-transparent">
+              <BaseCard className="border-2 shadow-lg lg:border-0 lg:shadow-none lg:bg-transparent">
                 <CardContent className="p-0">
                   <TableOfContents items={tocItems} {...getComponentProps} />
                 </CardContent>
               </BaseCard>
             ) : (
-              <Card className="border-2">
+              <BaseCard className="border-2">
                 <CardContent className="p-6">
                   <p className="text-sm text-muted-foreground">
                     No headings found. Add headings (e.g., # Heading) to

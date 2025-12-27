@@ -119,18 +119,22 @@ export default function SearchInputPage() {
     },
   ];
 
-  const propMap: Record<string, keyof SearchInputProps<typeof sampleData[0]>> = {
+  const propMap: Record<
+    string,
+    keyof SearchInputProps<(typeof sampleData)[0]>
+  > = {
     placeholder: "placeholder",
     debounceMs: "debounceMs",
     fuzzyThreshold: "fuzzyThreshold",
     className: "className",
   };
 
-  const { props, handleValueChange, getComponentProps } =
-    usePropsApi<SearchInputProps<typeof sampleData[0]>>({
-      initialConfig,
-      propMap,
-    });
+  const { props, handleValueChange, getComponentProps } = usePropsApi<
+    SearchInputProps<(typeof sampleData)[0]>
+  >({
+    initialConfig,
+    propMap,
+  });
 
   return (
     <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
@@ -146,7 +150,8 @@ export default function SearchInputPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `data`, `searchKeys`, `onSearch`, `onResultClick`, and `renderResult` are not editable here.
+              Note: Complex props like `data`, `searchKeys`, `onSearch`,
+              `onResultClick`, and `renderResult` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -232,13 +237,11 @@ export default function SearchInputPage() {
                 <div className="rounded-lg bg-primary/10 p-2 shrink-0">
                   <MagnifyingGlass className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">
-                  Search Input Example
-                </CardTitle>
+                <CardTitle className="text-2xl">Search Input Example</CardTitle>
               </div>
               <CardDescription>
-                Search through sample food items with fuzzy matching
-                and debouncing
+                Search through sample food items with fuzzy matching and
+                debouncing
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -307,7 +310,7 @@ export default function SearchInputPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/search-input"
+            (f) => f.path === "/search-input",
           );
           if (featureData?.howToTest) {
             return (
@@ -323,7 +326,7 @@ export default function SearchInputPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/search-input"
+            (f) => f.path === "/search-input",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

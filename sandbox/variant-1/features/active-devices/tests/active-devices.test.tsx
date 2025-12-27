@@ -38,10 +38,7 @@ describe("ActiveDevices", () => {
 
   it("renders card title", () => {
     render(
-      <ActiveDevices
-        sessions={mockSessions}
-        onDeleteSession={jest.fn()}
-      />,
+      <ActiveDevices sessions={mockSessions} onDeleteSession={jest.fn()} />,
     );
 
     expect(screen.getByText("Active Devices")).toBeInTheDocument();
@@ -49,10 +46,7 @@ describe("ActiveDevices", () => {
 
   it("renders sessions", () => {
     render(
-      <ActiveDevices
-        sessions={mockSessions}
-        onDeleteSession={jest.fn()}
-      />,
+      <ActiveDevices sessions={mockSessions} onDeleteSession={jest.fn()} />,
     );
 
     expect(screen.getByText("Chrome on Mac")).toBeInTheDocument();
@@ -61,10 +55,7 @@ describe("ActiveDevices", () => {
 
   it("shows current device badge", () => {
     render(
-      <ActiveDevices
-        sessions={mockSessions}
-        onDeleteSession={jest.fn()}
-      />,
+      <ActiveDevices sessions={mockSessions} onDeleteSession={jest.fn()} />,
     );
 
     expect(screen.getByText("Current Device")).toBeInTheDocument();
@@ -83,28 +74,18 @@ describe("ActiveDevices", () => {
   });
 
   it("shows empty state when no sessions", () => {
-    render(
-      <ActiveDevices
-        sessions={[]}
-        onDeleteSession={jest.fn()}
-      />,
-    );
+    render(<ActiveDevices sessions={[]} onDeleteSession={jest.fn()} />);
 
     expect(screen.getByText("No active sessions")).toBeInTheDocument();
   });
 
   it("opens delete confirmation dialog", async () => {
     render(
-      <ActiveDevices
-        sessions={mockSessions}
-        onDeleteSession={jest.fn()}
-      />,
+      <ActiveDevices sessions={mockSessions} onDeleteSession={jest.fn()} />,
     );
 
     const deleteButtons = screen.getAllByRole("button");
-    const deleteButton = deleteButtons.find((btn) =>
-      btn.querySelector("svg"),
-    );
+    const deleteButton = deleteButtons.find((btn) => btn.querySelector("svg"));
 
     if (deleteButton) {
       fireEvent.click(deleteButton);
@@ -126,9 +107,7 @@ describe("ActiveDevices", () => {
     );
 
     const deleteButtons = screen.getAllByRole("button");
-    const deleteButton = deleteButtons.find((btn) =>
-      btn.querySelector("svg"),
-    );
+    const deleteButton = deleteButtons.find((btn) => btn.querySelector("svg"));
 
     if (deleteButton) {
       fireEvent.click(deleteButton);
@@ -141,6 +120,3 @@ describe("ActiveDevices", () => {
     }
   });
 });
-
-
-

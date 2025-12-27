@@ -48,10 +48,7 @@ describe("ScrollableBreadcrumb", () => {
 
   it("renders custom separator", () => {
     render(
-      <ScrollableBreadcrumb
-        items={mockItems}
-        separator={<span>/</span>}
-      />,
+      <ScrollableBreadcrumb items={mockItems} separator={<span>/</span>} />,
     );
 
     expect(screen.getByText("/")).toBeInTheDocument();
@@ -73,21 +70,16 @@ describe("ScrollableBreadcrumb", () => {
   });
 
   it("uses custom renderLink when provided", () => {
-    const customRenderLink = (item: typeof mockItems[0], children: React.ReactNode) => (
-      <button>{children}</button>
-    );
+    const customRenderLink = (
+      item: (typeof mockItems)[0],
+      children: React.ReactNode,
+    ) => <button>{children}</button>;
 
     render(
-      <ScrollableBreadcrumb
-        items={mockItems}
-        renderLink={customRenderLink}
-      />,
+      <ScrollableBreadcrumb items={mockItems} renderLink={customRenderLink} />,
     );
 
     const homeButton = screen.getByText("Home").closest("button");
     expect(homeButton).toBeInTheDocument();
   });
 });
-
-
-

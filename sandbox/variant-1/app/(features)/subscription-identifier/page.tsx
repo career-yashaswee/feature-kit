@@ -307,7 +307,7 @@ export default function SubscriptionIdentifierPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/subscription-identifier"
+            (f) => f.path === "/subscription-identifier",
           );
           if (featureData?.howToTest) {
             return (
@@ -323,7 +323,7 @@ export default function SubscriptionIdentifierPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/subscription-identifier"
+            (f) => f.path === "/subscription-identifier",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

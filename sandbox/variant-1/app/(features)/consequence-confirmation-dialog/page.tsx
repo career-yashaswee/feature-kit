@@ -395,7 +395,7 @@ export default function ConsequenceConfirmationDialogPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/consequence-confirmation-dialog"
+            (f) => f.path === "/consequence-confirmation-dialog",
           );
           if (featureData?.howToTest) {
             return (
@@ -411,7 +411,7 @@ export default function ConsequenceConfirmationDialogPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/consequence-confirmation-dialog"
+            (f) => f.path === "/consequence-confirmation-dialog",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

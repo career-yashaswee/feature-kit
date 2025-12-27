@@ -122,6 +122,3 @@ describe("LanguageSwitcher", () => {
     expect(screen.getByText("English")).toBeInTheDocument();
   });
 });
-
-
-

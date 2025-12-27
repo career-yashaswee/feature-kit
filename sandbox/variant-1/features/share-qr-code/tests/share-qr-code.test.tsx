@@ -114,6 +114,3 @@ describe("ShareQRCode", () => {
     expect(screen.queryByTestId("qr-code")).not.toBeInTheDocument();
   });
 });
-
-
-

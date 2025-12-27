@@ -8,9 +8,9 @@ const AutoSaveForm = dynamic(
     import("@/features/auto-save-form/components/auto-save-form").then(
       (mod) => ({
         default: mod.AutoSaveForm,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   CardContent,
@@ -35,7 +35,7 @@ interface AutoSaveFormData extends Record<string, unknown> {
 
 async function saveFormData(
   data: Record<string, unknown>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) {
   await new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
@@ -78,7 +78,7 @@ export default function AutoSaveFormPage() {
 
   return (
     <>
-      <Card>
+      <BaseCard>
         <CardHeader>
           <CardTitle>Edit Profile</CardTitle>
           <CardDescription>
@@ -128,7 +128,7 @@ export default function AutoSaveFormPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/auto-save-form"
+          (f) => f.path === "/auto-save-form",
         );
         if (featureData?.howToTest) {
           return (
@@ -144,7 +144,7 @@ export default function AutoSaveFormPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/auto-save-form"
+          (f) => f.path === "/auto-save-form",
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({

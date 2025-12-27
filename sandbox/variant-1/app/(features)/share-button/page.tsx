@@ -13,6 +13,7 @@ import {
   Lightning,
   CursorClick,
   Globe,
+  Code,
 } from "@phosphor-icons/react";
 import { ShareButton } from "@/features/share-button/components/share-button";
 import { HowToTestCard } from "@/components/how-to-test-card";
@@ -26,7 +27,8 @@ import type { ShareButtonProps } from "@/features/share-button/types";
 export default function ShareButtonPage() {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
   const shareTitle = "Feature Kit - Share Button";
-  const shareDescription = "A beautiful share button with native Share API fallback";
+  const shareDescription =
+    "A beautiful share button with native Share API fallback";
 
   const initialConfig: PropConfig[] = [
     {
@@ -156,7 +158,7 @@ export default function ShareButtonPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-center rounded-lg border bg-card p-8">
-              <ShareButton {...getComponentProps} />
+              <ShareButton {...getComponentProps} url={getComponentProps.url || shareUrl || "https://example.com"} />
             </div>
           </CardContent>
         </BaseCard>
@@ -294,7 +296,7 @@ export default function ShareButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/share-button"
+            (f) => f.path === "/share-button",
           );
           if (featureData?.howToTest) {
             return (
@@ -310,7 +312,7 @@ export default function ShareButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/share-button"
+            (f) => f.path === "/share-button",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

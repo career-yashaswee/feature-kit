@@ -64,6 +64,3 @@ describe("FaqHints", () => {
     expect(screen.getByText("This is a test answer")).toBeInTheDocument();
   });
 });
-
-
-

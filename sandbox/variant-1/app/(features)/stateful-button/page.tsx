@@ -161,7 +161,14 @@ export default function StatefulButtonPage() {
       defaultValue: "default",
       value: "default",
       inputType: "select",
-      options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      options: [
+        "default",
+        "destructive",
+        "outline",
+        "secondary",
+        "ghost",
+        "link",
+      ],
       transform: (value) => value as StatefulButtonProps["variant"],
     },
     {
@@ -202,7 +209,8 @@ export default function StatefulButtonPage() {
     {
       property: "doubleTapToConfirm",
       type: "boolean",
-      description: "Require double tap to confirm action (useful for destructive actions)",
+      description:
+        "Require double tap to confirm action (useful for destructive actions)",
       defaultValue: false,
       value: false,
       inputType: "boolean",
@@ -210,7 +218,8 @@ export default function StatefulButtonPage() {
     {
       property: "doubleTapTimeoutMs",
       type: "number",
-      description: "Timeout in milliseconds before double tap confirmation resets",
+      description:
+        "Timeout in milliseconds before double tap confirmation resets",
       defaultValue: 3000,
       value: 3000,
       inputType: "number",
@@ -282,7 +291,8 @@ export default function StatefulButtonPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `onAction`, `onSuccess`, and `onError` are not editable here.
+              Note: Complex props like `onAction`, `onSuccess`, and `onError`
+              are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -479,8 +489,8 @@ export default function StatefulButtonPage() {
             </div>
             <CardDescription>
               For destructive actions, require two taps to confirm. First tap
-              shows confirmation message, second tap executes the action. If
-              you wait too long, it resets automatically.
+              shows confirmation message, second tap executes the action. If you
+              wait too long, it resets automatically.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -506,7 +516,7 @@ export default function StatefulButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/stateful-button"
+            (f) => f.path === "/stateful-button",
           );
           if (featureData?.howToTest) {
             return (
@@ -522,7 +532,7 @@ export default function StatefulButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/stateful-button"
+            (f) => f.path === "/stateful-button",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

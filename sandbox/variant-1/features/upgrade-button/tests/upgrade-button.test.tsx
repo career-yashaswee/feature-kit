@@ -7,23 +7,13 @@ describe("UpgradeButton", () => {
   });
 
   it("renders upgrade button when not subscribed", () => {
-    render(
-      <UpgradeButton
-        isSubscribed={false}
-        onUpgrade={jest.fn()}
-      />,
-    );
+    render(<UpgradeButton isSubscribed={false} onUpgrade={jest.fn()} />);
 
     expect(screen.getByText("Upgrade")).toBeInTheDocument();
   });
 
   it("renders manage subscription button when subscribed", () => {
-    render(
-      <UpgradeButton
-        isSubscribed={true}
-        onUpgrade={jest.fn()}
-      />,
-    );
+    render(<UpgradeButton isSubscribed={true} onUpgrade={jest.fn()} />);
 
     expect(screen.getByText("Manage Subscription")).toBeInTheDocument();
   });
@@ -43,12 +33,7 @@ describe("UpgradeButton", () => {
   it("calls onUpgrade when clicked", async () => {
     const onUpgrade = jest.fn().mockResolvedValue(undefined);
 
-    render(
-      <UpgradeButton
-        isSubscribed={false}
-        onUpgrade={onUpgrade}
-      />,
-    );
+    render(<UpgradeButton isSubscribed={false} onUpgrade={onUpgrade} />);
 
     const button = screen.getByText("Upgrade");
     fireEvent.click(button);
@@ -117,6 +102,3 @@ describe("UpgradeButton", () => {
     expect(screen.queryByText("Upgrade")).not.toBeInTheDocument();
   });
 });
-
-
-

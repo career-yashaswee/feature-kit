@@ -139,7 +139,9 @@ export function OnboardingLayout({
                                 completed: <Check className="h-4 w-4" />,
                                 active: undefined,
                                 inactive: undefined,
-                                loading: <Spinner className="h-4 w-4 animate-spin" />,
+                                loading: (
+                                  <Spinner className="h-4 w-4 animate-spin" />
+                                ),
                               }}
                             >
                               <StepperNav>
@@ -163,7 +165,9 @@ export function OnboardingLayout({
                                             setSheetOpen(false);
                                             if (step.order < currentStep) {
                                               onPrevious();
-                                            } else if (step.order > currentStep) {
+                                            } else if (
+                                              step.order > currentStep
+                                            ) {
                                               onNext();
                                             }
                                           }}
@@ -259,9 +263,7 @@ export function OnboardingLayout({
                             }}
                             className="flex items-start gap-3 w-full justify-start"
                           >
-                            <StepperIndicator>
-                              {step.order}
-                            </StepperIndicator>
+                            <StepperIndicator>{step.order}</StepperIndicator>
                             <div className="flex-1 text-left pt-0.5">
                               <StepperTitle
                                 className={cn(
@@ -309,14 +311,9 @@ export function OnboardingLayout({
                     }}
                   >
                     <StepperNav>
-                      <StepperItem
-                        step={currentStep}
-                        loading={isLoading}
-                      >
+                      <StepperItem step={currentStep} loading={isLoading}>
                         <StepperTrigger className="gap-2">
-                          <StepperIndicator>
-                            {currentStep}
-                          </StepperIndicator>
+                          <StepperIndicator>{currentStep}</StepperIndicator>
                           <StepperTitle className="text-sm font-medium text-blue-600 dark:text-blue-400">
                             {currentStepData.title}
                           </StepperTitle>

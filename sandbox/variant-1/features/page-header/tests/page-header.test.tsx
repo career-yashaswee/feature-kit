@@ -3,12 +3,7 @@ import { PageHeader } from "../components/page-header";
 
 describe("PageHeader", () => {
   it("renders title", () => {
-    render(
-      <PageHeader
-        icon={<div>Icon</div>}
-        title="Test Title"
-      />,
-    );
+    render(<PageHeader icon={<div>Icon</div>} title="Test Title" />);
 
     expect(screen.getByText("Test Title")).toBeInTheDocument();
   });
@@ -88,28 +83,17 @@ describe("PageHeader", () => {
 
   it("applies correct icon size", () => {
     const { rerender } = render(
-      <PageHeader
-        icon={<div>Icon</div>}
-        title="Test Title"
-        iconSize="sm"
-      />,
+      <PageHeader icon={<div>Icon</div>} title="Test Title" iconSize="sm" />,
     );
 
     let container = screen.getByText("Test Title").closest("div");
     expect(container).toBeInTheDocument();
 
     rerender(
-      <PageHeader
-        icon={<div>Icon</div>}
-        title="Test Title"
-        iconSize="lg"
-      />,
+      <PageHeader icon={<div>Icon</div>} title="Test Title" iconSize="lg" />,
     );
 
     container = screen.getByText("Test Title").closest("div");
     expect(container).toBeInTheDocument();
   });
 });
-
-
-

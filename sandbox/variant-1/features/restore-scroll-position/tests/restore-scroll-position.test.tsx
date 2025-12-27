@@ -56,6 +56,3 @@ describe("RestoreScrollPosition", () => {
     expect(renderedContainer.firstChild).not.toHaveClass("h-full");
   });
 });
-
-
-

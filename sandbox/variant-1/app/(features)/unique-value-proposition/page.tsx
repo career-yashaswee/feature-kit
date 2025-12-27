@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import {
   CardContent,
   CardDescription,
@@ -8,7 +6,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BaseCard } from "@/components/base-card";
-import { Target, TrendUp, Lightning, ChartBar, CursorClick } from "@phosphor-icons/react";
+import {
+  Target,
+  TrendUp,
+  Lightning,
+  ChartBar,
+  CursorClick,
+} from "@phosphor-icons/react";
 import { UniqueValueProposition } from "@/features/unique-value-proposition/components/unique-value-proposition";
 import type { DataPoint } from "@/features/unique-value-proposition/types";
 import type { UniqueValuePropositionProps } from "@/features/unique-value-proposition/types";
@@ -374,7 +378,7 @@ export default function UniqueValuePropositionPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/unique-value-proposition"
+            (f) => f.path === "/unique-value-proposition",
           );
           if (featureData?.howToTest) {
             return (
@@ -390,7 +394,7 @@ export default function UniqueValuePropositionPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/unique-value-proposition"
+            (f) => f.path === "/unique-value-proposition",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

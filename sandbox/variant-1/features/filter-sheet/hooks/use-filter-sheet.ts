@@ -130,10 +130,10 @@ export function useFilterSheet<
     if (!validFilterKeys.has(id as string)) {
       const error = new Error(
         `Invalid filter ID: "${String(id)}". Valid filter IDs are: ${Array.from(
-          validFilterKeys
+          validFilterKeys,
         )
           .map((k) => `"${k}"`)
-          .join(", ")}`
+          .join(", ")}`,
       );
       console.error(error.message);
       throw error;
@@ -148,16 +148,16 @@ export function useFilterSheet<
 
   const setFilter = async <K extends keyof T>(
     id: K,
-    value: T[K] | null
+    value: T[K] | null,
   ): Promise<void> => {
     // Runtime validation for invalid IDs (TypeScript should catch these, but this provides runtime safety)
     if (!validFilterKeys.has(id as string)) {
       const error = new Error(
         `Invalid filter ID: "${String(id)}". Valid filter IDs are: ${Array.from(
-          validFilterKeys
+          validFilterKeys,
         )
           .map((k) => `"${k}"`)
-          .join(", ")}`
+          .join(", ")}`,
       );
       console.error(error.message);
       throw error;
@@ -189,7 +189,7 @@ export function useFilterSheet<
       resetValues[key] = null;
     });
     await setFilterStates(
-      resetValues as Record<string, string | boolean | string[] | null>
+      resetValues as Record<string, string | boolean | string[] | null>,
     );
   };
 

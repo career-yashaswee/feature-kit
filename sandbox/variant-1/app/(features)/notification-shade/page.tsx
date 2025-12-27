@@ -32,9 +32,9 @@ import { PropsApiCard } from "@/components/props-api-card";
 const NotificationShade = dynamic(
   () =>
     import("@/features/notification-shade/components/notification-shade").then(
-      (mod) => ({ default: mod.NotificationShade })
+      (mod) => ({ default: mod.NotificationShade }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 const features = [
@@ -133,7 +133,8 @@ export default function NotificationShadePage() {
     {
       property: "unreadCount",
       type: "number",
-      description: "Number of unread notifications (auto-calculated if not provided)",
+      description:
+        "Number of unread notifications (auto-calculated if not provided)",
       defaultValue: unreadCount,
       value: unreadCount,
       inputType: "number",
@@ -197,7 +198,7 @@ export default function NotificationShadePage() {
     console.log("Notification clicked:", notification);
     // Mark as read
     setNotifications((prev) =>
-      prev.map((n) => (n.id === notification.id ? { ...n, isRead: true } : n))
+      prev.map((n) => (n.id === notification.id ? { ...n, isRead: true } : n)),
     );
   };
 
@@ -231,7 +232,9 @@ export default function NotificationShadePage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Note: Complex props like `notifications`, `onMarkAllAsRead`, `onNotificationClick`, `onNotificationDismiss`, `onRefresh`, and `onViewAll` are not editable here.
+              Note: Complex props like `notifications`, `onMarkAllAsRead`,
+              `onNotificationClick`, `onNotificationDismiss`, `onRefresh`, and
+              `onViewAll` are not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -258,7 +261,7 @@ export default function NotificationShadePage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/notification-shade"
+            (f) => f.path === "/notification-shade",
           );
           if (featureData?.howToTest) {
             return (
@@ -411,7 +414,7 @@ export default function NotificationShadePage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/notification-shade"
+            (f) => f.path === "/notification-shade",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

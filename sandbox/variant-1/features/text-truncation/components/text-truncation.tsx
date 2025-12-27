@@ -25,7 +25,7 @@ export function TextTruncation({
         className={cn(
           "text-sm text-foreground",
           !isExpanded && maxLines && "line-clamp-" + maxLines,
-          className
+          className,
         )}
         style={
           !isExpanded && maxLines

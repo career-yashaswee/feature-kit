@@ -85,9 +85,7 @@ describe("CopyToClipboard", () => {
       .spyOn(navigator.clipboard, "writeText")
       .mockRejectedValue(new Error("Copy failed"));
 
-    render(
-      <CopyToClipboard text="test text" errorMessage="Failed to copy" />,
-    );
+    render(<CopyToClipboard text="test text" errorMessage="Failed to copy" />);
 
     const button = screen.getByRole("button");
     fireEvent.click(button);
@@ -137,6 +135,3 @@ describe("CopyToClipboard", () => {
     expect(button.querySelector("svg")).not.toBeInTheDocument();
   });
 });
-
-
-

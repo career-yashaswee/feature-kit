@@ -29,7 +29,7 @@ export interface FeatureCardProps {
 }
 
 const getStatusFromBadge = (
-  statusBadge?: string
+  statusBadge?: string,
 ): "online" | "offline" | "maintenance" | "degraded" | null => {
   if (!statusBadge) return null;
   const badgeLower = statusBadge.toLowerCase();

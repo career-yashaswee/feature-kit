@@ -17,13 +17,10 @@ import {
   Gear,
   Lightning,
   CursorClick,
+  Code,
 } from "@phosphor-icons/react";
 import { useKeyboardShortcut } from "@/features/keyboard-shortcuts";
 import type { KeyboardShortcutsProps } from "@/features/keyboard-shortcuts/types";
-import { HowToTestCard } from "@/components/how-to-test-card";
-import { FeaturesGlossary } from "@/components/features-glossary";
-import { renderIcon } from "@/lib/icon-map";
-import featuresData from "@/data/features.json";
 import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
 import { PropsApiCard } from "@/components/props-api-card";
 
@@ -32,9 +29,9 @@ const KeyboardShortcuts = dynamic(
     import("@/features/keyboard-shortcuts/components/keyboard-shortcuts").then(
       (mod) => ({
         default: mod.KeyboardShortcuts,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 const shortcuts = [
@@ -158,7 +155,8 @@ export default function KeyboardShortcutsPage() {
           <CardContent>
             <div className="rounded-lg border bg-card p-4">
               <p className="text-sm text-muted-foreground mb-2">
-                Press the trigger key to open the shortcuts dialog. Current trigger:{" "}
+                Press the trigger key to open the shortcuts dialog. Current
+                trigger:{" "}
                 <Badge variant="outline" className="font-mono text-xs">
                   {getComponentProps.triggerKey || "mod+k"}
                 </Badge>

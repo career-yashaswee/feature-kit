@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import {
   CardContent,
   CardDescription,
@@ -8,12 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BaseCard } from "@/components/base-card";
-import {
-  FileText,
-  Gear,
-  Lightning,
-  CursorClick,
-} from "@phosphor-icons/react";
+import { FileText, Gear, Lightning, CursorClick } from "@phosphor-icons/react";
 import { TextTruncation } from "@/features/text-truncation/components/text-truncation";
 import type { TextTruncationProps } from "@/features/text-truncation/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
@@ -131,7 +124,7 @@ export default function TextTruncationPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/text-truncation"
+            (f) => f.path === "/text-truncation",
           );
           if (featureData?.howToTest) {
             return (
@@ -245,7 +238,7 @@ export default function TextTruncationPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/text-truncation"
+            (f) => f.path === "/text-truncation",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

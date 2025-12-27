@@ -1,13 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import {
-  Warning,
-  Info,
-  Question,
-  Trash,
-  X,
-} from "@phosphor-icons/react";
+import { Warning, Info, Question, Trash, X } from "@phosphor-icons/react";
 import {
   Dialog,
   DialogContent,

@@ -8,7 +8,7 @@ const PersistenceTipTapEditor = dynamic(
     import("@/features/persistence-tip-tap-editor").then((mod) => ({
       default: mod.PersistenceTipTapEditor,
     })),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   CardContent,
@@ -48,7 +48,7 @@ export default function PersistenceTipTapEditorPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/persistence-tip-tap-editor"
+            (f) => f.path === "/persistence-tip-tap-editor",
           );
           if (featureData?.howToTest) {
             return (
@@ -107,7 +107,7 @@ export default function PersistenceTipTapEditorPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/persistence-tip-tap-editor"
+            (f) => f.path === "/persistence-tip-tap-editor",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

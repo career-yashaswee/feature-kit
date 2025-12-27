@@ -186,10 +186,7 @@ export default function PageHeaderPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <PageHeader
-              icon={getSelectedIcon()}
-              {...getComponentProps}
-            />
+            <PageHeader icon={getSelectedIcon()} {...getComponentProps} title={getComponentProps.title || "Page Title"} />
           </CardContent>
         </BaseCard>
 
@@ -232,7 +229,7 @@ export default function PageHeaderPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/page-header"
+            (f) => f.path === "/page-header",
           );
           if (featureData?.howToTest) {
             return (
@@ -410,7 +407,7 @@ export default function PageHeaderPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/page-header"
+            (f) => f.path === "/page-header",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

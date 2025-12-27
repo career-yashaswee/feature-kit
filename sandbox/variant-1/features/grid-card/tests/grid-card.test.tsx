@@ -170,6 +170,3 @@ describe("GridCardFooter", () => {
     expect(screen.getByText("Footer")).toBeInTheDocument();
   });
 });
-
-
-

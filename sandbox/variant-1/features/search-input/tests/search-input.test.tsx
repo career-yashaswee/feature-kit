@@ -135,6 +135,3 @@ describe("SearchInput", () => {
     expect(screen.queryByText("No results found")).not.toBeInTheDocument();
   });
 });
-
-
-

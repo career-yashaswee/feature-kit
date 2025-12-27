@@ -65,7 +65,9 @@ export function useTableOfContents(markdown: string): TocItem[] {
         }
 
         if ("children" in node && Array.isArray(node.children)) {
-          node.children.forEach((child) => walk(child as Root | Heading | PhrasingContent));
+          node.children.forEach((child) =>
+            walk(child as Root | Heading | PhrasingContent),
+          );
         }
       };
 

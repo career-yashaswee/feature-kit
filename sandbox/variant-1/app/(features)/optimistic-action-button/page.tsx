@@ -8,9 +8,9 @@ const OptimisticActionButton = dynamic(
     import("@/features/optimistic-action-button/components/optimistic-action-button").then(
       (mod) => ({
         default: mod.OptimisticActionButton,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   CardContent,

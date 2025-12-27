@@ -256,7 +256,7 @@ export default function TestCaseBadgePage() {
                   variant="outline"
                   onClick={() =>
                     setCurrentIndex(
-                      (prev) => (prev + 1) % sampleTestResults.length
+                      (prev) => (prev + 1) % sampleTestResults.length,
                     )
                   }
                 >
@@ -397,7 +397,7 @@ export default function TestCaseBadgePage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/test-case-badge"
+            (f) => f.path === "/test-case-badge",
           );
           if (featureData?.howToTest) {
             return (
@@ -413,7 +413,7 @@ export default function TestCaseBadgePage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/test-case-badge"
+            (f) => f.path === "/test-case-badge",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

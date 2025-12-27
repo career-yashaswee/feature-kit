@@ -97,6 +97,3 @@ describe("TableOfContents", () => {
     expect(link1).toHaveAttribute("href", "#section-1");
   });
 });
-
-
-

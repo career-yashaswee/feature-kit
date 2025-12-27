@@ -29,7 +29,7 @@ export default function ResizablePanelsPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/resizable-panels"
+            (f) => f.path === "/resizable-panels",
           );
           if (featureData?.howToTest) {
             return (
@@ -195,7 +195,7 @@ export default function ResizablePanelsPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/resizable-panels"
+            (f) => f.path === "/resizable-panels",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

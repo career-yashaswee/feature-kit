@@ -124,7 +124,7 @@ export default function LanguageSwitcherPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/language-switcher"
+            (f) => f.path === "/language-switcher",
           );
           if (featureData?.howToTest) {
             return (
@@ -257,7 +257,7 @@ export default function LanguageSwitcherPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/language-switcher"
+            (f) => f.path === "/language-switcher",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

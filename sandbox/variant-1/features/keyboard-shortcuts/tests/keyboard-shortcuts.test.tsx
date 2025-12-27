@@ -30,7 +30,9 @@ describe("KeyboardShortcuts", () => {
   });
 
   it("renders dialog when open", () => {
-    const { useHotkeys } = reactHotkeysHook as jest.Mocked<typeof reactHotkeysHook>;
+    const { useHotkeys } = reactHotkeysHook as jest.Mocked<
+      typeof reactHotkeysHook
+    >;
     (useHotkeys as jest.Mock).mockImplementation((keys, callback) => {
       // Simulate opening dialog
       setTimeout(() => callback(new KeyboardEvent("keydown")), 0);
@@ -50,10 +52,15 @@ describe("KeyboardShortcuts", () => {
   });
 
   it("formats keys correctly", () => {
-    const { useHotkeys } = reactHotkeysHook as jest.Mocked<typeof reactHotkeysHook>;
+    const { useHotkeys } = reactHotkeysHook as jest.Mocked<
+      typeof reactHotkeysHook
+    >;
     (useHotkeys as jest.Mock).mockImplementation((keys, callback) => {
       // Manually trigger to open dialog
-      const mockEvent = new KeyboardEvent("keydown", { key: "k", metaKey: true });
+      const mockEvent = new KeyboardEvent("keydown", {
+        key: "k",
+        metaKey: true,
+      });
       Object.defineProperty(mockEvent, "preventDefault", {
         value: jest.fn(),
       });
@@ -68,15 +75,12 @@ describe("KeyboardShortcuts", () => {
   });
 
   it("registers hotkey with correct trigger", () => {
-    const { useHotkeys } = reactHotkeysHook as jest.Mocked<typeof reactHotkeysHook>;
+    const { useHotkeys } = reactHotkeysHook as jest.Mocked<
+      typeof reactHotkeysHook
+    >;
     (useHotkeys as jest.Mock).mockImplementation(() => {});
 
-    render(
-      <KeyboardShortcuts
-        shortcuts={mockShortcuts}
-        triggerKey="mod+p"
-      />,
-    );
+    render(<KeyboardShortcuts shortcuts={mockShortcuts} triggerKey="mod+p" />);
 
     expect(useHotkeys).toHaveBeenCalledWith(
       "mod+p",
@@ -86,15 +90,12 @@ describe("KeyboardShortcuts", () => {
   });
 
   it("does not register hotkey when showHelp is false", () => {
-    const { useHotkeys } = reactHotkeysHook as jest.Mocked<typeof reactHotkeysHook>;
+    const { useHotkeys } = reactHotkeysHook as jest.Mocked<
+      typeof reactHotkeysHook
+    >;
     (useHotkeys as jest.Mock).mockImplementation(() => {});
 
-    render(
-      <KeyboardShortcuts
-        shortcuts={mockShortcuts}
-        showHelp={false}
-      />,
-    );
+    render(<KeyboardShortcuts shortcuts={mockShortcuts} showHelp={false} />);
 
     expect(useHotkeys).toHaveBeenCalledWith(
       expect.any(String),
@@ -103,6 +104,3 @@ describe("KeyboardShortcuts", () => {
     );
   });
 });
-
-
-

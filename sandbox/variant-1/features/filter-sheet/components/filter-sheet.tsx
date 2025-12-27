@@ -42,7 +42,7 @@ export function FilterSheet({
   if (process.env.NODE_ENV !== "production" && useNuqs !== undefined) {
     console.warn(
       "[FilterSheet] The `useNuqs` prop is deprecated. Please use `enableUrlSync` instead. " +
-        "The `useNuqs` prop will be removed in a future version."
+        "The `useNuqs` prop will be removed in a future version.",
     );
   }
   const hasActiveFilters = filters.some((filter) => {
@@ -84,7 +84,7 @@ export function FilterSheet({
     icon: Filter["icon"],
     defaultIcon: React.ComponentType<{
       className?: string;
-    }> = Sliders
+    }> = Sliders,
   ) => {
     if (icon) {
       const IconComponent = icon;
@@ -118,7 +118,7 @@ export function FilterSheet({
                       <OptionIcon
                         className={cn(
                           "h-4 w-4",
-                          option.iconColor || "text-current"
+                          option.iconColor || "text-current",
                         )}
                       />
                       {option.label}
@@ -136,7 +136,7 @@ export function FilterSheet({
   };
 
   const renderCheckboxFilter = (
-    filter: Extract<Filter, { type: "checkbox" }>
+    filter: Extract<Filter, { type: "checkbox" }>,
   ) => {
     return (
       <div key={filter.id} className="space-y-3">
@@ -162,7 +162,7 @@ export function FilterSheet({
   };
 
   const renderMultiSelectFilter = (
-    filter: Extract<Filter, { type: "multiselect" }>
+    filter: Extract<Filter, { type: "multiselect" }>,
   ) => {
     const handleToggle = (optionId: string) => {
       if (filter.selectedValues.includes(optionId)) {

@@ -95,9 +95,7 @@ export default function AskAgentPage() {
         {/* Hero Section */}
 
         {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/ask-agent"
-          );
+          const featureData = featuresData.find((f) => f.path === "/ask-agent");
           if (featureData?.howToTest) {
             return (
               <HowToTestCard
@@ -162,7 +160,7 @@ export default function AskAgentPage() {
                       >
                         {tag}
                       </Badge>
-                    )
+                    ),
                   )}
                 </motion.div>
               </div>
@@ -224,9 +222,7 @@ export default function AskAgentPage() {
         </BaseCard>
 
         {(() => {
-          const featureData = featuresData.find(
-            (f) => f.path === "/ask-agent"
-          );
+          const featureData = featuresData.find((f) => f.path === "/ask-agent");
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
               icon: renderIcon(feature.icon, "h-5 w-5 text-primary"),

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import dynamic from "next/dynamic";
 import {
   CardContent,
@@ -14,6 +13,7 @@ import {
   Lightning,
   CursorClick,
   Gear,
+  Code,
 } from "@phosphor-icons/react";
 import type { RestoreScrollPositionProps } from "@/features/restore-scroll-position/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
@@ -28,9 +28,9 @@ const RestoreScrollPosition = dynamic(
     import("@/features/restore-scroll-position/components/restore-scroll-position").then(
       (mod) => ({
         default: mod.RestoreScrollPosition,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function RestoreScrollPositionPage() {
@@ -46,7 +46,8 @@ export default function RestoreScrollPositionPage() {
     {
       property: "persist",
       type: "boolean",
-      description: "If true, uses localStorage (persistent). If false, uses sessionStorage (temporary)",
+      description:
+        "If true, uses localStorage (persistent). If false, uses sessionStorage (temporary)",
       defaultValue: false,
       value: false,
       inputType: "boolean",
@@ -101,11 +102,12 @@ export default function RestoreScrollPositionPage() {
           </CardHeader>
           <CardContent>
             <div className="rounded-lg border border-dashed bg-muted/20 p-8 min-h-[200px]">
-              <RestoreScrollPosition {...getComponentProps}>
+              <RestoreScrollPosition {...getComponentProps} storageKey={getComponentProps.storageKey || "restore-scroll-position-demo"}>
                 <div className="space-y-4">
                   <p className="text-sm text-muted-foreground">
-                    Scroll down this demo area to test scroll position restoration.
-                    The component wraps content and saves scroll position.
+                    Scroll down this demo area to test scroll position
+                    restoration. The component wraps content and saves scroll
+                    position.
                   </p>
                   {Array.from({ length: 10 }).map((_, i) => (
                     <div key={i} className="p-4 border rounded-lg bg-card">
@@ -127,13 +129,16 @@ export default function RestoreScrollPositionPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/restore-scroll-position"
+            (f) => f.path === "/restore-scroll-position",
           );
           if (featureData?.howToTest) {
             return (
               <HowToTestCard
                 steps={featureData.howToTest.steps}
-                conclusion={featureData.howToTest.conclusion || "This page uses session storage by default. Scroll positions are saved automatically as you scroll and restored when you return. The scroll position is debounced to avoid excessive storage writes."}
+                conclusion={
+                  featureData.howToTest.conclusion ||
+                  "This page uses session storage by default. Scroll positions are saved automatically as you scroll and restored when you return. The scroll position is debounced to avoid excessive storage writes."
+                }
                 icon={<CursorClick className="h-5 w-5 text-primary" />}
               />
             );
@@ -152,7 +157,7 @@ export default function RestoreScrollPositionPage() {
           );
         })()}
 
-        <RestoreScrollPosition {...getComponentProps}>
+        <RestoreScrollPosition {...getComponentProps} storageKey={getComponentProps.storageKey || "restore-scroll-position-demo"}>
           <BaseCard>
             <CardHeader>
               <div className="flex items-center gap-2">
@@ -199,7 +204,7 @@ export default function RestoreScrollPositionPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/restore-scroll-position"
+            (f) => f.path === "/restore-scroll-position",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

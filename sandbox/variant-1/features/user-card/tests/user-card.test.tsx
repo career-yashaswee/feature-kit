@@ -67,7 +67,9 @@ describe("UserCard", () => {
   it("shows verified badge when verified is true", () => {
     render(<UserCard {...mockUserData} verified={true} />);
 
-    const verifiedIcon = screen.getByText("John Doe...").parentElement?.querySelector("svg");
+    const verifiedIcon = screen
+      .getByText("John Doe...")
+      .parentElement?.querySelector("svg");
     expect(verifiedIcon).toBeInTheDocument();
   });
 
@@ -91,6 +93,3 @@ describe("UserCard", () => {
     expect(screen.getByText("200 Followers")).toBeInTheDocument();
   });
 });
-
-
-

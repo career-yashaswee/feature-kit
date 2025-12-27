@@ -2,7 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { ResizablePanels } from "../components/resizable-panels";
 
 jest.mock("react-resizable-panels", () => ({
-  PanelGroup: ({ children, ...props }: React.ComponentPropsWithoutRef<"div">) => (
+  PanelGroup: ({
+    children,
+    ...props
+  }: React.ComponentPropsWithoutRef<"div">) => (
     <div data-testid="panel-group" {...props}>
       {children}
     </div>
@@ -96,6 +99,3 @@ describe("ResizablePanels", () => {
     expect(screen.getByTestId("icon")).toBeInTheDocument();
   });
 });
-
-
-

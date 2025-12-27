@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import dynamic from "next/dynamic";
 import {
   CardContent,
@@ -9,10 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { BaseCard } from "@/components/base-card";
-import {
-  Lightning,
-  CursorClick,
-} from "@phosphor-icons/react";
+import { Lightning, CursorClick } from "@phosphor-icons/react";
 import type { NetworkStatusListenerProps } from "@/features/network-status-listener/types";
 import { HowToTestCard } from "@/components/how-to-test-card";
 import { FeaturesGlossary } from "@/components/features-glossary";
@@ -36,7 +31,8 @@ export default function HomePage() {
     {
       property: "showToast",
       type: "boolean",
-      description: "Whether to show toast notifications on network status changes",
+      description:
+        "Whether to show toast notifications on network status changes",
       defaultValue: true,
       value: true,
       inputType: "boolean",
@@ -85,17 +81,19 @@ export default function HomePage() {
             <CardTitle className="text-2xl">Live Demo</CardTitle>
           </div>
           <CardDescription>
-            See the component update in real-time as you change props below.
-            The component monitors network status and shows toast notifications.
-            Try disconnecting your internet to see it in action.
+            See the component update in real-time as you change props below. The
+            component monitors network status and shows toast notifications. Try
+            disconnecting your internet to see it in action.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-lg border border-dashed bg-muted/20 p-8 min-h-[200px] flex items-center justify-center">
             <p className="text-sm text-muted-foreground text-center">
-              Network Status Listener is active. Disconnect your internet to see toast notifications.
+              Network Status Listener is active. Disconnect your internet to see
+              toast notifications.
               <br />
-              Current settings: showToast={String(getComponentProps.showToast ?? true)}
+              Current settings: showToast=
+              {String(getComponentProps.showToast ?? true)}
             </p>
           </div>
         </CardContent>
@@ -110,13 +108,16 @@ export default function HomePage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/network-status-listener-toast"
+          (f) => f.path === "/network-status-listener-toast",
         );
         if (featureData?.howToTest) {
           return (
             <HowToTestCard
               steps={featureData.howToTest.steps}
-              conclusion={featureData.howToTest.conclusion || "The component is active on this page. Check the bottom-right corner when you go offline to see the toast notification."}
+              conclusion={
+                featureData.howToTest.conclusion ||
+                "The component is active on this page. Check the bottom-right corner when you go offline to see the toast notification."
+              }
               icon={<CursorClick className="h-5 w-5 text-primary" />}
             />
           );
@@ -138,7 +139,7 @@ export default function HomePage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/network-status-listener-toast"
+          (f) => f.path === "/network-status-listener-toast",
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({
@@ -164,8 +165,7 @@ export default function HomePage() {
           {
             icon: renderIcon("WifiSlash", "h-5 w-5 text-primary"),
             title: "Visual Indicators",
-            description:
-              "Clear visual feedback for offline and online states",
+            description: "Clear visual feedback for offline and online states",
           },
           {
             icon: renderIcon("Gear", "h-5 w-5 text-primary"),
@@ -176,8 +176,7 @@ export default function HomePage() {
           {
             icon: renderIcon("Code", "h-5 w-5 text-primary"),
             title: "TypeScript Support",
-            description:
-              "Built with TypeScript for type safety and better DX",
+            description: "Built with TypeScript for type safety and better DX",
           },
           {
             icon: renderIcon("CheckCircle", "h-5 w-5 text-primary"),

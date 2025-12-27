@@ -346,7 +346,7 @@ function FilterSheetContent() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/filter-sheet"
+            (f) => f.path === "/filter-sheet",
           );
           if (featureData?.howToTest) {
             return (
@@ -511,7 +511,7 @@ function FilterSheetContent() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/filter-sheet"
+            (f) => f.path === "/filter-sheet",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

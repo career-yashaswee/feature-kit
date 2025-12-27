@@ -35,7 +35,10 @@ import {
   CloudSlash,
 } from "@phosphor-icons/react";
 import { EmptyState } from "@/features/empty-states/components/empty-state";
-import type { EmptyStateType, EmptyStateProps } from "@/features/empty-states/types";
+import type {
+  EmptyStateType,
+  EmptyStateProps,
+} from "@/features/empty-states/types";
 import type { ReactNode } from "react";
 import { usePropsApi, type PropConfig } from "@/hooks/use-props-api";
 import { PropsApiCard } from "@/components/props-api-card";
@@ -182,7 +185,9 @@ export default function EmptyStatesPage() {
 
   const getSelectedIcon = (): ReactNode | undefined => {
     if (selectedIconKey === "none") return undefined;
-    const selectedIcon = iconOptions.find((opt) => opt.value === selectedIconKey);
+    const selectedIcon = iconOptions.find(
+      (opt) => opt.value === selectedIconKey,
+    );
     if (selectedIcon) {
       const IconComponent = selectedIcon.icon;
       return <IconComponent className="h-8 w-8" />;
@@ -192,7 +197,9 @@ export default function EmptyStatesPage() {
 
   const getSelectedAction = (): (() => void) | undefined => {
     if (selectedActionKey === "none") return undefined;
-    const selectedAction = actionOptions.find((opt) => opt.value === selectedActionKey);
+    const selectedAction = actionOptions.find(
+      (opt) => opt.value === selectedActionKey,
+    );
     return selectedAction?.action;
   };
 
@@ -266,7 +273,10 @@ export default function EmptyStatesPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Select value={selectedActionKey} onValueChange={setSelectedActionKey}>
+          <Select
+            value={selectedActionKey}
+            onValueChange={setSelectedActionKey}
+          >
             <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>

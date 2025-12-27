@@ -89,6 +89,3 @@ describe("CompareAlternatives", () => {
     expect(crown).toBeInTheDocument();
   });
 });
-
-
-

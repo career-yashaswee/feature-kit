@@ -94,7 +94,7 @@ export default function OnBoardingPage() {
     switch (currentStep) {
       case 1:
         return (
-          <Card>
+          <BaseCard>
             <CardHeader>
               <CardTitle>Welcome to FeatureKit</CardTitle>
               <CardDescription>
@@ -111,7 +111,7 @@ export default function OnBoardingPage() {
         );
       case 2:
         return (
-          <Card>
+          <BaseCard>
             <CardHeader>
               <CardTitle>Set Up Your Profile</CardTitle>
               <CardDescription>Tell us a bit about yourself</CardDescription>
@@ -145,7 +145,7 @@ export default function OnBoardingPage() {
         );
       case 3:
         return (
-          <Card>
+          <BaseCard>
             <CardHeader>
               <CardTitle>Preferences</CardTitle>
               <CardDescription>Customize your experience</CardDescription>
@@ -159,7 +159,7 @@ export default function OnBoardingPage() {
         );
       case 4:
         return (
-          <Card>
+          <BaseCard>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-green-500" />
@@ -209,7 +209,7 @@ export default function OnBoardingPage() {
       <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 p-8">
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/on-boarding"
+            (f) => f.path === "/on-boarding",
           );
           if (featureData?.howToTest) {
             return (
@@ -309,7 +309,7 @@ export default function OnBoardingPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/on-boarding"
+            (f) => f.path === "/on-boarding",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

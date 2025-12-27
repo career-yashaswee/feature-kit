@@ -33,7 +33,7 @@ function convertToJSON(data: unknown[]): string {
     return JSON.stringify(data, null, 2);
   } catch (error) {
     throw new Error(
-      `Failed to convert data to JSON: ${error instanceof Error ? error.message : String(error)}`
+      `Failed to convert data to JSON: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
 }

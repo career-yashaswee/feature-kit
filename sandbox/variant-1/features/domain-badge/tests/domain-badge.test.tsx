@@ -37,10 +37,7 @@ describe("DomainBadge", () => {
 
   it("shows active domains with full opacity", () => {
     render(
-      <DomainBadge
-        domains={["frontend"]}
-        domainConfigs={mockDomainConfigs}
-      />,
+      <DomainBadge domains={["frontend"]} domainConfigs={mockDomainConfigs} />,
     );
 
     const frontendIcon = screen.getByText("F").closest("div");
@@ -49,10 +46,7 @@ describe("DomainBadge", () => {
 
   it("shows inactive domains with reduced opacity", () => {
     render(
-      <DomainBadge
-        domains={["frontend"]}
-        domainConfigs={mockDomainConfigs}
-      />,
+      <DomainBadge domains={["frontend"]} domainConfigs={mockDomainConfigs} />,
     );
 
     const backendIcon = screen.getByText("B").closest("div");
@@ -95,6 +89,3 @@ describe("DomainBadge", () => {
     expect(screen.getByText("F")).toBeInTheDocument();
   });
 });
-
-
-

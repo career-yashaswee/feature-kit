@@ -68,7 +68,7 @@ export function DemoHeader() {
 
   const renderBreadcrumbLink = (
     item: BreadcrumbItem,
-    children: React.ReactNode
+    children: React.ReactNode,
   ) => {
     return (
       <Link

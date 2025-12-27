@@ -141,7 +141,9 @@ export default function PageLoaderPage() {
             </div>
             <CardDescription>
               See the component update in real-time as you change props below.
-              Click &quot;Show Loader&quot; to see it in action. Note: The `isVisible`, `loadingState`, `brandIcon`, `refreshQueryKeys`, and `onRefresh` props are complex and not editable here.
+              Click &quot;Show Loader&quot; to see it in action. Note: The
+              `isVisible`, `loadingState`, `brandIcon`, `refreshQueryKeys`, and
+              `onRefresh` props are complex and not editable here.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -176,7 +178,7 @@ export default function PageLoaderPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/page-loader"
+            (f) => f.path === "/page-loader",
           );
           if (featureData?.howToTest) {
             return (
@@ -276,7 +278,7 @@ export default function PageLoaderPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/page-loader"
+            (f) => f.path === "/page-loader",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

@@ -9,10 +9,7 @@ const mockDataPoints = [
 describe("UniqueValueProposition", () => {
   it("renders title", () => {
     render(
-      <UniqueValueProposition
-        title="Test Title"
-        dataPoints={mockDataPoints}
-      />,
+      <UniqueValueProposition title="Test Title" dataPoints={mockDataPoints} />,
     );
 
     expect(screen.getByText("Test Title")).toBeInTheDocument();
@@ -31,11 +28,7 @@ describe("UniqueValueProposition", () => {
   });
 
   it("renders data points", () => {
-    render(
-      <UniqueValueProposition
-        dataPoints={mockDataPoints}
-      />,
-    );
+    render(<UniqueValueProposition dataPoints={mockDataPoints} />);
 
     // Data points are rendered as positioned divs
     const container = screen.getByText("Test Title").closest("section");
@@ -58,7 +51,9 @@ describe("UniqueValueProposition", () => {
       />,
     );
 
-    const container = screen.getByText("A Unique Value Proposition").closest("section");
+    const container = screen
+      .getByText("A Unique Value Proposition")
+      .closest("section");
     expect(container).toBeInTheDocument();
   });
 
@@ -94,10 +89,7 @@ describe("UniqueValueProposition", () => {
 
   it("renders legend when showLegend is true", () => {
     render(
-      <UniqueValueProposition
-        dataPoints={mockDataPoints}
-        showLegend={true}
-      />,
+      <UniqueValueProposition dataPoints={mockDataPoints} showLegend={true} />,
     );
 
     expect(screen.getByText("Other Platforms")).toBeInTheDocument();
@@ -114,6 +106,3 @@ describe("UniqueValueProposition", () => {
     expect(screen.getByText("Footer text")).toBeInTheDocument();
   });
 });
-
-
-

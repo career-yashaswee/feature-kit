@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import type { AutoSaveFormProps, SaveStatus } from "../types";
 
 function getIndicatorClasses(
-  position: AutoSaveFormProps<never>["indicatorPosition"]
+  position: AutoSaveFormProps<never>["indicatorPosition"],
 ): string {
   const base =
     "absolute z-10 flex items-center gap-1.5 rounded-md bg-background/95 backdrop-blur-sm border px-2 py-1 text-xs font-medium shadow-sm";
@@ -50,7 +50,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
   const abortControllerRef = useRef<AbortController | null>(null);
   const [savedData, setSavedData] = useLocalStorage<T | null>(
     storageKey || "",
-    null
+    null,
   );
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
 
       try {
         await Promise.resolve(
-          onSave(debouncedData, abortControllerRef.current?.signal)
+          onSave(debouncedData, abortControllerRef.current?.signal),
         );
 
         if (abortControllerRef.current?.signal.aborted) return;

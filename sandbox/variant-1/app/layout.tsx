@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { SpeechRecognitionProvider } from "@/lib/providers/speech-recognition-provider";
 import { DemoHeader } from "@/components/demo-header";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
