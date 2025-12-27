@@ -46,7 +46,10 @@ const RestoreScrollPosition = dynamic(
     import("@/features/restore-scroll-position").then((mod) => ({
       default: mod.RestoreScrollPosition,
     })),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => null,
+  }
 );
 
 const NetworkStatusListener = dynamic(
@@ -54,7 +57,10 @@ const NetworkStatusListener = dynamic(
     import("@/features/network-status-listener").then((mod) => ({
       default: mod.NetworkStatusListener,
     })),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => null,
+  }
 );
 
 import featuresData from "@/data/features.json";
