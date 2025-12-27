@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import slugify from "slugify";
-import type { Root, Heading } from "mdast";
+import type { Root, Heading, PhrasingContent, Text, InlineCode } from "mdast";
 
 export type TocItem = {
   content: string;
@@ -23,16 +23,19 @@ export function useTableOfContents(markdown: string): TocItem[] {
       const seenCounts: Record<string, number> = {};
 
       // Walk the AST to find headings
-      const walk = (node: any) => {
+      const walk = (node: Root | Heading | PhrasingContent) => {
         if (node.type === "heading") {
           const heading = node as Heading;
           const level = heading.depth;
 
           // Extract text content from heading
           const content = heading.children
-            .map((child: any) => {
-              if (child.type === "text" || child.type === "inlineCode") {
-                return child.value || "";
+            .map((child: PhrasingContent) => {
+              if (child.type === "text") {
+                return (child as Text).value || "";
+              }
+              if (child.type === "inlineCode") {
+                return (child as InlineCode).value || "";
               }
               return "";
             })
@@ -61,8 +64,8 @@ export function useTableOfContents(markdown: string): TocItem[] {
           }
         }
 
-        if (node.children) {
-          node.children.forEach(walk);
+        if ("children" in node && Array.isArray(node.children)) {
+          node.children.forEach((child) => walk(child as Root | Heading | PhrasingContent));
         }
       };
 

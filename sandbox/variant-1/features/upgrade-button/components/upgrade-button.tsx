@@ -17,7 +17,7 @@ export function UpgradeButton({
   showMessage = false,
   fullWidth = false,
   iconOnly = false,
-  loadingText = "Loading...",
+  loadingText = "Loading",
   subscribedText = "Manage Subscription",
   subscribedIcon: SubscribedIcon = CreditCard,
   upgradeIcon: UpgradeIcon = Plus,

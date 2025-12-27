@@ -179,7 +179,7 @@ describe("OptimisticActionButton", () => {
         optimisticState={true}
         onOptimisticUpdate={jest.fn()}
         onRollback={jest.fn()}
-        loadingMessage="Saving..."
+        loadingMessage="Saving"
         successMessage="Saved!"
         errorMessage="Error!"
       >
@@ -194,7 +194,7 @@ describe("OptimisticActionButton", () => {
       expect(toast.promise).toHaveBeenCalledWith(
         expect.any(Promise),
         expect.objectContaining({
-          loading: "Saving...",
+          loading: "Saving",
           success: "Saved!",
           error: "Error!",
         }),

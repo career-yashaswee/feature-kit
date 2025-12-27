@@ -37,7 +37,7 @@ describe("UpgradeButton", () => {
       />,
     );
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText("Loading")).toBeInTheDocument();
   });
 
   it("calls onUpgrade when clicked", async () => {

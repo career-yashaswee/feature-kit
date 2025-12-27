@@ -58,6 +58,7 @@ const NetworkStatusListener = dynamic(
 );
 
 import featuresData from "@/data/features.json";
+import { PageLoader } from "@/features/page-loader";
 
 type FeatureData = {
   name: string;
@@ -135,8 +136,14 @@ function HomePageContent() {
   const featureTagsValue = allFilters["feature-tags"];
 
   const selectedCategory = (categoryValue as string) || "ALL";
-  const selectedTags = useMemo(() => (tagsValue as string[]) || [], [tagsValue]);
-  const selectedFeatureTags = useMemo(() => (featureTagsValue as string[]) || [], [featureTagsValue]);
+  const selectedTags = useMemo(
+    () => (tagsValue as string[]) || [],
+    [tagsValue]
+  );
+  const selectedFeatureTags = useMemo(
+    () => (featureTagsValue as string[]) || [],
+    [featureTagsValue]
+  );
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
@@ -351,11 +358,7 @@ function HomePageContent() {
 
 function HomePage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20 flex items-center justify-center">
-        <div className="text-muted-foreground">Loading...</div>
-      </div>
-    }>
+    <Suspense fallback={<PageLoader isVisible={true} />}>
       <HomePageContent />
     </Suspense>
   );

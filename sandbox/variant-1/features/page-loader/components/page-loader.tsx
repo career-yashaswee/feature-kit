@@ -25,7 +25,7 @@ export function PageLoader({
 
   const defaultLoadingState: LoadingState = {
     title: "Loading",
-    messages: ["Preparing your experience..."],
+    messages: ["Preparing your experience"],
   };
 
   const state = loadingState || defaultLoadingState;

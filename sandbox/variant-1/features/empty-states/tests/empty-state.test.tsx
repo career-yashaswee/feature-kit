@@ -19,7 +19,7 @@ describe("EmptyState", () => {
   it("renders loading state", () => {
     render(<EmptyState type="loading" />);
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText("Loading")).toBeInTheDocument();
   });
 
   it("renders not-found state", () => {

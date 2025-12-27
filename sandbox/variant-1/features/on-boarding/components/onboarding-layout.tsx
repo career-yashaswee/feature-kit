@@ -432,7 +432,7 @@ export function OnboardingLayout({
                 {isLoading ? (
                   <>
                     <Spinner className="w-4 h-4 mr-2 animate-spin" />
-                    Loading...
+                    Loading
                   </>
                 ) : isLastStep ? (
                   <>

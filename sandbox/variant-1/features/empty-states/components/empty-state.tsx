@@ -38,7 +38,7 @@ const defaultConfig: Record<
   },
   loading: {
     icon: Spinner,
-    title: "Loading...",
+    title: "Loading",
     description: "Please wait while we fetch the data.",
   },
   "not-found": {
@@ -95,7 +95,7 @@ export function EmptyState({
       <div
         className={cn(
           "flex flex-col items-center justify-center py-12 px-4 text-center",
-          className,
+          className
         )}
       >
         <div
@@ -109,7 +109,7 @@ export function EmptyState({
             type === "not-authorized" && "bg-destructive/10 text-destructive",
             type === "not-authenticated" &&
               "bg-amber-500/10 text-amber-600 dark:text-amber-400",
-            type === "not-sufficient-data" && "bg-muted text-muted-foreground",
+            type === "not-sufficient-data" && "bg-muted text-muted-foreground"
           )}
         >
           {icon ? (
@@ -126,7 +126,7 @@ export function EmptyState({
                   <IconComponent
                     className={cn(
                       "h-8 w-8",
-                      type === "loading" && "animate-spin",
+                      type === "loading" && "animate-spin"
                     )}
                   />
                 );

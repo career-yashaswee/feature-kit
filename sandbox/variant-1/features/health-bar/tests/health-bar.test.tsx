@@ -119,7 +119,7 @@ describe("HealthBar", () => {
       />,
     );
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText("Loading")).toBeInTheDocument();
   });
 
   it("calculates percentage correctly", () => {

@@ -72,7 +72,7 @@ describe("AutoSaveForm", () => {
     render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={jest.fn()}>
         <form>Test form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
     expect(screen.getByText("Test form")).toBeInTheDocument();
   });
@@ -85,7 +85,7 @@ describe("AutoSaveForm", () => {
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -97,7 +97,7 @@ describe("AutoSaveForm", () => {
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -107,7 +107,7 @@ describe("AutoSaveForm", () => {
     await waitFor(() => {
       expect(onSave).toHaveBeenCalledWith(
         { name: "Updated" },
-        expect.any(AbortSignal),
+        expect.any(AbortSignal)
       );
     });
   });
@@ -125,7 +125,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     mockUseIsFirstRender.mockReturnValue(false);
@@ -139,7 +139,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -154,7 +154,7 @@ describe("AutoSaveForm", () => {
   it("restores from localStorage on mount", () => {
     const restoredData = { name: "Restored" };
     (localStorage.getItem as jest.Mock).mockReturnValue(
-      JSON.stringify(restoredData),
+      JSON.stringify(restoredData)
     );
     mockUseDebounce.mockReturnValue({ name: "Restored" });
     mockUseIsFirstRender.mockReturnValueOnce(true);
@@ -167,7 +167,7 @@ describe("AutoSaveForm", () => {
         storageKey="test-key"
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     expect(mockUseLocalStorage).toHaveBeenCalledWith("test-key", null);
@@ -179,7 +179,7 @@ describe("AutoSaveForm", () => {
       () =>
         new Promise<void>((resolve) => {
           resolveSave = resolve;
-        }),
+        })
     );
     mockUseDebounce.mockReturnValue({ name: "Initial" });
     mockUseIsFirstRender.mockReturnValueOnce(true);
@@ -187,7 +187,7 @@ describe("AutoSaveForm", () => {
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     mockUseIsFirstRender.mockReturnValue(false);
@@ -195,7 +195,7 @@ describe("AutoSaveForm", () => {
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -203,7 +203,7 @@ describe("AutoSaveForm", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Saving...")).toBeInTheDocument();
+      expect(screen.getByText("Saving")).toBeInTheDocument();
     });
 
     // Resolve the save promise
@@ -221,7 +221,7 @@ describe("AutoSaveForm", () => {
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     mockUseIsFirstRender.mockReturnValue(false);
@@ -229,7 +229,7 @@ describe("AutoSaveForm", () => {
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -240,7 +240,7 @@ describe("AutoSaveForm", () => {
       () => {
         expect(screen.getByText("Saved")).toBeInTheDocument();
       },
-      { timeout: 3000 },
+      { timeout: 3000 }
     );
   });
 
@@ -254,7 +254,7 @@ describe("AutoSaveForm", () => {
     const { rerender } = render(
       <AutoSaveForm data={{ name: "Initial" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     mockUseIsFirstRender.mockReturnValue(false);
@@ -262,7 +262,7 @@ describe("AutoSaveForm", () => {
     rerender(
       <AutoSaveForm data={{ name: "Updated" }} onSave={onSave} debounceMs={100}>
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -273,7 +273,7 @@ describe("AutoSaveForm", () => {
       () => {
         expect(screen.getByText("Error")).toBeInTheDocument();
       },
-      { timeout: 3000 },
+      { timeout: 3000 }
     );
   });
 
@@ -291,7 +291,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     mockUseIsFirstRender.mockReturnValue(false);
@@ -304,7 +304,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -330,7 +330,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     mockUseIsFirstRender.mockReturnValue(false);
@@ -343,7 +343,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -354,7 +354,7 @@ describe("AutoSaveForm", () => {
       () => {
         expect(onSaveSuccess).toHaveBeenCalled();
       },
-      { timeout: 3000 },
+      { timeout: 3000 }
     );
   });
 
@@ -374,7 +374,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -391,7 +391,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -403,7 +403,7 @@ describe("AutoSaveForm", () => {
       () => {
         expect(onSaveError).toHaveBeenCalled();
       },
-      { timeout: 3000 },
+      { timeout: 3000 }
     );
   });
 
@@ -420,7 +420,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -437,7 +437,7 @@ describe("AutoSaveForm", () => {
         debounceMs={100}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
 
     await act(async () => {
@@ -449,7 +449,7 @@ describe("AutoSaveForm", () => {
       () => {
         expect(toast.success).toHaveBeenCalledWith("Custom saved message");
       },
-      { timeout: 3000 },
+      { timeout: 3000 }
     );
   });
 
@@ -463,8 +463,8 @@ describe("AutoSaveForm", () => {
         showIndicator={false}
       >
         <form>Form</form>
-      </AutoSaveForm>,
+      </AutoSaveForm>
     );
-    expect(screen.queryByText("Saving...")).not.toBeInTheDocument();
+    expect(screen.queryByText("Saving")).not.toBeInTheDocument();
   });
 });

@@ -62,7 +62,7 @@ export function HealthBar({
         </span>
       )}
       {isLoading && (
-        <span className="text-xs text-muted-foreground">Loading...</span>
+        <span className="text-xs text-muted-foreground">Loading</span>
       )}
     </div>
   );

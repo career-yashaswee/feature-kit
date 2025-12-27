@@ -88,8 +88,11 @@ export function useFilterSheet<
   const { defaults = {} as T, history = "push", shallow = false } = options;
 
   // Create parsers for all filter keys
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const filterParsers: Record<string, any> = {};
+  type ParserType =
+    | ReturnType<typeof parseAsString.withDefault>
+    | ReturnType<typeof parseAsBoolean.withDefault>
+    | ReturnType<typeof parseAsArrayOf<typeof parseAsString>>;
+  const filterParsers: Record<string, ParserType> = {};
   const filterDefaults: Record<string, FilterValue> = {};
   const validFilterKeys = new Set<string>(Object.keys(defaults));
 

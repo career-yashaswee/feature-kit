@@ -157,7 +157,7 @@ describe("ExportButton", () => {
       expect(toast.promise).toHaveBeenCalledWith(
         expect.any(Promise),
         expect.objectContaining({
-          loading: "Preparing users export...",
+          loading: "Preparing users export",
           success: "users exported successfully!",
           error: "Failed to export users.",
         }),

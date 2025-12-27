@@ -3,17 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useDebouncedValue } from "@tanstack/react-pacer";
 import isEqual from "fast-deep-equal";
-import {
-  useLocalStorage,
-  useIsFirstRender,
-} from "@uidotdev/usehooks";
+import { useLocalStorage, useIsFirstRender } from "@uidotdev/usehooks";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Spinner, WarningCircle } from "@phosphor-icons/react";
 import { toast } from "sonner";
 import type { AutoSaveFormProps, SaveStatus } from "../types";
 
 function getIndicatorClasses(
-  position: AutoSaveFormProps<never>["indicatorPosition"],
+  position: AutoSaveFormProps<never>["indicatorPosition"]
 ): string {
   const base =
     "absolute z-10 flex items-center gap-1.5 rounded-md bg-background/95 backdrop-blur-sm border px-2 py-1 text-xs font-medium shadow-sm";
@@ -53,7 +50,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
   const abortControllerRef = useRef<AbortController | null>(null);
   const [savedData, setSavedData] = useLocalStorage<T | null>(
     storageKey || "",
-    null,
+    null
   );
 
   useEffect(() => {
@@ -102,7 +99,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
 
       try {
         await Promise.resolve(
-          onSave(debouncedData, abortControllerRef.current?.signal),
+          onSave(debouncedData, abortControllerRef.current?.signal)
         );
 
         if (abortControllerRef.current?.signal.aborted) return;
@@ -163,7 +160,7 @@ export function AutoSaveForm<T extends Record<string, unknown>>({
             {status === "saving" && (
               <>
                 <Spinner className="h-3 w-3 animate-spin text-muted-foreground" />
-                <span className="text-muted-foreground">Saving...</span>
+                <span className="text-muted-foreground">Saving</span>
               </>
             )}
             {status === "saved" && (

@@ -133,7 +133,7 @@ export function useExportButton({
     })();
 
     toast.promise(exportPromise, {
-      loading: `Preparing ${resource} export...`,
+      loading: `Preparing ${resource} export`,
       success: `${resource} exported successfully!`,
       error: `Failed to export ${resource}.`,
     });

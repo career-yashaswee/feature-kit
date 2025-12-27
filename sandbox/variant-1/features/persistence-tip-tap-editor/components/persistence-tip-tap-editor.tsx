@@ -135,7 +135,7 @@ export function PersistenceTipTapEditor({
             {saveStatus.isSaving && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Spinner size={16} className="animate-spin" />
-                <span>Saving...</span>
+                <span>Saving</span>
               </div>
             )}
             {saveStatus.lastSaved && !saveStatus.isSaving && (

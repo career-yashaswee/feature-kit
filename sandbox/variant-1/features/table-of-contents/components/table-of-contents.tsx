@@ -1,62 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import scrollIntoView from "scroll-into-view-if-needed";
 import { cn } from "@/lib/utils";
 import { List } from "@phosphor-icons/react";
-import type { TableOfContentsProps } from "../types";
+import type { TableOfContentsProps, TocItem } from "../types";
 
-export function TableOfContents({ items, className }: TableOfContentsProps) {
-  const [activeId, setActiveId] = useState<string>("");
-
-  // Use a single observer for all items
-  const { ref: containerRef } = useInView({
+function TocItemLink({
+  item,
+  isActive,
+  onActiveChange,
+}: {
+  item: TocItem;
+  isActive: boolean;
+  onActiveChange: (slug: string) => void;
+}) {
+  const { ref } = useInView({
     threshold: 0,
     rootMargin: "-20% 0% -35% 0%",
     triggerOnce: false,
+    onChange: (inView) => {
+      if (inView) {
+        onActiveChange(item.slug);
+      }
+    },
   });
 
-  useEffect(() => {
-    if (items.length === 0) return;
-
-    const observers: IntersectionObserver[] = [];
-    const observerOptions = {
-      rootMargin: "-20% 0% -35% 0%",
-      threshold: 0,
-    };
-
-    items.forEach((item) => {
+  // Attach ref to the target element in the DOM
+  React.useEffect(() => {
+    if (typeof document !== "undefined") {
       const element = document.getElementById(item.slug);
-      if (!element) return;
+      if (element && ref) {
+        (ref as (node: Element | null) => void)(element);
+      }
+    }
+  }, [ref, item.slug]);
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(item.slug);
-          }
-        });
-      }, observerOptions);
-
-      observer.observe(element);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
-  }, [items]);
-
-  if (items.length === 0) {
-    return null;
-  }
-
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    slug: string,
-  ) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const element = document.getElementById(slug);
+    const element = document.getElementById(item.slug);
     if (element) {
       scrollIntoView(element, {
         behavior: "smooth",
@@ -71,6 +54,40 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
       }, 100);
     }
   };
+
+  const indentClass =
+    item.lvl === 1
+      ? "ml-0"
+      : item.lvl === 2
+        ? "ml-4"
+        : item.lvl === 3
+          ? "ml-8"
+          : "ml-12";
+
+  return (
+    <a
+      href={`#${item.slug}`}
+      onClick={handleClick}
+      className={cn(
+        "block py-1.5 px-2 rounded-sm transition-colors",
+        "hover:bg-muted hover:text-foreground",
+        indentClass,
+        isActive
+          ? "text-foreground font-medium bg-muted border-l-2 border-primary -ml-4 pl-6"
+          : "text-muted-foreground",
+      )}
+    >
+      {item.content}
+    </a>
+  );
+}
+
+export function TableOfContents({ items, className }: TableOfContentsProps) {
+  const [activeId, setActiveId] = useState<string>("");
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <nav
@@ -88,36 +105,15 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
           </h3>
         </div>
         <ul className="space-y-1 text-sm">
-          {items.map((item) => {
-            const isActive = activeId === item.slug;
-            const indentClass =
-              item.lvl === 1
-                ? "ml-0"
-                : item.lvl === 2
-                  ? "ml-4"
-                  : item.lvl === 3
-                    ? "ml-8"
-                    : "ml-12";
-
-            return (
-              <li key={item.slug}>
-                <a
-                  href={`#${item.slug}`}
-                  onClick={(e) => handleClick(e, item.slug)}
-                  className={cn(
-                    "block py-1.5 px-2 rounded-sm transition-colors",
-                    "hover:bg-muted hover:text-foreground",
-                    indentClass,
-                    isActive
-                      ? "text-foreground font-medium bg-muted border-l-2 border-primary -ml-4 pl-6"
-                      : "text-muted-foreground",
-                  )}
-                >
-                  {item.content}
-                </a>
-              </li>
-            );
-          })}
+          {items.map((item) => (
+            <li key={item.slug}>
+              <TocItemLink
+                item={item}
+                isActive={activeId === item.slug}
+                onActiveChange={setActiveId}
+              />
+            </li>
+          ))}
         </ul>
       </div>
     </nav>
