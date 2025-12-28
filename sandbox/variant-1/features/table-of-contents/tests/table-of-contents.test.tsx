@@ -3,9 +3,9 @@ import { TableOfContents } from "../components/table-of-contents";
 
 describe("TableOfContents", () => {
   const mockItems = [
-    { slug: "section-1", content: "Section 1", lvl: 1 },
-    { slug: "section-2", content: "Section 2", lvl: 2 },
-    { slug: "section-3", content: "Section 3", lvl: 3 },
+    { slug: "section-1", content: "Section 1", lvl: 1, i: 0, seen: 0 },
+    { slug: "section-2", content: "Section 2", lvl: 2, i: 1, seen: 0 },
+    { slug: "section-3", content: "Section 3", lvl: 3, i: 2, seen: 0 },
   ];
 
   beforeEach(() => {

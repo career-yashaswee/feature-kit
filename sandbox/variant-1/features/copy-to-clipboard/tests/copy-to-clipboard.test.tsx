@@ -112,7 +112,7 @@ describe("CopyToClipboard", () => {
   });
 
   it("resets copied state after delay", async () => {
-    render(<CopyToClipboard text="test text" resetDelay={100} />);
+    render(<CopyToClipboard text="test text" />);
 
     const button = screen.getByRole("button");
     fireEvent.click(button);

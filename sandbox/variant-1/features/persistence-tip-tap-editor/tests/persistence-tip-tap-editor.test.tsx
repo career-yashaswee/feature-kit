@@ -64,7 +64,11 @@ describe("PersistenceTipTapEditor", () => {
       <PersistenceTipTapEditor
         content="Test content"
         onContentChange={jest.fn()}
-        saveStatus="saving"
+        saveStatus={{
+          hasUnsavedChanges: false,
+          lastSaved: new Date(),
+          isSaving: true,
+        }}
       />,
     );
 

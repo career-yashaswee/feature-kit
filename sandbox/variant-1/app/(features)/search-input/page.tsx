@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import {
   CardContent,
   CardDescription,
@@ -74,7 +74,7 @@ const sampleData = [
   },
 ];
 
-export default function SearchInputPage() {
+function SearchInputPageContent() {
   const [selectedItem, setSelectedItem] = useState<
     (typeof sampleData)[0] | null
   >(null);
@@ -376,5 +376,13 @@ export default function SearchInputPage() {
         })()}
       </main>
     </div>
+  );
+}
+
+export default function SearchInputPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchInputPageContent />
+    </Suspense>
   );
 }

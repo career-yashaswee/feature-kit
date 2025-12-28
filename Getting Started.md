@@ -44,16 +44,19 @@ function MyPage() {
 The sandbox provides an interactive environment for exploring and testing features:
 
 1. **Navigate to Sandbox**:
+
    ```bash
    cd sandbox/variant-1
    ```
 
 2. **Install Dependencies**:
+
    ```bash
    npm install
    ```
 
 3. **Start Development Server**:
+
    ```bash
    npm run dev
    ```
@@ -61,6 +64,7 @@ The sandbox provides an interactive environment for exploring and testing featur
 4. **Open Browser**: Navigate to `http://localhost:3000`
 
 The sandbox includes:
+
 - Interactive demo pages for each feature
 - Live prop editors
 - Example implementations
@@ -71,22 +75,26 @@ The sandbox includes:
 The web application serves as a production showcase:
 
 1. **Navigate to Web**:
+
    ```bash
    cd web
    ```
 
 2. **Install Dependencies**:
+
    ```bash
    npm install
    ```
 
 3. **Set Up Environment Variables**:
+
    ```bash
    cp .env.example .env.local
    # Configure Supabase or other services
    ```
 
 4. **Start Development Server**:
+
    ```bash
    npm run dev
    ```
@@ -154,13 +162,8 @@ import { createI18nextAdapter } from "@/features/language-switcher/adapters/i18n
 
 function App() {
   const adapter = createI18nextAdapter(i18n);
-  
-  return (
-    <LanguageSwitcher
-      adapter={adapter}
-      languages={SUPPORTED_LANGUAGES}
-    />
-  );
+
+  return <LanguageSwitcher adapter={adapter} languages={SUPPORTED_LANGUAGES} />;
 }
 ```
 
@@ -213,16 +216,19 @@ Features use Tailwind CSS and support customization:
 ### Common Issues
 
 **TypeScript Errors**:
+
 - Ensure all dependencies are installed
 - Check that types are exported from `index.ts`
 - Verify TypeScript configuration
 
 **Provider Errors**:
+
 - Check that required providers are configured
 - Verify adapter implementations
 - Review feature documentation
 
 **Styling Issues**:
+
 - Ensure Tailwind CSS is configured
 - Check that required CSS variables are defined
 - Verify component className usage
@@ -255,4 +261,3 @@ Features use Tailwind CSS and support customization:
 - Test in isolation and in context
 - Document thoroughly
 - Create interactive demos
-

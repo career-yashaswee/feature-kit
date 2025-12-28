@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Inter } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
@@ -13,15 +13,6 @@ const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700"],
   display: "swap",
-  preload: true,
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -36,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${ibmPlexSans.variable} ${inter.variable} antialiased`}>
+      <body className={`${ibmPlexSans.variable} antialiased`}>
         <NuqsAdapter>
           <ThemeProvider
             attribute="class"

@@ -9,7 +9,7 @@ describe("TestCaseBadge", () => {
           passed: 10,
           failed: 2,
         }}
-        status="COMPLETE"
+        status="COMPLETED"
       />,
     );
 
@@ -39,7 +39,7 @@ describe("TestCaseBadge", () => {
           passed: 0,
           failed: 0,
         }}
-        status="COMPLETE"
+        status="COMPLETED"
         emptyMessage="No tests run"
       />,
     );
@@ -54,7 +54,7 @@ describe("TestCaseBadge", () => {
           passed: 8,
           failed: 2,
         }}
-        status="COMPLETE"
+        status="COMPLETED"
         showProgress={true}
       />,
     );
@@ -70,7 +70,7 @@ describe("TestCaseBadge", () => {
           passed: 8,
           failed: 2,
         }}
-        status="COMPLETE"
+        status="COMPLETED"
         showProgress={false}
       />,
     );
@@ -86,7 +86,7 @@ describe("TestCaseBadge", () => {
           passed: 5,
           failed: 1,
         }}
-        status="COMPLETE"
+        status="COMPLETED"
         size="sm"
       />,
     );
@@ -100,7 +100,7 @@ describe("TestCaseBadge", () => {
           passed: 5,
           failed: 1,
         }}
-        status="COMPLETE"
+        status="COMPLETED"
         size="lg"
       />,
     );

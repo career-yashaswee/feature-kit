@@ -91,7 +91,7 @@ describe("PageLoader", () => {
     render(
       <PageLoader
         isVisible={true}
-        refreshQueryKeys={["test"]}
+        refreshQueryKeys={[["test"]]}
         refreshDelay={100}
       />,
     );

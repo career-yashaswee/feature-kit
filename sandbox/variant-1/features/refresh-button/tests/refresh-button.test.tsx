@@ -32,7 +32,7 @@ describe("RefreshButton", () => {
     mockInvalidateQueries.mockResolvedValue(undefined);
     mockUseQueryClient.mockReturnValue({
       invalidateQueries: mockInvalidateQueries,
-    } as ReturnType<typeof useQueryClient>);
+    } as unknown as ReturnType<typeof useQueryClient>);
   });
 
   it("renders with default label", () => {

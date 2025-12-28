@@ -43,12 +43,13 @@ function generateSampleQuizStatistics(): QuizStatisticsData {
         : i === 1
           ? "Which aspect of UI design involves choosing colors, typography, and creating icons for a digital interface?"
           : `Question ${i + 1} text content goes here. This is a sample question to demonstrate the quiz statistics component.`,
-    type:
+    type: (
       i % 3 === 0
         ? "multiple_choice"
         : i % 3 === 1
           ? "fill_blank"
-          : "true_false",
+          : "true_false"
+    ) as "multiple_choice" | "fill_blank" | "true_false",
     points: 1,
   }));
 
@@ -64,7 +65,7 @@ function generateSampleQuizStatistics(): QuizStatisticsData {
     } else if (index === 11) {
       status = "need_review";
     } else if (index === 12) {
-      status = "correct";
+      status = "half_correct";
     } else if (index === 13) {
       status = "incorrect";
     } else if (index === 14) {

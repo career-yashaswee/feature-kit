@@ -4,6 +4,7 @@ import { CompareAlternatives } from "../components/compare-alternatives";
 const mockFeatures = [
   {
     id: "feature1",
+    icon: null,
     label: "Feature 1",
     description: "Description 1",
     values: {
@@ -13,6 +14,7 @@ const mockFeatures = [
   },
   {
     id: "feature2",
+    icon: null,
     label: "Feature 2",
     description: "Description 2",
     values: {

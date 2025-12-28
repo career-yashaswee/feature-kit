@@ -47,7 +47,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
         <CardHeader className="flex-1">
           <div className="flex items-start justify-between">
             <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">
-              <Icon className="h-5 w-5 text-primary" />
+              <Icon className="h-5 w-5 text-primary/60 group-hover:text-primary transition-colors" />
             </div>
             <div className="flex items-center gap-2">
               <Badge variant="secondary" className="text-xs">
@@ -81,7 +81,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="mt-auto">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center text-sm text-muted-foreground font-ibm-plex-sans">
             <span>View Demo</span>
             <ArrowUp className="h-4 w-4 rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </div>
