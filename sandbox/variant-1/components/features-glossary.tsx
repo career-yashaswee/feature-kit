@@ -1,6 +1,18 @@
-import { Sparkle } from "@phosphor-icons/react/ssr";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Function,
+  FunctionIcon,
+  Sparkle,
+  Star,
+} from "@phosphor-icons/react/ssr";
+import {
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { BaseCard } from "@/components/base-card";
+import { Separator } from "@/components/ui/separator";
 
 export interface FeatureItem {
   id?: string;
@@ -20,19 +32,27 @@ export function FeaturesGlossary({
   features,
   icon,
 }: FeaturesGlossaryProps) {
-  const defaultIcon = <Sparkle className="h-5 w-5 text-primary" />;
+  const defaultIcon = (
+    <Function weight="duotone" className="h-5 w-5 text-primary" />
+  );
 
   return (
     <BaseCard>
       <CardHeader>
-        <div className="flex items-center gap-2">
-          <div className="rounded-lg bg-primary/10 p-2">
-            {icon || defaultIcon}
+        <div className="flex gap-2 items-center">
+          <div className="rounded-sm bg-primary/10 p-2 group-hover:bg-primary transition-all duration-300 ease-in-out">
+            <FunctionIcon
+              className="h-5 w-5 text-primary group-hover:text-white transition-all duration-300 ease-in-out"
+              weight="duotone"
+            />
           </div>
-          <CardTitle className="text-2xl">{title}</CardTitle>
+          <CardTitle className="text-3xl font-bold tracking-tight text-foreground/40 transition-all duration-300 ease-in-out group-hover:text-foreground whitespace-nowrap">
+            {title}
+          </CardTitle>
         </div>
       </CardHeader>
-      <CardContent>
+      {/* <Separator className="p-0.5 bg-[repeating-linear-gradient(315deg,var(--pattern-fg)_0,var(--pattern-fg)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] group-hover:opacity-100 opacity-50 transition-all duration-300 ease-in-out" /> */}
+      <CardContent className="group-hover:bg-background/10 rounded-md transition-all duration-300 ease-in-out">
         <div className="grid gap-4 md:grid-cols-2">
           {features.map((feature) => (
             <div
@@ -52,6 +72,10 @@ export function FeaturesGlossary({
           ))}
         </div>
       </CardContent>
+      {/* <Separator className="p-0.5 bg-[repeating-linear-gradient(315deg,var(--pattern-fg)_0,var(--pattern-fg)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] group-hover:opacity-100 opacity-50 transition-all duration-300 ease-in-out" /> */}
+      <CardFooter>
+        {/* Footer content can be added here if needed */}
+      </CardFooter>
     </BaseCard>
   );
 }

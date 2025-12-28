@@ -43,8 +43,8 @@ export function FeatureCard({ feature }: FeatureCardProps) {
 
   return (
     <Link href={path}>
-      <BaseCard className="group h-full cursor-pointer transition-all flex flex-col">
-        <CardHeader className="flex-1">
+      <BaseCard className="group h-full cursor-pointer transition-all flex flex-col relative">
+        <CardHeader className="flex-1 relative">
           <div className="flex items-start justify-between">
             <div className="rounded-lg bg-primary/10 p-2 transition-colors group-hover:bg-primary">
               <Icon className="h-5 w-5 text-primary/60 transition-colors group-hover:text-white" />
@@ -76,7 +76,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
               text={description}
               maxLines={3}
               showToggle={false}
-              className="text-sm text-muted-foreground font-ibm-plex-sans italic"
+              className="text-sm text-muted-foreground font-ibm-plex-sans"
             />
           </CardDescription>
         </CardHeader>

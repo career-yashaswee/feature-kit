@@ -47,14 +47,6 @@ export function DemoHeader() {
       <header className="border-b bg-background">
         <div className="flex items-center justify-between gap-4 px-4 py-4">
           <div className="flex items-center gap-2 shrink-0">
-            <Avatar className="h-6 w-6">
-              <AvatarImage
-                src="https://res.cloudinary.com/dmkku8emk/image/upload/v1766850935/8_v0srfh.svg"
-                alt="FeatureKit Logo"
-              />
-              <AvatarFallback>FK</AvatarFallback>
-            </Avatar>
-
             <Link
               href="/"
               className="text-lg font-semibold transition-colors hover:text-primary cursor-pointer whitespace-nowrap"

@@ -27,6 +27,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className={`${ibmPlexSans.variable} antialiased`}>
         <NuqsAdapter>
           <ThemeProvider
