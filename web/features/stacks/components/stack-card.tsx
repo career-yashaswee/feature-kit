@@ -1,7 +1,8 @@
 "use client";
 
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardHeader, CardTitle } from "@/components/ui/card";
 import type { StackWithDependencyCount } from "../hooks/use-stacks";
+import { BaseCard } from "@/components/common/base-card";
 
 type StackCardProps = {
   stack: StackWithDependencyCount;
@@ -12,8 +13,8 @@ export function StackCard({ stack }: StackCardProps) {
     stack.dependency_count === 1 ? "dependency" : "dependencies";
 
   return (
-    <Card
-      className="hover:shadow-lg transition-shadow cursor-pointer h-full"
+    <BaseCard
+      className="transition-shadow cursor-pointer h-full"
       role="article"
     >
       <CardHeader className="pb-3">
@@ -30,6 +31,6 @@ export function StackCard({ stack }: StackCardProps) {
           {stack.dependency_count} {dependencyText}
         </p>
       </CardHeader>
-    </Card>
+    </BaseCard>
   );
 }

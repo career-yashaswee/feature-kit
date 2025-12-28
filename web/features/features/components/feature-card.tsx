@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -18,6 +17,7 @@ import { VariantSelect } from "@/features/variants/components/variant-select";
 import { useVariants } from "@/features/variants/hooks/use-variants";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BaseCard } from "@/components/common/base-card";
 
 type FeatureCardProps = {
   feature: Feature;
@@ -39,11 +39,11 @@ export function FeatureCard({ feature }: FeatureCardProps) {
       href={`/kits/${feature.kit?.slug}/${feature.slug}`}
       aria-label={`View ${feature.name} feature${feature.kit ? ` from ${feature.kit.name} kit` : ""}`}
     >
-      <Card
-        className="hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col"
+      <BaseCard
+        className="transition-shadow cursor-pointer h-full flex flex-col"
         role="article"
       >
-        <CardHeader className="flex-shrink-0">
+        <CardHeader className="shrink-0">
           <div className="flex items-center justify-center gap-2">
             <div className="flex items-start gap-2 flex-1 min-w-0">
               <CardTitle className="flex-1 min-w-0">{feature.name}</CardTitle>
@@ -63,7 +63,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
                   "h-4 w-4",
                   favorite
                     ? "fill-red-500 text-red-500"
-                    : "text-muted-foreground",
+                    : "text-muted-foreground"
                 )}
               />
             </Button>
@@ -103,7 +103,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
             </>
           )}
         </CardFooter>
-      </Card>
+      </BaseCard>
     </Link>
   );
 }

@@ -2,15 +2,11 @@
 
 import Link from "next/link";
 import { Img } from "react-image";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Project } from "@/lib/supabase/types";
 import { ExternalLink } from "lucide-react";
+import { BaseCard } from "@/components/common/base-card";
 
 type ProjectCardProps = {
   project: Project;
@@ -18,8 +14,8 @@ type ProjectCardProps = {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Card
-      className="hover:shadow-lg transition-shadow cursor-pointer h-full overflow-hidden group"
+    <BaseCard
+      className=" transition-shadow cursor-pointer h-full overflow-hidden group"
       role="article"
     >
       {project.thumbnail_url && (
@@ -63,6 +59,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </CardDescription>
         )}
       </CardHeader>
-    </Card>
+    </BaseCard>
   );
 }

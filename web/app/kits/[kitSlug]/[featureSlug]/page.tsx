@@ -19,13 +19,12 @@ import { FeaturePageSkeleton } from "@/components/common/loading-skeleton";
 import { useTranslation } from "react-i18next";
 import { useFeature } from "@/features/features/hooks/use-feature";
 import { TierTag } from "@/features/features/components/tier-tag";
-import { ReportBugForm } from "@/features/issues/components/report-bug-form";
+import { ReportButton, DEFAULT_REPORT_ISSUES } from "@/features/issues";
 import { useCopyPrompt } from "@/features/features/hooks/use-copy-prompt";
 import { useFavoritesStore } from "@/features/favorites/store/use-favorites-store";
-import { Bug, Copy, ExternalLink, X, Heart } from "lucide-react";
+import { Bug, Copy, ExternalLink, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import * as Dialog from "@radix-ui/react-dialog";
 import { ScrollToTopButton } from "@/features/scroll-to-top/components/scroll-to-top-button";
 import { VariantSelect } from "@/features/variants/components/variant-select";
 import { useSelectedVariantData } from "@/features/variants/hooks/use-selected-variant-data";
@@ -52,8 +51,7 @@ export default function FeaturePage() {
     variants,
     isLoading: variantsLoading,
   } = useSelectedVariantData(feature?.id);
-  // Use variant data only - only show content when variant is actually selected
-  // Auto-selection is handled by VariantSelect component
+
   const displayCode = selectedVariant?.code || "";
   const displayMarkdown = selectedVariant?.markdown_content || "";
   const displayPrompt = selectedVariant?.prompt || null;
@@ -208,7 +206,7 @@ export default function FeaturePage() {
             aria-label={t("feature.previewAria")}
           >
             <ExternalLink className="size-4 mr-2" />
-            {t("feature.preview")}
+            {t("feature.livePreview")}
           </Button>
         )}
         {hasVariantSelected && displayPrompt && (
@@ -366,33 +364,17 @@ export default function FeaturePage() {
         )}
       </div>
 
-      <Dialog.Root open={showReportBug} onOpenChange={setShowReportBug}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <div className="flex items-center justify-between border-b px-6 py-4">
-              <Dialog.Title className="text-lg font-semibold">
-                {t("reportBug.title")}
-              </Dialog.Title>
-              <Dialog.Close asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label={t("common.close")}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </Dialog.Close>
-            </div>
-            <div className="p-6">
-              <ReportBugForm
-                featureId={feature.id}
-                onSuccess={() => setShowReportBug(false)}
-              />
-            </div>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
+      {feature && selectedVariantId && (
+        <ReportButton
+          reportId={feature.id}
+          reportTitle={feature.name}
+          issues={DEFAULT_REPORT_ISSUES}
+          featureId={feature.id}
+          variantId={selectedVariantId}
+          open={showReportBug}
+          onOpenChange={setShowReportBug}
+        />
+      )}
       <ScrollToTopButton position="center" />
     </div>
   );

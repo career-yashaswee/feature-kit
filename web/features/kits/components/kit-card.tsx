@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Img } from "react-image";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Kit } from "@/lib/supabase/types";
+import { BaseCard } from "@/components/common/base-card";
 
 type KitCardProps = {
   kit: Kit;
@@ -23,8 +24,8 @@ export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
       aria-label={`${t("header.kitsAria")}: ${kit.name} - ${featureCount} ${featureText}`}
       className="block"
     >
-      <Card
-        className="hover:shadow-lg transition-shadow cursor-pointer h-full overflow-hidden group"
+      <BaseCard
+        className="transition-shadow cursor-pointer h-full overflow-hidden group"
         role="article"
       >
         {kit.thumbnail_url && (
@@ -55,7 +56,7 @@ export function KitCard({ kit, featureCount = 0 }: KitCardProps) {
             {featureCount} {featureText}
           </p>
         </CardHeader>
-      </Card>
+      </BaseCard>
     </Link>
   );
 }
