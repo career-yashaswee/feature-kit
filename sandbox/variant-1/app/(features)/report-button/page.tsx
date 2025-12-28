@@ -189,7 +189,7 @@ export default function ReportButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/report-button"
+            (f) => f.path === "/report-button",
           );
           if (featureData?.howToTest) {
             return (
@@ -273,7 +273,7 @@ export default function ReportButtonPage() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/report-button"
+            (f) => f.path === "/report-button",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

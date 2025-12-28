@@ -37,8 +37,20 @@ export default function RootLayout({
           >
             <QueryProvider>
               <SpeechRecognitionProvider>
-                <DemoHeader />
-                {children}
+                <div className="relative grid min-h-screen grid-cols-[1fr_auto_1fr] grid-rows-[1fr_1px_auto_1px_1fr] bg-white [--pattern-fg:var(--color-gray-950)]/5 dark:bg-gray-950 dark:[--pattern-fg:var(--color-white)]/10">
+                  {/* Content area - column 2, row 3 */}
+                  <div className="col-start-2 row-start-3 flex w-[80vw] flex-col">
+                    <DemoHeader />
+                    <div className="relative">{children}</div>
+                  </div>
+
+                  {/* Left decorative border - column 1, spans all rows, fills from screen edge to content */}
+                  <div className="relative -right-px col-start-1 row-span-full row-start-1 w-full border-x border-x-(--pattern-fg) bg-[repeating-linear-gradient(315deg,var(--pattern-fg)_0,var(--pattern-fg)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] bg-fixed pointer-events-none" />
+
+                  {/* Right decorative border - column 3, spans all rows, fills from content to screen edge */}
+                  <div className="relative -left-px col-start-3 row-span-full row-start-1 w-full border-x border-x-(--pattern-fg) bg-[repeating-linear-gradient(315deg,var(--pattern-fg)_0,var(--pattern-fg)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] bg-fixed pointer-events-none" />
+                </div>
+
                 <Toaster richColors position="top-right" />
               </SpeechRecognitionProvider>
             </QueryProvider>

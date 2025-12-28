@@ -43,13 +43,11 @@ function generateSampleQuizStatistics(): QuizStatisticsData {
         : i === 1
           ? "Which aspect of UI design involves choosing colors, typography, and creating icons for a digital interface?"
           : `Question ${i + 1} text content goes here. This is a sample question to demonstrate the quiz statistics component.`,
-    type: (
-      i % 3 === 0
-        ? "multiple_choice"
-        : i % 3 === 1
-          ? "fill_blank"
-          : "true_false"
-    ) as "multiple_choice" | "fill_blank" | "true_false",
+    type: (i % 3 === 0
+      ? "multiple_choice"
+      : i % 3 === 1
+        ? "fill_blank"
+        : "true_false") as "multiple_choice" | "fill_blank" | "true_false",
     points: 1,
   }));
 
@@ -95,27 +93,27 @@ function generateSampleQuizStatistics(): QuizStatisticsData {
 
   // Calculate statistics
   const correctCount = questionResults.filter(
-    (r) => r.status === "correct"
+    (r) => r.status === "correct",
   ).length;
   const halfCorrectCount = questionResults.filter(
-    (r) => r.status === "half_correct"
+    (r) => r.status === "half_correct",
   ).length;
   const needReviewCount = questionResults.filter(
-    (r) => r.status === "need_review"
+    (r) => r.status === "need_review",
   ).length;
   const incorrectCount = questionResults.filter(
-    (r) => r.status === "incorrect"
+    (r) => r.status === "incorrect",
   ).length;
   const skippedCount = questionResults.filter(
-    (r) => r.status === "skipped"
+    (r) => r.status === "skipped",
   ).length;
 
   const totalPoints = questionResults.reduce(
     (sum, r) => sum + r.pointsEarned,
-    0
+    0,
   );
   const answeredCount = questionResults.filter(
-    (r) => r.status !== "skipped"
+    (r) => r.status !== "skipped",
   ).length;
   const accuracy = Math.round((correctCount / questions.length) * 100);
 
@@ -220,7 +218,7 @@ export default function QuizStatisticsPage() {
         {/* How to Test */}
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/quiz-statistics"
+            (f) => f.path === "/quiz-statistics",
           );
           if (featureData?.howToTest) {
             return (
@@ -334,7 +332,7 @@ const statistics: QuizStatisticsData = {
         {/* Features Glossary */}
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/quiz-statistics"
+            (f) => f.path === "/quiz-statistics",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
@@ -388,4 +386,3 @@ const statistics: QuizStatisticsData = {
     </div>
   );
 }
-

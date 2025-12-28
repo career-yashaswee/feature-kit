@@ -46,7 +46,7 @@ const RestoreScrollPosition = dynamic(
     import("@/features/restore-scroll-position").then((mod) => ({
       default: mod.RestoreScrollPosition,
     })),
-  { 
+  {
     ssr: false,
     loading: () => null,
   }
@@ -57,7 +57,7 @@ const NetworkStatusListener = dynamic(
     import("@/features/network-status-listener").then((mod) => ({
       default: mod.NetworkStatusListener,
     })),
-  { 
+  {
     ssr: false,
     loading: () => null,
   }
@@ -272,23 +272,23 @@ function HomePageContent() {
     <RestoreScrollPosition storageKey="home-page-scroll" persist>
       <NetworkStatusListener />
       <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
-        <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-12 p-8">
-          <section className="space-y-6 text-center">
+        <main className="flex min-h-screen flex-col gap-12 p-8">
+          {/* <section className="space-y-6 text-center">
             <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
               <Lightning className="h-4 w-4 text-primary" />
               <span className="text-sm font-medium">Feature Kit</span>
             </div>
             <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              Sandbox React Variant
+              React Sandbox
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-              Explore and test all available features. Click on any feature card
-              to see it in action.
+              Explore and test all available features. <br />
+              Click on any feature card to see it in action.
             </p>
             <Badge variant="default" className="gap-1.5 demo-badge">
               {filteredFeatures.length} of {allFeatures.length} Features
             </Badge>
-          </section>
+          </section> */}
 
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <div className="flex-1 w-full relative">
@@ -329,7 +329,7 @@ function HomePageContent() {
               actionLabel="Clear all filters"
             />
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 sm:grid-cols-1">
               {filteredFeatures.map((feature) => (
                 <FeatureCard feature={feature} key={feature.path} />
               ))}

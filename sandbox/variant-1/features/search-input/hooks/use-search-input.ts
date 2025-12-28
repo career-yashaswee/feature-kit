@@ -52,7 +52,7 @@ export function useSearchInput<T>({
       clearOnDefault: true,
       history,
       shallow,
-    })
+    }),
   );
 
   // Use local state as fallback when URL sync is disabled
@@ -66,7 +66,7 @@ export function useSearchInput<T>({
     (searchQuery: string, searchResults: T[]) => {
       onSearch?.(searchQuery, searchResults);
     },
-    [onSearch]
+    [onSearch],
   );
 
   const fuse = useMemo(
@@ -76,7 +76,7 @@ export function useSearchInput<T>({
         threshold: fuzzyThreshold,
         includeScore: true,
       }),
-    [data, searchKeys, fuzzyThreshold]
+    [data, searchKeys, fuzzyThreshold],
   );
 
   const results = useMemo(() => {
@@ -100,7 +100,7 @@ export function useSearchInput<T>({
         setLocalQuery(value);
       }
     },
-    [enableUrlSync, setUrlQuery]
+    [enableUrlSync, setUrlQuery],
   );
 
   return {

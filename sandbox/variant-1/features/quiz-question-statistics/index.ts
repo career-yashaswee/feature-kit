@@ -6,5 +6,3 @@ export type {
   QuestionStatistics,
   QuestionType,
 } from "./types";
-
-

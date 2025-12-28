@@ -68,4 +68,3 @@ export function formatTimestamp(lastUpdatedAt?: string): string | null {
     return null;
   }
 }
-

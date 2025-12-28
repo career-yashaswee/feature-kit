@@ -23,20 +23,6 @@ const languages: Language[] = [
 
 export function DemoHeader() {
   const pathname = usePathname();
-  const [currentLang, setCurrentLang] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("language");
-      return saved || "en";
-    }
-    return "en";
-  });
-
-  const handleLanguageChange = (code: string) => {
-    setCurrentLang(code);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("language", code);
-    }
-  };
 
   const breadcrumbItems = useMemo<BreadcrumbItem[]>(() => {
     return generateBreadcrumbItems(pathname || "/", House, Lightning);
@@ -59,9 +45,9 @@ export function DemoHeader() {
   return (
     <>
       <header className="border-b bg-background">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
+        <div className="flex items-center justify-between gap-4 px-4 py-4">
           <div className="flex items-center gap-2 shrink-0">
-            <Avatar className="h-8 w-8">
+            <Avatar className="h-6 w-6">
               <AvatarImage
                 src="https://res.cloudinary.com/dmkku8emk/image/upload/v1766850935/8_v0srfh.svg"
                 alt="FeatureKit Logo"
@@ -73,7 +59,7 @@ export function DemoHeader() {
               href="/"
               className="text-lg font-semibold transition-colors hover:text-primary cursor-pointer whitespace-nowrap"
             >
-              FeatureKit
+              FeatureKit Previews
             </Link>
           </div>
           <div className="flex items-center gap-2 shrink-0">
@@ -97,22 +83,12 @@ export function DemoHeader() {
                 <GithubLogo className="h-4 w-4" />
               </Link>
             </Button>
-            <LanguageSwitcher
-              languages={languages}
-              currentLanguage={currentLang}
-              onLanguageChange={handleLanguageChange}
-              persistLanguage={(code) => {
-                if (typeof window !== "undefined") {
-                  localStorage.setItem("language", code);
-                }
-              }}
-              size="md"
-            />
+
             <AnimatedThemeToggler className="h-9 w-9" />
           </div>
         </div>
       </header>
-      <div className="mx-auto max-w-7xl">
+      <div>
         <ScrollableBreadcrumb
           items={breadcrumbItems}
           renderLink={renderBreadcrumbLink}

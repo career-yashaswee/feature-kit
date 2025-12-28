@@ -129,7 +129,7 @@ export default function QuizQuestionStatisticsPage() {
       ...sampleData.question,
       number: currentQuestionNumber,
     }),
-    [sampleData.question, currentQuestionNumber]
+    [sampleData.question, currentQuestionNumber],
   );
 
   return (
@@ -139,13 +139,17 @@ export default function QuizQuestionStatisticsPage() {
         <section className="space-y-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
             <ChartBar className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium">Quiz Question Statistics</span>
+            <span className="text-sm font-medium">
+              Quiz Question Statistics
+            </span>
           </div>
           <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Quiz Question Statistics
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Display detailed statistics for individual quiz questions with answer distribution, response counts, and accuracy metrics. Perfect for analyzing question performance and understanding user responses.
+            Display detailed statistics for individual quiz questions with
+            answer distribution, response counts, and accuracy metrics. Perfect
+            for analyzing question performance and understanding user responses.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Badge variant="default" className="gap-1.5 bg-secondary/80">
@@ -169,7 +173,9 @@ export default function QuizQuestionStatisticsPage() {
               <CardTitle className="text-2xl">Live Demo</CardTitle>
             </div>
             <CardDescription>
-              See the quiz question statistics component in action. View answer distribution with progress bars, response counts, and accuracy metrics. Use Previous/Next buttons to navigate between questions.
+              See the quiz question statistics component in action. View answer
+              distribution with progress bars, response counts, and accuracy
+              metrics. Use Previous/Next buttons to navigate between questions.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -193,7 +199,7 @@ export default function QuizQuestionStatisticsPage() {
         {/* How to Test */}
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/quiz-question-statistics"
+            (f) => f.path === "/quiz-question-statistics",
           );
           if (featureData?.howToTest) {
             return (
@@ -310,7 +316,7 @@ const statistics: QuestionStatistics = {
         {/* Features Glossary */}
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/quiz-question-statistics"
+            (f) => f.path === "/quiz-question-statistics",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({
@@ -364,5 +370,3 @@ const statistics: QuestionStatistics = {
     </div>
   );
 }
-
-

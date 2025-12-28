@@ -40,7 +40,7 @@ export function useAutoSave<TData>({
 
   const [savedData, setSavedData] = useLocalStorage<TData | null>(
     storageKey || "",
-    null
+    null,
   );
 
   const [debouncedData] = useDebouncedValue(data, { wait: interval });
@@ -134,7 +134,7 @@ export function useAutoSave<TData>({
         throw error;
       }
     },
-    [storageKey, setSavedData, successMessage, errorMessage]
+    [storageKey, setSavedData, successMessage, errorMessage],
   );
 
   // Auto-save on debounced data change
@@ -154,6 +154,6 @@ export function useAutoSave<TData>({
         toast.dismiss(toastIdRef.current);
       }
     },
-    [commit, saveOnUnmount]
+    [commit, saveOnUnmount],
   );
 }

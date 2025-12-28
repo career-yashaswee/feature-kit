@@ -22,9 +22,17 @@ export function BaseCard({ children, className, ...props }: BaseCardProps) {
       className="w-full"
     >
       <Card
-        className={cn("transition-shadow duration-300", className)}
+        className={cn(className, "relative transition-all duration-300 group")}
         {...props}
       >
+        {/* Top-left corner */}
+        <div className="absolute top-0 left-0 w-4 h-4 border-t-3 border-l-3 border-transparent group-hover:border-primary rounded-tl-lg transition-all duration-300" />
+        {/* Top-right corner */}
+        <div className="absolute top-0 right-0 w-4 h-4 border-t-3 border-r-3 border-transparent group-hover:border-primary rounded-tr-lg transition-all duration-300" />
+        {/* Bottom-left corner */}
+        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-3 border-l-3 border-transparent group-hover:border-primary rounded-bl-lg transition-all duration-300" />
+        {/* Bottom-right corner */}
+        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-3 border-r-3 border-transparent group-hover:border-primary rounded-br-lg transition-all duration-300" />
         {children}
       </Card>
     </motion.div>

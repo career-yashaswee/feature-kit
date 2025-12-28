@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,11 +71,22 @@ export function QuizQuestionStatistics({
   onNext,
   className,
 }: QuizQuestionStatisticsProps) {
-  const { number, totalQuestions, text, type, averageTime, points, answerOptions } = question;
+  const {
+    number,
+    totalQuestions,
+    text,
+    type,
+    averageTime,
+    points,
+    answerOptions,
+  } = question;
   const { correct, incorrect, accuracy } = statistics;
 
   // Calculate total responses
-  const totalResponses = answerOptions.reduce((sum, option) => sum + option.responseCount, 0);
+  const totalResponses = answerOptions.reduce(
+    (sum, option) => sum + option.responseCount,
+    0,
+  );
 
   return (
     <div className={cn("w-full", className)}>
@@ -103,8 +111,13 @@ export function QuizQuestionStatistics({
                 <span>Avg. time {formatTime(averageTime)}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Diamond className="h-4 w-4 text-yellow-600 dark:text-yellow-500" weight="fill" />
-                <span>{points} point{points !== 1 ? "s" : ""}</span>
+                <Diamond
+                  className="h-4 w-4 text-yellow-600 dark:text-yellow-500"
+                  weight="fill"
+                />
+                <span>
+                  {points} point{points !== 1 ? "s" : ""}
+                </span>
               </div>
             </div>
           </div>
@@ -118,15 +131,18 @@ export function QuizQuestionStatistics({
           <div className="space-y-4">
             {answerOptions.map((option) => {
               const isCorrect = option.isCorrect;
-              const responseText = option.responseCount === 1 ? "resp." : "resp.";
+              const responseText =
+                option.responseCount === 1 ? "resp." : "resp.";
 
               return (
                 <div key={option.id} className="space-y-2">
                   <div className="flex items-start justify-between gap-4">
-                    <p className={cn(
-                      "text-base flex-1",
-                      isCorrect && "font-semibold"
-                    )}>
+                    <p
+                      className={cn(
+                        "text-base flex-1",
+                        isCorrect && "font-semibold",
+                      )}
+                    >
                       {option.text}
                     </p>
                   </div>
@@ -137,12 +153,13 @@ export function QuizQuestionStatistics({
                         "h-2",
                         isCorrect
                           ? "bg-green-100 dark:bg-green-950/30 [&>div]:bg-green-600 dark:[&>div]:bg-green-500"
-                          : "bg-red-100 dark:bg-red-950/30 [&>div]:bg-red-600 dark:[&>div]:bg-red-500"
+                          : "bg-red-100 dark:bg-red-950/30 [&>div]:bg-red-600 dark:[&>div]:bg-red-500",
                       )}
                     />
                     <div className="flex items-center justify-between text-sm text-muted-foreground">
                       <span>
-                        {option.responseCount} {responseText} {option.percentage}%
+                        {option.responseCount} {responseText}{" "}
+                        {option.percentage}%
                       </span>
                     </div>
                   </div>
@@ -205,7 +222,10 @@ export function QuizQuestionStatistics({
                 {/* Accuracy */}
                 <div className="flex items-center gap-3 pt-2">
                   <div className="relative h-10 w-10 shrink-0">
-                    <svg className="h-10 w-10 transform -rotate-90" viewBox="0 0 36 36">
+                    <svg
+                      className="h-10 w-10 transform -rotate-90"
+                      viewBox="0 0 36 36"
+                    >
                       <circle
                         cx="18"
                         cy="18"
@@ -247,4 +267,3 @@ export function QuizQuestionStatistics({
     </div>
   );
 }
-

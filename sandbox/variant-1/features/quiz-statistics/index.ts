@@ -10,5 +10,3 @@ export type {
   QuestionStatus,
   StatusBreakdown,
 } from "./types";
-
-

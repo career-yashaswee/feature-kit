@@ -1,11 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -23,7 +19,11 @@ import {
   PencilSimpleLine,
   X as CloseIcon,
 } from "@phosphor-icons/react";
-import type { QuizStatisticsProps, QuestionStatus, QuestionType } from "../types";
+import type {
+  QuizStatisticsProps,
+  QuestionStatus,
+  QuestionType,
+} from "../types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -34,7 +34,10 @@ function getStatusIcon(status: QuestionStatus, className?: string) {
     case "correct":
       return (
         <CheckCircle
-          className={cn("h-4 w-4 text-green-600 dark:text-green-500", className)}
+          className={cn(
+            "h-4 w-4 text-green-600 dark:text-green-500",
+            className,
+          )}
           weight="fill"
         />
       );
@@ -48,7 +51,10 @@ function getStatusIcon(status: QuestionStatus, className?: string) {
     case "half_correct":
       return (
         <Question
-          className={cn("h-4 w-4 text-yellow-600 dark:text-yellow-500", className)}
+          className={cn(
+            "h-4 w-4 text-yellow-600 dark:text-yellow-500",
+            className,
+          )}
           weight="fill"
         />
       );
@@ -61,10 +67,7 @@ function getStatusIcon(status: QuestionStatus, className?: string) {
       );
     case "skipped":
       return (
-        <X
-          className={cn("h-4 w-4 text-gray-400", className)}
-          weight="fill"
-        />
+        <X className={cn("h-4 w-4 text-gray-400", className)} weight="fill" />
       );
   }
 }
@@ -145,11 +148,20 @@ export function QuizStatistics({
   onClose,
   className,
 }: QuizStatisticsProps) {
-  const { user, quiz, questionResults, accuracy, totalPoints, answeredCount, finishedAt, statusBreakdown } = statistics;
+  const {
+    user,
+    quiz,
+    questionResults,
+    accuracy,
+    totalPoints,
+    answeredCount,
+    finishedAt,
+    statusBreakdown,
+  } = statistics;
 
   // Create a map of question results by question ID for quick lookup
   const resultsMap = useMemo(() => {
-    const map = new Map<string, typeof questionResults[0]>();
+    const map = new Map<string, (typeof questionResults)[0]>();
     questionResults.forEach((result) => {
       map.set(result.questionId, result);
     });
@@ -163,11 +175,21 @@ export function QuizStatistics({
 
   // Calculate percentages for status breakdown
   const totalQuestions = quiz.totalQuestions;
-  const correctPercentage = Math.round((statusBreakdown.correct / totalQuestions) * 100);
-  const halfCorrectPercentage = Math.round((statusBreakdown.halfCorrect / totalQuestions) * 100);
-  const needReviewPercentage = Math.round((statusBreakdown.needReview / totalQuestions) * 100);
-  const incorrectPercentage = Math.round((statusBreakdown.incorrect / totalQuestions) * 100);
-  const skippedPercentage = Math.round((statusBreakdown.skipped / totalQuestions) * 100);
+  const correctPercentage = Math.round(
+    (statusBreakdown.correct / totalQuestions) * 100,
+  );
+  const halfCorrectPercentage = Math.round(
+    (statusBreakdown.halfCorrect / totalQuestions) * 100,
+  );
+  const needReviewPercentage = Math.round(
+    (statusBreakdown.needReview / totalQuestions) * 100,
+  );
+  const incorrectPercentage = Math.round(
+    (statusBreakdown.incorrect / totalQuestions) * 100,
+  );
+  const skippedPercentage = Math.round(
+    (statusBreakdown.skipped / totalQuestions) * 100,
+  );
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto", className)}>
@@ -181,7 +203,13 @@ export function QuizStatistics({
                   <AvatarImage src={user.avatarUrl} alt={user.name} />
                 ) : null}
                 <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                  {user.avatarInitials || user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                  {user.avatarInitials ||
+                    user.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .toUpperCase()
+                      .slice(0, 2)}
                 </AvatarFallback>
               </Avatar>
               <div className="space-y-1">
@@ -215,7 +243,8 @@ export function QuizStatistics({
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">{quiz.title}</h1>
             <p className="text-sm text-muted-foreground">
-              Finished {formatDate(finishedAt)} • {formatTimeOfDay(finishedAt)} • {totalQuestions} Questions
+              Finished {formatDate(finishedAt)} • {formatTimeOfDay(finishedAt)}{" "}
+              • {totalQuestions} Questions
             </p>
           </div>
 
@@ -230,14 +259,19 @@ export function QuizStatistics({
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <Diamond className="h-4 w-4 text-yellow-600 dark:text-yellow-500" weight="fill" />
+                <Diamond
+                  className="h-4 w-4 text-yellow-600 dark:text-yellow-500"
+                  weight="fill"
+                />
                 <span className="text-sm font-medium">Point</span>
               </div>
               <p className="text-2xl font-bold">{totalPoints}</p>
             </div>
             <div className="space-y-2">
               <span className="text-sm font-medium">Answered</span>
-              <p className="text-2xl font-bold">{answeredCount}/{totalQuestions}</p>
+              <p className="text-2xl font-bold">
+                {answeredCount}/{totalQuestions}
+              </p>
             </div>
           </div>
         </CardHeader>
@@ -257,13 +291,20 @@ export function QuizStatistics({
                     size="icon"
                     className={cn(
                       "h-10 w-10 relative flex items-center justify-center",
-                      status === "correct" && "border-green-600 dark:border-green-500 bg-green-50 dark:bg-green-950/20",
-                      status === "incorrect" && "border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-950/20",
-                      status === "half_correct" && "border-yellow-600 dark:border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20",
-                      status === "need_review" && "border-gray-500 bg-gray-50 dark:bg-gray-950/20",
-                      status === "skipped" && "border-gray-400 bg-gray-50 dark:bg-gray-950/20"
+                      status === "correct" &&
+                        "border-green-600 dark:border-green-500 bg-green-50 dark:bg-green-950/20",
+                      status === "incorrect" &&
+                        "border-red-600 dark:border-red-500 bg-red-50 dark:bg-red-950/20",
+                      status === "half_correct" &&
+                        "border-yellow-600 dark:border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20",
+                      status === "need_review" &&
+                        "border-gray-500 bg-gray-50 dark:bg-gray-950/20",
+                      status === "skipped" &&
+                        "border-gray-400 bg-gray-50 dark:bg-gray-950/20",
                     )}
-                    onClick={() => onQuestionClick?.(question.number, question.id)}
+                    onClick={() =>
+                      onQuestionClick?.(question.number, question.id)
+                    }
                   >
                     {getStatusIcon(status)}
                     <span className="sr-only">Question {question.number}</span>
@@ -286,19 +327,22 @@ export function QuizStatistics({
               <div className="flex items-center gap-2">
                 {getStatusIcon("half_correct")}
                 <p className="text-sm font-medium">
-                  Half Correct: {statusBreakdown.halfCorrect} • {halfCorrectPercentage}%
+                  Half Correct: {statusBreakdown.halfCorrect} •{" "}
+                  {halfCorrectPercentage}%
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 {getStatusIcon("need_review")}
                 <p className="text-sm font-medium">
-                  Need Review: {statusBreakdown.needReview} • {needReviewPercentage}%
+                  Need Review: {statusBreakdown.needReview} •{" "}
+                  {needReviewPercentage}%
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 {getStatusIcon("incorrect")}
                 <p className="text-sm font-medium">
-                  Incorrect: {statusBreakdown.incorrect} • {incorrectPercentage}%
+                  Incorrect: {statusBreakdown.incorrect} • {incorrectPercentage}
+                  %
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -333,19 +377,29 @@ export function QuizStatistics({
                           </div>
                           <div className="flex-1 space-y-2">
                             <div className="flex items-center justify-between">
-                              <h3 className="font-semibold text-base">Question {question.number}</h3>
+                              <h3 className="font-semibold text-base">
+                                Question {question.number}
+                              </h3>
                               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                 <div className="flex items-center gap-1.5">
                                   <Clock className="h-4 w-4" />
                                   <span>Time {formatTime(timeTaken)}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
-                                  <Diamond className="h-4 w-4 text-yellow-600 dark:text-yellow-500" weight="fill" />
-                                  <span>{pointsEarned} point{pointsEarned !== 1 ? "s" : ""}</span>
+                                  <Diamond
+                                    className="h-4 w-4 text-yellow-600 dark:text-yellow-500"
+                                    weight="fill"
+                                  />
+                                  <span>
+                                    {pointsEarned} point
+                                    {pointsEarned !== 1 ? "s" : ""}
+                                  </span>
                                 </div>
                               </div>
                             </div>
-                            <p className="text-sm text-foreground">{question.text}</p>
+                            <p className="text-sm text-foreground">
+                              {question.text}
+                            </p>
                           </div>
                         </div>
                       </CardContent>
@@ -360,4 +414,3 @@ export function QuizStatistics({
     </div>
   );
 }
-

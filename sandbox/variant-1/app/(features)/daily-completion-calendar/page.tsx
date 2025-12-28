@@ -64,7 +64,7 @@ function generateSampleCompletions(): DayCompletion[] {
 
 export default function DailyCompletionCalendarPage() {
   const [completions, setCompletions] = useState<DayCompletion[]>(
-    generateSampleCompletions()
+    generateSampleCompletions(),
   );
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<
@@ -95,7 +95,7 @@ export default function DailyCompletionCalendarPage() {
 
   const handleDayClick = (
     date: Date,
-    status: "completed" | "failed" | "none"
+    status: "completed" | "failed" | "none",
   ) => {
     setSelectedDate(date);
     setSelectedStatus(status);
@@ -106,7 +106,7 @@ export default function DailyCompletionCalendarPage() {
     setCompletions((prev) => {
       const newCompletions = [...prev];
       const index = newCompletions.findIndex(
-        (c) => c.date.toISOString().split("T")[0] === dateKey
+        (c) => c.date.toISOString().split("T")[0] === dateKey,
       );
 
       if (index >= 0) {
@@ -178,7 +178,7 @@ export default function DailyCompletionCalendarPage() {
         {/* How to Test */}
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/daily-completion-calendar"
+            (f) => f.path === "/daily-completion-calendar",
           );
           if (featureData?.howToTest) {
             return (
@@ -268,7 +268,7 @@ export default function DailyCompletionCalendarPage() {
         {/* Features Glossary */}
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/daily-completion-calendar"
+            (f) => f.path === "/daily-completion-calendar",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

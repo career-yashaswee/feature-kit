@@ -17,4 +17,3 @@ export interface DailyCompletionCalendarProps {
   /** Callback when month changes */
   onMonthChange?: (month: Date) => void;
 }
-

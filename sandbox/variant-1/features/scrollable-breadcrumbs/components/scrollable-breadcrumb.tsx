@@ -44,7 +44,7 @@ export function ScrollableBreadcrumb({
 
   const defaultRenderLink = (
     item: (typeof items)[0],
-    children: React.ReactNode,
+    children: React.ReactNode
   ) => {
     return (
       <a
@@ -62,9 +62,9 @@ export function ScrollableBreadcrumb({
   return (
     <div className="relative w-full h-10">
       {/* Left fade indicator */}
-      <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      {/* <div className="absolute left-0 top-0 bottom-0 w-2 bg-linear-to-r from-background to-transparent z-10 pointer-events-none" /> */}
       {/* Right fade indicator */}
-      <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      {/* <div className="absolute right-0 top-0 bottom-0 w-2 bg-linear-to-l from-background to-transparent z-10 pointer-events-none" /> */}
 
       <div
         ref={scrollContainerRef}
@@ -72,8 +72,8 @@ export function ScrollableBreadcrumb({
           "flex items-center overflow-x-auto scrollbar-hide gap-2 px-2",
           "scroll-smooth w-full h-10",
           "min-w-0", // Allow shrinking
-          "bg-muted/20 rounded-md border",
-          className,
+          "bg-muted/40",
+          className
         )}
         style={{
           scrollbarWidth: "none", // Firefox

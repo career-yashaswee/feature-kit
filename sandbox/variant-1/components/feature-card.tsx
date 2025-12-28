@@ -43,7 +43,7 @@ export function FeatureCard({ feature }: FeatureCardProps) {
 
   return (
     <Link href={path}>
-      <BaseCard className="group h-full cursor-pointer transition-all hover:border-primary/50 flex flex-col">
+      <BaseCard className="group h-full cursor-pointer transition-all flex flex-col">
         <CardHeader className="flex-1">
           <div className="flex items-start justify-between">
             <div className="rounded-lg bg-primary/10 p-2 group-hover:bg-primary/20 transition-colors">

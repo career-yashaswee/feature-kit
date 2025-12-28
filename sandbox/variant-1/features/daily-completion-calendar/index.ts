@@ -4,4 +4,3 @@ export type {
   DayCompletion,
   CompletionStatus,
 } from "./types";
-

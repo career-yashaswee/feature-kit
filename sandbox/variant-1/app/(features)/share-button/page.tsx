@@ -158,7 +158,10 @@ export default function ShareButtonPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-center rounded-lg border bg-card p-8">
-              <ShareButton {...getComponentProps} url={getComponentProps.url || shareUrl || "https://example.com"} />
+              <ShareButton
+                {...getComponentProps}
+                url={getComponentProps.url || shareUrl || "https://example.com"}
+              />
             </div>
           </CardContent>
         </BaseCard>

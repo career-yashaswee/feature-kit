@@ -1,7 +1,11 @@
 /**
  * Question type in a quiz
  */
-export type QuestionType = "multiple_choice" | "fill_blank" | "true_false" | "essay";
+export type QuestionType =
+  | "multiple_choice"
+  | "fill_blank"
+  | "true_false"
+  | "essay";
 
 /**
  * Answer option for a question
@@ -68,5 +72,3 @@ export interface QuizQuestionStatisticsProps {
   /** Optional className for styling */
   className?: string;
 }
-
-

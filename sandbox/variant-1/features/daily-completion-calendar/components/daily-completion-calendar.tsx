@@ -42,7 +42,7 @@ function CompletionDayButton({
       className={cn(
         "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] rounded-md relative",
         defaultClassNames.day,
-        dayClassName
+        dayClassName,
       )}
       onClick={(e) => {
         onDayClick?.(day.date, status);
@@ -79,7 +79,7 @@ export function DailyCompletionCalendar({
   onMonthChange,
 }: DailyCompletionCalendarProps) {
   const [internalMonth, setInternalMonth] = useState<Date>(
-    controlledMonth || new Date()
+    controlledMonth || new Date(),
   );
 
   // Convert completions array to Map if needed
@@ -103,7 +103,7 @@ export function DailyCompletionCalendar({
         const dateKey = date.toISOString().split("T")[0];
         return completionsMap.get(dateKey) || "none";
       },
-    [completionsMap]
+    [completionsMap],
   );
 
   const month = controlledMonth || internalMonth;

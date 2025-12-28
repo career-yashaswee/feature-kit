@@ -308,7 +308,7 @@ function SearchInputPageContent() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/search-input"
+            (f) => f.path === "/search-input",
           );
           if (featureData?.howToTest) {
             return (
@@ -324,7 +324,7 @@ function SearchInputPageContent() {
 
         {(() => {
           const featureData = featuresData.find(
-            (f) => f.path === "/search-input"
+            (f) => f.path === "/search-input",
           );
           if (featureData?.features) {
             const featuresWithIcons = featureData.features.map((feature) => ({

@@ -26,4 +26,3 @@ export function getStatusFromBadge(
   }
   return "online";
 }
-

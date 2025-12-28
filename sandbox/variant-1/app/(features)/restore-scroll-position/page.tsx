@@ -102,7 +102,12 @@ export default function RestoreScrollPositionPage() {
           </CardHeader>
           <CardContent>
             <div className="rounded-lg border border-dashed bg-muted/20 p-8 min-h-[200px]">
-              <RestoreScrollPosition {...getComponentProps} storageKey={getComponentProps.storageKey || "restore-scroll-position-demo"}>
+              <RestoreScrollPosition
+                {...getComponentProps}
+                storageKey={
+                  getComponentProps.storageKey || "restore-scroll-position-demo"
+                }
+              >
                 <div className="space-y-4">
                   <p className="text-sm text-muted-foreground">
                     Scroll down this demo area to test scroll position
@@ -157,7 +162,12 @@ export default function RestoreScrollPositionPage() {
           );
         })()}
 
-        <RestoreScrollPosition {...getComponentProps} storageKey={getComponentProps.storageKey || "restore-scroll-position-demo"}>
+        <RestoreScrollPosition
+          {...getComponentProps}
+          storageKey={
+            getComponentProps.storageKey || "restore-scroll-position-demo"
+          }
+        >
           <BaseCard>
             <CardHeader>
               <div className="flex items-center gap-2">

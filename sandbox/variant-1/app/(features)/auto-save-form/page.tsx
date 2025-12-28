@@ -8,9 +8,9 @@ const AutoSaveForm = dynamic(
     import("@/features/auto-save-form/components/auto-save-form").then(
       (mod) => ({
         default: mod.AutoSaveForm,
-      })
+      }),
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   CardContent,
@@ -112,7 +112,7 @@ export default function AutoSaveFormPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/auto-save-form"
+          (f) => f.path === "/auto-save-form",
         );
         if (featureData?.howToTest) {
           return (
@@ -128,7 +128,7 @@ export default function AutoSaveFormPage() {
 
       {(() => {
         const featureData = featuresData.find(
-          (f) => f.path === "/auto-save-form"
+          (f) => f.path === "/auto-save-form",
         );
         if (featureData?.features) {
           const featuresWithIcons = featureData.features.map((feature) => ({

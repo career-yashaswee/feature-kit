@@ -19,12 +19,21 @@ export interface User {
 /**
  * Question type in a quiz
  */
-export type QuestionType = "multiple_choice" | "fill_blank" | "true_false" | "essay";
+export type QuestionType =
+  | "multiple_choice"
+  | "fill_blank"
+  | "true_false"
+  | "essay";
 
 /**
  * Question status in quiz results
  */
-export type QuestionStatus = "correct" | "incorrect" | "half_correct" | "need_review" | "skipped";
+export type QuestionStatus =
+  | "correct"
+  | "incorrect"
+  | "half_correct"
+  | "need_review"
+  | "skipped";
 
 /**
  * Individual question in a quiz
@@ -123,5 +132,3 @@ export interface QuizStatisticsProps {
   /** Optional className for styling */
   className?: string;
 }
-
-

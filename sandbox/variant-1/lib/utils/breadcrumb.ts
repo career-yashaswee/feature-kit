@@ -10,7 +10,7 @@ import type { BreadcrumbItem } from "@/features/scrollable-breadcrumbs/types";
 export function generateBreadcrumbItems(
   pathname: string,
   homeIcon?: React.ComponentType<{ className?: string }>,
-  currentPageIcon?: React.ComponentType<{ className?: string }>
+  currentPageIcon?: React.ComponentType<{ className?: string }>,
 ): BreadcrumbItem[] {
   const items: BreadcrumbItem[] = [
     {

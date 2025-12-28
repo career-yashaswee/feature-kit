@@ -186,7 +186,11 @@ export default function PageHeaderPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <PageHeader icon={getSelectedIcon()} {...getComponentProps} title={getComponentProps.title || "Page Title"} />
+            <PageHeader
+              icon={getSelectedIcon()}
+              {...getComponentProps}
+              title={getComponentProps.title || "Page Title"}
+            />
           </CardContent>
         </BaseCard>
 
