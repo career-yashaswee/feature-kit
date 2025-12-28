@@ -26,13 +26,13 @@ export function BaseCard({ children, className, ...props }: BaseCardProps) {
         {...props}
       >
         {/* Top-left corner */}
-        <div className="absolute top-0 left-0 w-4 h-4 border-t-3 border-l-3 border-transparent group-hover:border-primary rounded-tl-lg transition-all duration-300" />
+        <div className="absolute top-0 left-0 w-4 h-4 border-t-3 border-l-3 border-transparent group-hover:border-primary dark:group-hover:border-foreground rounded-tl-lg transition-all duration-300" />
         {/* Top-right corner */}
-        <div className="absolute top-0 right-0 w-4 h-4 border-t-3 border-r-3 border-transparent group-hover:border-primary rounded-tr-lg transition-all duration-300" />
+        <div className="absolute top-0 right-0 w-4 h-4 border-t-3 border-r-3 border-transparent group-hover:border-primary dark:group-hover:border-foreground rounded-tr-lg transition-all duration-300" />
         {/* Bottom-left corner */}
-        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-3 border-l-3 border-transparent group-hover:border-primary rounded-bl-lg transition-all duration-300" />
+        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-3 border-l-3 border-transparent group-hover:border-primary dark:group-hover:border-foreground rounded-bl-lg transition-all duration-300" />
         {/* Bottom-right corner */}
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-3 border-r-3 border-transparent group-hover:border-primary rounded-br-lg transition-all duration-300" />
+        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-3 border-r-3 border-transparent group-hover:border-primary dark:group-hover:border-foreground rounded-br-lg transition-all duration-300" />
         {children}
       </Card>
     </motion.div>

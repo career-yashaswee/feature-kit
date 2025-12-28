@@ -273,23 +273,6 @@ function HomePageContent() {
       <NetworkStatusListener />
       <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/20">
         <main className="flex min-h-screen flex-col gap-12 p-8">
-          {/* <section className="space-y-6 text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-2 shadow-sm">
-              <Lightning className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium">Feature Kit</span>
-            </div>
-            <h1 className="text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              React Sandbox
-            </h1>
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-              Explore and test all available features. <br />
-              Click on any feature card to see it in action.
-            </p>
-            <Badge variant="default" className="gap-1.5 demo-badge">
-              {filteredFeatures.length} of {allFeatures.length} Features
-            </Badge>
-          </section> */}
-
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <div className="flex-1 w-full relative">
               <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
